@@ -49,13 +49,12 @@ export function EditPost(props) {
                         e.preventDefault();
                         setPending(true);
                         const data = {
-                            id: e.target.elements.id.value,
                             title: e.target.elements.title.value,
                             slug: e.target.elements.slug.value,
                             description: e.target.elements.description.value,
                             content: e.target.elements.content.value
                         };
-                        axios.post('http://localhost:4000/posts', data)
+                        axios.put(`http://localhost:4000/posts/${props.match.params.id}`, data)
                             .catch(error => {
                                 console.error('Hiba!', error);
                             });

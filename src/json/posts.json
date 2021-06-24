@@ -6,11 +6,11 @@
       "slug": "first-post",
       "description": "Első poszt",
       "content": "Lorem ipsum",
-      "tag": "eng"
+      "tag": "hun"
     },
     {
       "id": 2,
-      "title": "2. poszt",
+      "title": "2. post",
       "slug": "second-post",
       "description": "Second post",
       "content": "Ipsum lorem",

@@ -1,0 +1,16 @@
+{
+    "posts": [
+        {
+            "title": "1. poszt",
+            "slug": "elso-poszt",
+            "description": "Első poszt",
+            "content": "Lorem ipsum"
+        },
+        {
+            "title": "2. poszt",
+            "slug": "masodik-poszt",
+            "description": "Második poszt",
+            "content": "második poszt"
+        }
+    ]
+}

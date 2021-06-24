@@ -44,7 +44,8 @@ export function ViewPost(props) {
                 },
             }}>
                 <h2>{post.title}</h2>
-                <h5>{post.description}</h5>
+                <h4>{post.description}</h4>
+                <h5>{post.tag}</h5>
                 <p>{post.content}</p>
                 <button className="m-auto btn btn-warning text-center" style={{ width: "100px", height: "40px" }}
                     onClick={() => {

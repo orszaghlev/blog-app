@@ -43,7 +43,8 @@ export function CreatePost() {
                             title: e.target.elements.title.value,
                             slug: e.target.elements.slug.value,
                             description: e.target.elements.description.value,
-                            content: e.target.elements.content.value
+                            content: e.target.elements.content.value,
+                            tag: e.target.elements.tag.value
                         };
                         axios.post('http://localhost:4000/posts', data)
                             .catch(error => {
@@ -68,6 +69,10 @@ export function CreatePost() {
                 <div className="form-group row pb-3 p-3">
                     <label>Tartalom</label>
                     <input type="text" className="form-control" name="content" placeholder="Tartalom" />
+                </div>
+                <div className="form-group row pb-3 p-3">
+                    <label>Címke</label>
+                    <input type="text" className="form-control" name="tag" placeholder="Címke" />
                 </div>
                 <div className="m-auto form-group row">
                     <button type="submit" className="btn btn-primary" style={{ width: "100px", height: "40px" }}>Küldés</button>

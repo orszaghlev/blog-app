@@ -52,7 +52,8 @@ export function EditPost(props) {
                             title: e.target.elements.title.value,
                             slug: e.target.elements.slug.value,
                             description: e.target.elements.description.value,
-                            content: e.target.elements.content.value
+                            content: e.target.elements.content.value,
+                            tag: e.target.elements.tag.value
                         };
                         axios.put(`http://localhost:4000/posts/${props.match.params.id}`, data)
                             .catch(error => {
@@ -77,6 +78,10 @@ export function EditPost(props) {
                 <div className="form-group row pb-3 p-3">
                     <label>Tartalom</label>
                     <input type="text" className="form-control" name="content" defaultValue={post.content} />
+                </div>
+                <div className="form-group row pb-3 p-3">
+                    <label>Címke</label>
+                    <input type="text" className="form-control" name="tag" defaultValue={post.tag} />
                 </div>
                 <div className="m-auto form-group row">
                     <button type="submit" className="btn btn-primary" style={{ width: "100px", height: "40px" }}>Küldés</button>

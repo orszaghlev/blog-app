@@ -104,7 +104,8 @@ export function Home() {
                                         title: post.title,
                                         slug: post.slug,
                                         description: post.description,
-                                        content: post.content
+                                        content: post.content,
+                                        tag: post.tag
                                     };
                                     axios.post('http://localhost:4000/posts', data)
                                         .catch(error => {

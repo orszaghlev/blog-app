@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye, faPencilAlt } from "@fortawesome/free-solid-svg-icons";
+import { faEye, faPencilAlt, faTimes } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { Spinner } from "./Spinner.jsx";
 import { motion } from "framer-motion";
@@ -9,18 +9,21 @@ import { Helmet } from "react-helmet-async";
 
 export function Home() {
     const [posts, setPosts] = useState([]);
-    const [postDeleteSlug, setDeleteSlug] = useState("");
     const [isPending, setPending] = useState(false);
     const history = useHistory();
     const [search, setSearch] = useState("");
 
+    function getPosts() {
+        axios.get('http://localhost:4000/posts')
+        .then(data => setPosts(data.data))
+        .catch(error => {
+            console.error('Hiba!', error);
+        });
+    }
+
     useEffect(() => {
         setPending(true);
-        axios.get('http://localhost:4000/posts')
-            .then(data => setPosts(data.data))
-            .catch(error => {
-                console.error('Hiba!', error);
-            });
+        getPosts();
         setPending(false);
     }, [])
 
@@ -66,12 +69,23 @@ export function Home() {
                                 <h5 className="text-dark">{post.title}</h5>
                                 <p>{post.description}</p>
                                 <button className="btn btn-warning m-1" onClick={() => {
-                                    history.push(`/edit-post/${post.slug}`)
+                                    history.push(`/edit-post/${post.id}`)
                                 }}>
                                     <FontAwesomeIcon icon={faPencilAlt} />
                                 </button>
+                                <button className="btn btn-danger m-1" onClick={() => {
+                                    setPending(true);
+                                    axios.delete(`http://localhost:4000/posts/${post.id}`)
+                                        .catch(error => {
+                                            console.error('Hiba!', error);
+                                        });
+                                    getPosts();
+                                    setPending(false);
+                                }}>
+                                    <FontAwesomeIcon icon={faTimes} />
+                                </button>
                                 <button className="btn btn-primary m-1" onClick={() => {
-                                    history.push(`/posts/${post.slug}`)
+                                    history.push(`/posts/${post.id}`)
                                 }}>
                                     <FontAwesomeIcon icon={faEye} />
                                 </button>

@@ -4,6 +4,7 @@ import { Spinner } from "./Spinner";
 import axios from "axios";
 import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
+import { uuidv4 } from "./IDGenerator.jsx";
 
 export function CreatePost() {
     const [isPending, setPending] = useState(false);
@@ -38,6 +39,7 @@ export function CreatePost() {
                         e.preventDefault();
                         setPending(true);
                         const data = {
+                            id: uuidv4(),
                             title: e.target.elements.title.value,
                             slug: e.target.elements.slug.value,
                             description: e.target.elements.description.value,
@@ -45,7 +47,7 @@ export function CreatePost() {
                         };
                         axios.post('http://localhost:4000/posts', data)
                             .catch(error => {
-                                console.error('There was an error!', error);
+                                console.error('Hiba!', error);
                             });
                         setPending(false);
                         history.push("/posts");
@@ -56,8 +58,8 @@ export function CreatePost() {
                     <input type="text" className="form-control" name="title" placeholder="Cím" />
                 </div>
                 <div className="form-group row pb-3 p-3">
-                    <label>Azonosító</label>
-                    <input type="text" className="form-control" name="slug" placeholder="Azonosító" />
+                    <label>Szöveges azonosító</label>
+                    <input type="text" className="form-control" name="slug" placeholder="Szöveges azonosító" />
                 </div>
                 <div className="form-group row pb-3 p-3">
                     <label>Leírás</label>

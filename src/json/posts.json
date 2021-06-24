@@ -1,25 +1,28 @@
 {
-    "posts": [
-        {
-            "title": "1. poszt",
-            "slug": "first-post",
-            "description": "Első poszt",
-            "content": "Lorem ipsum",
-            "tag": "eng"
-        },
-        {
-            "title": "2. poszt",
-            "slug": "second-post",
-            "description": "Second post",
-            "content": "Ipsum lorem",
-            "tag": "eng"
-        },
-        {
-            "title": "3. poszt",
-            "slug": "third-post",
-            "description": "Harmadik poszt",
-            "content": "Lpsum Iorem",
-            "tag": "hun"
-        }
-    ]
+  "posts": [
+    {
+      "id": 1,
+      "title": "1. poszt",
+      "slug": "first-post",
+      "description": "Első poszt",
+      "content": "Lorem ipsum",
+      "tag": "eng"
+    },
+    {
+      "id": 2,
+      "title": "2. poszt",
+      "slug": "second-post",
+      "description": "Second post",
+      "content": "Ipsum lorem",
+      "tag": "eng"
+    },
+    {
+      "id": 3,
+      "title": "3. poszt",
+      "slug": "third-post",
+      "description": "Harmadik poszt",
+      "content": "Lpsum Iorem",
+      "tag": "hun"
+    }
+  ]
 }

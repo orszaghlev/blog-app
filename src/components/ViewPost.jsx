@@ -12,13 +12,13 @@ export function ViewPost(props) {
 
     useEffect(() => {
         setPending(true);
-        axios.get(`http://localhost:4000/posts/${props.match.params.slug}`)
+        axios.get(`http://localhost:4000/posts/${props.match.params.id}`)
             .then(data => setPost(data.data))
             .catch(error => {
                 console.error('Hiba!', error);
             });
         setPending(false);
-    }, [props.match.params.slug])
+    }, [props.match.params.id])
 
     if (isPending) {
         return <Spinner />
@@ -43,8 +43,8 @@ export function ViewPost(props) {
                     }
                 },
             }}>
-                <h3>{post.title}</h3>
-                <p>{post.description}</p>
+                <h2>{post.title}</h2>
+                <h5>{post.description}</h5>
                 <p>{post.content}</p>
                 <button className="m-auto btn btn-warning text-center" style={{ width: "100px", height: "40px" }}
                     onClick={() => {

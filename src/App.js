@@ -21,8 +21,13 @@ function App() {
                 <span className="nav-link">Blog alkalmazás</span>
               </li>
               <li className="nav-item">
-                <NavLink to={`/`} activeClassName="active">
+                <NavLink to={`/posts`} activeClassName="active">
                   <span className="nav-link">Bejegyzések</span>
+                </NavLink>
+              </li>
+              <li className="nav-item">
+                <NavLink to={`/create-post`} activeClassName="active">
+                  <span className="nav-link">Bejegyzés létrehozása</span>
                 </NavLink>
               </li>
             </ul>
@@ -31,9 +36,9 @@ function App() {
         <Switch>
           <Route path="/" exact component={Home} />
           <Route path="/posts" exact component={Home} />
-          <Route path="/posts/:slug" component={ViewPost} />
+          <Route path="/posts/:id" component={ViewPost} />
           <Route path="/create-post" component={CreatePost} />
-          <Route path="/edit-post/:slug" component={EditPost} />
+          <Route path="/edit-post/:id" component={EditPost} />
           <Redirect to="/" />
         </Switch>
       </BrowserRouter>

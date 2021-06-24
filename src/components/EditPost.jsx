@@ -12,13 +12,13 @@ export function EditPost(props) {
 
     useEffect(() => {
         setPending(true);
-        axios.get(`http://localhost:4000/posts/${props.match.params.slug}`)
+        axios.get(`http://localhost:4000/posts/${props.match.params.id}`)
             .then(data => setPost(data.data))
             .catch(error => {
                 console.error('There was an error!', error);
             });
         setPending(false);
-    }, [props.match.params.slug])
+    }, [props.match.params.id])
 
     if (isPending) {
         return <Spinner />
@@ -49,6 +49,7 @@ export function EditPost(props) {
                         e.preventDefault();
                         setPending(true);
                         const data = {
+                            id: e.target.elements.id.value,
                             title: e.target.elements.title.value,
                             slug: e.target.elements.slug.value,
                             description: e.target.elements.description.value,
@@ -56,7 +57,7 @@ export function EditPost(props) {
                         };
                         axios.post('http://localhost:4000/posts', data)
                             .catch(error => {
-                                console.error('There was an error!', error);
+                                console.error('Hiba!', error);
                             });
                         setPending(false);
                         history.push("/posts");

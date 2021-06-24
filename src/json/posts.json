@@ -4,60 +4,22 @@
             "title": "1. poszt",
             "slug": "first-post",
             "description": "Első poszt",
-            "content": "Lorem ipsum"
+            "content": "Lorem ipsum",
+            "tag": "eng"
         },
         {
             "title": "2. poszt",
             "slug": "second-post",
-            "description": "Második poszt",
-            "content": "Ipsum lorem"
+            "description": "Second post",
+            "content": "Ipsum lorem",
+            "tag": "eng"
         },
         {
             "title": "3. poszt",
             "slug": "third-post",
             "description": "Harmadik poszt",
-            "content": "Ipsum lorem"
-        },
-        {
-            "title": "4. poszt",
-            "slug": "fourth-post",
-            "description": "Negyedik poszt",
-            "content": "Ipsum lorem"
-        },
-        {
-            "title": "4. poszt",
-            "slug": "fourth-post",
-            "description": "Negyedik poszt",
-            "content": "Ipsum lorem"
-        },
-        {
-            "title": "4. poszt",
-            "slug": "fourth-post",
-            "description": "Negyedik poszt",
-            "content": "Ipsum lorem"
-        },        {
-            "title": "4. poszt",
-            "slug": "fourth-post",
-            "description": "Negyedik poszt",
-            "content": "Ipsum lorem"
-        },
-        {
-            "title": "4. poszt",
-            "slug": "fourth-post",
-            "description": "Negyedik poszt",
-            "content": "Ipsum lorem"
-        },
-        {
-            "title": "4. poszt",
-            "slug": "fourth-post",
-            "description": "Negyedik poszt",
-            "content": "Ipsum lorem"
-        },
-        {
-            "title": "4. poszt",
-            "slug": "fourth-post",
-            "description": "Negyedik poszt",
-            "content": "Ipsum lorem"
+            "content": "Lpsum Iorem",
+            "tag": "hun"
         }
     ]
 }

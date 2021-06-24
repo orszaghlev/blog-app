@@ -16,7 +16,7 @@ function App() {
           <div className="collapse navbar-collapse">
             <ul className="navbar-nav">
               <li className="nav-item">
-                <span className="nav-link">Blog app</span>
+                <span className="nav-link">Blog alkalmazás</span>
               </li>
               <li className="nav-item">
                 <NavLink to={`/`} activeClassName="active">

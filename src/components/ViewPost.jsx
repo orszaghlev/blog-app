@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
 import { Spinner } from "./Spinner.jsx";
+import { Helmet } from "react-helmet-async";
 
 export function ViewPost(props) {
     const [post, setPost] = useState([]);
@@ -24,12 +25,17 @@ export function ViewPost(props) {
 
     return (
         <div className="card text-center m-auto" style={{ width: "1000px" }}>
+            <Helmet>
+                <title>{post.title}</title>
+                <meta name="description" content={post.description} />
+            </Helmet>
             <h3>{post.title}</h3>
             <p>{post.description}</p>
             <p>{post.content}</p>
-            <button className="m-auto btn btn-warning text-center" style={{ width: "100px", height: "40px" }} onClick={() => {
-                history.push("/posts")
-            }}>Vissza</button>
+            <button className="m-auto btn btn-warning text-center" style={{ width: "100px", height: "40px" }}
+                onClick={() => {
+                    history.push("/posts")
+                }}>Vissza</button>
         </div>
     )
 

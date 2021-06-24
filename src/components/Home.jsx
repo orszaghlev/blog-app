@@ -4,7 +4,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { Spinner } from "./Spinner.jsx";
-import { CircleIndicator } from "./CircleIndicator.jsx";
+import { motion } from "framer-motion";
+import { Helmet } from "react-helmet-async";
 
 export function Home() {
     const [posts, setPosts] = useState([]);
@@ -28,7 +29,10 @@ export function Home() {
 
     return (
         <div className="p-1 m-auto text-center content bg-ivory">
-            <CircleIndicator />
+            <Helmet>
+                <title>Bejegyzések</title>
+                <meta name="description" content="Bejegyzések" />
+            </Helmet>
             <div class="container">
                 <input
                     type='text'
@@ -40,13 +44,27 @@ export function Home() {
             {posts.filter(li => li.description.toLowerCase().includes(search.toLowerCase()))
                 .map((post) => (
                     <div className="card col-sm-3 d-inline-block m-1 p-2 h-100">
-                        <h5 className="text-dark">{post.title}</h5>
-                        <p>{post.description}</p>
-                        <button className="btn btn-primary m-1" onClick={() => {
-                            history.push(`/posts/${post.slug}`)
+                        <motion.div initial="hidden" animate="visible" variants={{
+                            hidden: {
+                                scale: .8,
+                                opacity: 0
+                            },
+                            visible: {
+                                scale: 1,
+                                opacity: 1,
+                                transition: {
+                                    delay: .4
+                                }
+                            },
                         }}>
-                            <FontAwesomeIcon icon={faEye} />
-                        </button>
+                            <h5 className="text-dark">{post.title}</h5>
+                            <p>{post.description}</p>
+                            <button className="btn btn-primary m-1" onClick={() => {
+                                history.push(`/posts/${post.slug}`)
+                            }}>
+                                <FontAwesomeIcon icon={faEye} />
+                            </button>
+                        </motion.div>
                     </div>
                 ))}
         </div>

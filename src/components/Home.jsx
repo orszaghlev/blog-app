@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { Spinner } from "./Spinner.jsx";
+import { CircleIndicator } from "./CircleIndicator.jsx";
 
 export function Home() {
     const [posts, setPosts] = useState([]);
@@ -27,6 +28,7 @@ export function Home() {
 
     return (
         <div className="p-1 m-auto text-center content bg-ivory">
+            <CircleIndicator />
             <div class="container">
                 <input
                     type='text'

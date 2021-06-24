@@ -23,10 +23,14 @@ export function ViewPost(props) {
     }
 
     return (
-        <div>
-            
+        <div className="card text-center m-auto" style={{ width: "1000px" }}>
+            <h3>{post.title}</h3>
+            <p>{post.description}</p>
+            <p>{post.content}</p>
+            <button className="m-auto btn btn-warning text-center" style={{ width: "100px", height: "40px" }} onClick={() => {
+                history.push("/posts")
+            }}>Vissza</button>
         </div>
     )
-
 
 }

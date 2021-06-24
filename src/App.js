@@ -1,12 +1,16 @@
 import './App.css';
 import { BrowserRouter, NavLink, Route, Redirect, Switch } from "react-router-dom";
-import { Home } from "./pages/Home.jsx";
-import { ViewPost } from "./pages/ViewPost.jsx";
-import { HelmetProvider, Helmet } from "react-helmet-async";
+import { Home } from "./components/Home.jsx";
+import { ViewPost } from "./components/ViewPost.jsx";
+import { Helmet } from "react-helmet-async";
 
 function App() {
   return (
     <div className="App">
+      <Helmet>
+        <title>Blog alkalmazás</title>
+        <meta name="description" content="Blog alkalmazás" />
+      </Helmet>
       <BrowserRouter>
         <nav className="navbar sticky-top navbar-fixed navbar-expand-sm navbar-dark bg-dark mb-3">
           <div className="collapse navbar-collapse">
@@ -24,7 +28,8 @@ function App() {
         </nav>
         <Switch>
           <Route path="/" exact component={Home} />
-          <Route path="/bejegyzes/:slug" exact component={ViewPost} />
+          <Route path="/posts" exact component={Home} />
+          <Route path="/posts/:slug" exact component={ViewPost} />
           <Redirect to="/" />
         </Switch>
       </BrowserRouter>

@@ -28,7 +28,6 @@
   "scripts": {
     "start": "react-scripts start",
     "start-auth": "node src/server/server.js",
-    "get-posts": "json-server -p 4000 src/server/posts.json",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

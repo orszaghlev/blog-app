@@ -7,8 +7,8 @@ import { Helmet } from "react-helmet-async";
 
 export function Home() {
     const [isPending, setPending] = useState(false);
-    const history = useHistory();
     const [accessToken, setAccessToken] = useState("");
+    const history = useHistory();
 
     if (isPending) {
         return <Spinner />

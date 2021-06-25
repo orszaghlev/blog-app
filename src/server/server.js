@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken')
 const server = jsonServer.create()
 const router = jsonServer.router('./src/server/posts.json')
 const userdb = JSON.parse(fs.readFileSync('./src/server/users.json', 'UTF-8'))
+const postdb = JSON.parse(fs.readFileSync('./src/server/posts.json', 'UTF-8'))
 
 server.use(jsonServer.defaults());
 server.use(bodyParser.urlencoded({ extended: true }))
@@ -55,10 +56,22 @@ server.use(/^(?!\/auth).*$/, (req, res, next) => {
     }
 })
 
+router.get('/posts', (req, res) => {
+    if (isAuthenticated({ email, password }) === true) {
+        res.send(postdb)
+    }
+})
+
+router.get('/posts/:id', (req, res) => {
+    if (isAuthenticated({ email, password }) === true) {
+        res.send(postdb)
+    }
+})
+
 server.use(router)
 
 server.listen(8000, () => {
-    console.log("Hitelesítési szerver indítása")
+    console.log("Szerver indítása")
 })
 
 server.use('/api', router);

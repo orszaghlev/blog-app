@@ -26,7 +26,7 @@ function App() {
         </nav>
         <Switch>
           <Route path="/" exact component={Home} />
-          <Route path="/posts" exact component={ViewAllPosts} />
+          <Route path="/posts/" exact component={ViewAllPosts} />
           <Route path="/posts/:id" component={ViewSinglePost} />
           <Redirect to="/" />
         </Switch>

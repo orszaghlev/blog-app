@@ -12,7 +12,10 @@ export function ViewSinglePost(props) {
 
     useEffect(() => {
         setPending(true);
-        axios.get(`http://localhost:4000/posts/${props.match.params.id}`)
+        const config = {
+            headers: { Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJAZW1haWwuY29tIiwicGFzc3dvcmQiOiJ0ZXN0UFciLCJpYXQiOjE2MjQ2MTc5NDAsImV4cCI6MTYyNDYyODc0MH0.FDKnexNiO0N-_H0LOXvo77kyxHGOOjk4R7MVEEZ45TE` }
+        };
+        axios.get(`http://localhost:8000/posts/${props.match.params.id}`, config)
             .then(data => setPost(data.data))
             .catch(error => {
                 console.error('Hiba!', error);

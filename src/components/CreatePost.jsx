@@ -44,6 +44,7 @@ export function CreatePost() {
                             slug: e.target.elements.slug.value,
                             description: e.target.elements.description.value,
                             content: e.target.elements.content.value,
+                            imgURL: e.target.elements.imgURL.value,
                             tag: e.target.elements.tag.value
                         };
                         axios.post('http://localhost:4000/posts', data)
@@ -69,6 +70,10 @@ export function CreatePost() {
                 <div className="form-group row pb-3 p-3">
                     <label>Tartalom</label>
                     <input type="text" className="form-control" name="content" placeholder="Tartalom" />
+                </div>
+                <div className="form-group row pb-3 p-3">
+                    <label>Kép URL</label>
+                    <input type="text" className="form-control" name="imgURL" placeholder="Kép URL" />
                 </div>
                 <div className="form-group row pb-3 p-3">
                     <label>Címke</label>

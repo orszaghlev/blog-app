@@ -25,11 +25,6 @@ function App() {
                   <span className="nav-link">Bejegyzések</span>
                 </NavLink>
               </li>
-              <li className="nav-item">
-                <NavLink to={`/create-post`} activeClassName="active">
-                  <span className="nav-link">Bejegyzés létrehozása</span>
-                </NavLink>
-              </li>
             </ul>
           </div>
         </nav>

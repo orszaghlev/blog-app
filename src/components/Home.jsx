@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye, faPencilAlt, faTimes, faCopy } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { Spinner } from "./Spinner.jsx";
 import { motion } from "framer-motion";
@@ -59,7 +57,9 @@ export function Home() {
                     li.description.toLowerCase().includes(search.toLowerCase()) ||
                     li.content.toLowerCase().includes(search.toLowerCase()))
                     .map((post) => (
-                        <div className="card col-sm-3 d-inline-block m-1 p-2 h-100">
+                        <div className="card col-sm-3 d-inline-block m-1 p-2 h-100" onClick={() => {
+                            history.push(`/posts/${post.id}`)
+                        }}>
                             <motion.div initial="hidden" animate="visible" variants={{
                                 hidden: {
                                     scale: .8,
@@ -74,48 +74,9 @@ export function Home() {
                                 },
                             }}>
                                 <h5 className="text-dark">{post.title}</h5>
+                                <img src={post.imgURL} alt="Bejegyzés indexképe"
+                                    style={{ width: "100px", height: "100px" }} />
                                 <p>{post.description}</p>
-                                <button className="btn btn-warning m-1" onClick={() => {
-                                    history.push(`/edit-post/${post.id}`)
-                                }}>
-                                    <FontAwesomeIcon icon={faPencilAlt} />
-                                </button>
-                                <button className="btn btn-danger m-1" onClick={() => {
-                                    setPending(true);
-                                    axios.delete(`http://localhost:4000/posts/${post.id}`)
-                                        .catch(error => {
-                                            console.error('Hiba!', error);
-                                        });
-                                    getPosts();
-                                    setPending(false);
-                                }}>
-                                    <FontAwesomeIcon icon={faTimes} />
-                                </button>
-                                <button className="btn btn-primary m-1" onClick={() => {
-                                    history.push(`/posts/${post.id}`)
-                                }}>
-                                    <FontAwesomeIcon icon={faEye} />
-                                </button>
-                                <button className="btn btn-dark m-1" onClick={async (e) => {
-                                    e.preventDefault();
-                                    setPending(true);
-                                    const data = {
-                                        id: post.id,
-                                        title: post.title,
-                                        slug: post.slug,
-                                        description: post.description,
-                                        content: post.content,
-                                        tag: post.tag
-                                    };
-                                    axios.post('http://localhost:4000/posts', data)
-                                        .catch(error => {
-                                            console.error('Hiba!', error);
-                                        });
-                                    getPosts();
-                                    setPending(false);
-                                }}>
-                                    <FontAwesomeIcon icon={faCopy} />
-                                </button>
                             </motion.div>
                         </div>
                     ))

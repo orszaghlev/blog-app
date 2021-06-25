@@ -6,6 +6,7 @@
       "slug": "first-post",
       "description": "Első poszt",
       "content": "Lorem ipsum",
+      "imgURL": "",
       "tag": "hun"
     },
     {
@@ -14,6 +15,7 @@
       "slug": "second-post",
       "description": "Second post",
       "content": "Ipsum lorem",
+      "imgURL": "",
       "tag": "eng"
     },
     {
@@ -22,6 +24,7 @@
       "slug": "third-post",
       "description": "Harmadik poszt",
       "content": "Lpsum Iorem",
+      "imgURL": "",
       "tag": "hun"
     }
   ]

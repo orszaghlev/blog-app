@@ -53,6 +53,7 @@ export function EditPost(props) {
                             slug: e.target.elements.slug.value,
                             description: e.target.elements.description.value,
                             content: e.target.elements.content.value,
+                            imgURL: e.target.elements.imgURL.value,
                             tag: e.target.elements.tag.value
                         };
                         axios.put(`http://localhost:4000/posts/${props.match.params.id}`, data)
@@ -78,6 +79,10 @@ export function EditPost(props) {
                 <div className="form-group row pb-3 p-3">
                     <label>Tartalom</label>
                     <input type="text" className="form-control" name="content" defaultValue={post.content} />
+                </div>
+                <div className="form-group row pb-3 p-3">
+                    <label>Kép URL</label>
+                    <input type="text" className="form-control" name="imgURL" defaultValue={post.imgURL} />
                 </div>
                 <div className="form-group row pb-3 p-3">
                     <label>Címke</label>

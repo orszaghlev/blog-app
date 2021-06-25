@@ -46,6 +46,7 @@ export function ViewPost(props) {
                 <h2>{post.title}</h2>
                 <h4>{post.description}</h4>
                 <h5>{post.tag}</h5>
+                <img src={post.imgURL} style={{width: "500px", height: "500px"}} alt="Bejegyzés képe"/>
                 <p>{post.content}</p>
                 <button className="m-auto btn btn-warning text-center" style={{ width: "100px", height: "40px" }}
                     onClick={() => {

@@ -1,11 +1,14 @@
 const fs = require('fs')
+const bodyParser = require('body-parser')
 const jsonServer = require('json-server')
 const jwt = require('jsonwebtoken')
 const server = jsonServer.create()
-const router = jsonServer.router('./posts.json')
-const userdb = JSON.parse(fs.readFileSync('./users.json', 'UTF-8'))
+const router = jsonServer.router('./src/server/posts.json')
+const userdb = JSON.parse(fs.readFileSync('./src/server/users.json', 'UTF-8'))
 
 server.use(jsonServer.defaults());
+server.use(bodyParser.urlencoded({ extended: true }))
+server.use(bodyParser.json())
 
 const SECRET_KEY = "1234567890"
 const expiresIn = "3h"
@@ -54,6 +57,8 @@ server.use(/^(?!\/auth).*$/, (req, res, next) => {
 
 server.use(router)
 
-server.listen(4000, () => {
+server.listen(8000, () => {
     console.log("Hitelesítési szerver indítása")
 })
+
+server.use('/api', router);

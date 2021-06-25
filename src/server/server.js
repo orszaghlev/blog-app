@@ -68,6 +68,24 @@ router.get('/posts/:id', (req, res) => {
     }
 })
 
+router.post('/posts', (req, res) => {
+    if (isAuthenticated({ email, password }) === true) {
+        res.post(req.body)
+    }
+})
+
+router.delete('/posts/:id', (req, res) => {
+    if (isAuthenticated({ email, password }) === true) {
+        res.delete(req.body)
+    }
+})
+
+router.put('/posts/:id', (req, res) => {
+    if (isAuthenticated({ email, password }) === true) {
+        res.update(req.body)
+    }
+})
+
 server.use(router)
 
 server.listen(8000, () => {

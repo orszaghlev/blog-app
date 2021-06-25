@@ -29,6 +29,14 @@ export function Home() {
         return <Spinner />
     }
 
+    if (!posts) {
+        return (
+            <div class="jumbotron">
+                <h3>Nincsenek elérhető posztok!</h3>
+            </div>
+        )
+    }
+
     return (
         <div className="p-1 m-auto text-center content bg-ivory">
             <Helmet>

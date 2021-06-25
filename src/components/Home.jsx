@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
 import { Spinner } from "./Spinner.jsx";
@@ -6,103 +6,64 @@ import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
 
 export function Home() {
-    const [posts, setPosts] = useState([]);
     const [isPending, setPending] = useState(false);
     const history = useHistory();
-    const [search, setSearch] = useState("");
     const [accessToken, setAccessToken] = useState("");
-
-    function getAccessToken() {
-        const data = {
-            email: "user@email.com",
-            password: "testPW"
-        }
-        axios.post('http://localhost:8000/auth/login', data)
-            .then(data => setAccessToken(data.data.access_token))
-            .catch(error => {
-                console.error('Hiba!', error);
-            });
-    }
-
-    function getPosts() {
-        axios.get('http://localhost:4000/posts')
-            .then(data => setPosts(data.data))
-            .catch(error => {
-                console.error('Hiba!', error);
-            });
-    }
-
-    useEffect(() => {
-        setPending(true);
-        getAccessToken();
-        if (accessToken) { getPosts() };
-        setPending(false);
-    }, [accessToken])
 
     if (isPending) {
         return <Spinner />
-    }
-
-    if (!accessToken || posts.length === 0) {
+    } else if (!accessToken) {
         return (
-            <div class="jumbotron">
-                <h3>Nincsenek elérhető posztok!</h3>
-            </div>
-        )
-    } else {
-        return (
-            <div className="p-1 m-auto text-center content bg-ivory">
+            <div className="p-3 content text-center m-auto" style={{ width: "1000px" }}>
                 <Helmet>
-                    <title>Bejegyzések</title>
-                    <meta name="description" content="Bejegyzések" />
+                    <title>Bejelentkezés</title>
+                    <meta name="description" content="Bejelentkezés" />
                 </Helmet>
-                <div class="container">
-                    <input
-                        type='text'
-                        className='input'
-                        onChange={e => setSearch(e.target.value)}
-                        placeholder='Keresés...'
-                    />
-                    <button type="button" className="btn btn-primary m-1 p-1"
-                        onClick={() => {
-                            setPosts(posts.filter(li => li.tag.toLowerCase().includes("hun")))
+                <motion.div initial="hidden" animate="visible" variants={{
+                    hidden: {
+                        scale: .8,
+                        opacity: 0
+                    },
+                    visible: {
+                        scale: 1,
+                        opacity: 1,
+                        transition: {
+                            delay: .4
+                        }
+                    },
+                }}>
+                    <h2>Bejelentkezés</h2>
+                    <form
+                        onSubmit={async (e) => {
+                            e.preventDefault();
+                            setPending(true);
+                            const data = {
+                                email: e.target.elements.email.value,
+                                password: e.target.elements.password.value
+                            }
+                            axios.post('http://localhost:8000/auth/login', data)
+                                .then(data => setAccessToken(data.data.access_token))
+                                .catch(error => {
+                                    console.error('Hiba!', error);
+                                });
+                            setPending(false);
+                            history.push("/posts");
                         }}
                     >
-                        Szűrés
-                    </button>
-                </div>
-                {
-                    posts.filter(li =>
-                        li.title.toLowerCase().includes(search.toLowerCase()) ||
-                        li.slug.toLowerCase().includes(search.toLowerCase()) ||
-                        li.description.toLowerCase().includes(search.toLowerCase()) ||
-                        li.content.toLowerCase().includes(search.toLowerCase()))
-                        .map((post) => (
-                            <div className="card col-sm-3 d-inline-block m-1 p-2 h-100" onClick={() => {
-                                history.push(`/posts/${post.id}`)
-                            }}>
-                                <motion.div initial="hidden" animate="visible" variants={{
-                                    hidden: {
-                                        scale: .8,
-                                        opacity: 0
-                                    },
-                                    visible: {
-                                        scale: 1,
-                                        opacity: 1,
-                                        transition: {
-                                            delay: .4
-                                        }
-                                    },
-                                }}>
-                                    <h5 className="text-dark">{post.title}</h5>
-                                    <img src={post.imgURL} alt="Bejegyzés indexképe"
-                                        style={{ width: "100px", height: "100px" }} />
-                                    <p>{post.description}</p>
-                                </motion.div>
-                            </div>
-                        ))
-                }
-            </div >
+                        <div className="form-group row pb-3 p-3">
+                            <label>Email</label>
+                            <input type="text" className="form-control" name="email" placeholder="Email" />
+                        </div>
+                        <div className="form-group row pb-3 p-3">
+                            <label>Jelszó</label>
+                            <input type="password" className="form-control" name="password" placeholder="Jelszó" />
+                        </div>
+                        <div className="m-auto form-group row">
+                            <button type="submit" className="btn btn-primary" style={{ width: "100px", height: "40px" }}>Küldés</button>
+                        </div>
+                    </form>
+                </motion.div>
+            </div>
         )
     }
 }

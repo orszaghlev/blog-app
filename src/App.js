@@ -1,9 +1,8 @@
 import './App.css';
 import { BrowserRouter, NavLink, Route, Redirect, Switch } from "react-router-dom";
 import { Home } from "./components/Home.jsx";
-import { ViewPost } from "./components/ViewPost.jsx";
-import { CreatePost } from "./components/CreatePost.jsx";
-import { EditPost } from "./components/EditPost.jsx";
+import { ViewAllPosts } from "./components/ViewAllPosts.jsx";
+import { ViewSinglePost } from "./components/ViewSinglePost.jsx";
 import { Helmet } from "react-helmet-async";
 
 function App() {
@@ -27,10 +26,8 @@ function App() {
         </nav>
         <Switch>
           <Route path="/" exact component={Home} />
-          <Route path="/posts" exact component={Home} />
-          <Route path="/posts/:id" component={ViewPost} />
-          <Route path="/create-post" component={CreatePost} />
-          <Route path="/edit-post/:id" component={EditPost} />
+          <Route path="/posts" exact component={ViewAllPosts} />
+          <Route path="/posts/:id" component={ViewSinglePost} />
           <Redirect to="/" />
         </Switch>
       </BrowserRouter>

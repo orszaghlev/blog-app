@@ -11,22 +11,18 @@ export function ViewAllPosts(props) {
     const [isPending, setPending] = useState(false);
     const history = useHistory();
 
-    function getPosts() {
+    useEffect(() => {
+        setPending(true);
         const config = {
-            headers: { Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJAZW1haWwuY29tIiwicGFzc3dvcmQiOiJ0ZXN0UFciLCJpYXQiOjE2MjQ2MTc5NDAsImV4cCI6MTYyNDYyODc0MH0.FDKnexNiO0N-_H0LOXvo77kyxHGOOjk4R7MVEEZ45TE` }
+            headers: { Authorization: `Bearer ${props.match.params.access_token}` }
         };
-        axios.get('http://localhost:8000/posts', config)
+        axios.get('http://localhost:8000/api/posts', config)
             .then(data => setPosts(data.data))
             .catch(error => {
                 console.error('Hiba!', error);
             });
-    }
-
-    useEffect(() => {
-        setPending(true);
-        getPosts();
         setPending(false);
-    }, [])
+    }, [props.match.params.access_token])
 
     if (isPending) {
         return <Spinner />

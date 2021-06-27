@@ -86,10 +86,8 @@ router.put('/posts/:id', (req, res) => {
     }
 })
 
-server.use(router)
+server.use('/api', router)
 
 server.listen(8000, () => {
     console.log("Szerver indítása")
 })
-
-server.use('/api', router);

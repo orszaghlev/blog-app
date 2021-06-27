@@ -12,7 +12,7 @@ export function Home() {
 
     if (isPending) {
         return <Spinner />
-    } else if (!accessToken) {
+    } else {
         return (
             <div className="p-3 content text-center m-auto" style={{ width: "1000px" }}>
                 <Helmet>
@@ -47,7 +47,9 @@ export function Home() {
                                     console.error('Hiba!', error);
                                 });
                             setPending(false);
-                            history.push("/posts");
+                            if (accessToken) {
+                                history.push(`/posts`);
+                            }
                         }}
                     >
                         <div className="form-group row pb-3 p-3">

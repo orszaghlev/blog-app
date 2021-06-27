@@ -13,15 +13,15 @@ export function ViewSinglePost(props) {
     useEffect(() => {
         setPending(true);
         const config = {
-            headers: { Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJAZW1haWwuY29tIiwicGFzc3dvcmQiOiJ0ZXN0UFciLCJpYXQiOjE2MjQ2MTc5NDAsImV4cCI6MTYyNDYyODc0MH0.FDKnexNiO0N-_H0LOXvo77kyxHGOOjk4R7MVEEZ45TE` }
+            headers: { Authorization: `Bearer ${props.match.params.access_token}` }
         };
-        axios.get(`http://localhost:8000/posts/${props.match.params.id}`, config)
+        axios.get(`http://localhost:8000/api/posts/${props.match.params.id}`, config)
             .then(data => setPost(data.data))
             .catch(error => {
                 console.error('Hiba!', error);
             });
         setPending(false);
-    }, [props.match.params.id])
+    }, [props.match.params.id, props.match.params.access_token])
 
     if (isPending) {
         return <Spinner />

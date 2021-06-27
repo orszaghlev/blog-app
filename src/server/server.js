@@ -30,7 +30,7 @@ server.post('/auth/login', (req, res) => {
     const { email, password } = req.body
     if (isAuthenticated({ email, password }) === false) {
         const status = 401
-        const message = "Nem megfelelő email vagy jelszó!"
+        const message = "Hiba: Nem megfelelő email vagy jelszó!"
         res.status(status).json({ status, message })
         return
     }
@@ -42,7 +42,7 @@ server.use(/^(?!\/auth).*$/, (req, res, next) => {
     if (req.headers.authorization === undefined ||
         req.headers.authorization.split(' ')[0] !== 'Bearer') {
         const status = 401
-        const message = "Nem megfelelő header!"
+        const message = "Hiba: Nem megfelelő header!"
         res.status(status).json({ status, message })
         return
     }

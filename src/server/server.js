@@ -46,14 +46,15 @@ server.use(/^(?!\/auth).*$/, (req, res, next) => {
         res.status(status).json({ status, message })
         return
     }
-    try {
-        verifyToken(req.headers.authorization.split(' ')[1])
-        next()
-    } catch (err) {
+    const verification = JSON.stringify(verifyToken(req.headers.authorization.split(' ')[1]))
+    if (verification.includes("JsonWebTokenError")) {
         const status = 401
         const message = "Hiba: Nem megfelelő access token!"
         res.status(status).json({ status, message })
+        return
     }
+    verifyToken(req.headers.authorization.split(' ')[1])
+    next()
 })
 
 router.get('/posts', (req, res) => {

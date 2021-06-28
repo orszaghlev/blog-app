@@ -4,6 +4,9 @@ import axios from "axios";
 import { Spinner } from "./Spinner.jsx";
 import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
+import { Button } from "@material-ui/core";
+import { TextField } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 
 export function Home() {
     const [isPending, setPending] = useState(false);
@@ -52,17 +55,22 @@ export function Home() {
                             }
                         }}
                     >
-                        <div className="form-group row pb-3 p-3">
-                            <label>Email</label>
-                            <input type="text" className="form-control" name="email" placeholder="Email" />
-                        </div>
-                        <div className="form-group row pb-3 p-3">
-                            <label>Jelszó</label>
-                            <input type="password" className="form-control" name="password" placeholder="Jelszó" />
-                        </div>
-                        <div className="m-auto form-group row">
-                            <button type="submit" className="btn btn-primary" style={{ width: "100px", height: "40px" }}>Küldés</button>
-                        </div>
+                        <Grid container spacing={2}
+                            direction="column"
+                            justify="space-around"
+                            alignItems="stretch">
+                            <Grid item xs>
+                                <TextField name="email" label="Email" variant="filled" type="email" required />
+                            </Grid>
+                            <Grid item xs>
+                                <TextField name="password" label="Jelszó" variant="filled" type="password" required />
+                            </Grid>
+                            <Grid item xs>
+                                <Button type="submit" variant="contained" color="primary">
+                                    Küldés
+                                </Button>
+                            </Grid>
+                        </Grid>
                     </form>
                 </motion.div>
             </div>

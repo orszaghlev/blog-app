@@ -4,8 +4,28 @@ import { Home } from "./components/Home.jsx";
 import { ViewAllPosts } from "./components/ViewAllPosts.jsx";
 import { ViewSinglePost } from "./components/ViewSinglePost.jsx";
 import { Helmet } from "react-helmet-async";
+import { makeStyles } from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
 
 function App() {
+  const useStyles = makeStyles((theme) => ({
+    root: {
+      flexGrow: 1,
+    },
+    menuButton: {
+      marginRight: theme.spacing(2),
+    },
+    title: {
+      flexGrow: 1,
+    },
+  }));
+
+  const classes = useStyles();
+
   return (
     <div className="App">
       <Helmet>
@@ -13,17 +33,20 @@ function App() {
         <meta name="description" content="Blog alkalmazás" />
       </Helmet>
       <BrowserRouter>
-        <nav className="navbar sticky-top navbar-fixed navbar-expand-sm navbar-dark bg-dark mb-3">
-          <div className="collapse navbar-collapse">
-            <ul className="navbar-nav">
-              <li className="nav-item">
-                <NavLink to={`/`} activeClassName="active">
-                  <span className="nav-link">Blog alkalmazás</span>
-                </NavLink>
-              </li>
-            </ul>
-          </div>
-        </nav>
+        <AppBar position="static">
+          <Toolbar>
+            <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+            </IconButton>
+            <Typography variant="h6" className={classes.title} align="left">
+              Blog App
+            </Typography>
+            <Button color="inherit">
+              <NavLink to={`/`}>
+                <span className="nav-link" style={{ color: 'white' }}>Bejelentkezés</span>
+              </NavLink>
+            </Button>
+          </Toolbar>
+        </AppBar>
         <Switch>
           <Route path="/" exact component={Home} />
           <Route path="/posts/:accessToken" exact component={ViewAllPosts} />

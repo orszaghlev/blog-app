@@ -4,12 +4,39 @@ import axios from "axios";
 import { Spinner } from "./Spinner.jsx";
 import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
+import { makeStyles } from '@material-ui/core/styles';
+import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
+import TextField from '@material-ui/core/TextField';
+import Grid from '@material-ui/core/Grid';
 
 export function ViewAllPosts(props) {
     const [posts, setPosts] = useState([]);
     const [search, setSearch] = useState("");
     const [isPending, setPending] = useState(false);
     const history = useHistory();
+
+    const useStyles = makeStyles((theme) => ({
+        root: {
+            maxWidth: 345,
+        },
+        media: {
+            height: 140,
+        },
+        search: {
+            '& > *': {
+                margin: theme.spacing(0),
+                width: '25ch',
+            },
+        },
+    }));
+
+    const classes = useStyles();
 
     useEffect(() => {
         setPending(true);
@@ -39,21 +66,20 @@ export function ViewAllPosts(props) {
                     <title>Bejegyzések</title>
                     <meta name="description" content="Bejegyzések" />
                 </Helmet>
-                <div class="container">
-                    <input
-                        type='text'
-                        className='input'
-                        onChange={e => setSearch(e.target.value)}
-                        placeholder='Keresés...'
-                    />
-                    <button type="button" className="btn btn-primary m-1 p-1"
-                        onClick={() => {
-                            setPosts(posts.filter(li => li.tag.toLowerCase().includes("hun")))
-                        }}
-                    >
-                        Szűrés
-                    </button>
-                </div>
+                <Grid container
+                    direction="row"
+                    justify="space-evenly"
+                    alignItems="center">
+                    <form className={classes.search} noValidate autoComplete="off"
+                        onChange={e => setSearch(e.target.value)}>
+                        <TextField id="search" label="Keresés..." variant="filled" />
+                    </form>
+                    <Button m="2rem" variant="contained" onClick={() => {
+                        setPosts(posts.filter(li => li.tag.toLowerCase().includes("hun")))
+                    }}>
+                        Csak magyar nyelvű bejegyzések
+                    </Button>
+                </Grid>
                 {
                     posts.filter(li =>
                         li.title.toLowerCase().includes(search.toLowerCase()) ||
@@ -77,10 +103,28 @@ export function ViewAllPosts(props) {
                                         }
                                     },
                                 }}>
-                                    <h5 className="text-dark">{post.title}</h5>
-                                    <img src={post.imgURL} alt="Bejegyzés indexképe"
-                                        style={{ width: "100px", height: "100px" }} />
-                                    <p>{post.description}</p>
+                                    <Card className={classes.root}>
+                                        <CardActionArea>
+                                            <CardMedia
+                                                className={classes.media}
+                                                image={post.imgURL}
+                                                title={post.title}
+                                            />
+                                            <CardContent>
+                                                <Typography gutterBottom variant="h5" component="h2">
+                                                    {post.title}
+                                                </Typography>
+                                                <Typography variant="body2" color="textSecondary" component="p">
+                                                    {post.description}
+                                                </Typography>
+                                            </CardContent>
+                                        </CardActionArea>
+                                        <CardActions>
+                                            <Button size="small" color="primary" align="center">
+                                                Tovább
+                                            </Button>
+                                        </CardActions>
+                                    </Card>
                                 </motion.div>
                             </div>
                         ))

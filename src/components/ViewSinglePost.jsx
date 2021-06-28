@@ -4,11 +4,30 @@ import axios from "axios";
 import { Spinner } from "./Spinner.jsx";
 import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
+import { makeStyles } from '@material-ui/core/styles';
+import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
 
 export function ViewSinglePost(props) {
     const [post, setPost] = useState([]);
     const [isPending, setPending] = useState(false);
     const history = useHistory();
+
+    const useStyles = makeStyles({
+        root: {
+            maxWidth: 1000,
+        },
+        media: {
+            height: 200,
+        },
+    });
+
+    const classes = useStyles();
 
     useEffect(() => {
         setPending(true);
@@ -45,15 +64,36 @@ export function ViewSinglePost(props) {
                         }
                     },
                 }}>
-                    <h2 className="text-center">{post.title}</h2>
-                    <h4 className="text-center">{post.description}</h4>
-                    <h5 className="text-center">{post.tag}</h5>
-                    <img className="text-center" src={post.imgURL} style={{ width: "300px", height: "300px" }} alt="Bejegyzés képe" />
-                    <p>{post.content}</p>
-                    <button className="m-auto btn btn-warning text-center" style={{ width: "300px", height: "40px" }}
-                        onClick={() => {
-                            history.push(`/posts/${props.match.params.accessToken}`)
-                        }}>Vissza</button>
+                    <Card className={classes.root}>
+                        <CardActionArea>
+                            <CardMedia
+                                className={classes.media}
+                                image={post.imgURL}
+                                title={post.title}
+                            />
+                            <CardContent>
+                                <Typography gutterBottom variant="h3" component="h3">
+                                    {post.title}
+                                </Typography>
+                                <Typography variant="body2" color="textSecondary" component="p">
+                                    {post.tag}
+                                </Typography>
+                                <Typography variant="h6" color="textPrimary" component="h6">
+                                    {post.description}
+                                </Typography>
+                                <Typography variant="body2" color="textPrimary" component="p" align="left">
+                                    {post.content}
+                                </Typography>
+                            </CardContent>
+                        </CardActionArea>
+                        <CardActions>
+                            <Button size="small" color="secondary" align="center" onClick={() => {
+                                history.push(`/posts/${props.match.params.accessToken}`)
+                            }}>
+                                Vissza
+                            </Button>
+                        </CardActions>
+                    </Card>
                 </motion.div>
             </div>
         )

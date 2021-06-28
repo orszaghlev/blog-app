@@ -14,7 +14,7 @@ export function ViewAllPosts(props) {
     useEffect(() => {
         setPending(true);
         const config = {
-            headers: { Authorization: `Bearer ${props.match.params.access_token}` }
+            headers: { Authorization: `Bearer ${props.match.params.accessToken}` }
         };
         axios.get('http://localhost:8000/api/posts', config)
             .then(data => setPosts(data.data))
@@ -22,7 +22,7 @@ export function ViewAllPosts(props) {
                 console.error('Hiba!', error);
             });
         setPending(false);
-    }, [props.match.params.access_token])
+    }, [props.match.params.accessToken])
 
     if (isPending) {
         return <Spinner />
@@ -62,7 +62,7 @@ export function ViewAllPosts(props) {
                         li.content.toLowerCase().includes(search.toLowerCase()))
                         .map((post) => (
                             <div className="card col-sm-3 d-inline-block m-1 p-2 h-100" onClick={() => {
-                                history.push(`/posts/${post.id}`)
+                                history.push(`/posts/${props.match.params.accessToken}/${post.id}`)
                             }}>
                                 <motion.div initial="hidden" animate="visible" variants={{
                                     hidden: {

@@ -48,7 +48,7 @@ export function Home() {
                                 });
                             setPending(false);
                             if (accessToken) {
-                                history.push(`/posts`);
+                                history.push(`/posts/${accessToken}`);
                             }
                         }}
                     >

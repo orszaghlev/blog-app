@@ -26,8 +26,8 @@ function App() {
         </nav>
         <Switch>
           <Route path="/" exact component={Home} />
-          <Route path="/posts/" exact component={ViewAllPosts} />
-          <Route path="/posts/:id" component={ViewSinglePost} />
+          <Route path="/posts/:accessToken" exact component={ViewAllPosts} />
+          <Route path="/posts/:accessToken/:id" component={ViewSinglePost} />
           <Redirect to="/" />
         </Switch>
       </BrowserRouter>

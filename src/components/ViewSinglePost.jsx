@@ -13,7 +13,7 @@ export function ViewSinglePost(props) {
     useEffect(() => {
         setPending(true);
         const config = {
-            headers: { Authorization: `Bearer ${props.match.params.access_token}` }
+            headers: { Authorization: `Bearer ${props.match.params.accessToken}` }
         };
         axios.get(`http://localhost:8000/api/posts/${props.match.params.id}`, config)
             .then(data => setPost(data.data))
@@ -21,7 +21,7 @@ export function ViewSinglePost(props) {
                 console.error('Hiba!', error);
             });
         setPending(false);
-    }, [props.match.params.id, props.match.params.access_token])
+    }, [props.match.params.id, props.match.params.accessToken])
 
     if (isPending) {
         return <Spinner />
@@ -52,7 +52,7 @@ export function ViewSinglePost(props) {
                     <p>{post.content}</p>
                     <button className="m-auto btn btn-warning text-center" style={{ width: "300px", height: "40px" }}
                         onClick={() => {
-                            history.push("/posts")
+                            history.push(`/posts/${props.match.params.accessToken}`)
                         }}>Vissza</button>
                 </motion.div>
             </div>

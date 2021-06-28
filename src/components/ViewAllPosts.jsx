@@ -56,7 +56,12 @@ export function ViewAllPosts(props) {
     } else if (posts.length === 0) {
         return (
             <div class="jumbotron">
-                <h3>Nincsenek elérhető posztok!</h3>
+                <motion.div
+                    animate={{ scale: 1.2 }}
+                    transition={{ duration: 0.5 }}
+                >
+                    <h3>Nincsenek elérhető bejegyzések!</h3>
+                </motion.div>
             </div>
         )
     } else {
@@ -66,6 +71,12 @@ export function ViewAllPosts(props) {
                     <title>Bejegyzések</title>
                     <meta name="description" content="Bejegyzések" />
                 </Helmet>
+                <motion.div
+                    animate={{ scale: 1.2 }}
+                    transition={{ duration: 0.5 }}
+                >
+                    <h2>Bejegyzések</h2>
+                </motion.div>
                 <Grid container
                     direction="row"
                     justify="space-evenly"

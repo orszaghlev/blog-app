@@ -35,7 +35,12 @@ export function Home() {
                         }
                     },
                 }}>
-                    <h2>Bejelentkezés</h2>
+                    <motion.div
+                        animate={{ scale: 1.2 }}
+                        transition={{ duration: 0.5 }}
+                    >
+                        <h2>Bejelentkezés</h2>
+                    </motion.div>
                     <form
                         onSubmit={async (e) => {
                             e.preventDefault();
@@ -73,7 +78,7 @@ export function Home() {
                         </Grid>
                     </form>
                 </motion.div>
-            </div>
+            </div >
         )
     }
 }

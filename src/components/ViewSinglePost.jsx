@@ -44,6 +44,17 @@ export function ViewSinglePost(props) {
 
     if (isPending) {
         return <Spinner />
+    } else if (post.length === 0) {
+        return (
+            <div class="jumbotron">
+                <motion.div
+                    animate={{ scale: 1.2 }}
+                    transition={{ duration: 0.5 }}
+                >
+                    <h3>A kért bejegyzés nem érhető el!</h3>
+                </motion.div>
+            </div>
+        )
     } else {
         return (
             <div className="card m-auto" style={{ width: "1000px" }}>

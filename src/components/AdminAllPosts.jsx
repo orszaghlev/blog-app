@@ -5,7 +5,7 @@ import { Spinner } from "./Spinner.jsx";
 import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
 import { Button } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -26,6 +26,16 @@ export function AdminAllPosts(props) {
             minWidth: 650,
         },
     });
+
+    const StyledTableCell = withStyles((theme) => ({
+        head: {
+            backgroundColor: theme.palette.success.light,
+            color: theme.palette.common.white,
+        },
+        body: {
+            fontSize: 14,
+        },
+    }))(TableCell);
 
     const classes = useStyles();
 
@@ -71,9 +81,6 @@ export function AdminAllPosts(props) {
                     transition={{ duration: 0.5 }}
                 >
                     <h2>Admin - Bejegyzések</h2>
-                    <Button variant="contained" onClick={() => {
-                        history.push(`/admin/create-post/${props.match.params.accessToken}`)
-                    }}>Új bejegyzés</Button>
                 </motion.div>
                 <div className="card">
                     <motion.div initial="hidden" animate="visible" variants={{
@@ -89,18 +96,21 @@ export function AdminAllPosts(props) {
                             }
                         },
                     }}>
+                        <Button variant="contained" onClick={() => {
+                            history.push(`/admin/create-post/${props.match.params.accessToken}`)
+                        }}>Létrehozás</Button>
                         <TableContainer component={Paper}>
                             <Table className={classes.table} aria-label="simple table">
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell align="center">ID</TableCell>
-                                        <TableCell align="center">Cím</TableCell>
-                                        <TableCell align="center">Slug</TableCell>
-                                        <TableCell align="center">Leírás</TableCell>
-                                        <TableCell align="center">Tartalom</TableCell>
-                                        <TableCell align="center">Kép URL</TableCell>
-                                        <TableCell align="center">Címke</TableCell>
-                                        <TableCell align="center">Opciók</TableCell>
+                                        <StyledTableCell align="center">ID</StyledTableCell>
+                                        <StyledTableCell align="center">Cím</StyledTableCell>
+                                        <StyledTableCell align="center">Slug</StyledTableCell>
+                                        <StyledTableCell align="center">Leírás</StyledTableCell>
+                                        <StyledTableCell align="center">Tartalom</StyledTableCell>
+                                        <StyledTableCell align="center">Kép URL</StyledTableCell>
+                                        <StyledTableCell align="center">Címke</StyledTableCell>
+                                        <StyledTableCell align="center">Opciók</StyledTableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>

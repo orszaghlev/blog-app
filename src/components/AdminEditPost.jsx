@@ -18,7 +18,7 @@ export function AdminEditPost(props) {
         const config = {
             headers: { Authorization: `Bearer ${props.match.params.accessToken}` }
         };
-        axios.get(`http://localhost:4000/posts/${props.match.params.id}`, config)
+        axios.get(`http://localhost:8000/auth/posts/${props.match.params.id}`, config)
             .then(data => setPost(data.data))
             .catch(error => {
                 console.error('Hiba!', error);
@@ -66,7 +66,7 @@ export function AdminEditPost(props) {
                         const config = {
                             headers: { Authorization: `Bearer ${props.match.params.accessToken}` }
                         };
-                        axios.put('http://localhost:8000/auth/posts', data, config)
+                        axios.put(`http://localhost:8000/auth/posts/${props.match.params.id}`, data, config)
                             .catch(error => {
                                 console.error('Hiba!', error);
                             });
@@ -79,31 +79,31 @@ export function AdminEditPost(props) {
                         justify="space-around"
                         alignItems="stretch">
                         <Grid item xs>
-                            <TextField defaultValue={post.id} name="id" label="ID" variant="filled" type="text"
+                            <TextField value={post.id} name="id" label="ID" variant="standard" type="text"
                                 required style={{ width: 800 }} />
                         </Grid>
                         <Grid item xs>
-                            <TextField defaultValue={post.title} name="title" label="Cím" variant="filled" type="text"
+                            <TextField value={post.title} name="title" label="Cím" variant="standard" type="text"
                                 required style={{ width: 800 }} />
                         </Grid>
                         <Grid item xs>
-                            <TextField defaultValue={post.slug} name="slug" label="Slug" variant="filled" type="text"
+                            <TextField value={post.slug} name="slug" label="Slug" variant="standard" type="text"
                                 required style={{ width: 800 }} />
                         </Grid>
                         <Grid item xs>
-                            <TextField defaultValue={post.description} name="description" label="Leírás" variant="filled" type="text"
+                            <TextField value={post.description} name="description" label="Leírás" variant="standard" type="text"
                                 required style={{ width: 800 }} />
                         </Grid>
                         <Grid item xs>
-                            <TextField defaultValue={post.content} name="content" label="Tartalom" variant="filled" type="text"
+                            <TextField value={post.content} name="content" label="Tartalom" variant="standard" type="text"
                                 required style={{ width: 800 }} />
                         </Grid>
                         <Grid item xs>
-                            <TextField defaultValue={post.imgURL} name="imgURL" label="Kép URL" variant="filled" type="text"
+                            <TextField value={post.imgURL} name="imgURL" label="Kép URL" variant="standard" type="text"
                                 required style={{ width: 800 }} />
                         </Grid>
                         <Grid item xs>
-                            <TextField defaultValue={post.tag} name="tag" label="Címke" variant="filled" type="text"
+                            <TextField value={post.tag} name="tag" label="Címke" variant="standard" type="text"
                                 required style={{ width: 800 }} />
                         </Grid>
                         <Grid item xs>

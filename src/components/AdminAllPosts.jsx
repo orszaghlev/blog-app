@@ -15,7 +15,7 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 
-export function ViewAllPosts(props) {
+export function AdminAllPosts(props) {
     const [posts, setPosts] = useState([]);
     const [search, setSearch] = useState("");
     const [isPending, setPending] = useState(false);
@@ -99,7 +99,7 @@ export function ViewAllPosts(props) {
                         li.content.toLowerCase().includes(search.toLowerCase()))
                         .map((post) => (
                             <div className="card col-sm-3 d-inline-block m-1 p-2 h-100" onClick={() => {
-                                history.push(`/posts/${props.match.params.accessToken}/${post.id}`)
+                                history.push(`/${post.id}`)
                             }}>
                                 <motion.div initial="hidden" animate="visible" variants={{
                                     hidden: {

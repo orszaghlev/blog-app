@@ -31,16 +31,13 @@ export function ViewSinglePost(props) {
 
     useEffect(() => {
         setPending(true);
-        const config = {
-            headers: { Authorization: `Bearer ${props.match.params.accessToken}` }
-        };
-        axios.get(`http://localhost:8000/api/posts/${props.match.params.id}`, config)
+        axios.get(`http://localhost:8000/auth/posts/${props.match.params.id}`)
             .then(data => setPost(data.data))
             .catch(error => {
                 console.error('Hiba!', error);
             });
         setPending(false);
-    }, [props.match.params.id, props.match.params.accessToken])
+    }, [props.match.params.id])
 
     if (isPending) {
         return <Spinner />
@@ -99,7 +96,7 @@ export function ViewSinglePost(props) {
                         </CardActionArea>
                         <CardActions>
                             <Button size="small" color="secondary" align="center" onClick={() => {
-                                history.push(`/posts/${props.match.params.accessToken}`)
+                                history.push(`/home`)
                             }}>
                                 Vissza
                             </Button>

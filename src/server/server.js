@@ -2,7 +2,7 @@ const fs = require('fs')
 const bodyParser = require('body-parser')
 const jsonServer = require('json-server')
 const jwt = require('jsonwebtoken')
-const server = jsonServer.create()
+const server = jsonServer.create('./src/server/posts.json')
 const router = jsonServer.router('./src/server/posts.json')
 const userdb = JSON.parse(fs.readFileSync('./src/server/users.json', 'UTF-8'))
 const postdb = JSON.parse(fs.readFileSync('./src/server/posts.json', 'UTF-8'))
@@ -57,37 +57,37 @@ server.use(/^(?!\/auth).*$/, (req, res, next) => {
     next()
 })
 
-router.get('/posts', (req, res) => {
+router.get('/auth/posts', (req, res) => {
     if (isAuthenticated({ email, password }) === true) {
         res.send(postdb)
     }
 })
 
-router.get('/posts/:id', (req, res) => {
+router.get('/auth/posts/:id', (req, res) => {
     if (isAuthenticated({ email, password }) === true) {
         res.send(postdb)
     }
 })
 
-router.post('/posts', (req, res) => {
+router.post('/admin/posts', (req, res) => {
     if (isAuthenticated({ email, password }) === true) {
         res.post(req.body)
     }
 })
 
-router.delete('/posts/:id', (req, res) => {
+router.delete('/admin/posts/:id', (req, res) => {
     if (isAuthenticated({ email, password }) === true) {
         res.delete(req.body)
     }
 })
 
-router.put('/posts/:id', (req, res) => {
+router.put('/admin/posts/:id', (req, res) => {
     if (isAuthenticated({ email, password }) === true) {
         res.update(req.body)
     }
 })
 
-server.use('/api', router)
+server.use('/auth', router)
 
 server.listen(8000, () => {
     console.log("Szerver indítása")

@@ -57,8 +57,8 @@ function App() {
           <Route path="/home/:id" component={ViewSinglePost} />
           <Route path="/admin/login" component={AdminLogin} />
           <Route path="/admin/posts/:accessToken" component={AdminAllPosts} />
-          <Route path="/admin/createPost/:accessToken" component={AdminCreatePost} />
-          <Route path="/admin/editPost/:accessToken" component={AdminEditPost} />
+          <Route path="/admin/create-post/:accessToken" component={AdminCreatePost} />
+          <Route path="/admin/edit-post/:accessToken/:id" component={AdminEditPost} />
           <Redirect to="/home" />
         </Switch>
       </BrowserRouter>

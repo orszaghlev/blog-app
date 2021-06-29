@@ -69,6 +69,18 @@ router.get('/auth/posts/:id', (req, res) => {
     }
 })
 
+router.get('/admin/posts', (req, res) => {
+    if (isAuthenticated({ email, password }) === true) {
+        res.send(postdb)
+    }
+})
+
+router.get('/admin/posts/:id', (req, res) => {
+    if (isAuthenticated({ email, password }) === true) {
+        res.send(postdb)
+    }
+})
+
 router.post('/admin/posts', (req, res) => {
     if (isAuthenticated({ email, password }) === true) {
         res.post(req.body)

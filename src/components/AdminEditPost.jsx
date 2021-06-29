@@ -11,6 +11,13 @@ import { Grid } from "@material-ui/core";
 export function AdminEditPost(props) {
     const [isPending, setPending] = useState(false);
     const [post, setPost] = useState([]);
+    const [id, setId] = useState("");
+    const [title, setTitle] = useState("");
+    const [slug, setSlug] = useState("");
+    const [description, setDescription] = useState("");
+    const [content, setContent] = useState("");
+    const [imgURL, setImgURL] = useState("");
+    const [tag, setTag] = useState("");
     const history = useHistory();
 
     useEffect(() => {
@@ -20,11 +27,19 @@ export function AdminEditPost(props) {
         };
         axios.get(`http://localhost:8000/admin/api/posts/${props.match.params.id}`, config)
             .then(data => setPost(data.data))
+            .then(setId(post.id))
+            .then(setTitle(post.title))
+            .then(setSlug(post.slug))
+            .then(setDescription(post.description))
+            .then(setContent(post.content))
+            .then(setImgURL(post.imgURL))
+            .then(setTag(post.tag))
             .catch(error => {
                 console.error('Hiba!', error);
             });
         setPending(false);
-    }, [props.match.params.id, props.match.params.accessToken])
+    }, [props.match.params.id, props.match.params.accessToken, post.id, post.title, post.slug, post.description,
+    post.content, post.imgURL, post.tag])
 
     if (isPending) {
         return <Spinner />
@@ -79,31 +94,52 @@ export function AdminEditPost(props) {
                         justify="space-around"
                         alignItems="stretch">
                         <Grid item xs>
-                            <TextField defaultValue={post.id} name="id" type="text" label="ID" variant="filled"
+                            <TextField value={id} name="id" type="text" label="ID" variant="filled"
+                                onChange={(e) => {
+                                    setId(e.target.value)
+                                }}
                                 required style={{ width: 800 }} />
                         </Grid>
                         <Grid item xs>
-                            <TextField defaultValue={post.title} name="title" type="text" label="Cím" variant="filled"
+                            <TextField value={title} name="title" type="text" label="Cím" variant="filled"
+                                onChange={(e) => {
+                                    setTitle(e.target.value)
+                                }}
                                 required style={{ width: 800 }} />
                         </Grid>
                         <Grid item xs>
-                            <TextField defaultValue={post.slug} name="slug" type="text" label="Slug" variant="filled"
+                            <TextField value={slug} name="slug" type="text" label="Slug" variant="filled"
+                                onChange={(e) => {
+                                    setSlug(e.target.value)
+                                }}
                                 required style={{ width: 800 }} />
                         </Grid>
                         <Grid item xs>
-                            <TextField defaultValue={post.description} name="description" label="Leírás" variant="filled"
+                            <TextField value={description} name="description" label="Leírás" variant="filled"
+                                onChange={(e) => {
+                                    setDescription(e.target.value)
+                                }}
                                 type="text" required style={{ width: 800 }} />
                         </Grid>
                         <Grid item xs>
-                            <TextField defaultValue={post.content} name="content" label="Tartalom" variant="filled"
+                            <TextField value={content} name="content" label="Tartalom" variant="filled"
+                                onChange={(e) => {
+                                    setContent(e.target.value)
+                                }}
                                 type="text" required style={{ width: 800 }} />
                         </Grid>
                         <Grid item xs>
-                            <TextField defaultValue={post.imgURL} name="imgURL" label="Kép URL" variant="filled"
+                            <TextField value={imgURL} name="imgURL" label="Kép URL" variant="filled"
+                                onChange={(e) => {
+                                    setImgURL(e.target.value)
+                                }}
                                 type="text" required style={{ width: 800 }} />
                         </Grid>
                         <Grid item xs>
-                            <TextField defaultValue={post.tag} name="tag" type="text" label="Címke" variant="filled"
+                            <TextField value={tag} name="tag" type="text" label="Címke" variant="filled"
+                                onChange={(e) => {
+                                    setTag(e.target.value)
+                                }}
                                 required style={{ width: 800 }} />
                         </Grid>
                         <Grid item xs>

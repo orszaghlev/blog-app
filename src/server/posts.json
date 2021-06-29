@@ -22,17 +22,8 @@
       "id": 3,
       "title": "3. poszt",
       "slug": "third-post",
-      "description": "Harmadik poszts",
-      "content": "32Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam diam quam, tristique in fringilla eu, sollicitudin ac est. Aliquam commodo auctor turpis, vitae sollicitudin arcu molestie a. Maecenas placerat pellentesque neque sed ornare. Sed lacinia ligula non tortor dictum, et laoreet leo fermentum. Donec ex erat, luctus eget ex eu, lacinia cursus magna. In diam elit, eleifend sed ullamcorper vel, bibendum et purus. Cras sodales augue ante, non hendrerit turpis fermentum tempor. Aenean consequat erat aliquam dolor accumsan, nec volutpat dui semper. Integer ornare dolor dui, vel molestie odio suscipit in. Etiam condimentum in ante sed condimentum.",
-      "imgURL": "https://sienaconstruction.com/wp-content/uploads/2017/05/test-image.jpg",
-      "tag": "hun"
-    },
-    {
-      "id": "4",
-      "title": "4. poszt",
-      "slug": "negyedik-poszt",
-      "description": "Negyedik posztsads",
-      "content": "4Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam diam quam, tristique in fringilla eu, sollicitudin ac est. Aliquam commodo auctor turpis, vitae sollicitudin arcu molestie a. Maecenas placerat pellentesque neque sed ornare. Sed lacinia ligula non tortor dictum, et laoreet leo fermentum. Donec ex erat, luctus eget ex eu, lacinia cursus magna. In diam elit, eleifend sed ullamcorper vel, bibendum et purus. Cras sodales augue ante, non hendrerit turpis fermentum tempor. Aenean consequat erat aliquam dolor accumsan, nec volutpat dui semper. Integer ornare dolor dui, vel molestie odio suscipit in. Etiam condimentum in ante sed condimentum.",
+      "description": "Harmadik poszt",
+      "content": "3Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam diam quam, tristique in fringilla eu, sollicitudin ac est. Aliquam commodo auctor turpis, vitae sollicitudin arcu molestie a. Maecenas placerat pellentesque neque sed ornare. Sed lacinia ligula non tortor dictum, et laoreet leo fermentum. Donec ex erat, luctus eget ex eu, lacinia cursus magna. In diam elit, eleifend sed ullamcorper vel, bibendum et purus. Cras sodales augue ante, non hendrerit turpis fermentum tempor. Aenean consequat erat aliquam dolor accumsan, nec volutpat dui semper. Integer ornare dolor dui, vel molestie odio suscipit in. Etiam condimentum in ante sed condimentum.",
       "imgURL": "https://sienaconstruction.com/wp-content/uploads/2017/05/test-image.jpg",
       "tag": "hun"
     }

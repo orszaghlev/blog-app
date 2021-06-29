@@ -7,6 +7,12 @@ npm start
 ```  
 You can send the following requests:  
 
+`Get posts without logging in:`
+```
+GET http://localhost:8000/auth/posts
+GET http://localhost:8000/auth/posts/{id}
+```  
+
 `Login:`
 ```
 POST http://localhost:8000/auth/login with the following body:

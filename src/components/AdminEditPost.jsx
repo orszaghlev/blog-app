@@ -79,37 +79,47 @@ export function AdminEditPost(props) {
                         justify="space-around"
                         alignItems="stretch">
                         <Grid item xs>
-                            <TextField placeholder={post.id} name="id" label="ID" variant="filled" type="text"
+                            <TextField defaultValue={post.id} name="id" label="ID" variant="filled" type="text"
                                 required style={{ width: 800 }} />
                         </Grid>
                         <Grid item xs>
-                            <TextField placeholder={post.title} name="title" label="Cím" variant="filled" type="text"
+                            <TextField defaultValue={post.title} name="title" label="Cím" variant="filled" type="text"
                                 required style={{ width: 800 }} />
                         </Grid>
                         <Grid item xs>
-                            <TextField placeholder={post.slug} name="slug" label="Slug" variant="filled" type="text"
+                            <TextField defaultValue={post.slug} name="slug" label="Slug" variant="filled" type="text"
                                 required style={{ width: 800 }} />
                         </Grid>
                         <Grid item xs>
-                            <TextField placeholder={post.description} name="description" label="Leírás" variant="filled" type="text"
+                            <TextField defaultValue={post.description} name="description" label="Leírás" variant="filled" type="text"
                                 required style={{ width: 800 }} />
                         </Grid>
                         <Grid item xs>
-                            <TextField placeholder={post.content} name="content" label="Tartalom" variant="filled" type="text"
+                            <TextField defaultValue={post.content} name="content" label="Tartalom" variant="filled" type="text"
                                 required style={{ width: 800 }} />
                         </Grid>
                         <Grid item xs>
-                            <TextField placeholder={post.imgURL} name="imgURL" label="Kép URL" variant="filled" type="text"
+                            <TextField defaultValue={post.imgURL} name="imgURL" label="Kép URL" variant="filled" type="text"
                                 required style={{ width: 800 }} />
                         </Grid>
                         <Grid item xs>
-                            <TextField placeholder={post.tag} name="tag" label="Címke" variant="filled" type="text"
+                            <TextField defaultValue={post.tag} name="tag" label="Címke" variant="filled" type="text"
                                 required style={{ width: 800 }} />
                         </Grid>
                         <Grid item xs>
-                            <Button type="submit" variant="contained" color="primary">
-                                Küldés
-                            </Button>
+                            <Grid container spacing={2}
+                                direction="row"
+                                justify="space-evenly"
+                                alignItems="stretch">
+                                <Button type="submit" variant="contained" color="primary">
+                                    Küldés
+                                </Button>
+                                <Button variant="contained" color="secondary" onClick={() => {
+                                    history.push(`/admin/posts/${props.match.params.accessToken}`)
+                                }}>
+                                    Vissza
+                                </Button>
+                            </Grid>
                         </Grid>
                     </Grid>
                 </form>

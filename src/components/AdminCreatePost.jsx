@@ -87,9 +87,19 @@ export function AdminCreatePost(props) {
                             <TextField name="tag" label="Címke" variant="filled" type="text" required style={{ width: 800 }} />
                         </Grid>
                         <Grid item xs>
-                            <Button type="submit" variant="contained" color="primary">
-                                Küldés
-                            </Button>
+                            <Grid container spacing={2}
+                                direction="row"
+                                justify="space-evenly"
+                                alignItems="stretch">
+                                <Button type="submit" variant="contained" color="primary">
+                                    Küldés
+                                </Button>
+                                <Button variant="contained" color="secondary" onClick={() => {
+                                    history.push(`/admin/posts/${props.match.params.accessToken}`)
+                                }}>
+                                    Vissza
+                                </Button>
+                            </Grid>
                         </Grid>
                     </Grid>
                 </form>

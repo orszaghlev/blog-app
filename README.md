@@ -2,7 +2,7 @@
 A React blog app.  
 ```
 npm install
-npm run start-auth
+npm run start-server
 npm start
 ```  
 You can send the following requests:  
@@ -24,9 +24,9 @@ Authorization: Bearer {the access token you received after login}
 
 `CRUD Operations:`
 ```
-GET http://localhost:8000/api/posts
-GET http://localhost:8000/api/posts/{id}
-DELETE http://localhost:8000/api/posts/{id} + JSON body
-POST http://localhost:8080/api/posts + JSON body
-PUT http://localhost:8080/api/posts/{id} + JSON body
+GET http://localhost:8000/admin/api/posts
+GET http://localhost:8000/admin/api/posts/{id}
+DELETE http://localhost:8000/admin/api/posts/{id}
+POST http://localhost:8080/admin/api/posts + JSON body
+PUT http://localhost:8080/admin/api/posts/{id} + JSON body
 ```  

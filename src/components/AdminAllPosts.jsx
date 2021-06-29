@@ -43,7 +43,7 @@ export function AdminAllPosts(props) {
         const config = {
             headers: { Authorization: `Bearer ${props.match.params.accessToken}` }
         };
-        axios.get('http://localhost:8000/auth/posts', config)
+        axios.get('http://localhost:8000/admin/api/posts', config)
             .then(data => setPosts(data.data))
             .catch(error => {
                 console.error('Hiba!', error);
@@ -54,6 +54,7 @@ export function AdminAllPosts(props) {
         setPending(true);
         getPosts();
         setPending(false);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props.match.params.accessToken])
 
     if (isPending) {
@@ -126,7 +127,10 @@ export function AdminAllPosts(props) {
                                             <TableCell align="left">
                                                 <button className="btn btn-danger m-1" style={{ width: "50px", height: "50px" }} onClick={async () => {
                                                     setPending(true);
-                                                    await axios.delete(`http://localhost:8000/auth/posts/${post.id}`)
+                                                    const config = {
+                                                        headers: { Authorization: `Bearer ${props.match.params.accessToken}` }
+                                                    };
+                                                    await axios.delete(`http://localhost:8000/admin/api/posts/${post.id}`, config)
                                                         .catch(error => {
                                                             console.error('Hiba!', error);
                                                         });

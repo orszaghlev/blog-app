@@ -53,7 +53,7 @@ export function AdminCreatePost(props) {
                         const config = {
                             headers: { Authorization: `Bearer ${props.match.params.accessToken}` }
                         };
-                        axios.post('http://localhost:8000/auth/posts', data, config)
+                        axios.post('http://localhost:8000/admin/api/posts', data, config)
                             .catch(error => {
                                 console.error('Hiba!', error);
                             });

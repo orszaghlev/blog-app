@@ -18,7 +18,7 @@ export function AdminEditPost(props) {
         const config = {
             headers: { Authorization: `Bearer ${props.match.params.accessToken}` }
         };
-        axios.get(`http://localhost:8000/auth/posts/${props.match.params.id}`, config)
+        axios.get(`http://localhost:8000/admin/api/posts/${props.match.params.id}`, config)
             .then(data => setPost(data.data))
             .catch(error => {
                 console.error('Hiba!', error);
@@ -66,7 +66,7 @@ export function AdminEditPost(props) {
                         const config = {
                             headers: { Authorization: `Bearer ${props.match.params.accessToken}` }
                         };
-                        axios.put(`http://localhost:8000/auth/posts/${props.match.params.id}`, data, config)
+                        axios.put(`http://localhost:8000/admin/api/posts/${props.match.params.id}`, data, config)
                             .catch(error => {
                                 console.error('Hiba!', error);
                             });
@@ -79,31 +79,31 @@ export function AdminEditPost(props) {
                         justify="space-around"
                         alignItems="stretch">
                         <Grid item xs>
-                            <TextField value={post.id} name="id" label="ID" variant="standard" type="text"
+                            <TextField defaultValue={post.id} name="id" type="text" label="ID" variant="filled"
                                 required style={{ width: 800 }} />
                         </Grid>
                         <Grid item xs>
-                            <TextField value={post.title} name="title" label="Cím" variant="standard" type="text"
+                            <TextField defaultValue={post.title} name="title" type="text" label="Cím" variant="filled"
                                 required style={{ width: 800 }} />
                         </Grid>
                         <Grid item xs>
-                            <TextField value={post.slug} name="slug" label="Slug" variant="standard" type="text"
+                            <TextField defaultValue={post.slug} name="slug" type="text" label="Slug" variant="filled"
                                 required style={{ width: 800 }} />
                         </Grid>
                         <Grid item xs>
-                            <TextField value={post.description} name="description" label="Leírás" variant="standard" type="text"
-                                required style={{ width: 800 }} />
+                            <TextField defaultValue={post.description} name="description" label="Leírás" variant="filled"
+                                type="text" required style={{ width: 800 }} />
                         </Grid>
                         <Grid item xs>
-                            <TextField value={post.content} name="content" label="Tartalom" variant="standard" type="text"
-                                required style={{ width: 800 }} />
+                            <TextField defaultValue={post.content} name="content" label="Tartalom" variant="filled"
+                                type="text" required style={{ width: 800 }} />
                         </Grid>
                         <Grid item xs>
-                            <TextField value={post.imgURL} name="imgURL" label="Kép URL" variant="standard" type="text"
-                                required style={{ width: 800 }} />
+                            <TextField defaultValue={post.imgURL} name="imgURL" label="Kép URL" variant="filled"
+                                type="text" required style={{ width: 800 }} />
                         </Grid>
                         <Grid item xs>
-                            <TextField value={post.tag} name="tag" label="Címke" variant="standard" type="text"
+                            <TextField defaultValue={post.tag} name="tag" type="text" label="Címke" variant="filled"
                                 required style={{ width: 800 }} />
                         </Grid>
                         <Grid item xs>

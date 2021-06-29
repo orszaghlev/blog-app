@@ -57,16 +57,18 @@ server.use(/^(?!\/auth).*$/, (req, res, next) => {
     next()
 })
 
-router.get('/auth/posts', (req, res) => {
-    if (isAuthenticated({ email, password }) === true) {
-        res.send(postdb)
-    }
+server.get('/auth/posts', (req, res) => {
+    res.send(postdb.posts)
 })
 
-router.get('/auth/posts/:id', (req, res) => {
-    if (isAuthenticated({ email, password }) === true) {
-        res.send(postdb)
-    }
+const findPostById = (id) => {
+    const [key, post] = Object.entries(postdb.posts).find(([key, post]) => post.id === id);
+    res.send(post)
+    return post
+}
+
+server.get(`/auth/posts/:id`, (req, res) => {
+    res.send(findPostById(req.params.id))
 })
 
 router.get('/admin/posts', (req, res) => {
@@ -99,7 +101,7 @@ router.put('/admin/posts/:id', (req, res) => {
     }
 })
 
-server.use('/auth', router)
+server.use('/admin/api', router)
 
 server.listen(8000, () => {
     console.log("Szerver indítása")

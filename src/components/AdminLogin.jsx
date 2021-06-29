@@ -65,10 +65,10 @@ export function AdminLogin() {
                             justify="space-around"
                             alignItems="stretch">
                             <Grid item xs>
-                                <TextField name="email" label="Email" variant="filled" type="email" required />
+                                <TextField style={{ width: 400 }} name="email" label="Email" variant="filled" type="email" required />
                             </Grid>
                             <Grid item xs>
-                                <TextField name="password" label="Jelszó" variant="filled" type="password" required />
+                                <TextField style={{ width: 400 }} name="password" label="Jelszó" variant="filled" type="password" required />
                             </Grid>
                             <Grid item xs>
                                 <Button type="submit" variant="contained" color="primary">

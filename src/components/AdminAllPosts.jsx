@@ -63,6 +63,8 @@ export function AdminAllPosts() {
 
     const [isSignedIn, setIsSignedIn] = useState(false);
 
+    const [tagSort, setTagSort] = useState("");
+
     useEffect(() => {
         const unregisterAuthObserver = firebase.auth().onAuthStateChanged(user => {
             setIsSignedIn(!!user);
@@ -90,17 +92,24 @@ export function AdminAllPosts() {
                     animate={{ scale: 1.2 }}
                     transition={{ duration: 0.5 }}
                 >
-                    <h3>Az adminisztrációs tartalmak megtekintéséhez bejelentkezés és hitelesítés szükséges!</h3>
-                    <Button m="2rem" variant="contained" color="secondary" onClick={() => {
-                        history.push("/admin/login")
-                    }}>
-                        Bejelentkezés, hitelesítés
-                    </Button>
-                    <Button m="2rem" variant="contained" color="secondary" onClick={() => {
-                        history.push("/home")
-                    }}>
-                        Kezdőlap
-                    </Button>
+                    <br />
+                    <h4>Az adminisztrációs tartalmak megtekintéséhez bejelentkezés és hitelesítés szükséges!</h4>
+                    <Grid container
+                        direction="row"
+                        justify="center"
+                        alignItems="center">
+                        <Button m="2rem" style={{ marginRight: "10px" }} variant="contained" color="primary"
+                            onClick={() => {
+                                history.push("/admin/login")
+                            }}>
+                            Bejelentkezés/Hitelesítés
+                        </Button>
+                        <Button m="2rem" variant="contained" color="secondary" onClick={() => {
+                            history.push("/home")
+                        }}>
+                            Kezdőlap
+                        </Button>
+                    </Grid>
                 </motion.div>
             </div>
         )
@@ -108,16 +117,17 @@ export function AdminAllPosts() {
         return (
             <div className="p-1 m-auto text-center content bg-ivory">
                 <Helmet>
-                    <title>Admin - Bejegyzések</title>
-                    <meta name="description" content="Admin - Bejegyzések" />
+                    <title>Adminisztrációs felület</title>
+                    <meta name="description" content="Adminisztrációs felület" />
                 </Helmet>
                 {isSignedIn && firebase.auth().currentUser.emailVerified && <>
                     <motion.div
                         animate={{ scale: 1.2 }}
                         transition={{ duration: 0.5 }}
                     >
-                        <h2>Admin - Bejegyzések</h2>
+                        <h2>Adminisztrációs felület</h2>
                     </motion.div>
+                    <br />
                     <Grid container
                         direction="row"
                         justify="space-evenly"
@@ -139,6 +149,14 @@ export function AdminAllPosts() {
                             </Grid>
                         </Grid>
                     </Grid>
+                    <Grid container justify="center">
+                        <Button style={{ marginRight: "10px" }} variant="contained" color="primary" onClick={() => {
+                            history.push(`/admin/create-post`);
+                        }}>Bejegyzés létrehozása</Button>
+                        <Button variant="contained" color="secondary" onClick={() => {
+                            setTagSort("hun");
+                        }}>Csak magyar bejegyzések</Button>
+                    </Grid>
                     <div className="card">
                         <motion.div initial="hidden" animate="visible" variants={{
                             hidden: {
@@ -153,9 +171,6 @@ export function AdminAllPosts() {
                                 }
                             },
                         }}>
-                            <Button variant="contained" onClick={() => {
-                                history.push(`/admin/create-post`)
-                            }}>Létrehozás</Button>
                             <TableContainer component={Paper}>
                                 <Table className={classes.table} aria-label="simple table">
                                     <TableHead>

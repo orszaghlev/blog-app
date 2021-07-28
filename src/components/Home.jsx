@@ -57,6 +57,8 @@ export function Home() {
         }
     );
 
+    const [tagSort, setTagSort] = useState("");
+
     if (isLoading) {
         return <Spinner />
     } else if (!items) {
@@ -83,6 +85,7 @@ export function Home() {
                 >
                     <h2>Bejegyzések</h2>
                 </motion.div>
+                <br />
                 <Grid container
                     direction="row"
                     justify="space-evenly"
@@ -91,6 +94,9 @@ export function Home() {
                         onChange={e => setSearch(e.target.value)}>
                         <TextField id="search" label="Keresés..." variant="filled" />
                     </form>
+                    <Button variant="contained" color="secondary" onClick={() => {
+                        setTagSort("hun");
+                    }}>Csak magyar bejegyzések</Button>
                 </Grid>
                 <Grid item xs={12}>
                     <Grid container justify="center">
@@ -143,7 +149,7 @@ export function Home() {
                                                 </Typography>
                                             </CardContent>
                                         </CardActionArea>
-                                        <CardActions>
+                                        <CardActions style={{ justifyContent: "center" }}>
                                             <Button size="small" color="primary" align="center">
                                                 Tovább
                                             </Button>

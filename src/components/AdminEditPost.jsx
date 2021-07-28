@@ -43,17 +43,23 @@ export function AdminEditPost(props) {
                     animate={{ scale: 1.2 }}
                     transition={{ duration: 0.5 }}
                 >
-                    <h3>Az adminisztrációs tartalmak megtekintéséhez bejelentkezés és hitelesítés szükséges!</h3>
-                    <Button m="2rem" variant="contained" color="secondary" onClick={() => {
-                        history.push("/admin/login")
-                    }}>
-                        Bejelentkezés, hitelesítés
-                    </Button>
-                    <Button m="2rem" variant="contained" color="secondary" onClick={() => {
-                        history.push("/home")
-                    }}>
-                        Kezdőlap
-                    </Button>
+                    <br />
+                    <h4>Az adminisztrációs tartalmak megtekintéséhez bejelentkezés és hitelesítés szükséges!</h4>
+                    <Grid container
+                        direction="row"
+                        justify="center"
+                        alignItems="center">
+                        <Button m="2rem" style={{ marginRight: "10px" }} variant="contained" color="primary" onClick={() => {
+                            history.push("/admin/login")
+                        }}>
+                            Bejelentkezés/Hitelesítés
+                        </Button>
+                        <Button m="2rem" variant="contained" color="secondary" onClick={() => {
+                            history.push("/home")
+                        }}>
+                            Kezdőlap
+                        </Button>
+                    </Grid>
                 </motion.div>
             </div>
         )
@@ -61,8 +67,8 @@ export function AdminEditPost(props) {
         return (
             <div className="p-3 content text-center m-auto" style={{ width: "1000px" }}>
                 <Helmet>
-                    <title>Admin - Bejegyzés szerkesztése</title>
-                    <meta name="description" content="Admin - Bejegyzés szerkesztése" />
+                    <title>Bejegyzés szerkesztése</title>
+                    <meta name="description" content="Bejegyzés szerkesztése" />
                 </Helmet>
                 <motion.div initial="hidden" animate="visible" variants={{
                     hidden: {
@@ -77,7 +83,7 @@ export function AdminEditPost(props) {
                         }
                     },
                 }}>
-                    <h2>Admin - Bejegyzés szerkesztése</h2>
+                    <h2>Bejegyzés szerkesztése</h2>
                     <form
                         onSubmit={async (e) => {
                             e.preventDefault();

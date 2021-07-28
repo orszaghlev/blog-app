@@ -95,29 +95,37 @@ export function AdminLogin() {
                 {isSignedIn && <>
                     <div className="text-center m-3">
                         <h5>Bejelentkezve {firebase.auth().currentUser.displayName ? firebase.auth().currentUser.displayName : "<ismeretlen>"} felhasználóként.</h5>
-                        <h6>{firebase.auth().currentUser.emailVerified ?
-                            "Az Ön e-mail címe hitelesített, így az adminisztrációs műveletek elérhetővé váltak." :
-                            "Az Ön e-mail címe nem hitelesített, így az adminisztrációs műveletek nem elérhetőek."} </h6>
-                        {firebase.auth().currentUser.email && !firebase.auth().currentUser.emailVerified && <>
-                            <Button aria-describedby={id} m="2rem" variant="contained" color="primary" onClick={handleClick}>
-                                E-mail hitelesítése
+                        {!firebase.auth().currentUser.email && <>
+                            <h6>Az Ön e-mail címe nem elérhető.</h6>
+                            <Button aria-describedby={id} m="2rem" variant="contained" color="primary" onClick={() => firebase.auth().signOut()}>
+                                Bejelentkezés másik fiókkal
                             </Button>
-                            <Popover
-                                id={id}
-                                open={open}
-                                anchorEl={anchorEl}
-                                onClose={handleClose}
-                                anchorOrigin={{
-                                    vertical: 'bottom',
-                                    horizontal: 'center',
-                                }}
-                                transformOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'center',
-                                }}
-                            >
-                                <Typography className={classes.typography}>Hitelesítő e-mail elküldve.</Typography>
-                            </Popover>
+                        </>}
+                        {firebase.auth().currentUser.email && <>
+                            <h6>{firebase.auth().currentUser.emailVerified ?
+                                "Az Ön e-mail címe hitelesített, így az adminisztrációs műveletek elérhetővé váltak." :
+                                "Az Ön e-mail címe nem hitelesített, így az adminisztrációs műveletek nem elérhetőek."}</h6>
+                            {firebase.auth().currentUser.email && !firebase.auth().currentUser.emailVerified && <>
+                                <Button aria-describedby={id} m="2rem" variant="contained" color="primary" onClick={handleClick}>
+                                    E-mail hitelesítése
+                                </Button>
+                                <Popover
+                                    id={id}
+                                    open={open}
+                                    anchorEl={anchorEl}
+                                    onClose={handleClose}
+                                    anchorOrigin={{
+                                        vertical: 'bottom',
+                                        horizontal: 'center',
+                                    }}
+                                    transformOrigin={{
+                                        vertical: 'top',
+                                        horizontal: 'center',
+                                    }}
+                                >
+                                    <Typography className={classes.typography}>Hitelesítő e-mail elküldve.</Typography>
+                                </Popover>
+                            </>}
                         </>}
                     </div>
                     {firebase.auth().currentUser.emailVerified && <>

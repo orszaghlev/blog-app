@@ -63,13 +63,6 @@ function App() {
                 </NavLink>
               </Button>
             </>}
-            {isSignedIn && !firebase.auth().currentUser.emailVerified && <>
-              <Button color="inherit">
-                <NavLink to={`/admin/login`}>
-                  <span className="nav-link" style={{ color: 'white' }}>Hitelesítés</span>
-                </NavLink>
-              </Button>
-            </>}
             {isSignedIn && firebase.auth().currentUser.emailVerified && <>
               <Button color="inherit">
                 <NavLink to={`/admin/posts`}>

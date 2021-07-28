@@ -82,12 +82,12 @@ export function ViewSinglePost(props) {
                                 <Typography variant="h6" color="textPrimary" component="h6">
                                     {post.data().description}
                                 </Typography>
-                                <Typography variant="body2" color="textPrimary" component="p" align="left">
+                                <Typography variant="body" color="textPrimary" component="p" align="left">
                                     {post.data().content}
                                 </Typography>
                             </CardContent>
                         </CardActionArea>
-                        <CardActions>
+                        <CardActions style={{ justifyContent: "center" }}>
                             <Button size="small" color="secondary" align="center" onClick={() => {
                                 history.push(`/home`)
                             }}>

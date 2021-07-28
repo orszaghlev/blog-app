@@ -77,10 +77,19 @@ export function AdminAllPosts() {
     } else if (!items) {
         return (
             <div class="jumbotron">
-                <motion.div
-                    animate={{ scale: 1.2 }}
-                    transition={{ duration: 0.5 }}
-                >
+                <motion.div initial="hidden" animate="visible" variants={{
+                    hidden: {
+                        scale: .8,
+                        opacity: 0
+                    },
+                    visible: {
+                        scale: 1,
+                        opacity: 1,
+                        transition: {
+                            delay: .4
+                        }
+                    },
+                }}>
                     <h3>Nincsenek elérhető bejegyzések!</h3>
                 </motion.div>
             </div>
@@ -88,10 +97,19 @@ export function AdminAllPosts() {
     } else if (!isSignedIn || !firebase.auth().currentUser.emailVerified) {
         return (
             <div class="jumbotron">
-                <motion.div
-                    animate={{ scale: 1.2 }}
-                    transition={{ duration: 0.5 }}
-                >
+                <motion.div initial="hidden" animate="visible" variants={{
+                    hidden: {
+                        scale: .8,
+                        opacity: 0
+                    },
+                    visible: {
+                        scale: 1,
+                        opacity: 1,
+                        transition: {
+                            delay: .4
+                        }
+                    },
+                }}>
                     <br />
                     <h4>Az adminisztrációs tartalmak megtekintéséhez bejelentkezés és hitelesítés szükséges!</h4>
                     <Grid container
@@ -121,56 +139,50 @@ export function AdminAllPosts() {
                     <meta name="description" content="Adminisztrációs felület" />
                 </Helmet>
                 {isSignedIn && firebase.auth().currentUser.emailVerified && <>
-                    <motion.div
-                        animate={{ scale: 1.2 }}
-                        transition={{ duration: 0.5 }}
-                    >
+                    <motion.div initial="hidden" animate="visible" variants={{
+                        hidden: {
+                            scale: .8,
+                            opacity: 0
+                        },
+                        visible: {
+                            scale: 1,
+                            opacity: 1,
+                            transition: {
+                                delay: .4
+                            }
+                        },
+                    }}>
                         <h2>Adminisztrációs felület</h2>
-                    </motion.div>
-                    <br />
-                    <Grid container
-                        direction="row"
-                        justify="space-evenly"
-                        alignItems="center">
-                        <form className={classes.search} noValidate autoComplete="off"
-                            onChange={e => setSearch(e.target.value)}>
-                            <TextField id="search" label="Keresés..." variant="filled" />
-                        </form>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <Grid container justify="center">
-                            <Grid item>
-                                <IconButton onClick={getPrev} disabled={isStart}>
-                                    <NavigateBeforeIcon />
-                                </IconButton>
-                                <IconButton onClick={getNext} disabled={isEnd}>
-                                    <NavigateNextIcon />
-                                </IconButton>
+                        <Grid container
+                            direction="row"
+                            justify="space-evenly"
+                            alignItems="center">
+                            <form className={classes.search} noValidate autoComplete="off"
+                                onChange={e => setSearch(e.target.value)}>
+                                <TextField id="search" label="Keresés..." variant="filled" />
+                            </form>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Grid container justify="center">
+                                <Grid item>
+                                    <IconButton onClick={getPrev} disabled={isStart}>
+                                        <NavigateBeforeIcon />
+                                    </IconButton>
+                                    <IconButton onClick={getNext} disabled={isEnd}>
+                                        <NavigateNextIcon />
+                                    </IconButton>
+                                </Grid>
                             </Grid>
                         </Grid>
-                    </Grid>
-                    <Grid container justify="center">
-                        <Button style={{ marginRight: "10px" }} variant="contained" color="primary" onClick={() => {
-                            history.push(`/admin/create-post`);
-                        }}>Bejegyzés létrehozása</Button>
-                        <Button variant="contained" color="secondary" onClick={() => {
-                            setTagSort("hun");
-                        }}>Csak magyar bejegyzések</Button>
-                    </Grid>
-                    <div className="card">
-                        <motion.div initial="hidden" animate="visible" variants={{
-                            hidden: {
-                                scale: .8,
-                                opacity: 0
-                            },
-                            visible: {
-                                scale: 1,
-                                opacity: 1,
-                                transition: {
-                                    delay: .4
-                                }
-                            },
-                        }}>
+                        <Grid container justify="center">
+                            <Button style={{ marginRight: "10px" }} variant="contained" color="primary" onClick={() => {
+                                history.push(`/admin/create-post`);
+                            }}>Bejegyzés létrehozása</Button>
+                            <Button variant="contained" color="secondary" onClick={() => {
+                                setTagSort("hun");
+                            }}>Csak magyar bejegyzések</Button>
+                        </Grid>
+                        <div className="card">
                             <TableContainer component={Paper}>
                                 <Table className={classes.table} aria-label="simple table">
                                     <TableHead>
@@ -218,8 +230,8 @@ export function AdminAllPosts() {
                                     </TableBody>
                                 </Table>
                             </TableContainer>
-                        </motion.div>
-                    </div>
+                        </div>
+                    </motion.div>
                 </>}
             </div >
         )

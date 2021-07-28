@@ -64,10 +64,19 @@ export function Home() {
     } else if (!items) {
         return (
             <div class="jumbotron">
-                <motion.div
-                    animate={{ scale: 1.2 }}
-                    transition={{ duration: 0.5 }}
-                >
+                <motion.div initial="hidden" animate="visible" variants={{
+                    hidden: {
+                        scale: .8,
+                        opacity: 0
+                    },
+                    visible: {
+                        scale: 1,
+                        opacity: 1,
+                        transition: {
+                            delay: .4
+                        }
+                    },
+                }}>
                     <h3>Nincsenek elérhető bejegyzések!</h3>
                 </motion.div>
             </div>
@@ -79,59 +88,53 @@ export function Home() {
                     <title>Bejegyzések</title>
                     <meta name="description" content="Bejegyzések" />
                 </Helmet>
-                <motion.div
-                    animate={{ scale: 1.2 }}
-                    transition={{ duration: 0.5 }}
-                >
+                <motion.div initial="hidden" animate="visible" variants={{
+                    hidden: {
+                        scale: .8,
+                        opacity: 0
+                    },
+                    visible: {
+                        scale: 1,
+                        opacity: 1,
+                        transition: {
+                            delay: .4
+                        }
+                    },
+                }}>
                     <h2>Bejegyzések</h2>
-                </motion.div>
-                <br />
-                <Grid container
-                    direction="row"
-                    justify="space-evenly"
-                    alignItems="center">
-                    <form className={classes.search} noValidate autoComplete="off"
-                        onChange={e => setSearch(e.target.value)}>
-                        <TextField id="search" label="Keresés..." variant="filled" />
-                    </form>
-                    <Button variant="contained" color="secondary" onClick={() => {
-                        setTagSort("hun");
-                    }}>Csak magyar bejegyzések</Button>
-                </Grid>
-                <Grid item xs={12}>
-                    <Grid container justify="center">
-                        <Grid item>
-                            <IconButton onClick={getPrev} disabled={isStart}>
-                                <NavigateBeforeIcon />
-                            </IconButton>
-                            <IconButton onClick={getNext} disabled={isEnd}>
-                                <NavigateNextIcon />
-                            </IconButton>
+                    <Grid container
+                        direction="row"
+                        justify="space-evenly"
+                        alignItems="center">
+                        <form className={classes.search} noValidate autoComplete="off"
+                            onChange={e => setSearch(e.target.value)}>
+                            <TextField id="search" label="Keresés..." variant="filled" />
+                        </form>
+                        <Button variant="contained" color="secondary" onClick={() => {
+                            setTagSort("hun");
+                        }}>Csak magyar bejegyzések</Button>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Grid container justify="center">
+                            <Grid item>
+                                <IconButton onClick={getPrev} disabled={isStart}>
+                                    <NavigateBeforeIcon />
+                                </IconButton>
+                                <IconButton onClick={getNext} disabled={isEnd}>
+                                    <NavigateNextIcon />
+                                </IconButton>
+                            </Grid>
                         </Grid>
                     </Grid>
-                </Grid>
-                {
-                    items.filter(li =>
-                        li.title.toLowerCase().includes(search.toLowerCase()) ||
-                        li.slug.toLowerCase().includes(search.toLowerCase()) ||
-                        li.description.toLowerCase().includes(search.toLowerCase()) ||
-                        li.content.toLowerCase().includes(search.toLowerCase()))
-                        .map((post) => (
-                            <div className="card col-sm-3 d-inline-block m-1 p-2 h-100" onClick={() => {
-                                history.push(`/home/${post.id}`)
-                            }}>
-                                <motion.div initial="hidden" animate="visible" variants={{
-                                    hidden: {
-                                        scale: .8,
-                                        opacity: 0
-                                    },
-                                    visible: {
-                                        scale: 1,
-                                        opacity: 1,
-                                        transition: {
-                                            delay: .4
-                                        }
-                                    },
+                    {
+                        items.filter(li =>
+                            li.title.toLowerCase().includes(search.toLowerCase()) ||
+                            li.slug.toLowerCase().includes(search.toLowerCase()) ||
+                            li.description.toLowerCase().includes(search.toLowerCase()) ||
+                            li.content.toLowerCase().includes(search.toLowerCase()))
+                            .map((post) => (
+                                <div className="card col-sm-3 d-inline-block m-1 p-2 h-100" onClick={() => {
+                                    history.push(`/home/${post.id}`)
                                 }}>
                                     <Card className={classes.root}>
                                         <CardActionArea>
@@ -155,10 +158,10 @@ export function Home() {
                                             </Button>
                                         </CardActions>
                                     </Card>
-                                </motion.div>
-                            </div>
-                        ))
-                }
+                                </div>
+                            ))
+                    }
+                </motion.div>
             </div >
         )
     }

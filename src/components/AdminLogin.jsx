@@ -84,12 +84,7 @@ export function AdminLogin() {
             }}>
                 {!isSignedIn && <>
                     <div className="text-center">
-                        <motion.div
-                            animate={{ scale: 1.2 }}
-                            transition={{ duration: 0.5 }}
-                        >
-                            <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
-                        </motion.div>
+                        <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
                     </div>
                 </>}
                 {isSignedIn && <>

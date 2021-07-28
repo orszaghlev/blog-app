@@ -22,11 +22,19 @@ export function AdminCreatePost() {
     if (!isSignedIn || !firebase.auth().currentUser.emailVerified) {
         return (
             <div class="jumbotron">
-                <motion.div
-                    animate={{ scale: 1.2 }}
-                    transition={{ duration: 0.5 }}
-                >
-                    <br />
+                <motion.div initial="hidden" animate="visible" variants={{
+                    hidden: {
+                        scale: .8,
+                        opacity: 0
+                    },
+                    visible: {
+                        scale: 1,
+                        opacity: 1,
+                        transition: {
+                            delay: .4
+                        }
+                    },
+                }}>
                     <h4>Az adminisztrációs tartalmak megtekintéséhez bejelentkezés és hitelesítés szükséges!</h4>
                     <Grid container
                         direction="row"

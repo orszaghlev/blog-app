@@ -37,17 +37,27 @@ export function ViewSinglePost(props) {
     } else if (!post) {
         return (
             <div class="jumbotron">
-                <motion.div
-                    animate={{ scale: 1.2 }}
-                    transition={{ duration: 0.5 }}
-                >
+                <motion.div initial="hidden" animate="visible" variants={{
+                    hidden: {
+                        scale: .8,
+                        opacity: 0
+                    },
+                    visible: {
+                        scale: 1,
+                        opacity: 1,
+                        transition: {
+                            delay: .4
+                        }
+                    },
+                }}>
                     <h3>A kért bejegyzés nem érhető el!</h3>
                 </motion.div>
             </div>
         )
     } else {
         return (
-            <div className="card m-auto" style={{ width: "1000px" }}>
+            <div className="m-auto" style={{ width: "1000px" }}>
+                <br />
                 <Helmet>
                     <title>{post.data().title}</title>
                     <meta name="description" content={post.data().description} />

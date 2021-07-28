@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import axios from "axios";
 import { Spinner } from "./Spinner.jsx";
 import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
@@ -14,11 +13,14 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
+import { NavigateNext as NavigateNextIcon } from '@material-ui/icons';
+import { NavigateBefore as NavigateBeforeIcon } from '@material-ui/icons';
+import { IconButton } from "@material-ui/core";
+import firebase from "../firebase/clientApp";
+import { usePagination } from "use-pagination-firestore";
 
 export function Home() {
-    const [posts, setPosts] = useState([]);
     const [search, setSearch] = useState("");
-    const [isPending, setPending] = useState(false);
     const history = useHistory();
 
     const useStyles = makeStyles((theme) => ({
@@ -38,25 +40,41 @@ export function Home() {
 
     const classes = useStyles();
 
-    useEffect(() => {
-        setPending(true);
-        axios.get('http://localhost:8000/auth/posts')
-            .then(data => setPosts(data.data))
-            .catch(error => {
-                console.error('Hiba!', error);
-            });
-        setPending(false);
-    }, [])
+    const {
+        items,
+        isLoading,
+        isStart,
+        isEnd,
+        getPrev,
+        getNext,
+    } = usePagination(
+        firebase
+            .firestore()
+            .collection("/posts")
+            .orderBy("id", "asc"),
+        {
+            limit: 6
+        }
+    );
 
-    if (isPending) {
+    if (isLoading) {
         return <Spinner />
-    } else if (posts.length === 0) {
+    } else if (!items) {
         return (
             <div class="jumbotron">
-                <motion.div
-                    animate={{ scale: 1.2 }}
-                    transition={{ duration: 0.5 }}
-                >
+                <motion.div initial="hidden" animate="visible" variants={{
+                    hidden: {
+                        scale: .8,
+                        opacity: 0
+                    },
+                    visible: {
+                        scale: 1,
+                        opacity: 1,
+                        transition: {
+                            delay: .4
+                        }
+                    },
+                }}>
                     <h3>Nincsenek elérhető bejegyzések!</h3>
                 </motion.div>
             </div>
@@ -68,48 +86,54 @@ export function Home() {
                     <title>Bejegyzések</title>
                     <meta name="description" content="Bejegyzések" />
                 </Helmet>
-                <motion.div
-                    animate={{ scale: 1.2 }}
-                    transition={{ duration: 0.5 }}
-                >
+                <motion.div initial="hidden" animate="visible" variants={{
+                    hidden: {
+                        scale: .8,
+                        opacity: 0
+                    },
+                    visible: {
+                        scale: 1,
+                        opacity: 1,
+                        transition: {
+                            delay: .4
+                        }
+                    },
+                }}>
                     <h2>Bejegyzések</h2>
-                </motion.div>
-                <Grid container
-                    direction="row"
-                    justify="space-evenly"
-                    alignItems="center">
-                    <form className={classes.search} noValidate autoComplete="off"
-                        onChange={e => setSearch(e.target.value)}>
-                        <TextField id="search" label="Keresés..." variant="filled" />
-                    </form>
-                    <Button m="2rem" variant="contained" onClick={() => {
-                        setPosts(posts.filter(li => li.tag.toLowerCase().includes("hun")))
-                    }}>
-                        Csak magyar nyelvű bejegyzések
-                    </Button>
-                </Grid>
-                {
-                    posts.filter(li =>
-                        li.title.toLowerCase().includes(search.toLowerCase()) ||
-                        li.slug.toLowerCase().includes(search.toLowerCase()) ||
-                        li.description.toLowerCase().includes(search.toLowerCase()) ||
-                        li.content.toLowerCase().includes(search.toLowerCase()))
-                        .map((post) => (
-                            <div className="card col-sm-3 d-inline-block m-1 p-2 h-100" onClick={() => {
-                                history.push(`/home/${post.id}`)
-                            }}>
-                                <motion.div initial="hidden" animate="visible" variants={{
-                                    hidden: {
-                                        scale: .8,
-                                        opacity: 0
-                                    },
-                                    visible: {
-                                        scale: 1,
-                                        opacity: 1,
-                                        transition: {
-                                            delay: .4
-                                        }
-                                    },
+                    <Grid container
+                        direction="row"
+                        justify="space-evenly"
+                        alignItems="center">
+                        <form className={classes.search} noValidate autoComplete="off"
+                            onChange={e => setSearch(e.target.value)}>
+                            <TextField id="search" label="Keresés..." variant="filled" />
+                        </form>
+                        <Button variant="contained" color="secondary" onClick={() => {
+                            setSearch("hun");
+                        }}>Csak magyar bejegyzések</Button>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Grid container justify="center">
+                            <Grid item>
+                                <IconButton onClick={getPrev} disabled={isStart}>
+                                    <NavigateBeforeIcon />
+                                </IconButton>
+                                <IconButton onClick={getNext} disabled={isEnd}>
+                                    <NavigateNextIcon />
+                                </IconButton>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                    {
+                        items.filter(li =>
+                            li.tag.toLowerCase().includes(search.toLowerCase()) ||
+                            li.title.toLowerCase().includes(search.toLowerCase()) ||
+                            li.slug.toLowerCase().includes(search.toLowerCase()) ||
+                            li.description.toLowerCase().includes(search.toLowerCase()) ||
+                            li.content.toLowerCase().includes(search.toLowerCase()))
+                            .map((post) => (
+                                <div className="card col-sm-3 d-inline-block m-1 p-2 h-100" onClick={() => {
+                                    history.push(`/home/${post.id}`)
                                 }}>
                                     <Card className={classes.root}>
                                         <CardActionArea>
@@ -127,16 +151,16 @@ export function Home() {
                                                 </Typography>
                                             </CardContent>
                                         </CardActionArea>
-                                        <CardActions>
+                                        <CardActions style={{ justifyContent: "center" }}>
                                             <Button size="small" color="primary" align="center">
                                                 Tovább
                                             </Button>
                                         </CardActions>
                                     </Card>
-                                </motion.div>
-                            </div>
-                        ))
-                }
+                                </div>
+                            ))
+                    }
+                </motion.div>
             </div >
         )
     }

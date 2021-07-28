@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useHistory } from "react-router-dom";
-import axios from "axios";
 import { Spinner } from "./Spinner.jsx";
 import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
@@ -12,11 +11,15 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import firebase from "../firebase/clientApp";
+import { useCollection } from "react-firebase-hooks/firestore";
 
 export function ViewSinglePost(props) {
-    const [post, setPost] = useState([]);
-    const [isPending, setPending] = useState(false);
     const history = useHistory();
+    const [post, postLoading] = useCollection(
+        firebase.firestore().collection("posts").doc(props.match.params.id),
+        {}
+    );
 
     const useStyles = makeStyles({
         root: {
@@ -29,19 +32,9 @@ export function ViewSinglePost(props) {
 
     const classes = useStyles();
 
-    useEffect(() => {
-        setPending(true);
-        axios.get(`http://localhost:8000/auth/posts/${props.match.params.id}`)
-            .then(data => setPost(data.data))
-            .catch(error => {
-                console.error('Hiba!', error);
-            });
-        setPending(false);
-    }, [props.match.params.id])
-
-    if (isPending) {
+    if (postLoading) {
         return <Spinner />
-    } else if (post.length === 0) {
+    } else if (!post) {
         return (
             <div class="jumbotron">
                 <motion.div
@@ -56,8 +49,8 @@ export function ViewSinglePost(props) {
         return (
             <div className="card m-auto" style={{ width: "1000px" }}>
                 <Helmet>
-                    <title>{post.title}</title>
-                    <meta name="description" content={post.description} />
+                    <title>{post.data().title}</title>
+                    <meta name="description" content={post.data().description} />
                 </Helmet>
                 <motion.div initial="hidden" animate="visible" variants={{
                     hidden: {
@@ -76,21 +69,21 @@ export function ViewSinglePost(props) {
                         <CardActionArea>
                             <CardMedia
                                 className={classes.media}
-                                image={post.imgURL}
-                                title={post.title}
+                                image={post.data().imgURL}
+                                title={post.data().title}
                             />
                             <CardContent>
-                                <Typography gutterBottom variant="h3" component="h3">
-                                    {post.title}
+                                <Typography gutterBottom variant="h4" component="h4">
+                                    {post.data().title}
                                 </Typography>
                                 <Typography variant="body2" color="textSecondary" component="p">
-                                    {post.tag}
+                                    {post.data().tag}
                                 </Typography>
                                 <Typography variant="h6" color="textPrimary" component="h6">
-                                    {post.description}
+                                    {post.data().description}
                                 </Typography>
                                 <Typography variant="body2" color="textPrimary" component="p" align="left">
-                                    {post.content}
+                                    {post.data().content}
                                 </Typography>
                             </CardContent>
                         </CardActionArea>

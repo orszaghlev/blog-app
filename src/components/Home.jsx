@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import axios from "axios";
 import { Spinner } from "./Spinner.jsx";
 import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
@@ -14,11 +13,14 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
+import { NavigateNext as NavigateNextIcon } from '@material-ui/icons';
+import { NavigateBefore as NavigateBeforeIcon } from '@material-ui/icons';
+import { IconButton } from "@material-ui/core";
+import firebase from "../firebase/clientApp";
+import { usePagination } from "use-pagination-firestore";
 
 export function Home() {
-    const [posts, setPosts] = useState([]);
     const [search, setSearch] = useState("");
-    const [isPending, setPending] = useState(false);
     const history = useHistory();
 
     const useStyles = makeStyles((theme) => ({
@@ -38,19 +40,26 @@ export function Home() {
 
     const classes = useStyles();
 
-    useEffect(() => {
-        setPending(true);
-        axios.get('http://localhost:8000/auth/posts')
-            .then(data => setPosts(data.data))
-            .catch(error => {
-                console.error('Hiba!', error);
-            });
-        setPending(false);
-    }, [])
+    const {
+        items,
+        isLoading,
+        isStart,
+        isEnd,
+        getPrev,
+        getNext,
+    } = usePagination(
+        firebase
+            .firestore()
+            .collection("/posts")
+            .orderBy("id", "asc"),
+        {
+            limit: 6
+        }
+    );
 
-    if (isPending) {
+    if (isLoading) {
         return <Spinner />
-    } else if (posts.length === 0) {
+    } else if (!items) {
         return (
             <div class="jumbotron">
                 <motion.div
@@ -82,14 +91,21 @@ export function Home() {
                         onChange={e => setSearch(e.target.value)}>
                         <TextField id="search" label="Keresés..." variant="filled" />
                     </form>
-                    <Button m="2rem" variant="contained" onClick={() => {
-                        setPosts(posts.filter(li => li.tag.toLowerCase().includes("hun")))
-                    }}>
-                        Csak magyar nyelvű bejegyzések
-                    </Button>
+                </Grid>
+                <Grid item xs={12}>
+                    <Grid container justify="center">
+                        <Grid item>
+                            <IconButton onClick={getPrev} disabled={isStart}>
+                                <NavigateBeforeIcon />
+                            </IconButton>
+                            <IconButton onClick={getNext} disabled={isEnd}>
+                                <NavigateNextIcon />
+                            </IconButton>
+                        </Grid>
+                    </Grid>
                 </Grid>
                 {
-                    posts.filter(li =>
+                    items.filter(li =>
                         li.title.toLowerCase().includes(search.toLowerCase()) ||
                         li.slug.toLowerCase().includes(search.toLowerCase()) ||
                         li.description.toLowerCase().includes(search.toLowerCase()) ||

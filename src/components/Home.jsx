@@ -57,8 +57,6 @@ export function Home() {
         }
     );
 
-    const [tagSort, setTagSort] = useState("");
-
     if (isLoading) {
         return <Spinner />
     } else if (!items) {
@@ -111,7 +109,7 @@ export function Home() {
                             <TextField id="search" label="Keresés..." variant="filled" />
                         </form>
                         <Button variant="contained" color="secondary" onClick={() => {
-                            setTagSort("hun");
+                            setSearch("hun");
                         }}>Csak magyar bejegyzések</Button>
                     </Grid>
                     <Grid item xs={12}>
@@ -128,6 +126,7 @@ export function Home() {
                     </Grid>
                     {
                         items.filter(li =>
+                            li.tag.toLowerCase().includes(search.toLowerCase()) ||
                             li.title.toLowerCase().includes(search.toLowerCase()) ||
                             li.slug.toLowerCase().includes(search.toLowerCase()) ||
                             li.description.toLowerCase().includes(search.toLowerCase()) ||

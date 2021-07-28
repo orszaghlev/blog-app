@@ -63,8 +63,6 @@ export function AdminAllPosts() {
 
     const [isSignedIn, setIsSignedIn] = useState(false);
 
-    const [tagSort, setTagSort] = useState("");
-
     useEffect(() => {
         const unregisterAuthObserver = firebase.auth().onAuthStateChanged(user => {
             setIsSignedIn(!!user);
@@ -110,7 +108,6 @@ export function AdminAllPosts() {
                         }
                     },
                 }}>
-                    <br />
                     <h4>Az adminisztrációs tartalmak megtekintéséhez bejelentkezés és hitelesítés szükséges!</h4>
                     <Grid container
                         direction="row"
@@ -179,7 +176,7 @@ export function AdminAllPosts() {
                                 history.push(`/admin/create-post`);
                             }}>Bejegyzés létrehozása</Button>
                             <Button variant="contained" color="secondary" onClick={() => {
-                                setTagSort("hun");
+                                setSearch("hun");
                             }}>Csak magyar bejegyzések</Button>
                         </Grid>
                         <div className="card">
@@ -199,6 +196,7 @@ export function AdminAllPosts() {
                                     </TableHead>
                                     <TableBody>
                                         {items.filter(li =>
+                                            li.tag.toLowerCase().includes(search.toLowerCase()) ||
                                             li.title.toLowerCase().includes(search.toLowerCase()) ||
                                             li.slug.toLowerCase().includes(search.toLowerCase()) ||
                                             li.description.toLowerCase().includes(search.toLowerCase()) ||

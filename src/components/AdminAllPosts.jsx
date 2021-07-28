@@ -90,11 +90,11 @@ export function AdminAllPosts() {
                     animate={{ scale: 1.2 }}
                     transition={{ duration: 0.5 }}
                 >
-                    <h3>Az adminisztrációs tartalom megtekintéséhez bejelentkezés és hitelesítés szükséges!</h3>
+                    <h3>Az adminisztrációs tartalmak megtekintéséhez bejelentkezés és hitelesítés szükséges!</h3>
                     <Button m="2rem" variant="contained" color="secondary" onClick={() => {
                         history.push("/admin/login")
                     }}>
-                        Bejelentkezés
+                        Bejelentkezés, hitelesítés
                     </Button>
                     <Button m="2rem" variant="contained" color="secondary" onClick={() => {
                         history.push("/home")

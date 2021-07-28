@@ -203,14 +203,14 @@ export function AdminAllPosts() {
                                             li.content.toLowerCase().includes(search.toLowerCase()))
                                             .map((post) => (
                                                 <TableRow key={post.id}>
-                                                    <TableCell align="left">{post.id}</TableCell>
-                                                    <TableCell align="left">{post.title}</TableCell>
-                                                    <TableCell align="left">{post.slug}</TableCell>
-                                                    <TableCell align="left">{post.description}</TableCell>
-                                                    <TableCell align="left">{post.content}</TableCell>
-                                                    <TableCell align="left">{post.imgURL}</TableCell>
-                                                    <TableCell align="left">{post.tag}</TableCell>
-                                                    <TableCell align="left">
+                                                    <TableCell align="center">{post.id}</TableCell>
+                                                    <TableCell align="center">{post.title}</TableCell>
+                                                    <TableCell align="center">{post.slug}</TableCell>
+                                                    <TableCell align="center">{post.description}</TableCell>
+                                                    <TableCell align="center">{post.content}</TableCell>
+                                                    <TableCell align="center">{post.imgURL}</TableCell>
+                                                    <TableCell align="center">{post.tag}</TableCell>
+                                                    <TableCell align="center">
                                                         <button className="btn btn-primary m-1" style={{ width: "50px", height: "50px" }} onClick={() => {
                                                             const data = {
                                                                 id: ((parseInt(post.id)) + 1).toString(),

@@ -18,7 +18,7 @@ import { NavigateNext as NavigateNextIcon } from '@material-ui/icons';
 import { NavigateBefore as NavigateBeforeIcon } from '@material-ui/icons';
 import { IconButton } from "@material-ui/core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPencilAlt, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faPencilAlt, faTrash, faCopy } from "@fortawesome/free-solid-svg-icons";
 import firebase from "../firebase/clientApp";
 import { usePagination } from "use-pagination-firestore";
 
@@ -212,6 +212,20 @@ export function AdminAllPosts() {
                                                     <TableCell align="left">{post.tag}</TableCell>
                                                     <TableCell align="left">
                                                         <button className="btn btn-primary m-1" style={{ width: "50px", height: "50px" }} onClick={() => {
+                                                            const data = {
+                                                                id: ((parseInt(post.id)) + 1).toString(),
+                                                                title: post.title,
+                                                                slug: post.slug,
+                                                                description: post.description,
+                                                                content: post.content,
+                                                                imgURL: post.imgURL,
+                                                                tag: post.tag
+                                                            };
+                                                            firebase.firestore().collection('posts').doc(data.id).set(data);
+                                                        }}>
+                                                            <FontAwesomeIcon icon={faCopy} />
+                                                        </button>
+                                                        <button className="btn btn-warning m-1" style={{ width: "50px", height: "50px" }} onClick={() => {
                                                             history.push(`/admin/edit-post/${post.id}`)
                                                         }}>
                                                             <FontAwesomeIcon icon={faPencilAlt} />

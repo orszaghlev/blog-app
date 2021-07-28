@@ -44,6 +44,11 @@ export function AdminLogin() {
 
     const [anchorEl, setAnchorEl] = React.useState(null);
 
+    const loginWithNewAccount = () => {
+        firebase.auth().signOut();
+        window.location.reload();
+    }
+
     const handleClick = (event) => {
         firebase.auth().currentUser.sendEmailVerification();
         setAnchorEl(event.currentTarget);
@@ -92,7 +97,7 @@ export function AdminLogin() {
                         <h5>Bejelentkezve {firebase.auth().currentUser.displayName ? firebase.auth().currentUser.displayName : "<ismeretlen>"} felhasználóként.</h5>
                         {!firebase.auth().currentUser.email && <>
                             <h6>Az Ön e-mail címe nem elérhető.</h6>
-                            <Button aria-describedby={id} m="2rem" variant="contained" color="primary" onClick={() => firebase.auth().signOut()}>
+                            <Button aria-describedby={id} m="2rem" variant="contained" color="primary" onClick={loginWithNewAccount}>
                                 Bejelentkezés másik fiókkal
                             </Button>
                         </>}
@@ -134,7 +139,7 @@ export function AdminLogin() {
                                     </Button>
                                     <Typography>|</Typography>
                                     <Button size="medium" color="primary" align="center" onClick={() => {
-                                        history.push(`/admin/create-post/`)
+                                        history.push(`/admin/create-post`)
                                     }}>
                                         Bejegyzés létrehozása
                                     </Button>

@@ -42,7 +42,7 @@ function App() {
             </IconButton>
             <Typography variant="h6" className={classes.title} align="left">
               <NavLink to={`/home`}>
-              <span className="nav-link" style={{ color: 'white' }}>Blog App</span>
+                <span className="nav-link" style={{ color: 'white' }}>Blog App</span>
               </NavLink>
             </Typography>
             <Button color="inherit">
@@ -56,9 +56,9 @@ function App() {
           <Route path="/home" exact component={Home} />
           <Route path="/home/:id" component={ViewSinglePost} />
           <Route path="/admin/login" component={AdminLogin} />
-          <Route path="/admin/posts/:accessToken" component={AdminAllPosts} />
-          <Route path="/admin/create-post/:accessToken" component={AdminCreatePost} />
-          <Route path="/admin/edit-post/:accessToken/:id" component={AdminEditPost} />
+          <Route path="/admin/posts" component={AdminAllPosts} />
+          <Route path="/admin/create-post" component={AdminCreatePost} />
+          <Route path="/admin/edit-post/:id" component={AdminEditPost} />
           <Redirect to="/home" />
         </Switch>
       </BrowserRouter>

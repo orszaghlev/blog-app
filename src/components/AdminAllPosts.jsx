@@ -19,6 +19,7 @@ import { NavigateBefore as NavigateBeforeIcon } from '@material-ui/icons';
 import { IconButton } from "@material-ui/core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencilAlt, faTrash, faCopy } from "@fortawesome/free-solid-svg-icons";
+import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import firebase from "../firebase/clientApp";
 import { usePagination } from "use-pagination-firestore";
 
@@ -149,11 +150,11 @@ export function AdminAllPosts() {
                             }
                         },
                     }}>
-                        <h2>Adminisztrációs felület</h2>
                         <Grid container
                             direction="row"
-                            justify="space-evenly"
+                            justify="space-around"
                             alignItems="center">
+                            <h2>Adminisztrációs felület</h2>
                             <form className={classes.search} noValidate autoComplete="off"
                                 onChange={e => setSearch(e.target.value)}>
                                 <TextField id="search" label="Keresés..." variant="filled" />
@@ -189,7 +190,7 @@ export function AdminAllPosts() {
                                             <StyledTableCell align="center">Slug</StyledTableCell>
                                             <StyledTableCell align="center">Leírás</StyledTableCell>
                                             <StyledTableCell align="center">Tartalom</StyledTableCell>
-                                            <StyledTableCell align="center">Kép URL</StyledTableCell>
+                                            <StyledTableCell align="center">Kép</StyledTableCell>
                                             <StyledTableCell align="center">Címke</StyledTableCell>
                                             <StyledTableCell align="center">Opciók</StyledTableCell>
                                         </TableRow>
@@ -206,9 +207,29 @@ export function AdminAllPosts() {
                                                     <TableCell align="center">{post.id}</TableCell>
                                                     <TableCell align="center">{post.title}</TableCell>
                                                     <TableCell align="center">{post.slug}</TableCell>
-                                                    <TableCell align="center">{post.description}</TableCell>
+                                                    <TableCell align="center"><TextareaAutosize
+                                                        maxRows={4}
+                                                        aria-label="maximum height"
+                                                        placeholder="Leírás"
+                                                        defaultValue={post.description}
+                                                        onChange={(e) => {
+                                                            const data = {
+                                                                id: post.id,
+                                                                title: post.title,
+                                                                slug: post.slug,
+                                                                description: e.target.value,
+                                                                content: post.content,
+                                                                imgURL: post.imgURL,
+                                                                tag: post.tag
+                                                            };
+                                                            firebase.firestore().collection('posts').doc(post.id).set(data);
+                                                        }}
+                                                    /></TableCell>
                                                     <TableCell align="center">{post.content}</TableCell>
-                                                    <TableCell align="center">{post.imgURL}</TableCell>
+                                                    <TableCell align="center"><img src={post.imgURL} alt="Bejegyzés képe" style={{ width: "100px", height: "100px" }}
+                                                        onClick={() => {
+                                                            window.open(post.imgURL, "_blank");
+                                                        }} /></TableCell>
                                                     <TableCell align="center">{post.tag}</TableCell>
                                                     <TableCell align="center">
                                                         <button className="btn btn-primary m-1" style={{ width: "50px", height: "50px" }} onClick={() => {

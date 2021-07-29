@@ -5,6 +5,7 @@ import { Helmet } from "react-helmet-async";
 import { Button } from "@material-ui/core";
 import { TextField } from "@material-ui/core";
 import { Grid } from "@material-ui/core";
+import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import firebase from "../firebase/clientApp";
 
 export function AdminEditPost(props) {
@@ -134,7 +135,7 @@ export function AdminEditPost(props) {
                                     required style={{ width: 800 }} />
                             </Grid>
                             <Grid item xs>
-                                <TextField value={description} name="description" label="Leírás" variant="filled"
+                                <TextareaAutosize value={description} name="description" label="Leírás" aria-label="minimum height" minRows={3}
                                     onChange={(e) => {
                                         setDescription(e.target.value)
                                     }}

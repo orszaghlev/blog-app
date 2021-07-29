@@ -5,6 +5,7 @@ import { Helmet } from "react-helmet-async";
 import { Button } from "@material-ui/core";
 import { TextField } from "@material-ui/core";
 import { Grid } from "@material-ui/core";
+import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import firebase from "../firebase/clientApp";
 
 export function AdminCreatePost() {
@@ -105,7 +106,8 @@ export function AdminCreatePost() {
                                 <TextField name="slug" label="Slug" variant="filled" type="text" required style={{ width: 800 }} />
                             </Grid>
                             <Grid item xs>
-                                <TextField name="description" label="Leírás" variant="filled" type="text" required style={{ width: 800 }} />
+                                <TextareaAutosize name="description" label="Leírás" type="text" aria-label="minimum height" minRows={3}
+                                    placeholder="Leírás" required style={{ width: 800 }} />
                             </Grid>
                             <Grid item xs>
                                 <TextField name="content" label="Tartalom" variant="filled" type="text" required style={{ width: 800 }} />

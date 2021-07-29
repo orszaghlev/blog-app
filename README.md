@@ -17,6 +17,12 @@ REACT_APP_FIREBASE_MESSAGING_SENDER_ID="your-messaging-sender-id"
 REACT_APP_FIREBASE_APP_ID="your-app-id"
 ```
 
+If you have a Tiny API Key, you can include this line as well:
+
+```
+REACT_APP_TINY_API_KEY="your-tiny-api-key"
+```
+
 After you have created the .env file, use the following commands to deploy the application:
 
 ```

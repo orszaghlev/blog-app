@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useHistory } from "react-router-dom";
 import { Spinner } from "./Spinner.jsx";
 import { motion } from "framer-motion";
@@ -20,6 +20,7 @@ import { IconButton } from "@material-ui/core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencilAlt, faTrash, faCopy } from "@fortawesome/free-solid-svg-icons";
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
+import { Editor } from '@tinymce/tinymce-react';
 import firebase from "../firebase/clientApp";
 import { usePagination } from "use-pagination-firestore";
 
@@ -63,6 +64,8 @@ export function AdminAllPosts() {
     );
 
     const [isSignedIn, setIsSignedIn] = useState(false);
+
+    const editorRef = useRef(null);
 
     useEffect(() => {
         const unregisterAuthObserver = firebase.auth().onAuthStateChanged(user => {
@@ -225,7 +228,41 @@ export function AdminAllPosts() {
                                                             firebase.firestore().collection('posts').doc(post.id).set(data);
                                                         }}
                                                     /></TableCell>
-                                                    <TableCell align="center">{post.content}</TableCell>
+                                                    <TableCell align="center">
+                                                        <Editor
+                                                            apiKey={process.env.REACT_APP_TINY_API_KEY}
+                                                            onInit={(evt, editor) => editorRef.current = editor}
+                                                            initialValue={post.content}
+                                                            init={{
+                                                                language: 'hu_HU',
+                                                                height: 200,
+                                                                width: 500,
+                                                                menubar: false,
+                                                                plugins: [
+                                                                    'advlist autolink lists link image charmap print preview anchor',
+                                                                    'searchreplace visualblocks code fullscreen',
+                                                                    'insertdatetime media table paste code help wordcount'
+                                                                ],
+                                                                toolbar: 'undo redo | formatselect | ' +
+                                                                    'bold italic backcolor | alignleft aligncenter ' +
+                                                                    'alignright alignjustify | bullist numlist outdent indent | ' +
+                                                                    'removeformat | help',
+                                                                content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+                                                            }}
+                                                            onChange={(e) => {
+                                                                const data = {
+                                                                    id: post.id,
+                                                                    title: post.title,
+                                                                    slug: post.slug,
+                                                                    description: post.description,
+                                                                    content: e.target.getContent(),
+                                                                    imgURL: post.imgURL,
+                                                                    tag: post.tag
+                                                                };
+                                                                firebase.firestore().collection('posts').doc(post.id).set(data);
+                                                            }}
+                                                        />
+                                                    </TableCell>
                                                     <TableCell align="center"><img src={post.imgURL} alt="Bejegyzés képe" style={{ width: "100px", height: "100px" }}
                                                         onClick={() => {
                                                             window.open(post.imgURL, "_blank");

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useHistory } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
@@ -6,6 +6,7 @@ import { Button } from "@material-ui/core";
 import { TextField } from "@material-ui/core";
 import { Grid } from "@material-ui/core";
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
+import { Editor } from '@tinymce/tinymce-react';
 import firebase from "../firebase/clientApp";
 
 export function AdminEditPost(props) {
@@ -19,6 +20,12 @@ export function AdminEditPost(props) {
     const [tag, setTag] = useState("");
 
     const [isSignedIn, setIsSignedIn] = useState(false);
+
+    const editorRef = useRef(null);
+
+    const handleEditorChange = (e) => {
+        setContent(e.target.getContent());
+    }
 
     useEffect(() => {
         firebase.firestore().collection("posts").doc(props.match.params.id).get().then((post) => {
@@ -101,7 +108,7 @@ export function AdminEditPost(props) {
                                 title: e.target.elements.title.value,
                                 slug: e.target.elements.slug.value,
                                 description: e.target.elements.description.value,
-                                content: e.target.elements.content.value,
+                                content: content,
                                 imgURL: e.target.elements.imgURL.value,
                                 tag: e.target.elements.tag.value
                             };
@@ -142,11 +149,27 @@ export function AdminEditPost(props) {
                                     type="text" required style={{ width: 800 }} />
                             </Grid>
                             <Grid item xs>
-                                <TextField value={content} name="content" label="Tartalom" variant="filled"
-                                    onChange={(e) => {
-                                        setContent(e.target.value)
+                                <Editor
+                                    apiKey={process.env.REACT_APP_TINY_API_KEY}
+                                    onInit={(evt, editor) => editorRef.current = editor}
+                                    initialValue={content}
+                                    init={{
+                                        language: 'hu_HU',
+                                        height: 300,
+                                        menubar: false,
+                                        plugins: [
+                                            'advlist autolink lists link image charmap print preview anchor',
+                                            'searchreplace visualblocks code fullscreen',
+                                            'insertdatetime media table paste code help wordcount'
+                                        ],
+                                        toolbar: 'undo redo | formatselect | ' +
+                                            'bold italic backcolor | alignleft aligncenter ' +
+                                            'alignright alignjustify | bullist numlist outdent indent | ' +
+                                            'removeformat | help',
+                                        content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
                                     }}
-                                    type="text" required style={{ width: 800 }} />
+                                    onChange={handleEditorChange}
+                                />
                             </Grid>
                             <Grid item xs>
                                 <TextField value={imgURL} name="imgURL" label="Kép URL" variant="filled"

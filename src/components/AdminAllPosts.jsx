@@ -232,7 +232,7 @@ export function AdminAllPosts() {
                                                         <Editor
                                                             apiKey={process.env.REACT_APP_TINY_API_KEY}
                                                             onInit={(editor) => editorRef.current = editor}
-                                                            initialValue={post.content}
+                                                            value={post.content}
                                                             init={{
                                                                 language: 'hu_HU',
                                                                 height: 200,
@@ -249,13 +249,13 @@ export function AdminAllPosts() {
                                                                     'removeformat | help',
                                                                 content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
                                                             }}
-                                                            onChange={(e) => {
+                                                            onEditorChange={(content) => {
                                                                 const data = {
                                                                     id: post.id,
                                                                     title: post.title,
                                                                     slug: post.slug,
                                                                     description: post.description,
-                                                                    content: e.target.getContent(),
+                                                                    content: content,
                                                                     imgURL: post.imgURL,
                                                                     tag: post.tag
                                                                 };

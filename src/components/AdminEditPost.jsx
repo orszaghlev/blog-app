@@ -152,7 +152,7 @@ export function AdminEditPost(props) {
                                     <Editor
                                         apiKey={process.env.REACT_APP_TINY_API_KEY}
                                         onInit={(editor) => editorRef.current = editor}
-                                        initialValue={content}
+                                        value={content}
                                         init={{
                                             language: 'hu_HU',
                                             width: 800,
@@ -168,8 +168,8 @@ export function AdminEditPost(props) {
                                                 'removeformat | help',
                                             content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
                                         }}
-                                        onChange={(e) => {
-                                            setContent(e.target.getContent());
+                                        onEditorChange={(content) => {
+                                            setContent(content);
                                         }}
                                     />
                                 </Grid>

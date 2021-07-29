@@ -103,8 +103,8 @@ export function AdminLogin() {
                         </>}
                         {firebase.auth().currentUser.email && <>
                             <h6>{firebase.auth().currentUser.emailVerified ?
-                                "Az Ön e-mail címe hitelesített, így az adminisztrációs műveletek elérhetővé váltak." :
-                                "Az Ön e-mail címe nem hitelesített, így az adminisztrációs műveletek nem elérhetőek."}</h6>
+                                "Az Ön e-mail címe hitelesített, így az adminisztrációs felület elérhetővé vált." :
+                                "Az Ön e-mail címe nem hitelesített, így az adminisztrációs felület nem elérhető."}</h6>
                             {firebase.auth().currentUser.email && !firebase.auth().currentUser.emailVerified && <>
                                 <Button aria-describedby={id} m="2rem" variant="contained" color="primary" onClick={handleClick}>
                                     E-mail hitelesítése

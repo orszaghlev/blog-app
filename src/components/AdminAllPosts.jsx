@@ -108,7 +108,7 @@ export function AdminAllPosts() {
                         }
                     },
                 }}>
-                    <h4>Az adminisztrációs tartalmak megtekintéséhez bejelentkezés és hitelesítés szükséges!</h4>
+                    <h4>Az adminisztrációs felület megtekintéséhez bejelentkezés és hitelesítés szükséges!</h4>
                     <Grid container
                         direction="row"
                         justify="center"

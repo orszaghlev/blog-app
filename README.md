@@ -4,7 +4,7 @@ A React blog app, which lets you view posts as a guest and perform operations as
 ## Deploy
 
 Create a Firebase project, use the Firestore database to store blog posts.  
-You can use the JSON data from the data folder or you can add your own posts as well.
+You can use the JSON data from the src/data folder or you can add your own posts as well.
 
 Create your local .env file and include the following lines:
 

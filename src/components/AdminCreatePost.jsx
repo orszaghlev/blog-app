@@ -6,6 +6,7 @@ import { Button } from "@material-ui/core";
 import { TextField } from "@material-ui/core";
 import { Grid } from "@material-ui/core";
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
+import MenuItem from '@material-ui/core/MenuItem';
 import { Editor } from '@tinymce/tinymce-react';
 import slugify from 'react-slugify';
 import firebase from "../firebase/clientApp";
@@ -92,7 +93,8 @@ export function AdminCreatePost() {
                                 description: e.target.elements.description.value,
                                 content: content,
                                 imgURL: e.target.elements.imgURL.value,
-                                tag: e.target.elements.tag.value
+                                tag: e.target.elements.tag.value,
+                                isActive: e.target.elements.isActive.value
                             };
                             firebase.firestore().collection('posts').doc(data.id).set(data);
                             history.push(`/admin/posts`);
@@ -154,6 +156,13 @@ export function AdminCreatePost() {
                             </Grid>
                             <Grid item xs>
                                 <TextField name="tag" label="Címke" variant="filled" type="text" required style={{ width: 800 }} />
+                            </Grid>
+                            <Grid item xs>
+                            <TextField name="isActive" label="Állapot" variant="filled" type="text" required
+                                style={{ width: 800, textAlign: "left" }} select>
+                                <MenuItem value="true">Aktív</MenuItem>
+                                <MenuItem value="false">Inaktív</MenuItem>
+                            </TextField>
                             </Grid>
                             <Grid item xs>
                                 <Grid container spacing={2}

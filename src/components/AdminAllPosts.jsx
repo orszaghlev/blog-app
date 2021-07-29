@@ -200,11 +200,12 @@ export function AdminAllPosts() {
                                     </TableHead>
                                     <TableBody>
                                         {items.filter(li =>
-                                            li.tag.toLowerCase().includes(search.toLowerCase()) ||
-                                            li.title.toLowerCase().includes(search.toLowerCase()) ||
-                                            li.slug.toLowerCase().includes(search.toLowerCase()) ||
-                                            li.description.toLowerCase().includes(search.toLowerCase()) ||
-                                            li.content.toLowerCase().includes(search.toLowerCase()))
+                                            li.isActive.toString() === "true" &&
+                                            (li.tag.toLowerCase().includes(search.toLowerCase()) ||
+                                                li.title.toLowerCase().includes(search.toLowerCase()) ||
+                                                li.slug.toLowerCase().includes(search.toLowerCase()) ||
+                                                li.description.toLowerCase().includes(search.toLowerCase()) ||
+                                                li.content.toLowerCase().includes(search.toLowerCase())))
                                             .map((post) => (
                                                 <TableRow key={post.id}>
                                                     <TableCell align="center">{post.id}</TableCell>
@@ -223,7 +224,8 @@ export function AdminAllPosts() {
                                                                 description: e.target.value,
                                                                 content: post.content,
                                                                 imgURL: post.imgURL,
-                                                                tag: post.tag
+                                                                tag: post.tag,
+                                                                isActive: post.isActive
                                                             };
                                                             firebase.firestore().collection('posts').doc(post.id).set(data);
                                                         }}
@@ -257,7 +259,8 @@ export function AdminAllPosts() {
                                                                     description: post.description,
                                                                     content: content,
                                                                     imgURL: post.imgURL,
-                                                                    tag: post.tag
+                                                                    tag: post.tag,
+                                                                    isActive: post.isActive
                                                                 };
                                                                 firebase.firestore().collection('posts').doc(post.id).set(data);
                                                             }}
@@ -277,7 +280,8 @@ export function AdminAllPosts() {
                                                                 description: post.description,
                                                                 content: post.content,
                                                                 imgURL: post.imgURL,
-                                                                tag: post.tag
+                                                                tag: post.tag,
+                                                                isActive: post.isActive
                                                             };
                                                             firebase.firestore().collection('posts').doc(data.id).set(data);
                                                         }}>

@@ -212,7 +212,7 @@ export function AdminAllPosts() {
                                                     <TableCell align="center">{post.title}</TableCell>
                                                     <TableCell align="center">{post.slug}</TableCell>
                                                     <TableCell align="center"><TextareaAutosize
-                                                        maxRows={4}
+                                                        maxRows={3}
                                                         aria-label="maximum height"
                                                         placeholder="Leírás"
                                                         defaultValue={post.description}

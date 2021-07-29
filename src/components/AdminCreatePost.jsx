@@ -117,7 +117,7 @@ export function AdminCreatePost() {
                                 <TextField value={slug} name="slug" label="Slug" variant="filled" type="text" required style={{ width: 800 }} />
                             </Grid>
                             <Grid item xs>
-                                <TextareaAutosize name="description" label="Leírás" type="text" aria-label="minimum height" minRows={3}
+                                <TextareaAutosize name="description" label="Leírás" type="text" aria-label="maximum height" maxRows={3}
                                     placeholder="Leírás" required style={{ width: 800 }} />
                             </Grid>
                             <Grid item xs>

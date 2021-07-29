@@ -141,11 +141,12 @@ export function AdminEditPost(props) {
                                     required style={{ width: 800 }} />
                             </Grid>
                             <Grid item xs>
-                                <TextareaAutosize value={description} name="description" label="Leírás" aria-label="minimum height" minRows={3}
-                                    onChange={(e) => {
-                                        setDescription(e.target.value);
-                                    }}
-                                    type="text" required style={{ width: 800 }} />
+                                <div class="form-group" style={{width: "800px"}}>
+                                    <textarea value={description} name="description" label="Leírás" class="form-control" rows="3"
+                                        onChange={(e) => {
+                                            setDescription(e.target.value);
+                                        }}>{description}</textarea>
+                                </div>
                             </Grid>
                             <Grid item xs>
                                 <Grid

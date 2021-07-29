@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useHistory } from "react-router-dom";
 import { Spinner } from "./Spinner.jsx";
 import { motion } from "framer-motion";
@@ -11,6 +11,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import { Editor } from '@tinymce/tinymce-react';
 import firebase from "../firebase/clientApp";
 import { useCollection } from "react-firebase-hooks/firestore";
 
@@ -31,6 +32,8 @@ export function ViewSinglePost(props) {
     });
 
     const classes = useStyles();
+
+    const editorRef = useRef(null);
 
     if (postLoading) {
         return <Spinner />
@@ -92,11 +95,23 @@ export function ViewSinglePost(props) {
                                 <Typography variant="h6" color="textPrimary" component="h6">
                                     {post.data().description}
                                 </Typography>
-                                <Typography variant="body" color="textPrimary" component="p" align="left">
-                                    {post.data().content}
-                                </Typography>
                             </CardContent>
                         </CardActionArea>
+                        <Editor
+                            apiKey={process.env.REACT_APP_TINY_API_KEY}
+                            onInit={(editor) => editorRef.current = editor}
+                            value={post.data().content}
+                            init={{
+                                selector: 'textarea',
+                                readonly: 1,
+                                language: 'hu_HU',
+                                menubar: false,
+                                toolbar: false,
+                                statusbar: false,
+                                resize: false,
+                                content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+                            }}
+                        />
                         <CardActions style={{ justifyContent: "center" }}>
                             <Button size="small" color="secondary" align="center" onClick={() => {
                                 history.push(`/home`)

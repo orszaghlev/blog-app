@@ -24,10 +24,6 @@ export function AdminEditPost(props) {
 
     const editorRef = useRef(null);
 
-    const handleEditorChange = (e) => {
-        setContent(e.target.getContent());
-    }
-
     useEffect(() => {
         firebase.firestore().collection("posts").doc(props.match.params.id).get().then((post) => {
             setId(post.data().id);
@@ -148,27 +144,35 @@ export function AdminEditPost(props) {
                                     type="text" required style={{ width: 800 }} />
                             </Grid>
                             <Grid item xs>
-                                <Editor
-                                    apiKey={process.env.REACT_APP_TINY_API_KEY}
-                                    onInit={(evt, editor) => editorRef.current = editor}
-                                    initialValue={content}
-                                    init={{
-                                        language: 'hu_HU',
-                                        height: 300,
-                                        menubar: false,
-                                        plugins: [
-                                            'advlist autolink lists link image charmap print preview anchor',
-                                            'searchreplace visualblocks code fullscreen',
-                                            'insertdatetime media table paste code help wordcount'
-                                        ],
-                                        toolbar: 'undo redo | formatselect | ' +
-                                            'bold italic backcolor | alignleft aligncenter ' +
-                                            'alignright alignjustify | bullist numlist outdent indent | ' +
-                                            'removeformat | help',
-                                        content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
-                                    }}
-                                    onChange={handleEditorChange}
-                                />
+                                <Grid
+                                    container
+                                    alignItems="center"
+                                    justify="center"
+                                >
+                                    <Editor
+                                        apiKey={process.env.REACT_APP_TINY_API_KEY}
+                                        onInit={(editor) => editorRef.current = editor}
+                                        initialValue={content}
+                                        init={{
+                                            language: 'hu_HU',
+                                            width: 800,
+                                            menubar: false,
+                                            plugins: [
+                                                'advlist autolink lists link image charmap print preview anchor',
+                                                'searchreplace visualblocks code fullscreen',
+                                                'insertdatetime media table paste code help wordcount'
+                                            ],
+                                            toolbar: 'undo redo | formatselect | ' +
+                                                'bold italic backcolor | alignleft aligncenter ' +
+                                                'alignright alignjustify | bullist numlist outdent indent | ' +
+                                                'removeformat | help',
+                                            content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+                                        }}
+                                        onChange={(e) => {
+                                            setContent(e.target.getContent());
+                                        }}
+                                    />
+                                </Grid>
                             </Grid>
                             <Grid item xs>
                                 <TextField value={imgURL} name="imgURL" label="Kép URL" variant="filled"

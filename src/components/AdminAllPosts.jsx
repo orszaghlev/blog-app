@@ -231,7 +231,7 @@ export function AdminAllPosts() {
                                                     <TableCell align="center">
                                                         <Editor
                                                             apiKey={process.env.REACT_APP_TINY_API_KEY}
-                                                            onInit={(evt, editor) => editorRef.current = editor}
+                                                            onInit={(editor) => editorRef.current = editor}
                                                             initialValue={post.content}
                                                             init={{
                                                                 language: 'hu_HU',

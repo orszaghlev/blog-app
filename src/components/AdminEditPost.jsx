@@ -7,6 +7,7 @@ import { TextField } from "@material-ui/core";
 import { Grid } from "@material-ui/core";
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import { Editor } from '@tinymce/tinymce-react';
+import slugify from 'react-slugify';
 import firebase from "../firebase/clientApp";
 
 export function AdminEditPost(props) {
@@ -123,28 +124,26 @@ export function AdminEditPost(props) {
                             <Grid item xs>
                                 <TextField value={id} name="id" type="text" label="ID" variant="filled"
                                     onChange={(e) => {
-                                        setId(e.target.value)
+                                        setId(e.target.value);
                                     }}
                                     required style={{ width: 800 }} />
                             </Grid>
                             <Grid item xs>
                                 <TextField value={title} name="title" type="text" label="Cím" variant="filled"
                                     onChange={(e) => {
-                                        setTitle(e.target.value)
+                                        setTitle(e.target.value);
+                                        setSlug(slugify(e.target.value));
                                     }}
                                     required style={{ width: 800 }} />
                             </Grid>
                             <Grid item xs>
                                 <TextField value={slug} name="slug" type="text" label="Slug" variant="filled"
-                                    onChange={(e) => {
-                                        setSlug(e.target.value)
-                                    }}
                                     required style={{ width: 800 }} />
                             </Grid>
                             <Grid item xs>
                                 <TextareaAutosize value={description} name="description" label="Leírás" aria-label="minimum height" minRows={3}
                                     onChange={(e) => {
-                                        setDescription(e.target.value)
+                                        setDescription(e.target.value);
                                     }}
                                     type="text" required style={{ width: 800 }} />
                             </Grid>
@@ -174,14 +173,14 @@ export function AdminEditPost(props) {
                             <Grid item xs>
                                 <TextField value={imgURL} name="imgURL" label="Kép URL" variant="filled"
                                     onChange={(e) => {
-                                        setImgURL(e.target.value)
+                                        setImgURL(e.target.value);
                                     }}
                                     type="text" required style={{ width: 800 }} />
                             </Grid>
                             <Grid item xs>
                                 <TextField value={tag} name="tag" type="text" label="Címke" variant="filled"
                                     onChange={(e) => {
-                                        setTag(e.target.value)
+                                        setTag(e.target.value);
                                     }}
                                     required style={{ width: 800 }} />
                             </Grid>

@@ -7,11 +7,13 @@ import { TextField } from "@material-ui/core";
 import { Grid } from "@material-ui/core";
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import { Editor } from '@tinymce/tinymce-react';
+import slugify from 'react-slugify';
 import firebase from "../firebase/clientApp";
 
 export function AdminCreatePost() {
     const history = useHistory();
     const [content, setContent] = useState("");
+    const [slug, setSlug] = useState("");
 
     const [isSignedIn, setIsSignedIn] = useState(false);
 
@@ -108,10 +110,13 @@ export function AdminCreatePost() {
                                 <TextField name="id" label="ID" variant="filled" type="text" required style={{ width: 800 }} />
                             </Grid>
                             <Grid item xs>
-                                <TextField name="title" label="Cím" variant="filled" type="text" required style={{ width: 800 }} />
+                                <TextField name="title" label="Cím" variant="filled" type="text" required style={{ width: 800 }}
+                                    onChange={(e) => {
+                                        setSlug(slugify(e.target.value));
+                                    }} />
                             </Grid>
                             <Grid item xs>
-                                <TextField name="slug" label="Slug" variant="filled" type="text" required style={{ width: 800 }} />
+                                <TextField value={slug} name="slug" label="Slug" variant="filled" type="text" required style={{ width: 800 }} />
                             </Grid>
                             <Grid item xs>
                                 <TextareaAutosize name="description" label="Leírás" type="text" aria-label="minimum height" minRows={3}

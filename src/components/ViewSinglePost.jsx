@@ -81,7 +81,6 @@ export function ViewSinglePost(props) {
                     <h3>A kért bejegyzés inaktív!</h3>
                     <Button size="small" color="secondary" align="center" onClick={() => {
                         history.push(`/home`)
-                        console.log(post.data().isActive);
                     }}>
                         Vissza
                     </Button>

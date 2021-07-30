@@ -245,7 +245,7 @@ export function AdminAllPosts() {
                                                     <TableCell align="center">{post.id}</TableCell>
                                                     <TableCell align="center">{post.title}</TableCell>
                                                     <TableCell align="center">{post.slug}</TableCell>
-                                                    <TableCell align="center">
+                                                    <TableCell align="center" style={{ width: "200px" }}>
                                                         <textarea value={post.description} class="form-control" rows="3" onChange={(e) => {
                                                             const data = {
                                                                 id: post.id,

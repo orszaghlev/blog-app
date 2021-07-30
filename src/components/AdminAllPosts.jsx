@@ -20,6 +20,7 @@ import { IconButton } from "@material-ui/core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencilAlt, faTrash, faCopy } from "@fortawesome/free-solid-svg-icons";
 import { Editor } from '@tinymce/tinymce-react';
+import ModalImage from "react-modal-image";
 import firebase from "../firebase/clientApp";
 import { usePagination } from "use-pagination-firestore";
 
@@ -261,10 +262,15 @@ export function AdminAllPosts() {
                                                             }}
                                                         />
                                                     </TableCell>
-                                                    <TableCell align="center"><img src={post.imgURL} alt="Bejegyzés képe" style={{ width: "100px", height: "100px" }}
-                                                        onClick={() => {
-                                                            window.open(post.imgURL, "_blank");
-                                                        }} /></TableCell>
+                                                    <TableCell align="center">
+                                                        <div style={{ width: "100px", height: "100px" }}>
+                                                            <ModalImage
+                                                                alt={post.title}
+                                                                small={post.imgURL}
+                                                                large={post.imgURL}
+                                                            />
+                                                        </div>
+                                                    </TableCell>
                                                     <TableCell align="center">{post.tag}</TableCell>
                                                     <TableCell align="center">
                                                         <button className="btn btn-primary m-1" style={{ width: "50px", height: "50px" }} onClick={() => {

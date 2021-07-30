@@ -19,7 +19,6 @@ import { NavigateBefore as NavigateBeforeIcon } from '@material-ui/icons';
 import { IconButton } from "@material-ui/core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencilAlt, faTrash, faCopy } from "@fortawesome/free-solid-svg-icons";
-import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import { Editor } from '@tinymce/tinymce-react';
 import firebase from "../firebase/clientApp";
 import { usePagination } from "use-pagination-firestore";
@@ -211,12 +210,8 @@ export function AdminAllPosts() {
                                                     <TableCell align="center">{post.id}</TableCell>
                                                     <TableCell align="center">{post.title}</TableCell>
                                                     <TableCell align="center">{post.slug}</TableCell>
-                                                    <TableCell align="center"><TextareaAutosize
-                                                        maxRows={3}
-                                                        aria-label="maximum height"
-                                                        placeholder="Leírás"
-                                                        defaultValue={post.description}
-                                                        onChange={(e) => {
+                                                    <TableCell align="center">
+                                                        <textarea value={post.description} class="form-control" rows="3" onChange={(e) => {
                                                             const data = {
                                                                 id: post.id,
                                                                 title: post.title,
@@ -228,8 +223,8 @@ export function AdminAllPosts() {
                                                                 isActive: post.isActive
                                                             };
                                                             firebase.firestore().collection('posts').doc(post.id).set(data);
-                                                        }}
-                                                    /></TableCell>
+                                                        }} />
+                                                    </TableCell>
                                                     <TableCell align="center">
                                                         <Editor
                                                             apiKey={process.env.REACT_APP_TINY_API_KEY}

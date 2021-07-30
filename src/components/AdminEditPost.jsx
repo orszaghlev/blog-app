@@ -5,7 +5,6 @@ import { Helmet } from "react-helmet-async";
 import { Button } from "@material-ui/core";
 import { TextField } from "@material-ui/core";
 import { Grid } from "@material-ui/core";
-import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import MenuItem from '@material-ui/core/MenuItem';
 import { Editor } from '@tinymce/tinymce-react';
 import slugify from 'react-slugify';
@@ -141,12 +140,18 @@ export function AdminEditPost(props) {
                                     required style={{ width: 800 }} />
                             </Grid>
                             <Grid item xs>
-                                <div class="form-group" style={{width: "800px"}}>
-                                    <textarea value={description} name="description" label="Leírás" class="form-control" rows="3"
-                                        onChange={(e) => {
-                                            setDescription(e.target.value);
-                                        }}>{description}</textarea>
-                                </div>
+                                <Grid
+                                    container
+                                    alignItems="center"
+                                    justify="center"
+                                >
+                                    <div class="form-group" style={{ width: "800px" }}>
+                                        <textarea value={description} name="description" label="Leírás" class="form-control" rows="3" required
+                                            onChange={(e) => {
+                                                setDescription(e.target.value);
+                                            }}>{description}</textarea>
+                                    </div>
+                                </Grid>
                             </Grid>
                             <Grid item xs>
                                 <Grid

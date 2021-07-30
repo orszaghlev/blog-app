@@ -5,7 +5,6 @@ import { Helmet } from "react-helmet-async";
 import { Button } from "@material-ui/core";
 import { TextField } from "@material-ui/core";
 import { Grid } from "@material-ui/core";
-import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import MenuItem from '@material-ui/core/MenuItem';
 import { Editor } from '@tinymce/tinymce-react';
 import slugify from 'react-slugify';
@@ -117,8 +116,15 @@ export function AdminCreatePost() {
                                 <TextField value={slug} name="slug" label="Slug" variant="filled" type="text" required style={{ width: 800 }} />
                             </Grid>
                             <Grid item xs>
-                                <TextareaAutosize name="description" label="Leírás" type="text" aria-label="maximum height" maxRows={3}
-                                    placeholder="Leírás" required style={{ width: 800 }} />
+                                <Grid
+                                    container
+                                    alignItems="center"
+                                    justify="center"
+                                >
+                                    <div class="form-group" style={{ width: "800px" }}>
+                                        <textarea name="description" label="Leírás" class="form-control" rows="3" placeholder="Leírás" required />
+                                    </div>
+                                </Grid>
                             </Grid>
                             <Grid item xs>
                                 <Grid
@@ -158,11 +164,11 @@ export function AdminCreatePost() {
                                 <TextField name="tag" label="Címke" variant="filled" type="text" required style={{ width: 800 }} />
                             </Grid>
                             <Grid item xs>
-                            <TextField name="isActive" label="Állapot" variant="filled" type="text" required
-                                style={{ width: 800, textAlign: "left" }} select>
-                                <MenuItem value="true">Aktív</MenuItem>
-                                <MenuItem value="false">Inaktív</MenuItem>
-                            </TextField>
+                                <TextField name="isActive" label="Állapot" variant="filled" type="text" required
+                                    style={{ width: 800, textAlign: "left" }} select>
+                                    <MenuItem value="true">Aktív</MenuItem>
+                                    <MenuItem value="false">Inaktív</MenuItem>
+                                </TextField>
                             </Grid>
                             <Grid item xs>
                                 <Grid container spacing={2}

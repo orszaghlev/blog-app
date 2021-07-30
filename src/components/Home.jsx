@@ -21,7 +21,7 @@ import { usePagination } from "use-pagination-firestore";
 
 export function Home() {
     const [search, setSearch] = useState("");
-    const [hunCount, setHunCount] = useState(0);
+    const [hunCount, setHunCount] = useState(1);
     const history = useHistory();
 
     const useStyles = makeStyles((theme) => ({

@@ -228,6 +228,9 @@ export function AdminEditPost(props) {
                                     InputLabelProps={{
                                         shrink: true,
                                     }}
+                                    onChange={(e) => {
+                                        setDate(e.target.value.toString().replace("T", ". ").replaceAll("-", ". "));
+                                    }}
                                 />
                             </Grid>
                             <Grid item xs>

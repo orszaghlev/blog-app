@@ -27,9 +27,9 @@ import { usePagination } from "use-pagination-firestore";
 
 export function AdminAllPosts() {
     const [search, setSearch] = useState("");
-    const [hunCount, setHunCount] = useState(0);
-    const [activeCount, setActiveCount] = useState(0);
-    const [inactiveCount, setInactiveCount] = useState(0);
+    const [hunCount, setHunCount] = useState(1);
+    const [activeCount, setActiveCount] = useState(1);
+    const [inactiveCount, setInactiveCount] = useState(1);
     const history = useHistory();
 
     const useStyles = makeStyles({

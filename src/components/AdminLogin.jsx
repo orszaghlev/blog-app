@@ -9,8 +9,8 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { Grid } from "@material-ui/core";
 import Popover from '@material-ui/core/Popover';
-import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
 import firebase from "../firebase/clientApp";
+import FirebaseUIAuth from "react-firebaseui-localized";
 
 export function AdminLogin() {
     const history = useHistory();
@@ -89,7 +89,13 @@ export function AdminLogin() {
             }}>
                 {!isSignedIn && <>
                     <div className="text-center">
-                        <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
+                        <FirebaseUIAuth
+                            lang="hu"
+                            version="4.8.1"
+                            config={uiConfig}
+                            auth={firebase.auth()}
+                            firebase={firebase}
+                        />
                     </div>
                 </>}
                 {isSignedIn && <>

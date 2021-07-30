@@ -109,7 +109,9 @@ export function AdminCreatePost() {
                                 imgURL: e.target.elements.imgURL.value,
                                 tag: e.target.elements.tag.value,
                                 isActive: e.target.elements.isActive.value,
-                                date: e.target.elements.date.value ? e.target.elements.date.value.toString().replace("T", ". ").replaceAll("-", ". ") : new Date().toLocaleString()
+                                date: e.target.elements.date.value ?
+                                    e.target.elements.date.value.toString().replace("T", ". ").replaceAll("-", ". ") :
+                                    new Date().toLocaleTimeString([], { year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' })
                             };
                             firebase.firestore().collection('posts').doc(data.id).set(data);
                             history.push(`/admin/posts`);

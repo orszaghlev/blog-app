@@ -132,8 +132,10 @@ export function Home() {
                     </Grid>
                     {
                         items.filter(li =>
-                            li.isActive.toString() === "true" &&
-                            (li.tag.toLowerCase().includes(search.toLowerCase()) ||
+                            li.isActive.toString() === "true"
+                            && (new Date(li.date).getTime() < new Date().getTime())
+                            && (li.tag.toLowerCase().includes(search.toLowerCase()) ||
+                                li.date.includes(search.toLowerCase()) ||
                                 li.title.toLowerCase().includes(search.toLowerCase()) ||
                                 li.slug.toLowerCase().includes(search.toLowerCase()) ||
                                 li.description.toLowerCase().includes(search.toLowerCase()) ||

@@ -184,7 +184,7 @@ export function AdminAllPosts() {
                                 history.push(`/admin/create-post`);
                             }}>Bejegyzés létrehozása</Button>
                         </Grid>
-                        <br/>
+                        <br />
                         <Grid container
                             direction="row"
                             justify="space-around"
@@ -235,6 +235,7 @@ export function AdminAllPosts() {
                                         {items.filter(li =>
                                             li.isActive.toString().toLowerCase().includes(search.toLowerCase()) ||
                                             li.tag.toLowerCase().includes(search.toLowerCase()) ||
+                                            li.date.includes(search.toLowerCase()) ||
                                             li.title.toLowerCase().includes(search.toLowerCase()) ||
                                             li.slug.toLowerCase().includes(search.toLowerCase()) ||
                                             li.description.toLowerCase().includes(search.toLowerCase()) ||
@@ -307,7 +308,7 @@ export function AdminAllPosts() {
                                                         </div>
                                                     </TableCell>
                                                     <TableCell align="center">{post.tag}</TableCell>
-                                                    <TableCell align="center">{post.date}</TableCell>
+                                                    <TableCell align="center" style={{ width: "150px" }}>{post.date}</TableCell>
                                                     <TableCell align="center">
                                                         <TextField value={post.isActive} name="isActive" label="Állapot" variant="filled" type="text" select
                                                             onChange={(e) => {

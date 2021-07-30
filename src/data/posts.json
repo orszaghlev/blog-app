@@ -8,7 +8,7 @@
         "imgURL": "https://sienaconstruction.com/wp-content/uploads/2017/05/test-image.jpg",
         "tag": "hun",
         "isActive": true,
-        "date": "2021-03-09T22:18:26.625Z"
+        "date": "2021. 01. 30. 10:59:35"
     },
     "2": {
         "id": 2,
@@ -19,7 +19,7 @@
         "imgURL": "https://sienaconstruction.com/wp-content/uploads/2017/05/test-image.jpg",
         "tag": "eng",
         "isActive": true,
-        "date": "2021-04-10T21:18:26.625Z"
+        "date": "2021. 02. 30. 10:59:35"
     },
     "3": {
         "id": 3,
@@ -30,7 +30,7 @@
         "imgURL": "https://sienaconstruction.com/wp-content/uploads/2017/05/test-image.jpg",
         "tag": "hun",
         "isActive": true,
-        "date": "2021-05-12T19:18:26.625Z"
+        "date": "2021. 03. 30. 10:59:35"
     },
     "4": {
         "id": 4,
@@ -41,7 +41,7 @@
         "imgURL": "https://sienaconstruction.com/wp-content/uploads/2017/05/test-image.jpg",
         "tag": "eng",
         "isActive": true,
-        "date": "2021-06-12T19:18:26.625Z"
+        "date": "2021. 04. 30. 10:59:35"
     },
     "5": {
         "id": 5,
@@ -52,7 +52,7 @@
         "imgURL": "https://sienaconstruction.com/wp-content/uploads/2017/05/test-image.jpg",
         "tag": "hun",
         "isActive": true,
-        "date": "2021-07-12T17:18:26.625Z"
+        "date": "2021. 05. 30. 10:59:35"
     },
     "6": {
         "id": 6,
@@ -63,7 +63,7 @@
         "imgURL": "https://sienaconstruction.com/wp-content/uploads/2017/05/test-image.jpg",
         "tag": "eng",
         "isActive": false,
-        "date": "2021-07-14T15:18:26.625Z"
+        "date": "2021. 06. 30. 10:59:35"
     },
     "7": {
         "id": 7,
@@ -74,6 +74,6 @@
         "imgURL": "https://sienaconstruction.com/wp-content/uploads/2017/05/test-image.jpg",
         "tag": "hun",
         "isActive": false,
-        "date": "2021-07-29T13:18:26.625Z"
+        "date": "2021. 07. 30. 10:59:35"
     }
 }

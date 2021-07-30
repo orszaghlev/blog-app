@@ -21,6 +21,7 @@ import { usePagination } from "use-pagination-firestore";
 
 export function Home() {
     const [search, setSearch] = useState("");
+    const [hunCount, setHunCount] = useState(1);
     const history = useHistory();
 
     const useStyles = makeStyles((theme) => ({
@@ -109,7 +110,12 @@ export function Home() {
                             <TextField id="search" label="Keresés..." variant="filled" />
                         </form>
                         <Button variant="contained" color="secondary" onClick={() => {
-                            setSearch("hun");
+                            setHunCount(hunCount + 1);
+                            if (hunCount % 2 === 1) {
+                                setSearch("hun");
+                            } else if (hunCount % 2 === 0) {
+                                setSearch("");
+                            }
                         }}>Csak magyar bejegyzések</Button>
                     </Grid>
                     <Grid item xs={12}>
@@ -126,8 +132,10 @@ export function Home() {
                     </Grid>
                     {
                         items.filter(li =>
-                            li.isActive.toString() === "true" &&
-                            (li.tag.toLowerCase().includes(search.toLowerCase()) ||
+                            li.isActive.toString() === "true"
+                            && (new Date(li.date).getTime() < new Date().getTime())
+                            && (li.tag.toLowerCase().includes(search.toLowerCase()) ||
+                                li.date.includes(search.toLowerCase()) ||
                                 li.title.toLowerCase().includes(search.toLowerCase()) ||
                                 li.slug.toLowerCase().includes(search.toLowerCase()) ||
                                 li.description.toLowerCase().includes(search.toLowerCase()) ||

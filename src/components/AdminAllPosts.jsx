@@ -17,6 +17,7 @@ import Grid from '@material-ui/core/Grid';
 import { NavigateNext as NavigateNextIcon } from '@material-ui/icons';
 import { NavigateBefore as NavigateBeforeIcon } from '@material-ui/icons';
 import { IconButton } from "@material-ui/core";
+import MenuItem from '@material-ui/core/MenuItem';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencilAlt, faTrash, faCopy } from "@fortawesome/free-solid-svg-icons";
 import { Editor } from '@tinymce/tinymce-react';
@@ -26,6 +27,9 @@ import { usePagination } from "use-pagination-firestore";
 
 export function AdminAllPosts() {
     const [search, setSearch] = useState("");
+    const [hunCount, setHunCount] = useState(1);
+    const [activeCount, setActiveCount] = useState(1);
+    const [inactiveCount, setInactiveCount] = useState(1);
     const history = useHistory();
 
     const useStyles = makeStyles({
@@ -176,12 +180,39 @@ export function AdminAllPosts() {
                             </Grid>
                         </Grid>
                         <Grid container justify="center">
-                            <Button style={{ marginRight: "10px" }} variant="contained" color="primary" onClick={() => {
+                            <Button variant="contained" color="primary" onClick={() => {
                                 history.push(`/admin/create-post`);
                             }}>Bejegyzés létrehozása</Button>
+                        </Grid>
+                        <br />
+                        <Grid container
+                            direction="row"
+                            justify="space-around"
+                            alignItems="center">
                             <Button variant="contained" color="secondary" onClick={() => {
-                                setSearch("hun");
+                                setHunCount(hunCount + 1);
+                                if (hunCount % 2 === 1) {
+                                    setSearch("hun");
+                                } else if (hunCount % 2 === 0) {
+                                    setSearch("");
+                                }
                             }}>Csak magyar bejegyzések</Button>
+                            <Button variant="contained" color="secondary" onClick={() => {
+                                setActiveCount(activeCount + 1);
+                                if (activeCount % 2 === 1) {
+                                    setSearch("true");
+                                } else if (activeCount % 2 === 0) {
+                                    setSearch("");
+                                }
+                            }}>Csak aktív bejegyzések</Button>
+                            <Button variant="contained" color="secondary" onClick={() => {
+                                setInactiveCount(inactiveCount + 1);
+                                if (inactiveCount % 2 === 1) {
+                                    setSearch("false");
+                                } else if (inactiveCount % 2 === 0) {
+                                    setSearch("");
+                                }
+                            }}>Csak inaktív bejegyzések</Button>
                         </Grid>
                         <div className="card">
                             <TableContainer component={Paper}>
@@ -195,23 +226,26 @@ export function AdminAllPosts() {
                                             <StyledTableCell align="center">Tartalom</StyledTableCell>
                                             <StyledTableCell align="center">Kép</StyledTableCell>
                                             <StyledTableCell align="center">Címke</StyledTableCell>
+                                            <StyledTableCell align="center">Dátum</StyledTableCell>
+                                            <StyledTableCell align="center">Állapot</StyledTableCell>
                                             <StyledTableCell align="center">Opciók</StyledTableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
                                         {items.filter(li =>
-                                            li.isActive.toString() === "true" &&
-                                            (li.tag.toLowerCase().includes(search.toLowerCase()) ||
-                                                li.title.toLowerCase().includes(search.toLowerCase()) ||
-                                                li.slug.toLowerCase().includes(search.toLowerCase()) ||
-                                                li.description.toLowerCase().includes(search.toLowerCase()) ||
-                                                li.content.toLowerCase().includes(search.toLowerCase())))
+                                            li.isActive.toString().toLowerCase().includes(search.toLowerCase()) ||
+                                            li.tag.toLowerCase().includes(search.toLowerCase()) ||
+                                            li.date.includes(search.toLowerCase()) ||
+                                            li.title.toLowerCase().includes(search.toLowerCase()) ||
+                                            li.slug.toLowerCase().includes(search.toLowerCase()) ||
+                                            li.description.toLowerCase().includes(search.toLowerCase()) ||
+                                            li.content.toLowerCase().includes(search.toLowerCase()))
                                             .map((post) => (
                                                 <TableRow key={post.id}>
                                                     <TableCell align="center">{post.id}</TableCell>
                                                     <TableCell align="center">{post.title}</TableCell>
                                                     <TableCell align="center">{post.slug}</TableCell>
-                                                    <TableCell align="center">
+                                                    <TableCell align="center" style={{ width: "200px" }}>
                                                         <textarea value={post.description} class="form-control" rows="3" onChange={(e) => {
                                                             const data = {
                                                                 id: post.id,
@@ -221,7 +255,8 @@ export function AdminAllPosts() {
                                                                 content: post.content,
                                                                 imgURL: post.imgURL,
                                                                 tag: post.tag,
-                                                                isActive: post.isActive
+                                                                isActive: post.isActive,
+                                                                date: post.date
                                                             };
                                                             firebase.firestore().collection('posts').doc(post.id).set(data);
                                                         }} />
@@ -234,7 +269,7 @@ export function AdminAllPosts() {
                                                             init={{
                                                                 language: 'hu_HU',
                                                                 height: 200,
-                                                                width: 500,
+                                                                width: 300,
                                                                 menubar: false,
                                                                 plugins: [
                                                                     'advlist autolink lists link image charmap print preview anchor',
@@ -256,7 +291,8 @@ export function AdminAllPosts() {
                                                                     content: content,
                                                                     imgURL: post.imgURL,
                                                                     tag: post.tag,
-                                                                    isActive: post.isActive
+                                                                    isActive: post.isActive,
+                                                                    date: post.date
                                                                 };
                                                                 firebase.firestore().collection('posts').doc(post.id).set(data);
                                                             }}
@@ -272,6 +308,28 @@ export function AdminAllPosts() {
                                                         </div>
                                                     </TableCell>
                                                     <TableCell align="center">{post.tag}</TableCell>
+                                                    <TableCell align="center" style={{ width: "150px" }}>{post.date}</TableCell>
+                                                    <TableCell align="center">
+                                                        <TextField value={post.isActive} name="isActive" label="Állapot" variant="filled" type="text" select
+                                                            onChange={(e) => {
+                                                                const data = {
+                                                                    id: post.id,
+                                                                    title: post.title,
+                                                                    slug: post.slug,
+                                                                    description: post.description,
+                                                                    content: post.content,
+                                                                    imgURL: post.imgURL,
+                                                                    tag: post.tag,
+                                                                    isActive: e.target.value,
+                                                                    date: post.date
+                                                                };
+                                                                firebase.firestore().collection('posts').doc(post.id).set(data);
+                                                            }}
+                                                            style={{ textAlign: "left" }} >
+                                                            <MenuItem value="true">Aktív</MenuItem>
+                                                            <MenuItem value="false">Inaktív</MenuItem>
+                                                        </TextField>
+                                                    </TableCell>
                                                     <TableCell align="center">
                                                         <button className="btn btn-primary m-1" style={{ width: "50px", height: "50px" }} onClick={() => {
                                                             const data = {
@@ -282,7 +340,8 @@ export function AdminAllPosts() {
                                                                 content: post.content,
                                                                 imgURL: post.imgURL,
                                                                 tag: post.tag,
-                                                                isActive: post.isActive
+                                                                isActive: post.isActive,
+                                                                date: post.date
                                                             };
                                                             firebase.firestore().collection('posts').doc(data.id).set(data);
                                                         }}>

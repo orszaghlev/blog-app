@@ -62,7 +62,8 @@ export function ViewSinglePost(props) {
                 </motion.div>
             </div>
         )
-    } else if (post.data().isActive.toString() !== "true") {
+    } else if (post.data().isActive.toString() !== "true" ||
+        (new Date(post.data().date).getTime() >= new Date().getTime())) {
         return (
             <div class="jumbotron">
                 <motion.div initial="hidden" animate="visible" variants={{
@@ -116,11 +117,14 @@ export function ViewSinglePost(props) {
                                 title={post.data().title}
                             />
                             <CardContent>
+                                <Typography variant="body2" color="textSecondary" component="p">
+                                    {post.data().date}
+                                </Typography>
                                 <Typography gutterBottom variant="h4" component="h4">
                                     {post.data().title}
                                 </Typography>
                                 <Typography variant="body2" color="textSecondary" component="p">
-                                    {post.data().tag}
+                                    Nyelv: {post.data().tag}
                                 </Typography>
                                 <Typography variant="h6" color="textPrimary" component="h6">
                                     {post.data().description}

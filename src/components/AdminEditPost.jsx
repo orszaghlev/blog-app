@@ -6,6 +6,7 @@ import { Button } from "@material-ui/core";
 import { TextField } from "@material-ui/core";
 import { Grid } from "@material-ui/core";
 import MenuItem from '@material-ui/core/MenuItem';
+import { makeStyles } from '@material-ui/core/styles';
 import { Editor } from '@tinymce/tinymce-react';
 import slugify from 'react-slugify';
 import firebase from "../firebase/clientApp";
@@ -20,10 +21,25 @@ export function AdminEditPost(props) {
     const [imgURL, setImgURL] = useState("");
     const [tag, setTag] = useState("");
     const [isActive, setIsActive] = useState("");
+    const [date, setDate] = useState("");
 
     const [isSignedIn, setIsSignedIn] = useState(false);
 
     const editorRef = useRef(null);
+
+    const useStyles = makeStyles((theme) => ({
+        container: {
+            display: 'flex',
+            flexWrap: 'wrap',
+        },
+        textField: {
+            marginLeft: theme.spacing(1),
+            marginRight: theme.spacing(1),
+            width: 200,
+        },
+    }));
+
+    const classes = useStyles();
 
     useEffect(() => {
         firebase.firestore().collection("posts").doc(props.match.params.id).get().then((post) => {
@@ -35,6 +51,7 @@ export function AdminEditPost(props) {
             setImgURL(post.data().imgURL);
             setTag(post.data().tag);
             setIsActive(post.data().isActive);
+            setDate(post.data().date);
         })
             .catch((error) => { console.log(error) });
         const unregisterAuthObserver = firebase.auth().onAuthStateChanged(user => {
@@ -99,7 +116,7 @@ export function AdminEditPost(props) {
                     },
                 }}>
                     <h2>Bejegyzés szerkesztése</h2>
-                    <form
+                    <form className={classes.container} noValidate
                         onSubmit={async (e) => {
                             e.preventDefault();
                             const data = {
@@ -110,7 +127,10 @@ export function AdminEditPost(props) {
                                 content: content,
                                 imgURL: e.target.elements.imgURL.value,
                                 tag: e.target.elements.tag.value,
-                                isActive: e.target.elements.isActive.value
+                                isActive: e.target.elements.isActive.value,
+                                date: e.target.elements.date.value ?
+                                    e.target.elements.date.value.toString().replace("T", ". ").replaceAll("-", ". ") :
+                                    new Date().toLocaleTimeString([], { year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' })
                             };
                             firebase.firestore().collection('posts').doc(data.id).set(data);
                             history.push(`/admin/posts`);
@@ -197,6 +217,23 @@ export function AdminEditPost(props) {
                                         setTag(e.target.value);
                                     }}
                                     required style={{ width: 800 }} />
+                            </Grid>
+                            <Grid item xs>
+                                <TextField
+                                    style={{ width: "800px" }}
+                                    id="datetime-local"
+                                    name="date"
+                                    label="Dátum"
+                                    type="datetime-local"
+                                    value={date.toString().replaceAll(". ", "-").split("").reverse().join("").replace("-", "T").split("").reverse().join("")}
+                                    className={classes.textField}
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                    onChange={(e) => {
+                                        setDate(e.target.value.toString().replace("T", ". ").replaceAll("-", ". "));
+                                    }}
+                                />
                             </Grid>
                             <Grid item xs>
                                 <TextField value={isActive} name="isActive" label="Állapot" variant="filled" type="text" select

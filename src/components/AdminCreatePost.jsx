@@ -6,6 +6,7 @@ import { Button } from "@material-ui/core";
 import { TextField } from "@material-ui/core";
 import { Grid } from "@material-ui/core";
 import MenuItem from '@material-ui/core/MenuItem';
+import { makeStyles } from '@material-ui/core/styles';
 import { Editor } from '@tinymce/tinymce-react';
 import slugify from 'react-slugify';
 import firebase from "../firebase/clientApp";
@@ -18,6 +19,20 @@ export function AdminCreatePost() {
     const [isSignedIn, setIsSignedIn] = useState(false);
 
     const editorRef = useRef(null);
+
+    const useStyles = makeStyles((theme) => ({
+        container: {
+            display: 'flex',
+            flexWrap: 'wrap',
+        },
+        textField: {
+            marginLeft: theme.spacing(1),
+            marginRight: theme.spacing(1),
+            width: 200,
+        },
+    }));
+
+    const classes = useStyles();
 
     useEffect(() => {
         const unregisterAuthObserver = firebase.auth().onAuthStateChanged(user => {
@@ -82,7 +97,7 @@ export function AdminCreatePost() {
                     },
                 }}>
                     <h2>Bejegyzés létrehozása</h2>
-                    <form
+                    <form className={classes.container} noValidate
                         onSubmit={async (e) => {
                             e.preventDefault();
                             const data = {
@@ -93,7 +108,10 @@ export function AdminCreatePost() {
                                 content: content,
                                 imgURL: e.target.elements.imgURL.value,
                                 tag: e.target.elements.tag.value,
-                                isActive: e.target.elements.isActive.value
+                                isActive: e.target.elements.isActive.value,
+                                date: e.target.elements.date.value ?
+                                    e.target.elements.date.value.toString().replace("T", ". ").replaceAll("-", ". ") :
+                                    new Date().toLocaleTimeString([], { year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' })
                             };
                             firebase.firestore().collection('posts').doc(data.id).set(data);
                             history.push(`/admin/posts`);
@@ -162,6 +180,19 @@ export function AdminCreatePost() {
                             </Grid>
                             <Grid item xs>
                                 <TextField name="tag" label="Címke" variant="filled" type="text" required style={{ width: 800 }} />
+                            </Grid>
+                            <Grid item xs>
+                                <TextField
+                                    style={{ width: "800px" }}
+                                    id="datetime-local"
+                                    name="date"
+                                    label="Dátum"
+                                    type="datetime-local"
+                                    className={classes.textField}
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                />
                             </Grid>
                             <Grid item xs>
                                 <TextField name="isActive" label="Állapot" variant="filled" type="text" required

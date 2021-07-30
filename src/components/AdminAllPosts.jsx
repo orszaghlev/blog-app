@@ -59,7 +59,7 @@ export function AdminAllPosts() {
             .collection("/posts")
             .orderBy("id", "asc"),
         {
-            limit: 5
+            limit: 10
         }
     );
 

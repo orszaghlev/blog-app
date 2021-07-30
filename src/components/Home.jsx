@@ -53,7 +53,7 @@ export function Home() {
             .collection("/posts")
             .orderBy("id", "asc"),
         {
-            limit: 6
+            limit: 9
         }
     );
 

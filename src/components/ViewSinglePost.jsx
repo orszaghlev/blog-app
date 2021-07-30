@@ -62,7 +62,7 @@ export function ViewSinglePost(props) {
                 </motion.div>
             </div>
         )
-    } else if (post.data().isActive.toString !== "true") {
+    } else if (post.data().isActive.toString() !== "true") {
         return (
             <div class="jumbotron">
                 <motion.div initial="hidden" animate="visible" variants={{
@@ -81,6 +81,7 @@ export function ViewSinglePost(props) {
                     <h3>A kért bejegyzés inaktív!</h3>
                     <Button size="small" color="secondary" align="center" onClick={() => {
                         history.push(`/home`)
+                        console.log(post.data().isActive);
                     }}>
                         Vissza
                     </Button>

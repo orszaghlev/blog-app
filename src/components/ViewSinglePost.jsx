@@ -54,6 +54,36 @@ export function ViewSinglePost(props) {
                     },
                 }}>
                     <h3>A kért bejegyzés nem érhető el!</h3>
+                    <Button m="2rem" variant="contained" color="secondary" onClick={() => {
+                        history.push("/home")
+                    }}>
+                        Kezdőlap
+                    </Button>
+                </motion.div>
+            </div>
+        )
+    } else if (post.data().isActive.toString !== "true") {
+        return (
+            <div class="jumbotron">
+                <motion.div initial="hidden" animate="visible" variants={{
+                    hidden: {
+                        scale: .8,
+                        opacity: 0
+                    },
+                    visible: {
+                        scale: 1,
+                        opacity: 1,
+                        transition: {
+                            delay: .4
+                        }
+                    },
+                }}>
+                    <h3>A kért bejegyzés inaktív!</h3>
+                    <Button size="small" color="secondary" align="center" onClick={() => {
+                        history.push(`/home`)
+                    }}>
+                        Vissza
+                    </Button>
                 </motion.div>
             </div>
         )

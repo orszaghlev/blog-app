@@ -5,7 +5,7 @@ import { Helmet } from "react-helmet-async";
 import { Button } from "@material-ui/core";
 import { TextField } from "@material-ui/core";
 import { Grid } from "@material-ui/core";
-import TextareaAutosize from '@material-ui/core/TextareaAutosize';
+import MenuItem from '@material-ui/core/MenuItem';
 import { Editor } from '@tinymce/tinymce-react';
 import slugify from 'react-slugify';
 import firebase from "../firebase/clientApp";
@@ -19,6 +19,7 @@ export function AdminEditPost(props) {
     const [content, setContent] = useState("");
     const [imgURL, setImgURL] = useState("");
     const [tag, setTag] = useState("");
+    const [isActive, setIsActive] = useState("");
 
     const [isSignedIn, setIsSignedIn] = useState(false);
 
@@ -33,6 +34,7 @@ export function AdminEditPost(props) {
             setContent(post.data().content);
             setImgURL(post.data().imgURL);
             setTag(post.data().tag);
+            setIsActive(post.data().isActive);
         })
             .catch((error) => { console.log(error) });
         const unregisterAuthObserver = firebase.auth().onAuthStateChanged(user => {
@@ -107,7 +109,8 @@ export function AdminEditPost(props) {
                                 description: e.target.elements.description.value,
                                 content: content,
                                 imgURL: e.target.elements.imgURL.value,
-                                tag: e.target.elements.tag.value
+                                tag: e.target.elements.tag.value,
+                                isActive: e.target.elements.isActive.value
                             };
                             firebase.firestore().collection('posts').doc(data.id).set(data);
                             history.push(`/admin/posts`);
@@ -137,11 +140,18 @@ export function AdminEditPost(props) {
                                     required style={{ width: 800 }} />
                             </Grid>
                             <Grid item xs>
-                                <TextareaAutosize value={description} name="description" label="Leírás" aria-label="minimum height" minRows={3}
-                                    onChange={(e) => {
-                                        setDescription(e.target.value);
-                                    }}
-                                    type="text" required style={{ width: 800 }} />
+                                <Grid
+                                    container
+                                    alignItems="center"
+                                    justify="center"
+                                >
+                                    <div class="form-group" style={{ width: "800px" }}>
+                                        <textarea value={description} name="description" label="Leírás" class="form-control" rows="3" required
+                                            onChange={(e) => {
+                                                setDescription(e.target.value);
+                                            }}>{description}</textarea>
+                                    </div>
+                                </Grid>
                             </Grid>
                             <Grid item xs>
                                 <Grid
@@ -187,6 +197,16 @@ export function AdminEditPost(props) {
                                         setTag(e.target.value);
                                     }}
                                     required style={{ width: 800 }} />
+                            </Grid>
+                            <Grid item xs>
+                                <TextField value={isActive} name="isActive" label="Állapot" variant="filled" type="text" select
+                                    onChange={(e) => {
+                                        setIsActive(e.target.value)
+                                    }}
+                                    required style={{ width: 800, textAlign: "left" }} >
+                                    <MenuItem value="true">Aktív</MenuItem>
+                                    <MenuItem value="false">Inaktív</MenuItem>
+                                </TextField>
                             </Grid>
                             <Grid item xs>
                                 <Grid container spacing={2}

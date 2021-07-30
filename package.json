@@ -25,6 +25,7 @@
     "react-firebaseui": "^5.0.2",
     "react-fontawesome": "^1.7.1",
     "react-helmet-async": "^1.0.9",
+    "react-modal-image": "^2.5.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "react-slugify": "^2.0.3",

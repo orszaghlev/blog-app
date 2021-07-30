@@ -126,11 +126,12 @@ export function Home() {
                     </Grid>
                     {
                         items.filter(li =>
-                            li.tag.toLowerCase().includes(search.toLowerCase()) ||
-                            li.title.toLowerCase().includes(search.toLowerCase()) ||
-                            li.slug.toLowerCase().includes(search.toLowerCase()) ||
-                            li.description.toLowerCase().includes(search.toLowerCase()) ||
-                            li.content.toLowerCase().includes(search.toLowerCase()))
+                            li.isActive.toString() === "true" &&
+                            (li.tag.toLowerCase().includes(search.toLowerCase()) ||
+                                li.title.toLowerCase().includes(search.toLowerCase()) ||
+                                li.slug.toLowerCase().includes(search.toLowerCase()) ||
+                                li.description.toLowerCase().includes(search.toLowerCase()) ||
+                                li.content.toLowerCase().includes(search.toLowerCase())))
                             .map((post) => (
                                 <div className="card col-sm-3 d-inline-block m-1 p-2 h-100" onClick={() => {
                                     history.push(`/home/${post.id}`)

@@ -19,8 +19,8 @@ import { NavigateBefore as NavigateBeforeIcon } from '@material-ui/icons';
 import { IconButton } from "@material-ui/core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencilAlt, faTrash, faCopy } from "@fortawesome/free-solid-svg-icons";
-import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import { Editor } from '@tinymce/tinymce-react';
+import ModalImage from "react-modal-image";
 import firebase from "../firebase/clientApp";
 import { usePagination } from "use-pagination-firestore";
 
@@ -200,22 +200,19 @@ export function AdminAllPosts() {
                                     </TableHead>
                                     <TableBody>
                                         {items.filter(li =>
-                                            li.tag.toLowerCase().includes(search.toLowerCase()) ||
-                                            li.title.toLowerCase().includes(search.toLowerCase()) ||
-                                            li.slug.toLowerCase().includes(search.toLowerCase()) ||
-                                            li.description.toLowerCase().includes(search.toLowerCase()) ||
-                                            li.content.toLowerCase().includes(search.toLowerCase()))
+                                            li.isActive.toString() === "true" &&
+                                            (li.tag.toLowerCase().includes(search.toLowerCase()) ||
+                                                li.title.toLowerCase().includes(search.toLowerCase()) ||
+                                                li.slug.toLowerCase().includes(search.toLowerCase()) ||
+                                                li.description.toLowerCase().includes(search.toLowerCase()) ||
+                                                li.content.toLowerCase().includes(search.toLowerCase())))
                                             .map((post) => (
                                                 <TableRow key={post.id}>
                                                     <TableCell align="center">{post.id}</TableCell>
                                                     <TableCell align="center">{post.title}</TableCell>
                                                     <TableCell align="center">{post.slug}</TableCell>
-                                                    <TableCell align="center"><TextareaAutosize
-                                                        maxRows={4}
-                                                        aria-label="maximum height"
-                                                        placeholder="Leírás"
-                                                        defaultValue={post.description}
-                                                        onChange={(e) => {
+                                                    <TableCell align="center">
+                                                        <textarea value={post.description} class="form-control" rows="3" onChange={(e) => {
                                                             const data = {
                                                                 id: post.id,
                                                                 title: post.title,
@@ -223,11 +220,12 @@ export function AdminAllPosts() {
                                                                 description: e.target.value,
                                                                 content: post.content,
                                                                 imgURL: post.imgURL,
-                                                                tag: post.tag
+                                                                tag: post.tag,
+                                                                isActive: post.isActive
                                                             };
                                                             firebase.firestore().collection('posts').doc(post.id).set(data);
-                                                        }}
-                                                    /></TableCell>
+                                                        }} />
+                                                    </TableCell>
                                                     <TableCell align="center">
                                                         <Editor
                                                             apiKey={process.env.REACT_APP_TINY_API_KEY}
@@ -257,16 +255,22 @@ export function AdminAllPosts() {
                                                                     description: post.description,
                                                                     content: content,
                                                                     imgURL: post.imgURL,
-                                                                    tag: post.tag
+                                                                    tag: post.tag,
+                                                                    isActive: post.isActive
                                                                 };
                                                                 firebase.firestore().collection('posts').doc(post.id).set(data);
                                                             }}
                                                         />
                                                     </TableCell>
-                                                    <TableCell align="center"><img src={post.imgURL} alt="Bejegyzés képe" style={{ width: "100px", height: "100px" }}
-                                                        onClick={() => {
-                                                            window.open(post.imgURL, "_blank");
-                                                        }} /></TableCell>
+                                                    <TableCell align="center">
+                                                        <div style={{ width: "100px", height: "100px" }}>
+                                                            <ModalImage
+                                                                alt={post.title}
+                                                                small={post.imgURL}
+                                                                large={post.imgURL}
+                                                            />
+                                                        </div>
+                                                    </TableCell>
                                                     <TableCell align="center">{post.tag}</TableCell>
                                                     <TableCell align="center">
                                                         <button className="btn btn-primary m-1" style={{ width: "50px", height: "50px" }} onClick={() => {
@@ -277,7 +281,8 @@ export function AdminAllPosts() {
                                                                 description: post.description,
                                                                 content: post.content,
                                                                 imgURL: post.imgURL,
-                                                                tag: post.tag
+                                                                tag: post.tag,
+                                                                isActive: post.isActive
                                                             };
                                                             firebase.firestore().collection('posts').doc(data.id).set(data);
                                                         }}>

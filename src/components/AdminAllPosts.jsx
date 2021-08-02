@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import { useHistory } from "react-router-dom";
 import { Spinner } from "./Spinner.jsx";
 import { motion } from "framer-motion";
@@ -19,11 +19,13 @@ import { NavigateBefore as NavigateBeforeIcon } from '@material-ui/icons';
 import { IconButton } from "@material-ui/core";
 import MenuItem from '@material-ui/core/MenuItem';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPencilAlt, faTrash, faCopy } from "@fortawesome/free-solid-svg-icons";
-import { Editor } from '@tinymce/tinymce-react';
+import { faPencilAlt, faTrash, faCopy, faSortUp, faSortDown } from "@fortawesome/free-solid-svg-icons";
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import ModalImage from "react-modal-image";
 import firebase from "../firebase/clientApp";
 import { usePagination } from "use-pagination-firestore";
+import latinize from 'latinize';
 
 export function AdminAllPosts() {
     const [search, setSearch] = useState("");
@@ -70,6 +72,43 @@ export function AdminAllPosts() {
     const [isSignedIn, setIsSignedIn] = useState(false);
 
     const editorRef = useRef(null);
+
+    const [sortConfig, setSortConfig] = useState(null);
+
+    const sortedItems = useMemo(() => {
+        let sortableItems = [...items];
+        if (sortConfig !== null) {
+            sortableItems.sort((a, b) => {
+                if (latinize(a[sortConfig.key].toString()) < latinize(b[sortConfig.key].toString())) {
+                    return sortConfig.direction === 'ascending' ? -1 : 1;
+                }
+                if (latinize(a[sortConfig.key].toString()) > latinize(b[sortConfig.key].toString())) {
+                    return sortConfig.direction === 'ascending' ? 1 : -1;
+                }
+                return 0;
+            });
+        }
+        return sortableItems;
+    }, [items, sortConfig]);
+
+    const requestSort = (key) => {
+        let direction = 'ascending';
+        if (
+            sortConfig &&
+            sortConfig.key === key &&
+            sortConfig.direction === 'ascending'
+        ) {
+            direction = 'descending';
+        }
+        setSortConfig({ key, direction });
+    };
+
+    const getClassNamesFor = (name) => {
+        if (!sortConfig) {
+            return;
+        }
+        return sortConfig.key === name ? sortConfig.direction : undefined;
+    };
 
     useEffect(() => {
         const unregisterAuthObserver = firebase.auth().onAuthStateChanged(user => {
@@ -189,50 +228,118 @@ export function AdminAllPosts() {
                             direction="row"
                             justify="space-around"
                             alignItems="center">
-                            <Button variant="contained" color="secondary" onClick={() => {
-                                setHunCount(hunCount + 1);
-                                if (hunCount % 2 === 1) {
-                                    setSearch("hun");
-                                } else if (hunCount % 2 === 0) {
-                                    setSearch("");
-                                }
-                            }}>Csak magyar bejegyzések</Button>
-                            <Button variant="contained" color="secondary" onClick={() => {
-                                setActiveCount(activeCount + 1);
-                                if (activeCount % 2 === 1) {
-                                    setSearch("true");
-                                } else if (activeCount % 2 === 0) {
-                                    setSearch("");
-                                }
-                            }}>Csak aktív bejegyzések</Button>
-                            <Button variant="contained" color="secondary" onClick={() => {
-                                setInactiveCount(inactiveCount + 1);
-                                if (inactiveCount % 2 === 1) {
-                                    setSearch("false");
-                                } else if (inactiveCount % 2 === 0) {
-                                    setSearch("");
-                                }
-                            }}>Csak inaktív bejegyzések</Button>
+                            <Button variant="contained" style={{
+                                backgroundColor: search === "hun" ? 'green' : 'red',
+                                color: 'white'
+                            }}
+                                onClick={() => {
+                                    setHunCount(hunCount + 1);
+                                    if (hunCount % 2 === 1) {
+                                        setSearch("hun");
+                                    } else if (hunCount % 2 === 0) {
+                                        setSearch("");
+                                    }
+                                }}>Csak magyar bejegyzések</Button>
+                            <Button variant="contained" style={{
+                                backgroundColor: search === "true" ? 'green' : 'red',
+                                color: 'white'
+                            }}
+                                onClick={() => {
+                                    setActiveCount(activeCount + 1);
+                                    if (activeCount % 2 === 1) {
+                                        setSearch("true");
+                                    } else if (activeCount % 2 === 0) {
+                                        setSearch("");
+                                    }
+                                }}>Csak aktív bejegyzések</Button>
+                            <Button variant="contained" style={{
+                                backgroundColor: search === "false" ? 'green' : 'red',
+                                color: 'white'
+                            }}
+                                onClick={() => {
+                                    setInactiveCount(inactiveCount + 1);
+                                    if (inactiveCount % 2 === 1) {
+                                        setSearch("false");
+                                    } else if (inactiveCount % 2 === 0) {
+                                        setSearch("");
+                                    }
+                                }}>Csak inaktív bejegyzések</Button>
                         </Grid>
                         <div className="card">
                             <TableContainer component={Paper}>
                                 <Table className={classes.table} aria-label="simple table">
                                     <TableHead>
                                         <TableRow>
-                                            <StyledTableCell align="center">ID</StyledTableCell>
-                                            <StyledTableCell align="center">Cím</StyledTableCell>
-                                            <StyledTableCell align="center">Slug</StyledTableCell>
-                                            <StyledTableCell align="center">Leírás</StyledTableCell>
-                                            <StyledTableCell align="center">Tartalom</StyledTableCell>
-                                            <StyledTableCell align="center">Kép</StyledTableCell>
-                                            <StyledTableCell align="center">Címke</StyledTableCell>
-                                            <StyledTableCell align="center">Dátum</StyledTableCell>
-                                            <StyledTableCell align="center">Állapot</StyledTableCell>
-                                            <StyledTableCell align="center">Opciók</StyledTableCell>
+                                            <StyledTableCell align="center">
+                                                <Button style={{ color: "white" }} onClick={() => requestSort('id')} className={getClassNamesFor('id')}>
+                                                    ID
+                                                    {getClassNamesFor('id') === "ascending" ? <FontAwesomeIcon icon={faSortUp} /> : ""}
+                                                    {getClassNamesFor('id') === "descending" ? <FontAwesomeIcon icon={faSortDown} /> : ""}
+                                                </Button>
+                                            </StyledTableCell>
+                                            <StyledTableCell align="center">
+                                                <Button style={{ color: "white" }} onClick={() => requestSort('title')} className={getClassNamesFor('title')}>
+                                                    CÍM
+                                                    {getClassNamesFor('title') === "ascending" ? <FontAwesomeIcon icon={faSortUp} /> : ""}
+                                                    {getClassNamesFor('title') === "descending" ? <FontAwesomeIcon icon={faSortDown} /> : ""}
+                                                </Button>
+                                            </StyledTableCell>
+                                            <StyledTableCell align="center">
+                                                <Button style={{ color: "white" }} onClick={() => requestSort('slug')} className={getClassNamesFor('slug')}>
+                                                    SLUG
+                                                    {getClassNamesFor('slug') === "ascending" ? <FontAwesomeIcon icon={faSortUp} /> : ""}
+                                                    {getClassNamesFor('slug') === "descending" ? <FontAwesomeIcon icon={faSortDown} /> : ""}
+                                                </Button>
+                                            </StyledTableCell>
+                                            <StyledTableCell align="center">
+                                                <Button style={{ color: "white" }} onClick={() => requestSort('description')} className={getClassNamesFor('description')}>
+                                                    LEÍRÁS
+                                                    {getClassNamesFor('description') === "ascending" ? <FontAwesomeIcon icon={faSortUp} /> : ""}
+                                                    {getClassNamesFor('description') === "descending" ? <FontAwesomeIcon icon={faSortDown} /> : ""}
+                                                </Button>
+                                            </StyledTableCell>
+                                            <StyledTableCell align="center">
+                                                <Button style={{ color: "white" }} onClick={() => requestSort('content')} className={getClassNamesFor('content')}>
+                                                    TARTALOM
+                                                    {getClassNamesFor('content') === "ascending" ? <FontAwesomeIcon icon={faSortUp} /> : ""}
+                                                    {getClassNamesFor('content') === "descending" ? <FontAwesomeIcon icon={faSortDown} /> : ""}
+                                                </Button>
+                                            </StyledTableCell>
+                                            <StyledTableCell align="center">
+                                                <Button style={{ color: "white" }}>
+                                                    KÉP
+                                                </Button>
+                                            </StyledTableCell>
+                                            <StyledTableCell align="center">
+                                                <Button style={{ color: "white" }} onClick={() => requestSort('tag')} className={getClassNamesFor('tag')}>
+                                                    CÍMKE
+                                                    {getClassNamesFor('tag') === "ascending" ? <FontAwesomeIcon icon={faSortUp} /> : ""}
+                                                    {getClassNamesFor('tag') === "descending" ? <FontAwesomeIcon icon={faSortDown} /> : ""}
+                                                </Button>
+                                            </StyledTableCell>
+                                            <StyledTableCell align="center">
+                                                <Button style={{ color: "white" }} onClick={() => requestSort('date')} className={getClassNamesFor('date')}>
+                                                    DÁTUM
+                                                    {getClassNamesFor('date') === "ascending" ? <FontAwesomeIcon icon={faSortUp} /> : ""}
+                                                    {getClassNamesFor('date') === "descending" ? <FontAwesomeIcon icon={faSortDown} /> : ""}
+                                                </Button>
+                                            </StyledTableCell>
+                                            <StyledTableCell align="center">
+                                                <Button style={{ color: "white" }} onClick={() => requestSort('isActive')} className={getClassNamesFor('isActive')}>
+                                                    ÁLLAPOT
+                                                    {getClassNamesFor('isActive') === "ascending" ? <FontAwesomeIcon icon={faSortUp} /> : ""}
+                                                    {getClassNamesFor('isActive') === "descending" ? <FontAwesomeIcon icon={faSortDown} /> : ""}
+                                                </Button>
+                                            </StyledTableCell>
+                                            <StyledTableCell align="center">
+                                                <Button style={{ color: "white" }}>
+                                                    OPCIÓK
+                                                </Button>
+                                            </StyledTableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {items.filter(li =>
+                                        {sortedItems.filter(li =>
                                             li.isActive.toString().toLowerCase().includes(search.toLowerCase()) ||
                                             li.tag.toLowerCase().includes(search.toLowerCase()) ||
                                             li.date.includes(search.toLowerCase()) ||
@@ -262,27 +369,21 @@ export function AdminAllPosts() {
                                                         }} />
                                                     </TableCell>
                                                     <TableCell align="center">
-                                                        <Editor
-                                                            apiKey={process.env.REACT_APP_TINY_API_KEY}
-                                                            onInit={(editor) => editorRef.current = editor}
-                                                            value={post.content}
-                                                            init={{
-                                                                language: 'hu_HU',
-                                                                height: 200,
-                                                                width: 300,
-                                                                menubar: false,
-                                                                plugins: [
-                                                                    'advlist autolink lists link image charmap print preview anchor',
-                                                                    'searchreplace visualblocks code fullscreen',
-                                                                    'insertdatetime media table paste code help wordcount'
-                                                                ],
-                                                                toolbar: 'undo redo | formatselect | ' +
-                                                                    'bold italic backcolor | alignleft aligncenter ' +
-                                                                    'alignright alignjustify | bullist numlist outdent indent | ' +
-                                                                    'removeformat | help',
-                                                                content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+                                                        <CKEditor
+                                                            editor={ClassicEditor}
+                                                            data={post.content}
+                                                            config={{
+                                                                toolbar: []
                                                             }}
-                                                            onEditorChange={(content) => {
+                                                            onReady={editor => {
+                                                                editorRef.current = editor
+                                                                editor.editing.view.change(writer => {
+                                                                    writer.setStyle('height', '150px', editor.editing.view.document.getRoot());
+                                                                    writer.setStyle('width', '300px', editor.editing.view.document.getRoot());
+                                                                });
+                                                            }}
+                                                            onChange={(editor) => {
+                                                                const content = editor.getData();
                                                                 const data = {
                                                                     id: post.id,
                                                                     title: post.title,

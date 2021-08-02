@@ -78,10 +78,10 @@ export function AdminAllPosts() {
         let sortableItems = [...items];
         if (sortConfig !== null) {
             sortableItems.sort((a, b) => {
-                if (latinize(a[sortConfig.key]) < latinize(b[sortConfig.key])) {
+                if (latinize(a[sortConfig.key].toString()) < latinize(b[sortConfig.key].toString())) {
                     return sortConfig.direction === 'ascending' ? -1 : 1;
                 }
-                if (latinize(a[sortConfig.key]) > latinize(b[sortConfig.key])) {
+                if (latinize(a[sortConfig.key].toString()) > latinize(b[sortConfig.key].toString())) {
                     return sortConfig.direction === 'ascending' ? 1 : -1;
                 }
                 return 0;

@@ -124,7 +124,7 @@ export function ViewSinglePost(props) {
                                     {post.data().title}
                                 </Typography>
                                 <Typography variant="body2" color="textSecondary" component="p">
-                                    Nyelv: {post.data().tag}
+                                    {post.data().tag.includes(",") ? "Címkék" : "Címke"}: {post.data().tag}
                                 </Typography>
                                 <Typography variant="h6" color="textPrimary" component="h6">
                                     {post.data().description}

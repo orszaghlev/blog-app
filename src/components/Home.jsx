@@ -110,7 +110,7 @@ export function Home() {
                             <TextField id="search" label="Keresés..." variant="filled" />
                         </form>
                         <Button variant="contained" style={{
-                            backgroundColor: search === "hun" ? 'green' : 'red',
+                            backgroundColor: search === "hun" ? 'green' : '#dc3545',
                             color: 'white'
                         }}
                             onClick={() => {

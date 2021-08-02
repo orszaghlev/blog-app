@@ -229,7 +229,7 @@ export function AdminAllPosts() {
                             justify="space-around"
                             alignItems="center">
                             <Button variant="contained" style={{
-                                backgroundColor: search === "hun" ? 'green' : 'red',
+                                backgroundColor: search === "hun" ? 'green' : '#dc3545',
                                 color: 'white'
                             }}
                                 onClick={() => {
@@ -241,7 +241,7 @@ export function AdminAllPosts() {
                                     }
                                 }}>Csak magyar bejegyzések</Button>
                             <Button variant="contained" style={{
-                                backgroundColor: search === "true" ? 'green' : 'red',
+                                backgroundColor: search === "true" ? 'green' : '#dc3545',
                                 color: 'white'
                             }}
                                 onClick={() => {
@@ -253,7 +253,7 @@ export function AdminAllPosts() {
                                     }
                                 }}>Csak aktív bejegyzések</Button>
                             <Button variant="contained" style={{
-                                backgroundColor: search === "false" ? 'green' : 'red',
+                                backgroundColor: search === "false" ? 'green' : '#dc3545',
                                 color: 'white'
                             }}
                                 onClick={() => {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import { useHistory } from "react-router-dom";
 import { Spinner } from "./Spinner.jsx";
 import { motion } from "framer-motion";
@@ -19,7 +19,7 @@ import { NavigateBefore as NavigateBeforeIcon } from '@material-ui/icons';
 import { IconButton } from "@material-ui/core";
 import MenuItem from '@material-ui/core/MenuItem';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPencilAlt, faTrash, faCopy } from "@fortawesome/free-solid-svg-icons";
+import { faPencilAlt, faTrash, faCopy, faSortUp, faSortDown } from "@fortawesome/free-solid-svg-icons";
 import { Editor } from '@tinymce/tinymce-react';
 import ModalImage from "react-modal-image";
 import firebase from "../firebase/clientApp";
@@ -70,6 +70,43 @@ export function AdminAllPosts() {
     const [isSignedIn, setIsSignedIn] = useState(false);
 
     const editorRef = useRef(null);
+
+    const [sortConfig, setSortConfig] = useState(null);
+
+    const sortedItems = useMemo(() => {
+        let sortableItems = [...items];
+        if (sortConfig !== null) {
+            sortableItems.sort((a, b) => {
+                if (a[sortConfig.key] < b[sortConfig.key]) {
+                    return sortConfig.direction === 'ascending' ? -1 : 1;
+                }
+                if (a[sortConfig.key] > b[sortConfig.key]) {
+                    return sortConfig.direction === 'ascending' ? 1 : -1;
+                }
+                return 0;
+            });
+        }
+        return sortableItems;
+    }, [items, sortConfig]);
+
+    const requestSort = (key) => {
+        let direction = 'ascending';
+        if (
+            sortConfig &&
+            sortConfig.key === key &&
+            sortConfig.direction === 'ascending'
+        ) {
+            direction = 'descending';
+        }
+        setSortConfig({ key, direction });
+    };
+
+    const getClassNamesFor = (name) => {
+        if (!sortConfig) {
+            return;
+        }
+        return sortConfig.key === name ? sortConfig.direction : undefined;
+    };
 
     useEffect(() => {
         const unregisterAuthObserver = firebase.auth().onAuthStateChanged(user => {
@@ -219,20 +256,76 @@ export function AdminAllPosts() {
                                 <Table className={classes.table} aria-label="simple table">
                                     <TableHead>
                                         <TableRow>
-                                            <StyledTableCell align="center">ID</StyledTableCell>
-                                            <StyledTableCell align="center">Cím</StyledTableCell>
-                                            <StyledTableCell align="center">Slug</StyledTableCell>
-                                            <StyledTableCell align="center">Leírás</StyledTableCell>
-                                            <StyledTableCell align="center">Tartalom</StyledTableCell>
-                                            <StyledTableCell align="center">Kép</StyledTableCell>
-                                            <StyledTableCell align="center">Címke</StyledTableCell>
-                                            <StyledTableCell align="center">Dátum</StyledTableCell>
-                                            <StyledTableCell align="center">Állapot</StyledTableCell>
-                                            <StyledTableCell align="center">Opciók</StyledTableCell>
+                                            <StyledTableCell align="center">
+                                                <Button style={{ color: "white" }} onClick={() => requestSort('id')} className={getClassNamesFor('id')}>
+                                                    ID
+                                                    {getClassNamesFor('id') === "ascending" ? <FontAwesomeIcon icon={faSortUp} /> : ""}
+                                                    {getClassNamesFor('id') === "descending" ? <FontAwesomeIcon icon={faSortDown} /> : ""}
+                                                </Button>
+                                            </StyledTableCell>
+                                            <StyledTableCell align="center">
+                                                <Button style={{ color: "white" }} onClick={() => requestSort('title')} className={getClassNamesFor('title')}>
+                                                    CÍM
+                                                    {getClassNamesFor('title') === "ascending" ? <FontAwesomeIcon icon={faSortUp} /> : ""}
+                                                    {getClassNamesFor('title') === "descending" ? <FontAwesomeIcon icon={faSortDown} /> : ""}
+                                                </Button>
+                                            </StyledTableCell>
+                                            <StyledTableCell align="center">
+                                                <Button style={{ color: "white" }} onClick={() => requestSort('slug')} className={getClassNamesFor('slug')}>
+                                                    SLUG
+                                                    {getClassNamesFor('slug') === "ascending" ? <FontAwesomeIcon icon={faSortUp} /> : ""}
+                                                    {getClassNamesFor('slug') === "descending" ? <FontAwesomeIcon icon={faSortDown} /> : ""}
+                                                </Button>
+                                            </StyledTableCell>
+                                            <StyledTableCell align="center">
+                                                <Button style={{ color: "white" }} onClick={() => requestSort('description')} className={getClassNamesFor('description')}>
+                                                    LEÍRÁS
+                                                    {getClassNamesFor('description') === "ascending" ? <FontAwesomeIcon icon={faSortUp} /> : ""}
+                                                    {getClassNamesFor('description') === "descending" ? <FontAwesomeIcon icon={faSortDown} /> : ""}
+                                                </Button>
+                                            </StyledTableCell>
+                                            <StyledTableCell align="center">
+                                                <Button style={{ color: "white" }} onClick={() => requestSort('content')} className={getClassNamesFor('content')}>
+                                                    TARTALOM
+                                                    {getClassNamesFor('content') === "ascending" ? <FontAwesomeIcon icon={faSortUp} /> : ""}
+                                                    {getClassNamesFor('content') === "descending" ? <FontAwesomeIcon icon={faSortDown} /> : ""}
+                                                </Button>
+                                            </StyledTableCell>
+                                            <StyledTableCell align="center">
+                                                <Button style={{ color: "white" }}>
+                                                    KÉP
+                                                </Button>
+                                            </StyledTableCell>
+                                            <StyledTableCell align="center">
+                                                <Button style={{ color: "white" }} onClick={() => requestSort('tag')} className={getClassNamesFor('tag')}>
+                                                    CÍMKE
+                                                    {getClassNamesFor('tag') === "ascending" ? <FontAwesomeIcon icon={faSortUp} /> : ""}
+                                                    {getClassNamesFor('tag') === "descending" ? <FontAwesomeIcon icon={faSortDown} /> : ""}
+                                                </Button>
+                                            </StyledTableCell>
+                                            <StyledTableCell align="center">
+                                                <Button style={{ color: "white" }} onClick={() => requestSort('date')} className={getClassNamesFor('date')}>
+                                                    DÁTUM
+                                                    {getClassNamesFor('date') === "ascending" ? <FontAwesomeIcon icon={faSortUp} /> : ""}
+                                                    {getClassNamesFor('date') === "descending" ? <FontAwesomeIcon icon={faSortDown} /> : ""}
+                                                </Button>
+                                            </StyledTableCell>
+                                            <StyledTableCell align="center">
+                                                <Button style={{ color: "white" }} onClick={() => requestSort('isActive')} className={getClassNamesFor('isActive')}>
+                                                    ÁLLAPOT
+                                                    {getClassNamesFor('isActive') === "ascending" ? <FontAwesomeIcon icon={faSortUp} /> : ""}
+                                                    {getClassNamesFor('isActive') === "descending" ? <FontAwesomeIcon icon={faSortDown} /> : ""}
+                                                </Button>
+                                            </StyledTableCell>
+                                            <StyledTableCell align="center">
+                                                <Button style={{ color: "white" }}>
+                                                    OPCIÓK
+                                                </Button>
+                                            </StyledTableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {items.filter(li =>
+                                        {sortedItems.filter(li =>
                                             li.isActive.toString().toLowerCase().includes(search.toLowerCase()) ||
                                             li.tag.toLowerCase().includes(search.toLowerCase()) ||
                                             li.date.includes(search.toLowerCase()) ||

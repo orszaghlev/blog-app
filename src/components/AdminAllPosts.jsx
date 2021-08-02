@@ -228,30 +228,42 @@ export function AdminAllPosts() {
                             direction="row"
                             justify="space-around"
                             alignItems="center">
-                            <Button variant="contained" color="secondary" onClick={() => {
-                                setHunCount(hunCount + 1);
-                                if (hunCount % 2 === 1) {
-                                    setSearch("hun");
-                                } else if (hunCount % 2 === 0) {
-                                    setSearch("");
-                                }
-                            }}>Csak magyar bejegyzések</Button>
-                            <Button variant="contained" color="secondary" onClick={() => {
-                                setActiveCount(activeCount + 1);
-                                if (activeCount % 2 === 1) {
-                                    setSearch("true");
-                                } else if (activeCount % 2 === 0) {
-                                    setSearch("");
-                                }
-                            }}>Csak aktív bejegyzések</Button>
-                            <Button variant="contained" color="secondary" onClick={() => {
-                                setInactiveCount(inactiveCount + 1);
-                                if (inactiveCount % 2 === 1) {
-                                    setSearch("false");
-                                } else if (inactiveCount % 2 === 0) {
-                                    setSearch("");
-                                }
-                            }}>Csak inaktív bejegyzések</Button>
+                            <Button variant="contained" style={{
+                                backgroundColor: search === "hun" ? 'green' : 'red',
+                                color: 'white'
+                            }}
+                                onClick={() => {
+                                    setHunCount(hunCount + 1);
+                                    if (hunCount % 2 === 1) {
+                                        setSearch("hun");
+                                    } else if (hunCount % 2 === 0) {
+                                        setSearch("");
+                                    }
+                                }}>Csak magyar bejegyzések</Button>
+                            <Button variant="contained" style={{
+                                backgroundColor: search === "true" ? 'green' : 'red',
+                                color: 'white'
+                            }}
+                                onClick={() => {
+                                    setActiveCount(activeCount + 1);
+                                    if (activeCount % 2 === 1) {
+                                        setSearch("true");
+                                    } else if (activeCount % 2 === 0) {
+                                        setSearch("");
+                                    }
+                                }}>Csak aktív bejegyzések</Button>
+                            <Button variant="contained" style={{
+                                backgroundColor: search === "false" ? 'green' : 'red',
+                                color: 'white'
+                            }}
+                                onClick={() => {
+                                    setInactiveCount(inactiveCount + 1);
+                                    if (inactiveCount % 2 === 1) {
+                                        setSearch("false");
+                                    } else if (inactiveCount % 2 === 0) {
+                                        setSearch("");
+                                    }
+                                }}>Csak inaktív bejegyzések</Button>
                         </Grid>
                         <div className="card">
                             <TableContainer component={Paper}>

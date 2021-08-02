@@ -109,14 +109,18 @@ export function Home() {
                             onChange={e => setSearch(e.target.value)}>
                             <TextField id="search" label="Keresés..." variant="filled" />
                         </form>
-                        <Button variant="contained" color="secondary" onClick={() => {
-                            setHunCount(hunCount + 1);
-                            if (hunCount % 2 === 1) {
-                                setSearch("hun");
-                            } else if (hunCount % 2 === 0) {
-                                setSearch("");
-                            }
-                        }}>Csak magyar bejegyzések</Button>
+                        <Button variant="contained" style={{
+                            backgroundColor: search === "hun" ? 'green' : 'red',
+                            color: 'white'
+                        }}
+                            onClick={() => {
+                                setHunCount(hunCount + 1);
+                                if (hunCount % 2 === 1) {
+                                    setSearch("hun");
+                                } else if (hunCount % 2 === 0) {
+                                    setSearch("");
+                                }
+                            }}>Csak magyar bejegyzések</Button>
                     </Grid>
                     <Grid item xs={12}>
                         <Grid container justify="center">

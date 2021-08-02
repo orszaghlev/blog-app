@@ -20,7 +20,8 @@ import { IconButton } from "@material-ui/core";
 import MenuItem from '@material-ui/core/MenuItem';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencilAlt, faTrash, faCopy, faSortUp, faSortDown } from "@fortawesome/free-solid-svg-icons";
-import { Editor } from '@tinymce/tinymce-react';
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import ModalImage from "react-modal-image";
 import firebase from "../firebase/clientApp";
 import { usePagination } from "use-pagination-firestore";
@@ -356,27 +357,21 @@ export function AdminAllPosts() {
                                                         }} />
                                                     </TableCell>
                                                     <TableCell align="center">
-                                                        <Editor
-                                                            apiKey={process.env.REACT_APP_TINY_API_KEY}
-                                                            onInit={(editor) => editorRef.current = editor}
-                                                            value={post.content}
-                                                            init={{
-                                                                language: 'hu_HU',
-                                                                height: 200,
-                                                                width: 300,
-                                                                menubar: false,
-                                                                plugins: [
-                                                                    'advlist autolink lists link image charmap print preview anchor',
-                                                                    'searchreplace visualblocks code fullscreen',
-                                                                    'insertdatetime media table paste code help wordcount'
-                                                                ],
-                                                                toolbar: 'undo redo | formatselect | ' +
-                                                                    'bold italic backcolor | alignleft aligncenter ' +
-                                                                    'alignright alignjustify | bullist numlist outdent indent | ' +
-                                                                    'removeformat | help',
-                                                                content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+                                                        <CKEditor
+                                                            editor={ClassicEditor}
+                                                            data={post.content}
+                                                            config={{
+                                                                toolbar: []
                                                             }}
-                                                            onEditorChange={(content) => {
+                                                            onReady={editor => {
+                                                                editorRef.current = editor
+                                                                editor.editing.view.change(writer => {
+                                                                    writer.setStyle('height', '150px', editor.editing.view.document.getRoot());
+                                                                    writer.setStyle('width', '300px', editor.editing.view.document.getRoot());
+                                                                });
+                                                            }}
+                                                            onChange={(editor) => {
+                                                                const content = editor.getData();
                                                                 const data = {
                                                                     id: post.id,
                                                                     title: post.title,

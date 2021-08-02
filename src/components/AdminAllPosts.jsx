@@ -24,6 +24,7 @@ import { Editor } from '@tinymce/tinymce-react';
 import ModalImage from "react-modal-image";
 import firebase from "../firebase/clientApp";
 import { usePagination } from "use-pagination-firestore";
+import latinize from 'latinize';
 
 export function AdminAllPosts() {
     const [search, setSearch] = useState("");
@@ -77,10 +78,10 @@ export function AdminAllPosts() {
         let sortableItems = [...items];
         if (sortConfig !== null) {
             sortableItems.sort((a, b) => {
-                if (a[sortConfig.key] < b[sortConfig.key]) {
+                if (latinize(a[sortConfig.key]) < latinize(b[sortConfig.key])) {
                     return sortConfig.direction === 'ascending' ? -1 : 1;
                 }
-                if (a[sortConfig.key] > b[sortConfig.key]) {
+                if (latinize(a[sortConfig.key]) > latinize(b[sortConfig.key])) {
                     return sortConfig.direction === 'ascending' ? 1 : -1;
                 }
                 return 0;

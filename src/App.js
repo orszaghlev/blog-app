@@ -7,6 +7,7 @@ import { AdminLogin } from "./components/AdminLogin.jsx";
 import { AdminAllPosts } from "./components/AdminAllPosts.jsx";
 import { AdminCreatePost } from "./components/AdminCreatePost.jsx";
 import { AdminEditPost } from "./components/AdminEditPost.jsx";
+import { AdminFavoritePosts } from "./components/AdminFavoritePosts.jsx";
 import { Helmet } from "react-helmet-async";
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -65,8 +66,18 @@ function App() {
             </>}
             {isSignedIn && firebase.auth().currentUser.emailVerified && <>
               <Button color="inherit">
+                <NavLink to={`/admin/create-post`}>
+                  <span className="nav-link" style={{ color: 'white' }}>Új bejegyzés</span>
+                </NavLink>
+              </Button>
+              <Button color="inherit">
+                <NavLink to={`/admin/favorites`}>
+                  <span className="nav-link" style={{ color: 'white' }}>Kedvenc bejegyzések</span>
+                </NavLink>
+              </Button>
+              <Button color="inherit">
                 <NavLink to={`/admin/posts`}>
-                  <span className="nav-link" style={{ color: 'white' }}>Adminisztrációs felület</span>
+                  <span className="nav-link" style={{ color: 'white' }}>Összes bejegyzés</span>
                 </NavLink>
               </Button>
             </>}
@@ -84,6 +95,7 @@ function App() {
           <Route path="/home/:id" component={ViewSinglePost} />
           <Route path="/admin/login" component={AdminLogin} />
           <Route path="/admin/posts" component={AdminAllPosts} />
+          <Route path="/admin/favorites" component={AdminFavoritePosts} />
           <Route path="/admin/create-post" component={AdminCreatePost} />
           <Route path="/admin/edit-post/:id" component={AdminEditPost} />
           <Redirect to="/home" />

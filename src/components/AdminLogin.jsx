@@ -139,15 +139,21 @@ export function AdminLogin() {
                             <Card className={classes.root}>
                                 <CardActions style={{ justifyContent: "center" }}>
                                     <Button size="medium" color="primary" align="center" onClick={() => {
-                                        history.push(`/admin/posts`)
+                                        history.push(`/admin/create-post`)
                                     }}>
-                                        Bejegyzések megtekintése
+                                        Új bejegyzés
                                     </Button>
                                     <Typography>|</Typography>
                                     <Button size="medium" color="primary" align="center" onClick={() => {
-                                        history.push(`/admin/create-post`)
+                                        history.push(`/admin/favorites`)
                                     }}>
-                                        Bejegyzés létrehozása
+                                        Kedvenc bejegyzések
+                                    </Button>
+                                    <Typography>|</Typography>
+                                    <Button size="medium" color="primary" align="center" onClick={() => {
+                                        history.push(`/admin/posts`)
+                                    }}>
+                                        Összes bejegyzés
                                     </Button>
                                 </CardActions>
                             </Card>

@@ -137,6 +137,9 @@ export function AdminAllPosts() {
     }
 
     useEffect(() => {
+        if (getArray !== 0) {
+
+        }
         const unregisterAuthObserver = firebase.auth().onAuthStateChanged(user => {
             setIsSignedIn(!!user);
         });
@@ -464,6 +467,7 @@ export function AdminAllPosts() {
                                                             }}
                                                             onClick={async () => {
                                                                 addFav({ post, i });
+                                                                console.log(favorites);
                                                             }}>
                                                             <FontAwesomeIcon icon={faHeart} style={{
                                                                 color: favorites.includes(post) ? '#dc3545' : 'black'

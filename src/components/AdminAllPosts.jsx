@@ -19,7 +19,7 @@ import { NavigateBefore as NavigateBeforeIcon } from '@material-ui/icons';
 import { IconButton } from "@material-ui/core";
 import MenuItem from '@material-ui/core/MenuItem';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPencilAlt, faTrash, faCopy, faSortUp, faSortDown } from "@fortawesome/free-solid-svg-icons";
+import { faPencilAlt, faTrash, faCopy, faSortUp, faSortDown, faHeart } from "@fortawesome/free-solid-svg-icons";
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import ModalImage from "react-modal-image";
@@ -110,12 +110,38 @@ export function AdminAllPosts() {
         return sortConfig.key === name ? sortConfig.direction : undefined;
     };
 
+    const [favorites, setFavorites] = useState([]);
+    const getArray = JSON.parse(localStorage.getItem('favorites') || '0');
+
+    const addFav = (props) => {
+        let array = favorites;
+        let addArray = true;
+        // eslint-disable-next-line
+        array.map((item, key) => {
+            if (item === props.post) {
+                array.splice(key, 1);
+                addArray = false;
+            }
+        });
+        if (addArray) {
+            array.push(props.post);
+        }
+        setFavorites([...array]);
+        localStorage.setItem("favorites", JSON.stringify(favorites));
+        var storage = localStorage.getItem('favItem' + (props.post) || '0');
+        if (storage === null) {
+            localStorage.setItem(('favItem' + (props.post)), JSON.stringify(props.post));
+        } else {
+            localStorage.removeItem('favItem' + (props.post));
+        }
+    }
+
     useEffect(() => {
         const unregisterAuthObserver = firebase.auth().onAuthStateChanged(user => {
             setIsSignedIn(!!user);
         });
         return () => unregisterAuthObserver();
-    }, []);
+    }, [getArray]);
 
     if (isLoading) {
         return <Spinner />
@@ -347,7 +373,7 @@ export function AdminAllPosts() {
                                             li.slug.toLowerCase().includes(search.toLowerCase()) ||
                                             li.description.toLowerCase().includes(search.toLowerCase()) ||
                                             li.content.toLowerCase().includes(search.toLowerCase()))
-                                            .map((post) => (
+                                            .map((post, i) => (
                                                 <TableRow key={post.id}>
                                                     <TableCell align="center">{post.id}</TableCell>
                                                     <TableCell align="center">{post.title}</TableCell>
@@ -432,6 +458,17 @@ export function AdminAllPosts() {
                                                         </TextField>
                                                     </TableCell>
                                                     <TableCell align="center">
+                                                        <button className="btn btn-light m-1"
+                                                            style={{
+                                                                width: "50px", height: "50px", border: '1px solid rgba(0, 0, 0, 0.5)'
+                                                            }}
+                                                            onClick={async () => {
+                                                                addFav({ post, i });
+                                                            }}>
+                                                            <FontAwesomeIcon icon={faHeart} style={{
+                                                                color: favorites.includes(post) ? '#dc3545' : 'black'
+                                                            }} />
+                                                        </button>
                                                         <button className="btn btn-primary m-1" style={{ width: "50px", height: "50px" }} onClick={() => {
                                                             const data = {
                                                                 id: ((parseInt(post.id)) + 1).toString(),

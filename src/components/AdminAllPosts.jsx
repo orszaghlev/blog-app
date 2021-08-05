@@ -111,7 +111,6 @@ export function AdminAllPosts() {
     };
 
     const [favorites, setFavorites] = useState([]);
-    const getArray = JSON.parse(localStorage.getItem('favorites') || '0');
 
     const addFav = (props) => {
         let array = favorites;
@@ -128,23 +127,24 @@ export function AdminAllPosts() {
         }
         setFavorites([...array]);
         localStorage.setItem("favorites", JSON.stringify(favorites));
-        var storage = localStorage.getItem('favItem' + (props.post) || '0');
+        var storage = localStorage.getItem('favItem' + (props.post.id) || '0');
         if (storage === null) {
-            localStorage.setItem(('favItem' + (props.post)), JSON.stringify(props.post));
+            localStorage.setItem(('favItem' + (props.post.id)), JSON.stringify(props.post));
         } else {
-            localStorage.removeItem('favItem' + (props.post));
+            localStorage.removeItem('favItem' + (props.post.id));
         }
     }
 
     useEffect(() => {
-        if (getArray !== 0) {
-
-        }
         const unregisterAuthObserver = firebase.auth().onAuthStateChanged(user => {
             setIsSignedIn(!!user);
         });
+        const getArray = JSON.parse(localStorage.getItem('favorites') || []);
+        if (getArray !== []) {
+            setFavorites([...getArray]);
+        }
         return () => unregisterAuthObserver();
-    }, [getArray]);
+    }, []);
 
     if (isLoading) {
         return <Spinner />
@@ -208,8 +208,8 @@ export function AdminAllPosts() {
         return (
             <div className="p-1 m-auto text-center content bg-ivory">
                 <Helmet>
-                    <title>Adminisztrációs felület</title>
-                    <meta name="description" content="Adminisztrációs felület" />
+                    <title>Összes bejegyzés</title>
+                    <meta name="description" content="Összes bejegyzés" />
                 </Helmet>
                 {isSignedIn && firebase.auth().currentUser.emailVerified && <>
                     <motion.div initial="hidden" animate="visible" variants={{
@@ -229,7 +229,7 @@ export function AdminAllPosts() {
                             direction="row"
                             justify="space-around"
                             alignItems="center">
-                            <h2>Adminisztrációs felület</h2>
+                            <h2>Összes bejegyzés</h2>
                             <form className={classes.search} noValidate autoComplete="off"
                                 onChange={e => setSearch(e.target.value)}>
                                 <TextField id="search" label="Keresés..." variant="filled" />
@@ -376,7 +376,7 @@ export function AdminAllPosts() {
                                             li.slug.toLowerCase().includes(search.toLowerCase()) ||
                                             li.description.toLowerCase().includes(search.toLowerCase()) ||
                                             li.content.toLowerCase().includes(search.toLowerCase()))
-                                            .map((post, i) => (
+                                            .map((post) => (
                                                 <TableRow key={post.id}>
                                                     <TableCell align="center">{post.id}</TableCell>
                                                     <TableCell align="center">{post.title}</TableCell>
@@ -465,12 +465,11 @@ export function AdminAllPosts() {
                                                             style={{
                                                                 width: "50px", height: "50px", border: '1px solid rgba(0, 0, 0, 0.5)'
                                                             }}
-                                                            onClick={async () => {
-                                                                addFav({ post, i });
-                                                                console.log(favorites);
+                                                            onClick={() => {
+                                                                addFav({ post });
                                                             }}>
                                                             <FontAwesomeIcon icon={faHeart} style={{
-                                                                color: favorites.includes(post) ? '#dc3545' : 'black'
+                                                                color: localStorage.getItem('favItem' + (post.id)) !== null ? '#dc3545' : 'black'
                                                             }} />
                                                         </button>
                                                         <button className="btn btn-primary m-1" style={{ width: "50px", height: "50px" }} onClick={() => {

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { motion } from "framer-motion";
+import { Helmet } from "react-helmet-async";
 import { Button } from '@material-ui/core';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TableCell from '@material-ui/core/TableCell';
@@ -62,6 +63,11 @@ export function AdminFavoritePosts() {
                     },
                 }}>
                     <h3>Nincsenek kedvenc bejegyzések!</h3>
+                    <Button size="small" color="secondary" align="center" onClick={() => {
+                        history.push(`/admin/posts`)
+                    }}>
+                        Vissza
+                    </Button>
                 </motion.div>
             </div>
         )
@@ -103,8 +109,57 @@ export function AdminFavoritePosts() {
         )
     } else {
         return (
-            <div>
-                test
+            <div className="p-1 m-auto text-center content bg-ivory">
+                <Helmet>
+                    <title>Kedvenc bejegyzések</title>
+                    <meta name="description" content="Kedvenc bejegyzések" />
+                </Helmet>
+                {isSignedIn && firebase.auth().currentUser.emailVerified && <>
+                    <motion.div initial="hidden" animate="visible" variants={{
+                        hidden: {
+                            scale: .8,
+                            opacity: 0
+                        },
+                        visible: {
+                            scale: 1,
+                            opacity: 1,
+                            transition: {
+                                delay: .4
+                            }
+                        },
+                    }}>
+                        <Grid container
+                            direction="row"
+                            justify="space-around"
+                            alignItems="center">
+                            <h2>Kedvenc bejegyzések</h2>
+                        </Grid>
+                        <Grid container
+                            direction="row"
+                            justify="space-around"
+                            alignItems="center">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        {titles.map((title, key) => (
+                                            <th key={key}>{title} | </th>
+                                        ))}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {// eslint-disable-next-line
+                                    favList.map((items, i) => {
+                                        <tr key={i}>
+                                            {(Object.values(favList[i])).map((value, key) => (
+                                                <td key={key}>{value}</td>
+                                            ))}
+                                        </tr>
+                                    })}
+                                </tbody>
+                            </table>
+                        </Grid>
+                    </motion.div>
+                </>}
             </div>
         )
     }

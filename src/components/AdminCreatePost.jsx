@@ -179,7 +179,7 @@ export function AdminCreatePost() {
                                 <TextField name="imgURL" label="Kép URL" variant="filled" type="text" required style={{ width: 800 }} />
                             </Grid>
                             <Grid item xs>
-                                <TextField name="tag" label="Címke" variant="filled" type="text" required style={{ width: 800 }} />
+                                <TextField name="tag" label="Címkék" variant="filled" type="text" required style={{ width: 800 }} />
                             </Grid>
                             <Grid item xs>
                                 <TextField

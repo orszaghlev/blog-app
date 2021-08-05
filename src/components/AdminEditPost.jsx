@@ -60,7 +60,47 @@ export function AdminEditPost(props) {
         return () => unregisterAuthObserver();
     }, [props.match.params.id])
 
-    if (!isSignedIn || !firebase.auth().currentUser.emailVerified) {
+    if (id === "") {
+        return (
+            <div class="jumbotron">
+                <motion.div initial="hidden" animate="visible" variants={{
+                    hidden: {
+                        scale: .8,
+                        opacity: 0
+                    },
+                    visible: {
+                        scale: 1,
+                        opacity: 1,
+                        transition: {
+                            delay: .4
+                        }
+                    },
+                }}>
+                    <h3>A kért bejegyzés nem érhető el!</h3>
+                    <Grid container
+                        direction="row"
+                        justify="center"
+                        alignItems="center">
+                        <Button size="2rem" style={{ marginRight: "10px" }} color="primary" align="center" onClick={() => {
+                            history.push(`/admin/create-post`)
+                        }}>
+                            Új bejegyzés
+                        </Button>
+                        <Button size="2rem" style={{ marginRight: "10px" }} color="primary" align="center" onClick={() => {
+                            history.push(`/admin/favorites`)
+                        }}>
+                            Kedvenc bejegyzések
+                        </Button>
+                        <Button size="2rem" color="primary" align="center" onClick={() => {
+                            history.push(`/admin/posts`)
+                        }}>
+                            Összes bejegyzés
+                        </Button>
+                    </Grid>
+                </motion.div>
+            </div>
+        )
+    } else if (!isSignedIn || !firebase.auth().currentUser.emailVerified) {
         return (
             <div class="jumbotron">
                 <motion.div initial="hidden" animate="visible" variants={{
@@ -212,7 +252,7 @@ export function AdminEditPost(props) {
                                     type="text" required style={{ width: 800 }} />
                             </Grid>
                             <Grid item xs>
-                                <TextField value={tag} name="tag" type="text" label="Címke" variant="filled"
+                                <TextField value={tag} name="tag" type="text" label="Címkék" variant="filled"
                                     onChange={(e) => {
                                         setTag(e.target.value);
                                     }}

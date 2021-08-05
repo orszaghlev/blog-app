@@ -3,6 +3,9 @@ import { useHistory } from "react-router-dom";
 import { Spinner } from "./Spinner.jsx";
 import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import Typography from '@material-ui/core/Typography';
 import { Button } from '@material-ui/core';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -128,10 +131,12 @@ export function AdminAllPosts() {
         setFavorites([...array]);
         localStorage.setItem("favorites", JSON.stringify(favorites));
         var storage = localStorage.getItem('favItem' + (props.post.id) || '0');
-        if (storage === null) {
+        if (storage === '0') {
             localStorage.setItem(('favItem' + (props.post.id)), JSON.stringify(props.post));
         } else {
-            localStorage.removeItem('favItem' + (props.post.id));
+            if (localStorage.getItem('favItem' + (props.post.id)) === null) {
+                localStorage.removeItem('favItem' + (props.post.id));
+            }
         }
     }
 
@@ -165,6 +170,11 @@ export function AdminAllPosts() {
                     },
                 }}>
                     <h3>Nincsenek elérhető bejegyzések!</h3>
+                    <Button size="2rem" color="primary" variant="contained" onClick={() => {
+                        history.push(`/admin/create-post`)
+                    }}>
+                        Új bejegyzés
+                    </Button>
                 </motion.div>
             </div>
         )
@@ -248,9 +258,21 @@ export function AdminAllPosts() {
                             </Grid>
                         </Grid>
                         <Grid container justify="center">
-                            <Button variant="contained" color="primary" onClick={() => {
-                                history.push(`/admin/create-post`);
-                            }}>Bejegyzés létrehozása</Button>
+                            <Card className={classes.root}>
+                                <CardActions style={{ justifyContent: "center" }}>
+                                    <Button size="2rem" color="primary" align="center" onClick={() => {
+                                        history.push(`/admin/create-post`)
+                                    }}>
+                                        Új bejegyzés
+                                    </Button>
+                                    <Typography>|</Typography>
+                                    <Button size="medium" color="primary" align="center" onClick={() => {
+                                        history.push(`/admin/favorites`)
+                                    }}>
+                                        Kedvenc bejegyzések
+                                    </Button>
+                                </CardActions>
+                            </Card>
                         </Grid>
                         <br />
                         <Grid container
@@ -341,7 +363,7 @@ export function AdminAllPosts() {
                                             </StyledTableCell>
                                             <StyledTableCell align="center">
                                                 <Button style={{ color: "white" }} onClick={() => requestSort('tag')} className={getClassNamesFor('tag')}>
-                                                    CÍMKE
+                                                    CÍMKÉK
                                                     {getClassNamesFor('tag') === "ascending" ? <FontAwesomeIcon icon={faSortUp} /> : ""}
                                                     {getClassNamesFor('tag') === "descending" ? <FontAwesomeIcon icon={faSortDown} /> : ""}
                                                 </Button>

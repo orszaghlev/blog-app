@@ -60,7 +60,7 @@ export function Home() {
 
     if (isLoading) {
         return <Spinner />
-    } else if (!items) {
+    } else if (items.length === 0) {
         return (
             <div class="jumbotron">
                 <motion.div initial="hidden" animate="visible" variants={{

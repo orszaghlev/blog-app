@@ -97,7 +97,7 @@ export function AdminFavoritePosts() {
         const unregisterAuthObserver = firebase.auth().onAuthStateChanged(user => {
             setIsSignedIn(!!user);
         });
-        const getArray = JSON.parse(localStorage.getItem('favorites') || []);
+        const getArray = localStorage.getItem('favorites') !== null ? JSON.parse(localStorage.getItem('favorites')) : [];
         if (getArray !== []) {
             setFavorites([...getArray]);
         }
@@ -125,12 +125,13 @@ export function AdminFavoritePosts() {
                         direction="row"
                         justify="center"
                         alignItems="center">
-                        <Button size="small" color="secondary" align="center" onClick={() => {
-                            history.push(`/admin/create-post`)
-                        }}>
+                        <Button size="2rem" color="primary" variant="contained" style={{ marginRight: "10px" }}
+                            onClick={() => {
+                                history.push(`/admin/create-post`)
+                            }}>
                             Új bejegyzés
                         </Button>
-                        <Button size="small" color="secondary" align="center" onClick={() => {
+                        <Button size="2rem" color="primary" variant="contained" onClick={() => {
                             history.push(`/admin/posts`)
                         }}>
                             Összes bejegyzés

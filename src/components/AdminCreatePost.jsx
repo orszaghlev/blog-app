@@ -80,8 +80,8 @@ export function AdminCreatePost() {
         return (
             <div className="p-3 content text-center m-auto" style={{ width: "1000px" }}>
                 <Helmet>
-                    <title>Bejegyzés létrehozása</title>
-                    <meta name="description" content="Bejegyzés létrehozása" />
+                    <title>Új bejegyzés</title>
+                    <meta name="description" content="Új bejegyzés" />
                 </Helmet>
                 <motion.div initial="hidden" animate="visible" variants={{
                     hidden: {
@@ -96,7 +96,7 @@ export function AdminCreatePost() {
                         }
                     },
                 }}>
-                    <h2>Bejegyzés létrehozása</h2>
+                    <h2>Új bejegyzés</h2>
                     <form className={classes.container} noValidate
                         onSubmit={async (e) => {
                             e.preventDefault();

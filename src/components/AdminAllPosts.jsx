@@ -129,14 +129,13 @@ export function AdminAllPosts() {
             array.push(props.post);
         }
         setFavorites([...array]);
+
         localStorage.setItem("favorites", JSON.stringify(favorites));
-        var storage = localStorage.getItem('favItem' + (props.post.id) || '0');
+        const storage = localStorage.getItem('favItem' + (props.post.id)) !== null ? localStorage.getItem('favItem' + (props.post.id)) : '0';
         if (storage === '0') {
             localStorage.setItem(('favItem' + (props.post.id)), JSON.stringify(props.post));
         } else {
-            if (localStorage.getItem('favItem' + (props.post.id)) === null) {
-                localStorage.removeItem('favItem' + (props.post.id));
-            }
+            localStorage.removeItem('favItem' + (props.post.id));
         }
     }
 
@@ -144,7 +143,7 @@ export function AdminAllPosts() {
         const unregisterAuthObserver = firebase.auth().onAuthStateChanged(user => {
             setIsSignedIn(!!user);
         });
-        const getArray = JSON.parse(localStorage.getItem('favorites') || []);
+        const getArray = localStorage.getItem('favorites') !== null ? JSON.parse(localStorage.getItem('favorites')) : [];
         if (getArray !== []) {
             setFavorites([...getArray]);
         }
@@ -153,7 +152,7 @@ export function AdminAllPosts() {
 
     if (isLoading) {
         return <Spinner />
-    } else if (!items) {
+    } else if (items.length === 0) {
         return (
             <div class="jumbotron">
                 <motion.div initial="hidden" animate="visible" variants={{

@@ -169,7 +169,7 @@ export function AdminAllPosts() {
                     },
                 }}>
                     <h3>Nincsenek elérhető bejegyzések!</h3>
-                    <Button size="2rem" color="primary" variant="contained" onClick={() => {
+                    <Button size="2rem" color="secondary" variant="contained" onClick={() => {
                         history.push(`/admin/create-post`)
                     }}>
                         Új bejegyzés
@@ -198,7 +198,7 @@ export function AdminAllPosts() {
                         direction="row"
                         justify="center"
                         alignItems="center">
-                        <Button m="2rem" style={{ marginRight: "10px" }} variant="contained" color="primary"
+                        <Button m="2rem" style={{ marginRight: "10px" }} variant="contained" color="secondary"
                             onClick={() => {
                                 history.push("/admin/login")
                             }}>

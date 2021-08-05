@@ -81,17 +81,17 @@ export function AdminEditPost(props) {
                         direction="row"
                         justify="center"
                         alignItems="center">
-                        <Button size="2rem" style={{ marginRight: "10px" }} color="primary" align="center" onClick={() => {
+                        <Button size="2rem" style={{ marginRight: "10px" }} variant="contained" color="secondary" align="center" onClick={() => {
                             history.push(`/admin/create-post`)
                         }}>
                             Új bejegyzés
                         </Button>
-                        <Button size="2rem" style={{ marginRight: "10px" }} color="primary" align="center" onClick={() => {
+                        <Button size="2rem" style={{ marginRight: "10px" }} variant="contained" color="secondary" align="center" onClick={() => {
                             history.push(`/admin/favorites`)
                         }}>
                             Kedvenc bejegyzések
                         </Button>
-                        <Button size="2rem" color="primary" align="center" onClick={() => {
+                        <Button size="2rem" variant="contained" color="secondary" align="center" onClick={() => {
                             history.push(`/admin/posts`)
                         }}>
                             Összes bejegyzés
@@ -121,7 +121,7 @@ export function AdminEditPost(props) {
                         direction="row"
                         justify="center"
                         alignItems="center">
-                        <Button m="2rem" style={{ marginRight: "10px" }} variant="contained" color="primary" onClick={() => {
+                        <Button m="2rem" style={{ marginRight: "10px" }} variant="contained" color="secondary" onClick={() => {
                             history.push("/admin/login")
                         }}>
                             Bejelentkezés/Hitelesítés

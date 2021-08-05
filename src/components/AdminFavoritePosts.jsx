@@ -125,13 +125,13 @@ export function AdminFavoritePosts() {
                         direction="row"
                         justify="center"
                         alignItems="center">
-                        <Button size="2rem" color="primary" variant="contained" style={{ marginRight: "10px" }}
+                        <Button size="2rem" color="secondary" variant="contained" style={{ marginRight: "10px" }}
                             onClick={() => {
                                 history.push(`/admin/create-post`)
                             }}>
                             Új bejegyzés
                         </Button>
-                        <Button size="2rem" color="primary" variant="contained" onClick={() => {
+                        <Button size="2rem" color="secondary" variant="contained" onClick={() => {
                             history.push(`/admin/posts`)
                         }}>
                             Összes bejegyzés
@@ -161,7 +161,7 @@ export function AdminFavoritePosts() {
                         direction="row"
                         justify="center"
                         alignItems="center">
-                        <Button m="2rem" style={{ marginRight: "10px" }} variant="contained" color="primary"
+                        <Button m="2rem" style={{ marginRight: "10px" }} variant="contained" color="secondary"
                             onClick={() => {
                                 history.push("/admin/login")
                             }}>

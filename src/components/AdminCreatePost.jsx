@@ -62,7 +62,7 @@ export function AdminCreatePost() {
                         direction="row"
                         justify="center"
                         alignItems="center">
-                        <Button m="2rem" style={{ marginRight: "10px" }} variant="contained" color="primary" onClick={() => {
+                        <Button m="2rem" style={{ marginRight: "10px" }} variant="contained" color="secondary" onClick={() => {
                             history.push("/admin/login")
                         }}>
                             Bejelentkezés/Hitelesítés

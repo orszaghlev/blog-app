@@ -222,6 +222,13 @@ export function AdminFavoritePosts() {
                                     }}>
                                         Összes bejegyzés
                                     </Button>
+                                    <Typography>|</Typography>
+                                    <Button size="2rem" color="secondary" align="center" onClick={() => {
+                                        setFavorites([]);
+                                        localStorage.clear();
+                                    }}>
+                                        Kedvencek kiürítése
+                                    </Button>
                                 </CardActions>
                             </Card>
                         </Grid>
@@ -364,7 +371,6 @@ export function AdminFavoritePosts() {
                                                                 editor.isReadOnly = true
                                                                 editor.editing.view.change(writer => {
                                                                     writer.setStyle('height', '150px', editor.editing.view.document.getRoot());
-                                                                    writer.setStyle('width', '300px', editor.editing.view.document.getRoot());
                                                                 });
                                                             }}
                                                         />

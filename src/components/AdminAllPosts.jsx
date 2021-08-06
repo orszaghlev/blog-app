@@ -429,7 +429,6 @@ export function AdminAllPosts() {
                                                                 editorRef.current = editor
                                                                 editor.editing.view.change(writer => {
                                                                     writer.setStyle('height', '150px', editor.editing.view.document.getRoot());
-                                                                    writer.setStyle('width', '300px', editor.editing.view.document.getRoot());
                                                                 });
                                                             }}
                                                             onChange={(editor) => {

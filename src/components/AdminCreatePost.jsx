@@ -62,7 +62,7 @@ export function AdminCreatePost() {
                         direction="row"
                         justify="center"
                         alignItems="center">
-                        <Button m="2rem" style={{ marginRight: "10px" }} variant="contained" color="primary" onClick={() => {
+                        <Button m="2rem" style={{ marginRight: "10px" }} variant="contained" color="secondary" onClick={() => {
                             history.push("/admin/login")
                         }}>
                             Bejelentkezés/Hitelesítés
@@ -80,8 +80,8 @@ export function AdminCreatePost() {
         return (
             <div className="p-3 content text-center m-auto" style={{ width: "1000px" }}>
                 <Helmet>
-                    <title>Bejegyzés létrehozása</title>
-                    <meta name="description" content="Bejegyzés létrehozása" />
+                    <title>Új bejegyzés</title>
+                    <meta name="description" content="Új bejegyzés" />
                 </Helmet>
                 <motion.div initial="hidden" animate="visible" variants={{
                     hidden: {
@@ -96,7 +96,7 @@ export function AdminCreatePost() {
                         }
                     },
                 }}>
-                    <h2>Bejegyzés létrehozása</h2>
+                    <h2>Új bejegyzés</h2>
                     <form className={classes.container} noValidate
                         onSubmit={async (e) => {
                             e.preventDefault();
@@ -179,7 +179,7 @@ export function AdminCreatePost() {
                                 <TextField name="imgURL" label="Kép URL" variant="filled" type="text" required style={{ width: 800 }} />
                             </Grid>
                             <Grid item xs>
-                                <TextField name="tag" label="Címke" variant="filled" type="text" required style={{ width: 800 }} />
+                                <TextField name="tag" label="Címkék" variant="filled" type="text" required style={{ width: 800 }} />
                             </Grid>
                             <Grid item xs>
                                 <TextField

@@ -26,7 +26,7 @@ export function Home() {
 
     const useStyles = makeStyles((theme) => ({
         root: {
-            maxWidth: 345,
+            width: 350,
         },
         media: {
             height: 140,
@@ -60,7 +60,7 @@ export function Home() {
 
     if (isLoading) {
         return <Spinner />
-    } else if (!items) {
+    } else if (items.length === 0) {
         return (
             <div class="jumbotron">
                 <motion.div initial="hidden" animate="visible" variants={{
@@ -145,31 +145,36 @@ export function Home() {
                                 li.description.toLowerCase().includes(search.toLowerCase()) ||
                                 li.content.toLowerCase().includes(search.toLowerCase())))
                             .map((post) => (
-                                <div className="card col-sm-3 d-inline-block m-1 p-2 h-100" onClick={() => {
+                                <div className="card col-sm-3 d-inline-block m-1 p-2 h-100" style={{ border: "none" }} onClick={() => {
                                     history.push(`/home/${post.id}`)
                                 }}>
-                                    <Card className={classes.root}>
-                                        <CardActionArea>
-                                            <CardMedia
-                                                className={classes.media}
-                                                image={post.imgURL}
-                                                title={post.title}
-                                            />
-                                            <CardContent>
-                                                <Typography gutterBottom variant="h5" component="h2">
-                                                    {post.title}
-                                                </Typography>
-                                                <Typography variant="body2" color="textSecondary" component="p">
-                                                    {post.description}
-                                                </Typography>
-                                            </CardContent>
-                                        </CardActionArea>
-                                        <CardActions style={{ justifyContent: "center" }}>
-                                            <Button size="small" color="primary" align="center">
-                                                Tovább
-                                            </Button>
-                                        </CardActions>
-                                    </Card>
+                                    <Grid container
+                                        direction="row"
+                                        justify="space-evenly"
+                                        alignItems="center">
+                                        <Card className={classes.root}>
+                                            <CardActionArea>
+                                                <CardMedia
+                                                    className={classes.media}
+                                                    image={post.imgURL}
+                                                    title={post.title}
+                                                />
+                                                <CardContent>
+                                                    <Typography gutterBottom variant="h5" component="h2">
+                                                        {post.title}
+                                                    </Typography>
+                                                    <Typography variant="body2" color="textSecondary" component="p">
+                                                        {post.description}
+                                                    </Typography>
+                                                </CardContent>
+                                            </CardActionArea>
+                                            <CardActions style={{ justifyContent: "center" }}>
+                                                <Button size="small" color="primary" align="center">
+                                                    Tovább
+                                                </Button>
+                                            </CardActions>
+                                        </Card>
+                                    </Grid>
                                 </div>
                             ))
                     }

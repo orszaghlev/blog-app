@@ -37,7 +37,7 @@ export function ViewSinglePost(props) {
 
     if (postLoading) {
         return <Spinner />
-    } else if (!post) {
+    } else if (post.data() === undefined) {
         return (
             <div class="jumbotron">
                 <motion.div initial="hidden" animate="visible" variants={{

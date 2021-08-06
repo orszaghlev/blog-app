@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import { useHistory } from "react-router-dom";
-import { Spinner } from "./Spinner.jsx";
 import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
 import Card from '@material-ui/core/Card';
@@ -16,21 +15,17 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
-import Grid from '@material-ui/core/Grid';
-import { NavigateNext as NavigateNextIcon } from '@material-ui/icons';
-import { NavigateBefore as NavigateBeforeIcon } from '@material-ui/icons';
-import { IconButton } from "@material-ui/core";
 import MenuItem from '@material-ui/core/MenuItem';
+import Grid from '@material-ui/core/Grid';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPencilAlt, faTrash, faCopy, faSortUp, faSortDown, faHeart } from "@fortawesome/free-solid-svg-icons";
+import { faSortUp, faSortDown } from "@fortawesome/free-solid-svg-icons";
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import ModalImage from "react-modal-image";
 import firebase from "../firebase/clientApp";
-import { usePagination } from "use-pagination-firestore";
 import latinize from 'latinize';
 
-export function AdminAllPosts() {
+export function AdminFavoritePosts() {
     const [search, setSearch] = useState("");
     const [hunCount, setHunCount] = useState(1);
     const [activeCount, setActiveCount] = useState(1);
@@ -55,31 +50,16 @@ export function AdminAllPosts() {
 
     const classes = useStyles();
 
-    const {
-        items,
-        isLoading,
-        isStart,
-        isEnd,
-        getPrev,
-        getNext,
-    } = usePagination(
-        firebase
-            .firestore()
-            .collection("/posts")
-            .orderBy("id", "asc"),
-        {
-            limit: 10
-        }
-    );
-
     const [isSignedIn, setIsSignedIn] = useState(false);
+
+    const [favorites, setFavorites] = useState([]);
 
     const editorRef = useRef(null);
 
     const [sortConfig, setSortConfig] = useState(null);
 
     const sortedItems = useMemo(() => {
-        let sortableItems = [...items];
+        let sortableItems = [...favorites];
         if (sortConfig !== null) {
             sortableItems.sort((a, b) => {
                 if (latinize(a[sortConfig.key].toString()) < latinize(b[sortConfig.key].toString())) {
@@ -92,7 +72,7 @@ export function AdminAllPosts() {
             });
         }
         return sortableItems;
-    }, [items, sortConfig]);
+    }, [favorites, sortConfig]);
 
     const requestSort = (key) => {
         let direction = 'ascending';
@@ -113,32 +93,6 @@ export function AdminAllPosts() {
         return sortConfig.key === name ? sortConfig.direction : undefined;
     };
 
-    const [favorites, setFavorites] = useState([]);
-
-    const addFav = (props) => {
-        let array = favorites;
-        let addArray = true;
-        // eslint-disable-next-line
-        array.map((item, key) => {
-            if (item === props.post) {
-                array.splice(key, 1);
-                addArray = false;
-            }
-        });
-        if (addArray) {
-            array.push(props.post);
-        }
-        setFavorites([...array]);
-
-        localStorage.setItem("favorites", JSON.stringify(favorites));
-        const storage = localStorage.getItem('favItem' + (props.post.id)) !== null ? localStorage.getItem('favItem' + (props.post.id)) : '0';
-        if (storage === '0') {
-            localStorage.setItem(('favItem' + (props.post.id)), JSON.stringify(props.post));
-        } else {
-            localStorage.removeItem('favItem' + (props.post.id));
-        }
-    }
-
     useEffect(() => {
         const unregisterAuthObserver = firebase.auth().onAuthStateChanged(user => {
             setIsSignedIn(!!user);
@@ -150,9 +104,7 @@ export function AdminAllPosts() {
         return () => unregisterAuthObserver();
     }, []);
 
-    if (isLoading) {
-        return <Spinner />
-    } else if (items.length === 0) {
+    if (favorites.length === 0) {
         return (
             <div class="jumbotron">
                 <motion.div initial="hidden" animate="visible" variants={{
@@ -168,12 +120,23 @@ export function AdminAllPosts() {
                         }
                     },
                 }}>
-                    <h3>Nincsenek elérhető bejegyzések!</h3>
-                    <Button size="2rem" color="secondary" variant="contained" onClick={() => {
-                        history.push(`/admin/create-post`)
-                    }}>
-                        Új bejegyzés
-                    </Button>
+                    <h3>Nincsenek kedvenc bejegyzések!</h3>
+                    <Grid container
+                        direction="row"
+                        justify="center"
+                        alignItems="center">
+                        <Button size="2rem" color="secondary" variant="contained" style={{ marginRight: "10px" }}
+                            onClick={() => {
+                                history.push(`/admin/create-post`)
+                            }}>
+                            Új bejegyzés
+                        </Button>
+                        <Button size="2rem" color="secondary" variant="contained" onClick={() => {
+                            history.push(`/admin/posts`)
+                        }}>
+                            Összes bejegyzés
+                        </Button>
+                    </Grid>
                 </motion.div>
             </div>
         )
@@ -217,8 +180,8 @@ export function AdminAllPosts() {
         return (
             <div className="p-1 m-auto text-center content bg-ivory">
                 <Helmet>
-                    <title>Összes bejegyzés</title>
-                    <meta name="description" content="Összes bejegyzés" />
+                    <title>Kedvenc bejegyzések</title>
+                    <meta name="description" content="Kedvenc bejegyzések" />
                 </Helmet>
                 {isSignedIn && firebase.auth().currentUser.emailVerified && <>
                     <motion.div initial="hidden" animate="visible" variants={{
@@ -238,24 +201,13 @@ export function AdminAllPosts() {
                             direction="row"
                             justify="space-around"
                             alignItems="center">
-                            <h2>Összes bejegyzés</h2>
+                            <h2>Kedvenc bejegyzések</h2>
                             <form className={classes.search} noValidate autoComplete="off"
                                 onChange={e => setSearch(e.target.value)}>
                                 <TextField id="search" label="Keresés..." variant="filled" />
                             </form>
                         </Grid>
-                        <Grid item xs={12}>
-                            <Grid container justify="center">
-                                <Grid item>
-                                    <IconButton onClick={getPrev} disabled={isStart}>
-                                        <NavigateBeforeIcon />
-                                    </IconButton>
-                                    <IconButton onClick={getNext} disabled={isEnd}>
-                                        <NavigateNextIcon />
-                                    </IconButton>
-                                </Grid>
-                            </Grid>
-                        </Grid>
+                        <br />
                         <Grid container justify="center">
                             <Card className={classes.root}>
                                 <CardActions style={{ justifyContent: "center" }}>
@@ -266,9 +218,16 @@ export function AdminAllPosts() {
                                     </Button>
                                     <Typography>|</Typography>
                                     <Button size="medium" color="primary" align="center" onClick={() => {
-                                        history.push(`/admin/favorites`)
+                                        history.push(`/admin/posts`)
                                     }}>
-                                        Kedvenc bejegyzések
+                                        Összes bejegyzés
+                                    </Button>
+                                    <Typography>|</Typography>
+                                    <Button size="2rem" color="secondary" align="center" onClick={() => {
+                                        setFavorites([]);
+                                        localStorage.clear();
+                                    }}>
+                                        Kedvencek kiürítése
                                     </Button>
                                 </CardActions>
                             </Card>
@@ -381,11 +340,6 @@ export function AdminAllPosts() {
                                                     {getClassNamesFor('isActive') === "descending" ? <FontAwesomeIcon icon={faSortDown} /> : ""}
                                                 </Button>
                                             </StyledTableCell>
-                                            <StyledTableCell align="center">
-                                                <Button style={{ color: "white" }}>
-                                                    OPCIÓK
-                                                </Button>
-                                            </StyledTableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
@@ -403,20 +357,7 @@ export function AdminAllPosts() {
                                                     <TableCell align="center">{post.title}</TableCell>
                                                     <TableCell align="center">{post.slug}</TableCell>
                                                     <TableCell align="center" style={{ width: "200px" }}>
-                                                        <textarea value={post.description} class="form-control" rows="3" onChange={(e) => {
-                                                            const data = {
-                                                                id: post.id,
-                                                                title: post.title,
-                                                                slug: post.slug,
-                                                                description: e.target.value,
-                                                                content: post.content,
-                                                                imgURL: post.imgURL,
-                                                                tag: post.tag,
-                                                                isActive: post.isActive,
-                                                                date: post.date
-                                                            };
-                                                            firebase.firestore().collection('posts').doc(post.id).set(data);
-                                                        }} />
+                                                        <textarea value={post.description} class="form-control" rows="3" />
                                                     </TableCell>
                                                     <TableCell align="center">
                                                         <CKEditor
@@ -427,24 +368,10 @@ export function AdminAllPosts() {
                                                             }}
                                                             onReady={editor => {
                                                                 editorRef.current = editor
+                                                                editor.isReadOnly = true
                                                                 editor.editing.view.change(writer => {
                                                                     writer.setStyle('height', '150px', editor.editing.view.document.getRoot());
                                                                 });
-                                                            }}
-                                                            onChange={(editor) => {
-                                                                const content = editor.getData();
-                                                                const data = {
-                                                                    id: post.id,
-                                                                    title: post.title,
-                                                                    slug: post.slug,
-                                                                    description: post.description,
-                                                                    content: content,
-                                                                    imgURL: post.imgURL,
-                                                                    tag: post.tag,
-                                                                    isActive: post.isActive,
-                                                                    date: post.date
-                                                                };
-                                                                firebase.firestore().collection('posts').doc(post.id).set(data);
                                                             }}
                                                         />
                                                     </TableCell>
@@ -460,65 +387,11 @@ export function AdminAllPosts() {
                                                     <TableCell align="center">{post.tag}</TableCell>
                                                     <TableCell align="center" style={{ width: "150px" }}>{post.date}</TableCell>
                                                     <TableCell align="center">
-                                                        <TextField value={post.isActive} name="isActive" label="Állapot" variant="filled" type="text" select
-                                                            onChange={(e) => {
-                                                                const data = {
-                                                                    id: post.id,
-                                                                    title: post.title,
-                                                                    slug: post.slug,
-                                                                    description: post.description,
-                                                                    content: post.content,
-                                                                    imgURL: post.imgURL,
-                                                                    tag: post.tag,
-                                                                    isActive: e.target.value,
-                                                                    date: post.date
-                                                                };
-                                                                firebase.firestore().collection('posts').doc(post.id).set(data);
-                                                            }}
+                                                        <TextField disabled value={post.isActive} name="isActive" label="Állapot" variant="filled" type="text" select
                                                             style={{ textAlign: "left" }} >
                                                             <MenuItem value="true">Aktív</MenuItem>
                                                             <MenuItem value="false">Inaktív</MenuItem>
                                                         </TextField>
-                                                    </TableCell>
-                                                    <TableCell align="center">
-                                                        <button className="btn btn-light m-1"
-                                                            style={{
-                                                                width: "50px", height: "50px", border: '1px solid rgba(0, 0, 0, 0.5)'
-                                                            }}
-                                                            onClick={() => {
-                                                                addFav({ post });
-                                                            }}>
-                                                            <FontAwesomeIcon icon={faHeart} style={{
-                                                                color: localStorage.getItem('favItem' + (post.id)) !== null ? '#dc3545' : 'black'
-                                                            }} />
-                                                        </button>
-                                                        <button className="btn btn-primary m-1" style={{ width: "50px", height: "50px" }} onClick={() => {
-                                                            const data = {
-                                                                id: ((parseInt(post.id)) + 1).toString(),
-                                                                title: post.title,
-                                                                slug: post.slug,
-                                                                description: post.description,
-                                                                content: post.content,
-                                                                imgURL: post.imgURL,
-                                                                tag: post.tag,
-                                                                isActive: post.isActive,
-                                                                date: post.date
-                                                            };
-                                                            firebase.firestore().collection('posts').doc(data.id).set(data);
-                                                        }}>
-                                                            <FontAwesomeIcon icon={faCopy} />
-                                                        </button>
-                                                        <button className="btn btn-warning m-1" style={{ width: "50px", height: "50px" }} onClick={() => {
-                                                            history.push(`/admin/edit-post/${post.id}`)
-                                                        }}>
-                                                            <FontAwesomeIcon icon={faPencilAlt} />
-                                                        </button>
-                                                        <button className="btn btn-danger m-1" style={{ width: "50px", height: "50px" }} onClick={async () => {
-                                                            firebase.firestore().collection('posts').doc(post.id).delete().then(() => {
-                                                            });
-                                                        }}>
-                                                            <FontAwesomeIcon icon={faTrash} />
-                                                        </button>
                                                     </TableCell>
                                                 </TableRow>
                                             ))}
@@ -528,7 +401,7 @@ export function AdminAllPosts() {
                         </div>
                     </motion.div>
                 </>}
-            </div >
+            </div>
         )
     }
 }

@@ -234,29 +234,15 @@ export function AdminAllPosts() {
                             }
                         },
                     }}>
+                        <h2>Összes bejegyzés</h2>
                         <Grid container
                             direction="row"
                             justify="space-around"
                             alignItems="center">
-                            <h2>Összes bejegyzés</h2>
                             <form className={classes.search} noValidate autoComplete="off"
                                 onChange={e => setSearch(e.target.value)}>
                                 <TextField id="search" label="Keresés..." variant="filled" />
                             </form>
-                        </Grid>
-                        <Grid item xs={12}>
-                            <Grid container justify="center">
-                                <Grid item>
-                                    <IconButton onClick={getPrev} disabled={isStart}>
-                                        <NavigateBeforeIcon />
-                                    </IconButton>
-                                    <IconButton onClick={getNext} disabled={isEnd}>
-                                        <NavigateNextIcon />
-                                    </IconButton>
-                                </Grid>
-                            </Grid>
-                        </Grid>
-                        <Grid container justify="center">
                             <Card className={classes.root}>
                                 <CardActions style={{ justifyContent: "center" }}>
                                     <Button size="2rem" color="primary" align="center" onClick={() => {
@@ -314,6 +300,16 @@ export function AdminAllPosts() {
                                         setSearch("");
                                     }
                                 }}>Csak inaktív bejegyzések</Button>
+                        </Grid>
+                        <Grid container justify="center">
+                            <Grid item>
+                                <IconButton onClick={getPrev} disabled={isStart}>
+                                    <NavigateBeforeIcon />
+                                </IconButton>
+                                <IconButton onClick={getNext} disabled={isEnd}>
+                                    <NavigateNextIcon />
+                                </IconButton>
+                            </Grid>
                         </Grid>
                         <div className="card">
                             <TableContainer component={Paper}>

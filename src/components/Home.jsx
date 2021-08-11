@@ -120,7 +120,8 @@ export function Home() {
                                 } else if (hunCount % 2 === 0) {
                                     setSearch("");
                                 }
-                            }}>Csak magyar bejegyzések</Button>
+                            }}>Csak magyar bejegyzések
+                        </Button>
                     </Grid>
                     <Grid item xs={12}>
                         <Grid container justify="center">

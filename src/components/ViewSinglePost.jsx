@@ -80,7 +80,7 @@ export function ViewSinglePost(props) {
                     },
                 }}>
                     <h3>A kért bejegyzés inaktív!</h3>
-                    <Button size="small" color="secondary" align="center" onClick={() => {
+                    <Button m="2rem" variant="contained" color="secondary" onClick={() => {
                         history.push(`/home`)
                     }}>
                         Vissza

@@ -197,18 +197,15 @@ export function AdminFavoritePosts() {
                             }
                         },
                     }}>
+                        <h2>Kedvenc bejegyzések</h2>
                         <Grid container
                             direction="row"
                             justify="space-around"
                             alignItems="center">
-                            <h2>Kedvenc bejegyzések</h2>
                             <form className={classes.search} noValidate autoComplete="off"
                                 onChange={e => setSearch(e.target.value)}>
                                 <TextField id="search" label="Keresés..." variant="filled" />
                             </form>
-                        </Grid>
-                        <br />
-                        <Grid container justify="center">
                             <Card className={classes.root}>
                                 <CardActions style={{ justifyContent: "center" }}>
                                     <Button size="2rem" color="primary" align="center" onClick={() => {
@@ -274,6 +271,7 @@ export function AdminFavoritePosts() {
                                     }
                                 }}>Csak inaktív bejegyzések</Button>
                         </Grid>
+                        <br />
                         <div className="card">
                             <TableContainer component={Paper}>
                                 <Table className={classes.table} aria-label="simple table">

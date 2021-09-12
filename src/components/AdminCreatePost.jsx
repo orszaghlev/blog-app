@@ -57,7 +57,7 @@ export function AdminCreatePost() {
                         }
                     },
                 }}>
-                    <h4>Az adminisztrációs felület megtekintéséhez bejelentkezés és hitelesítés szükséges!</h4>
+                    <h4 className="text-center">Az adminisztrációs felület megtekintéséhez bejelentkezés és hitelesítés szükséges!</h4>
                     <Grid container
                         direction="row"
                         justify="center"

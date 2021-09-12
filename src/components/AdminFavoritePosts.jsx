@@ -120,7 +120,7 @@ export function AdminFavoritePosts() {
                         }
                     },
                 }}>
-                    <h3>Nincsenek kedvenc bejegyzések!</h3>
+                    <h3 className="text-center">Nincsenek kedvenc bejegyzések!</h3>
                     <Grid container
                         direction="row"
                         justify="center"
@@ -156,7 +156,7 @@ export function AdminFavoritePosts() {
                         }
                     },
                 }}>
-                    <h4>Az adminisztrációs felület megtekintéséhez bejelentkezés és hitelesítés szükséges!</h4>
+                    <h4 className="text-center">Az adminisztrációs felület megtekintéséhez bejelentkezés és hitelesítés szükséges!</h4>
                     <Grid container
                         direction="row"
                         justify="center"

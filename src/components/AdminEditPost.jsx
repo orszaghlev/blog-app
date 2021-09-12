@@ -76,7 +76,7 @@ export function AdminEditPost(props) {
                         }
                     },
                 }}>
-                    <h3>A kért bejegyzés nem érhető el!</h3>
+                    <h3 className="text-center">A kért bejegyzés nem érhető el!</h3>
                     <Grid container
                         direction="row"
                         justify="center"
@@ -116,7 +116,7 @@ export function AdminEditPost(props) {
                         }
                     },
                 }}>
-                    <h4>Az adminisztrációs felület megtekintéséhez bejelentkezés és hitelesítés szükséges!</h4>
+                    <h4 className="text-center">Az adminisztrációs felület megtekintéséhez bejelentkezés és hitelesítés szükséges!</h4>
                     <Grid container
                         direction="row"
                         justify="center"

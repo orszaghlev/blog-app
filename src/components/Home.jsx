@@ -76,7 +76,7 @@ export function Home() {
                         }
                     },
                 }}>
-                    <h3>Nincsenek elérhető bejegyzések!</h3>
+                    <h3 className="text-center">Nincsenek elérhető bejegyzések!</h3>
                 </motion.div>
             </div>
         )

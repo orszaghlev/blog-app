@@ -11,6 +11,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
 import { Editor } from '@tinymce/tinymce-react';
 import firebase from "../firebase/clientApp";
 import { useCollection } from "react-firebase-hooks/firestore";
@@ -53,12 +54,17 @@ export function ViewSinglePost(props) {
                         }
                     },
                 }}>
-                    <h3>A kért bejegyzés nem érhető el!</h3>
-                    <Button m="2rem" variant="contained" color="secondary" onClick={() => {
-                        history.push("/home")
-                    }}>
-                        Kezdőlap
-                    </Button>
+                    <h3 className="text-center">A kért bejegyzés nem érhető el!</h3>
+                    <Grid container
+                        direction="row"
+                        justify="center"
+                        alignItems="center">
+                        <Button m="2rem" variant="contained" color="secondary" onClick={() => {
+                            history.push("/home")
+                        }}>
+                            Kezdőlap
+                        </Button>
+                    </Grid>
                 </motion.div>
             </div>
         )
@@ -79,18 +85,23 @@ export function ViewSinglePost(props) {
                         }
                     },
                 }}>
-                    <h3>A kért bejegyzés inaktív!</h3>
-                    <Button m="2rem" variant="contained" color="secondary" onClick={() => {
-                        history.push(`/home`)
-                    }}>
-                        Vissza
-                    </Button>
+                    <h3 className="text-center">A kért bejegyzés inaktív!</h3>
+                    <Grid container
+                        direction="row"
+                        justify="center"
+                        alignItems="center">
+                        <Button m="2rem" variant="contained" color="secondary" onClick={() => {
+                            history.push(`/home`)
+                        }}>
+                            Vissza
+                        </Button>
+                    </Grid>
                 </motion.div>
             </div>
         )
     } else {
         return (
-            <div className="m-auto" style={{ width: "1000px" }}>
+            <div className="m-auto text-center" style={{ width: "1000px" }}>
                 <br />
                 <Helmet>
                     <title>{post.data().title}</title>

@@ -1,4 +1,3 @@
-import './App.css';
 import React, { useState, useEffect } from "react";
 import { BrowserRouter, NavLink, Route, Redirect, Switch } from "react-router-dom";
 import { Home } from "./components/Home.jsx";

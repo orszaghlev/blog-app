@@ -9,12 +9,22 @@ import MenuItem from '@material-ui/core/MenuItem';
 import { makeStyles } from '@material-ui/core/styles';
 import { Editor } from '@tinymce/tinymce-react';
 import slugify from 'react-slugify';
-import firebase from "../firebase/clientApp";
+import firebase from "../lib/Firebase";
+import * as ROUTES from '../constants/Routes';
+import PostNotAvailable from "../components/admin/edit-post/PostNotAvailable";
+import UnauthorizedAccess from "../components/admin/UnauthorizedAccess";
 
-export function AdminCreatePost() {
+export function AdminEditPost(props) {
     const history = useHistory();
-    const [content, setContent] = useState("");
+    const [id, setId] = useState("");
+    const [title, setTitle] = useState("");
     const [slug, setSlug] = useState("");
+    const [description, setDescription] = useState("");
+    const [content, setContent] = useState("");
+    const [imgURL, setImgURL] = useState("");
+    const [tag, setTag] = useState("");
+    const [isActive, setIsActive] = useState("");
+    const [date, setDate] = useState("");
 
     const [isSignedIn, setIsSignedIn] = useState(false);
 
@@ -35,53 +45,34 @@ export function AdminCreatePost() {
     const classes = useStyles();
 
     useEffect(() => {
+        firebase.firestore().collection("posts").doc(props.match.params.id).get().then((post) => {
+            setId(post.data().id);
+            setTitle(post.data().title);
+            setSlug(post.data().slug);
+            setDescription(post.data().description);
+            setContent(post.data().content);
+            setImgURL(post.data().imgURL);
+            setTag(post.data().tag);
+            setIsActive(post.data().isActive);
+            setDate(post.data().date);
+        })
+            .catch((error) => { console.log(error) });
         const unregisterAuthObserver = firebase.auth().onAuthStateChanged(user => {
             setIsSignedIn(!!user);
         });
         return () => unregisterAuthObserver();
-    }, []);
+    }, [props.match.params.id])
 
-    if (!isSignedIn || !firebase.auth().currentUser.emailVerified) {
-        return (
-            <div class="jumbotron">
-                <motion.div initial="hidden" animate="visible" variants={{
-                    hidden: {
-                        scale: .8,
-                        opacity: 0
-                    },
-                    visible: {
-                        scale: 1,
-                        opacity: 1,
-                        transition: {
-                            delay: .4
-                        }
-                    },
-                }}>
-                    <h4 className="text-center">Az adminisztrációs felület megtekintéséhez bejelentkezés és hitelesítés szükséges!</h4>
-                    <Grid container
-                        direction="row"
-                        justify="center"
-                        alignItems="center">
-                        <Button m="2rem" style={{ marginRight: "10px" }} variant="contained" color="secondary" onClick={() => {
-                            history.push("/admin/login")
-                        }}>
-                            Bejelentkezés/Hitelesítés
-                        </Button>
-                        <Button m="2rem" variant="contained" color="secondary" onClick={() => {
-                            history.push("/home")
-                        }}>
-                            Kezdőlap
-                        </Button>
-                    </Grid>
-                </motion.div>
-            </div>
-        )
+    if (id === "") {
+        return <PostNotAvailable />
+    } else if (!isSignedIn || !firebase.auth().currentUser.emailVerified) {
+        return <UnauthorizedAccess />
     } else {
         return (
             <div className="p-3 content text-center m-auto" style={{ width: "1000px" }}>
                 <Helmet>
-                    <title>Új bejegyzés</title>
-                    <meta name="description" content="Új bejegyzés" />
+                    <title>Bejegyzés szerkesztése</title>
+                    <meta name="description" content="Bejegyzés szerkesztése" />
                 </Helmet>
                 <motion.div initial="hidden" animate="visible" variants={{
                     hidden: {
@@ -96,7 +87,7 @@ export function AdminCreatePost() {
                         }
                     },
                 }}>
-                    <h2>Új bejegyzés</h2>
+                    <h2>Bejegyzés szerkesztése</h2>
                     <form className={classes.container} noValidate
                         onSubmit={async (e) => {
                             e.preventDefault();
@@ -114,7 +105,7 @@ export function AdminCreatePost() {
                                     new Date().toLocaleTimeString([], { year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' })
                             };
                             firebase.firestore().collection('posts').doc(data.id).set(data);
-                            history.push(`/admin/posts`);
+                            history.push(ROUTES.ADMIN_ALL_POSTS);
                         }}
                     >
                         <Grid container spacing={2}
@@ -122,16 +113,23 @@ export function AdminCreatePost() {
                             justify="space-around"
                             alignItems="stretch">
                             <Grid item xs>
-                                <TextField name="id" label="ID" variant="filled" type="text" required style={{ width: 800 }} />
-                            </Grid>
-                            <Grid item xs>
-                                <TextField name="title" label="Cím" variant="filled" type="text" required style={{ width: 800 }}
+                                <TextField value={id} name="id" type="text" label="ID" variant="filled"
                                     onChange={(e) => {
-                                        setSlug(slugify(e.target.value));
-                                    }} />
+                                        setId(e.target.value);
+                                    }}
+                                    required style={{ width: 800 }} />
                             </Grid>
                             <Grid item xs>
-                                <TextField value={slug} name="slug" label="Slug" variant="filled" type="text" required style={{ width: 800 }} />
+                                <TextField value={title} name="title" type="text" label="Cím" variant="filled"
+                                    onChange={(e) => {
+                                        setTitle(e.target.value);
+                                        setSlug(slugify(e.target.value));
+                                    }}
+                                    required style={{ width: 800 }} />
+                            </Grid>
+                            <Grid item xs>
+                                <TextField value={slug} name="slug" type="text" label="Slug" variant="filled"
+                                    required style={{ width: 800 }} />
                             </Grid>
                             <Grid item xs>
                                 <Grid
@@ -140,7 +138,10 @@ export function AdminCreatePost() {
                                     justify="center"
                                 >
                                     <div class="form-group" style={{ width: "800px" }}>
-                                        <textarea name="description" label="Leírás" class="form-control" rows="3" placeholder="Leírás" required />
+                                        <textarea value={description} name="description" label="Leírás" class="form-control" rows="3" required
+                                            onChange={(e) => {
+                                                setDescription(e.target.value);
+                                            }}>{description}</textarea>
                                     </div>
                                 </Grid>
                             </Grid>
@@ -153,7 +154,7 @@ export function AdminCreatePost() {
                                     <Editor
                                         apiKey={process.env.REACT_APP_TINY_API_KEY}
                                         onInit={(editor) => editorRef.current = editor}
-                                        initialValue="Tartalom"
+                                        value={content}
                                         init={{
                                             language: 'hu_HU',
                                             width: 800,
@@ -169,17 +170,25 @@ export function AdminCreatePost() {
                                                 'removeformat | help',
                                             content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
                                         }}
-                                        onChange={(e) => {
-                                            setContent(e.target.getContent());
+                                        onEditorChange={(content) => {
+                                            setContent(content);
                                         }}
                                     />
                                 </Grid>
                             </Grid>
                             <Grid item xs>
-                                <TextField name="imgURL" label="Kép URL" variant="filled" type="text" required style={{ width: 800 }} />
+                                <TextField value={imgURL} name="imgURL" label="Kép URL" variant="filled"
+                                    onChange={(e) => {
+                                        setImgURL(e.target.value);
+                                    }}
+                                    type="text" required style={{ width: 800 }} />
                             </Grid>
                             <Grid item xs>
-                                <TextField name="tag" label="Címkék" variant="filled" type="text" required style={{ width: 800 }} />
+                                <TextField value={tag} name="tag" type="text" label="Címkék" variant="filled"
+                                    onChange={(e) => {
+                                        setTag(e.target.value);
+                                    }}
+                                    required style={{ width: 800 }} />
                             </Grid>
                             <Grid item xs>
                                 <TextField
@@ -188,15 +197,22 @@ export function AdminCreatePost() {
                                     name="date"
                                     label="Dátum"
                                     type="datetime-local"
+                                    value={date.toString().replaceAll(". ", "-").split("").reverse().join("").replace("-", "T").split("").reverse().join("")}
                                     className={classes.textField}
                                     InputLabelProps={{
                                         shrink: true,
                                     }}
+                                    onChange={(e) => {
+                                        setDate(e.target.value.toString().replace("T", ". ").replaceAll("-", ". "));
+                                    }}
                                 />
                             </Grid>
                             <Grid item xs>
-                                <TextField name="isActive" label="Állapot" variant="filled" type="text" required
-                                    style={{ width: 800, textAlign: "left" }} select>
+                                <TextField value={isActive} name="isActive" label="Állapot" variant="filled" type="text" select
+                                    onChange={(e) => {
+                                        setIsActive(e.target.value)
+                                    }}
+                                    required style={{ width: 800, textAlign: "left" }} >
                                     <MenuItem value="true">Aktív</MenuItem>
                                     <MenuItem value="false">Inaktív</MenuItem>
                                 </TextField>
@@ -210,7 +226,7 @@ export function AdminCreatePost() {
                                         Küldés
                                     </Button>
                                     <Button variant="contained" color="secondary" onClick={() => {
-                                        history.push(`/admin/posts`)
+                                        history.push(ROUTES.ADMIN_ALL_POSTS)
                                     }}>
                                         Vissza
                                     </Button>

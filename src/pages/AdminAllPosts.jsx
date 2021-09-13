@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import { useHistory } from "react-router-dom";
-import { Spinner } from "./Spinner.jsx";
+import { Spinner } from "../components/Spinner";
 import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
 import Card from '@material-ui/core/Card';
@@ -26,9 +26,12 @@ import { faPencilAlt, faTrash, faCopy, faSortUp, faSortDown, faHeart } from "@fo
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import ModalImage from "react-modal-image";
-import firebase from "../firebase/clientApp";
+import firebase from "../lib/Firebase";
 import { usePagination } from "use-pagination-firestore";
 import latinize from 'latinize';
+import * as ROUTES from '../constants/Routes';
+import NoPostsAvailable from "../components/admin/all-posts/NoPostsAvailable";
+import UnauthorizedAccess from "../components/admin/UnauthorizedAccess";
 
 export function AdminAllPosts() {
     const [search, setSearch] = useState("");
@@ -153,71 +156,9 @@ export function AdminAllPosts() {
     if (isLoading) {
         return <Spinner />
     } else if (items.length === 0) {
-        return (
-            <div class="jumbotron">
-                <motion.div initial="hidden" animate="visible" variants={{
-                    hidden: {
-                        scale: .8,
-                        opacity: 0
-                    },
-                    visible: {
-                        scale: 1,
-                        opacity: 1,
-                        transition: {
-                            delay: .4
-                        }
-                    },
-                }}>
-                    <h3 className="text-center">Nincsenek elérhető bejegyzések!</h3>
-                    <Grid container
-                        direction="row"
-                        justify="center"
-                        alignItems="center">
-                        <Button size="2rem" color="secondary" variant="contained" onClick={() => {
-                            history.push(`/admin/create-post`)
-                        }}>
-                            Új bejegyzés
-                        </Button>
-                    </Grid>
-                </motion.div>
-            </div>
-        )
+        return <NoPostsAvailable />
     } else if (!isSignedIn || !firebase.auth().currentUser.emailVerified) {
-        return (
-            <div class="jumbotron">
-                <motion.div initial="hidden" animate="visible" variants={{
-                    hidden: {
-                        scale: .8,
-                        opacity: 0
-                    },
-                    visible: {
-                        scale: 1,
-                        opacity: 1,
-                        transition: {
-                            delay: .4
-                        }
-                    },
-                }}>
-                    <h4 className="text-center">Az adminisztrációs felület megtekintéséhez bejelentkezés és hitelesítés szükséges!</h4>
-                    <Grid container
-                        direction="row"
-                        justify="center"
-                        alignItems="center">
-                        <Button m="2rem" style={{ marginRight: "10px" }} variant="contained" color="secondary"
-                            onClick={() => {
-                                history.push("/admin/login")
-                            }}>
-                            Bejelentkezés/Hitelesítés
-                        </Button>
-                        <Button m="2rem" variant="contained" color="secondary" onClick={() => {
-                            history.push("/home")
-                        }}>
-                            Kezdőlap
-                        </Button>
-                    </Grid>
-                </motion.div>
-            </div>
-        )
+        return <UnauthorizedAccess />
     } else {
         return (
             <div className="p-1 m-auto text-center content bg-ivory">
@@ -251,13 +192,13 @@ export function AdminAllPosts() {
                             <Card className={classes.root}>
                                 <CardActions style={{ justifyContent: "center" }}>
                                     <Button size="2rem" color="primary" align="center" onClick={() => {
-                                        history.push(`/admin/create-post`)
+                                        history.push(ROUTES.ADMIN_CREATE_POST)
                                     }}>
                                         Új bejegyzés
                                     </Button>
                                     <Typography>|</Typography>
                                     <Button size="medium" color="primary" align="center" onClick={() => {
-                                        history.push(`/admin/favorites`)
+                                        history.push(ROUTES.ADMIN_FAVORITE_POSTS)
                                     }}>
                                         Kedvenc bejegyzések
                                     </Button>
@@ -510,7 +451,7 @@ export function AdminAllPosts() {
                                                             <FontAwesomeIcon icon={faCopy} />
                                                         </button>
                                                         <button className="btn btn-warning m-1" style={{ width: "50px", height: "50px" }} onClick={() => {
-                                                            history.push(`/admin/edit-post/${post.id}`)
+                                                            history.push(ROUTES.ADMIN_EDIT_POST + `${post.id}`)
                                                         }}>
                                                             <FontAwesomeIcon icon={faPencilAlt} />
                                                         </button>

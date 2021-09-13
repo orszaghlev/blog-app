@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter, NavLink, Route, Redirect, Switch } from "react-router-dom";
-import { Home } from "./components/Home.jsx";
-import { ViewSinglePost } from "./components/ViewSinglePost.jsx";
-import { AdminLogin } from "./components/AdminLogin.jsx";
-import { AdminAllPosts } from "./components/AdminAllPosts.jsx";
-import { AdminCreatePost } from "./components/AdminCreatePost.jsx";
-import { AdminEditPost } from "./components/AdminEditPost.jsx";
-import { AdminFavoritePosts } from "./components/AdminFavoritePosts.jsx";
+import { Home } from "./pages/Home";
+import { ViewPost } from "./pages/ViewPost";
+import { AdminLogin } from "./pages/AdminLogin";
+import { AdminAllPosts } from "./pages/AdminAllPosts";
+import { AdminCreatePost } from "./pages/AdminCreatePost";
+import { AdminEditPost } from "./pages/AdminEditPost";
+import { AdminFavoritePosts } from "./pages/AdminFavoritePosts";
 import { Helmet } from "react-helmet-async";
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -14,7 +14,8 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
-import firebase from "./firebase/clientApp";
+import firebase from "./lib/Firebase";
+import * as ROUTES from "./constants/Routes";
 
 function App() {
   const useStyles = makeStyles((theme) => ({
@@ -52,37 +53,37 @@ function App() {
             <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
             </IconButton>
             <Typography variant="h6" className={classes.title} align="left">
-              <NavLink to={`/home`}>
+              <NavLink to={ROUTES.HOME}>
                 <span className="nav-link" style={{ color: 'white' }}>Blog App</span>
               </NavLink>
             </Typography>
             {!isSignedIn && <>
               <Button color="inherit">
-                <NavLink to={`/admin/login`}>
+                <NavLink to={ROUTES.ADMIN_LOGIN}>
                   <span className="nav-link" style={{ color: 'white' }}>Bejelentkezés</span>
                 </NavLink>
               </Button>
             </>}
             {isSignedIn && firebase.auth().currentUser.emailVerified && <>
               <Button color="inherit">
-                <NavLink to={`/admin/create-post`}>
+                <NavLink to={ROUTES.ADMIN_CREATE_POST}>
                   <span className="nav-link" style={{ color: 'white' }}>Új bejegyzés</span>
                 </NavLink>
               </Button>
               <Button color="inherit">
-                <NavLink to={`/admin/favorites`}>
+                <NavLink to={ROUTES.ADMIN_FAVORITE_POSTS}>
                   <span className="nav-link" style={{ color: 'white' }}>Kedvenc bejegyzések</span>
                 </NavLink>
               </Button>
               <Button color="inherit">
-                <NavLink to={`/admin/posts`}>
+                <NavLink to={ROUTES.ADMIN_ALL_POSTS}>
                   <span className="nav-link" style={{ color: 'white' }}>Összes bejegyzés</span>
                 </NavLink>
               </Button>
             </>}
             {isSignedIn && <>
               <Button color="inherit" onClick={() => firebase.auth().signOut()}>
-                <NavLink to={`/home`}>
+                <NavLink to={ROUTES.HOME}>
                   <span className="nav-link" style={{ color: 'white' }}>Kijelentkezés</span>
                 </NavLink>
               </Button>
@@ -90,14 +91,14 @@ function App() {
           </Toolbar>
         </AppBar>
         <Switch>
-          <Route path="/home" exact component={Home} />
-          <Route path="/home/:id" component={ViewSinglePost} />
-          <Route path="/admin/login" component={AdminLogin} />
-          <Route path="/admin/posts" component={AdminAllPosts} />
-          <Route path="/admin/favorites" component={AdminFavoritePosts} />
-          <Route path="/admin/create-post" component={AdminCreatePost} />
-          <Route path="/admin/edit-post/:id" component={AdminEditPost} />
-          <Redirect to="/home" />
+          <Route path={ROUTES.HOME} exact component={Home} />
+          <Route path={ROUTES.VIEW_POST + ":id"} component={ViewPost} />
+          <Route path={ROUTES.ADMIN_LOGIN} component={AdminLogin} />
+          <Route path={ROUTES.ADMIN_ALL_POSTS} component={AdminAllPosts} />
+          <Route path={ROUTES.ADMIN_FAVORITE_POSTS} component={AdminFavoritePosts} />
+          <Route path={ROUTES.ADMIN_CREATE_POST} component={AdminCreatePost} />
+          <Route path={ROUTES.ADMIN_EDIT_POST + ":id"} component={AdminEditPost} />
+          <Redirect to={ROUTES.HOME} />
         </Switch>
       </BrowserRouter >
     </div >

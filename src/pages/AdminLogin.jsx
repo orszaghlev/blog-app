@@ -9,8 +9,9 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { Grid } from "@material-ui/core";
 import Popover from '@material-ui/core/Popover';
-import firebase from "../firebase/clientApp";
+import firebase from "../lib/Firebase";
 import FirebaseUIAuth from "react-firebaseui-localized";
+import * as ROUTES from '../constants/Routes';
 
 export function AdminLogin() {
     const history = useHistory();
@@ -139,19 +140,19 @@ export function AdminLogin() {
                             <Card className={classes.root}>
                                 <CardActions style={{ justifyContent: "center" }}>
                                     <Button size="medium" color="primary" align="center" onClick={() => {
-                                        history.push(`/admin/create-post`)
+                                        history.push(ROUTES.ADMIN_CREATE_POST)
                                     }}>
                                         Új bejegyzés
                                     </Button>
                                     <Typography>|</Typography>
                                     <Button size="medium" color="primary" align="center" onClick={() => {
-                                        history.push(`/admin/favorites`)
+                                        history.push(ROUTES.ADMIN_FAVORITE_POSTS)
                                     }}>
                                         Kedvenc bejegyzések
                                     </Button>
                                     <Typography>|</Typography>
                                     <Button size="medium" color="primary" align="center" onClick={() => {
-                                        history.push(`/admin/posts`)
+                                        history.push(ROUTES.ADMIN_ALL_POSTS)
                                     }}>
                                         Összes bejegyzés
                                     </Button>

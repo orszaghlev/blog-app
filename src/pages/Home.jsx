@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { Spinner } from "./Spinner.jsx";
+import { Spinner } from "../components/Spinner";
 import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
 import { makeStyles } from '@material-ui/core/styles';
@@ -16,8 +16,10 @@ import Grid from '@material-ui/core/Grid';
 import { NavigateNext as NavigateNextIcon } from '@material-ui/icons';
 import { NavigateBefore as NavigateBeforeIcon } from '@material-ui/icons';
 import { IconButton } from "@material-ui/core";
-import firebase from "../firebase/clientApp";
+import firebase from "../lib/Firebase";
 import { usePagination } from "use-pagination-firestore";
+import * as ROUTES from '../constants/Routes';
+import NoPostsAvailable from "../components/home/NoPostsAvailable";
 
 export function Home() {
     const [search, setSearch] = useState("");
@@ -61,25 +63,7 @@ export function Home() {
     if (isLoading) {
         return <Spinner />
     } else if (items.length === 0) {
-        return (
-            <div class="jumbotron">
-                <motion.div initial="hidden" animate="visible" variants={{
-                    hidden: {
-                        scale: .8,
-                        opacity: 0
-                    },
-                    visible: {
-                        scale: 1,
-                        opacity: 1,
-                        transition: {
-                            delay: .4
-                        }
-                    },
-                }}>
-                    <h3 className="text-center">Nincsenek elérhető bejegyzések!</h3>
-                </motion.div>
-            </div>
-        )
+        return <NoPostsAvailable />
     } else {
         return (
             <div className="p-1 m-auto text-center content bg-ivory">
@@ -147,7 +131,7 @@ export function Home() {
                                 li.content.toLowerCase().includes(search.toLowerCase())))
                             .map((post) => (
                                 <div className="card col-sm-3 d-inline-block m-1 p-2 h-100" style={{ border: "none" }} onClick={() => {
-                                    history.push(`/home/${post.id}`)
+                                    history.push(ROUTES.VIEW_POST + `${post.id}`)
                                 }}>
                                     <Grid container
                                         direction="row"

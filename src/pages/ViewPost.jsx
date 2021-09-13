@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import { useHistory } from "react-router-dom";
-import { Spinner } from "./Spinner.jsx";
+import { Spinner } from "../components/Spinner";
 import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
 import { makeStyles } from '@material-ui/core/styles';
@@ -11,12 +11,14 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
 import { Editor } from '@tinymce/tinymce-react';
-import firebase from "../firebase/clientApp";
+import firebase from "../lib/Firebase";
 import { useCollection } from "react-firebase-hooks/firestore";
+import * as ROUTES from '../constants/Routes';
+import PostNotAvailable from "../components/view-post/PostNotAvailable";
+import PostInactive from "../components/view-post/PostInactive";
 
-export function ViewSinglePost(props) {
+export function ViewPost(props) {
     const history = useHistory();
     const [post, postLoading] = useCollection(
         firebase.firestore().collection("posts").doc(props.match.params.id),
@@ -39,66 +41,10 @@ export function ViewSinglePost(props) {
     if (postLoading) {
         return <Spinner />
     } else if (post.data() === undefined) {
-        return (
-            <div class="jumbotron">
-                <motion.div initial="hidden" animate="visible" variants={{
-                    hidden: {
-                        scale: .8,
-                        opacity: 0
-                    },
-                    visible: {
-                        scale: 1,
-                        opacity: 1,
-                        transition: {
-                            delay: .4
-                        }
-                    },
-                }}>
-                    <h3 className="text-center">A kért bejegyzés nem érhető el!</h3>
-                    <Grid container
-                        direction="row"
-                        justify="center"
-                        alignItems="center">
-                        <Button m="2rem" variant="contained" color="secondary" onClick={() => {
-                            history.push("/home")
-                        }}>
-                            Kezdőlap
-                        </Button>
-                    </Grid>
-                </motion.div>
-            </div>
-        )
+        return <PostNotAvailable />
     } else if (post.data().isActive.toString() !== "true" ||
         (new Date(post.data().date).getTime() >= new Date().getTime())) {
-        return (
-            <div class="jumbotron">
-                <motion.div initial="hidden" animate="visible" variants={{
-                    hidden: {
-                        scale: .8,
-                        opacity: 0
-                    },
-                    visible: {
-                        scale: 1,
-                        opacity: 1,
-                        transition: {
-                            delay: .4
-                        }
-                    },
-                }}>
-                    <h3 className="text-center">A kért bejegyzés inaktív!</h3>
-                    <Grid container
-                        direction="row"
-                        justify="center"
-                        alignItems="center">
-                        <Button m="2rem" variant="contained" color="secondary" onClick={() => {
-                            history.push(`/home`)
-                        }}>
-                            Vissza
-                        </Button>
-                    </Grid>
-                </motion.div>
-            </div>
-        )
+        return <PostInactive />
     } else {
         return (
             <div className="m-auto text-center" style={{ width: "1000px" }}>
@@ -159,7 +105,7 @@ export function ViewSinglePost(props) {
                         />
                         <CardActions style={{ justifyContent: "center" }}>
                             <Button size="small" color="secondary" align="center" onClick={() => {
-                                history.push(`/home`)
+                                history.push(ROUTES.HOME)
                             }}>
                                 Vissza
                             </Button>

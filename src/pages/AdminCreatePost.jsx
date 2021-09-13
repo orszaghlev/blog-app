@@ -9,19 +9,14 @@ import MenuItem from '@material-ui/core/MenuItem';
 import { makeStyles } from '@material-ui/core/styles';
 import { Editor } from '@tinymce/tinymce-react';
 import slugify from 'react-slugify';
-import firebase from "../firebase/clientApp";
+import firebase from "../lib/Firebase";
+import * as ROUTES from '../constants/Routes';
+import UnauthorizedAccess from "../components/admin/UnauthorizedAccess";
 
-export function AdminEditPost(props) {
+export function AdminCreatePost() {
     const history = useHistory();
-    const [id, setId] = useState("");
-    const [title, setTitle] = useState("");
-    const [slug, setSlug] = useState("");
-    const [description, setDescription] = useState("");
     const [content, setContent] = useState("");
-    const [imgURL, setImgURL] = useState("");
-    const [tag, setTag] = useState("");
-    const [isActive, setIsActive] = useState("");
-    const [date, setDate] = useState("");
+    const [slug, setSlug] = useState("");
 
     const [isSignedIn, setIsSignedIn] = useState(false);
 
@@ -42,105 +37,20 @@ export function AdminEditPost(props) {
     const classes = useStyles();
 
     useEffect(() => {
-        firebase.firestore().collection("posts").doc(props.match.params.id).get().then((post) => {
-            setId(post.data().id);
-            setTitle(post.data().title);
-            setSlug(post.data().slug);
-            setDescription(post.data().description);
-            setContent(post.data().content);
-            setImgURL(post.data().imgURL);
-            setTag(post.data().tag);
-            setIsActive(post.data().isActive);
-            setDate(post.data().date);
-        })
-            .catch((error) => { console.log(error) });
         const unregisterAuthObserver = firebase.auth().onAuthStateChanged(user => {
             setIsSignedIn(!!user);
         });
         return () => unregisterAuthObserver();
-    }, [props.match.params.id])
+    }, []);
 
-    if (id === "") {
-        return (
-            <div class="jumbotron">
-                <motion.div initial="hidden" animate="visible" variants={{
-                    hidden: {
-                        scale: .8,
-                        opacity: 0
-                    },
-                    visible: {
-                        scale: 1,
-                        opacity: 1,
-                        transition: {
-                            delay: .4
-                        }
-                    },
-                }}>
-                    <h3 className="text-center">A kért bejegyzés nem érhető el!</h3>
-                    <Grid container
-                        direction="row"
-                        justify="center"
-                        alignItems="center">
-                        <Button size="2rem" style={{ marginRight: "10px" }} variant="contained" color="secondary" align="center" onClick={() => {
-                            history.push(`/admin/create-post`)
-                        }}>
-                            Új bejegyzés
-                        </Button>
-                        <Button size="2rem" style={{ marginRight: "10px" }} variant="contained" color="secondary" align="center" onClick={() => {
-                            history.push(`/admin/favorites`)
-                        }}>
-                            Kedvenc bejegyzések
-                        </Button>
-                        <Button size="2rem" variant="contained" color="secondary" align="center" onClick={() => {
-                            history.push(`/admin/posts`)
-                        }}>
-                            Összes bejegyzés
-                        </Button>
-                    </Grid>
-                </motion.div>
-            </div>
-        )
-    } else if (!isSignedIn || !firebase.auth().currentUser.emailVerified) {
-        return (
-            <div class="jumbotron">
-                <motion.div initial="hidden" animate="visible" variants={{
-                    hidden: {
-                        scale: .8,
-                        opacity: 0
-                    },
-                    visible: {
-                        scale: 1,
-                        opacity: 1,
-                        transition: {
-                            delay: .4
-                        }
-                    },
-                }}>
-                    <h4 className="text-center">Az adminisztrációs felület megtekintéséhez bejelentkezés és hitelesítés szükséges!</h4>
-                    <Grid container
-                        direction="row"
-                        justify="center"
-                        alignItems="center">
-                        <Button m="2rem" style={{ marginRight: "10px" }} variant="contained" color="secondary" onClick={() => {
-                            history.push("/admin/login")
-                        }}>
-                            Bejelentkezés/Hitelesítés
-                        </Button>
-                        <Button m="2rem" variant="contained" color="secondary" onClick={() => {
-                            history.push("/home")
-                        }}>
-                            Kezdőlap
-                        </Button>
-                    </Grid>
-                </motion.div>
-            </div>
-        )
+    if (!isSignedIn || !firebase.auth().currentUser.emailVerified) {
+        return <UnauthorizedAccess />
     } else {
         return (
             <div className="p-3 content text-center m-auto" style={{ width: "1000px" }}>
                 <Helmet>
-                    <title>Bejegyzés szerkesztése</title>
-                    <meta name="description" content="Bejegyzés szerkesztése" />
+                    <title>Új bejegyzés</title>
+                    <meta name="description" content="Új bejegyzés" />
                 </Helmet>
                 <motion.div initial="hidden" animate="visible" variants={{
                     hidden: {
@@ -155,7 +65,7 @@ export function AdminEditPost(props) {
                         }
                     },
                 }}>
-                    <h2>Bejegyzés szerkesztése</h2>
+                    <h2>Új bejegyzés</h2>
                     <form className={classes.container} noValidate
                         onSubmit={async (e) => {
                             e.preventDefault();
@@ -173,7 +83,7 @@ export function AdminEditPost(props) {
                                     new Date().toLocaleTimeString([], { year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' })
                             };
                             firebase.firestore().collection('posts').doc(data.id).set(data);
-                            history.push(`/admin/posts`);
+                            history.push(ROUTES.ADMIN_ALL_POSTS);
                         }}
                     >
                         <Grid container spacing={2}
@@ -181,23 +91,16 @@ export function AdminEditPost(props) {
                             justify="space-around"
                             alignItems="stretch">
                             <Grid item xs>
-                                <TextField value={id} name="id" type="text" label="ID" variant="filled"
-                                    onChange={(e) => {
-                                        setId(e.target.value);
-                                    }}
-                                    required style={{ width: 800 }} />
+                                <TextField name="id" label="ID" variant="filled" type="text" required style={{ width: 800 }} />
                             </Grid>
                             <Grid item xs>
-                                <TextField value={title} name="title" type="text" label="Cím" variant="filled"
+                                <TextField name="title" label="Cím" variant="filled" type="text" required style={{ width: 800 }}
                                     onChange={(e) => {
-                                        setTitle(e.target.value);
                                         setSlug(slugify(e.target.value));
-                                    }}
-                                    required style={{ width: 800 }} />
+                                    }} />
                             </Grid>
                             <Grid item xs>
-                                <TextField value={slug} name="slug" type="text" label="Slug" variant="filled"
-                                    required style={{ width: 800 }} />
+                                <TextField value={slug} name="slug" label="Slug" variant="filled" type="text" required style={{ width: 800 }} />
                             </Grid>
                             <Grid item xs>
                                 <Grid
@@ -206,10 +109,7 @@ export function AdminEditPost(props) {
                                     justify="center"
                                 >
                                     <div class="form-group" style={{ width: "800px" }}>
-                                        <textarea value={description} name="description" label="Leírás" class="form-control" rows="3" required
-                                            onChange={(e) => {
-                                                setDescription(e.target.value);
-                                            }}>{description}</textarea>
+                                        <textarea name="description" label="Leírás" class="form-control" rows="3" placeholder="Leírás" required />
                                     </div>
                                 </Grid>
                             </Grid>
@@ -222,7 +122,7 @@ export function AdminEditPost(props) {
                                     <Editor
                                         apiKey={process.env.REACT_APP_TINY_API_KEY}
                                         onInit={(editor) => editorRef.current = editor}
-                                        value={content}
+                                        initialValue="Tartalom"
                                         init={{
                                             language: 'hu_HU',
                                             width: 800,
@@ -238,25 +138,17 @@ export function AdminEditPost(props) {
                                                 'removeformat | help',
                                             content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
                                         }}
-                                        onEditorChange={(content) => {
-                                            setContent(content);
+                                        onChange={(e) => {
+                                            setContent(e.target.getContent());
                                         }}
                                     />
                                 </Grid>
                             </Grid>
                             <Grid item xs>
-                                <TextField value={imgURL} name="imgURL" label="Kép URL" variant="filled"
-                                    onChange={(e) => {
-                                        setImgURL(e.target.value);
-                                    }}
-                                    type="text" required style={{ width: 800 }} />
+                                <TextField name="imgURL" label="Kép URL" variant="filled" type="text" required style={{ width: 800 }} />
                             </Grid>
                             <Grid item xs>
-                                <TextField value={tag} name="tag" type="text" label="Címkék" variant="filled"
-                                    onChange={(e) => {
-                                        setTag(e.target.value);
-                                    }}
-                                    required style={{ width: 800 }} />
+                                <TextField name="tag" label="Címkék" variant="filled" type="text" required style={{ width: 800 }} />
                             </Grid>
                             <Grid item xs>
                                 <TextField
@@ -265,22 +157,15 @@ export function AdminEditPost(props) {
                                     name="date"
                                     label="Dátum"
                                     type="datetime-local"
-                                    value={date.toString().replaceAll(". ", "-").split("").reverse().join("").replace("-", "T").split("").reverse().join("")}
                                     className={classes.textField}
                                     InputLabelProps={{
                                         shrink: true,
                                     }}
-                                    onChange={(e) => {
-                                        setDate(e.target.value.toString().replace("T", ". ").replaceAll("-", ". "));
-                                    }}
                                 />
                             </Grid>
                             <Grid item xs>
-                                <TextField value={isActive} name="isActive" label="Állapot" variant="filled" type="text" select
-                                    onChange={(e) => {
-                                        setIsActive(e.target.value)
-                                    }}
-                                    required style={{ width: 800, textAlign: "left" }} >
+                                <TextField name="isActive" label="Állapot" variant="filled" type="text" required
+                                    style={{ width: 800, textAlign: "left" }} select>
                                     <MenuItem value="true">Aktív</MenuItem>
                                     <MenuItem value="false">Inaktív</MenuItem>
                                 </TextField>
@@ -294,7 +179,7 @@ export function AdminEditPost(props) {
                                         Küldés
                                     </Button>
                                     <Button variant="contained" color="secondary" onClick={() => {
-                                        history.push(`/admin/posts`)
+                                        history.push(ROUTES.ADMIN_ALL_POSTS)
                                     }}>
                                         Vissza
                                     </Button>

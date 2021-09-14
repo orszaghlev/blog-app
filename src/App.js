@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import { BrowserRouter, NavLink, Route, Redirect, Switch } from "react-router-dom";
 import { Home } from "./pages/Home";
 import { ViewPost } from "./pages/ViewPost";
-import { AdminLogin } from "./pages/AdminLogin";
+import { Login } from "./pages/Login";
+import { SignUp } from "./pages/SignUp";
 import { AdminAllPosts } from "./pages/AdminAllPosts";
 import { AdminCreatePost } from "./pages/AdminCreatePost";
 import { AdminEditPost } from "./pages/AdminEditPost";
@@ -59,7 +60,7 @@ function App() {
             </Typography>
             {!isSignedIn && <>
               <Button color="inherit">
-                <NavLink to={ROUTES.ADMIN_LOGIN}>
+                <NavLink to={ROUTES.LOGIN}>
                   <span className="nav-link" style={{ color: 'white' }}>Bejelentkezés</span>
                 </NavLink>
               </Button>
@@ -93,7 +94,8 @@ function App() {
         <Switch>
           <Route path={ROUTES.HOME} exact component={Home} />
           <Route path={ROUTES.VIEW_POST + ":id"} component={ViewPost} />
-          <Route path={ROUTES.ADMIN_LOGIN} component={AdminLogin} />
+          <Route path={ROUTES.LOGIN} component={Login} />
+          <Route path={ROUTES.SIGN_UP} component={SignUp} />
           <Route path={ROUTES.ADMIN_ALL_POSTS} component={AdminAllPosts} />
           <Route path={ROUTES.ADMIN_FAVORITE_POSTS} component={AdminFavoritePosts} />
           <Route path={ROUTES.ADMIN_CREATE_POST} component={AdminCreatePost} />

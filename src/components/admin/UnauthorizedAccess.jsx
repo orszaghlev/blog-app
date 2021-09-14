@@ -28,7 +28,7 @@ export default function UnauthorizedAccess() {
                     justify="center"
                     alignItems="center">
                     <Button m="2rem" style={{ marginRight: "10px" }} variant="contained" color="secondary" onClick={() => {
-                        history.push(ROUTES.ADMIN_LOGIN)
+                        history.push(ROUTES.LOGIN)
                     }}>
                         Bejelentkezés/Hitelesítés
                     </Button>

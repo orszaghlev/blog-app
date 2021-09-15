@@ -103,7 +103,7 @@ export function SignUp() {
                 )}
                 <form className={classes.root} noValidate autoComplete="off" onSubmit={handleSignUp} method="POST">
                     <Grid container
-                        direction="row"
+                        direction="column"
                         justify="center"
                         alignItems="center">
                         <TextField
@@ -139,7 +139,12 @@ export function SignUp() {
                             onChange={({ target }) => setPassword(target.value)}
                             value={password}
                         />
-                        <Button type="submit" variant="contained" color="primary" disabled={isInvalid}>
+                    </Grid>
+                    <Grid container
+                        direction="row"
+                        justify="center"
+                        alignItems="center">
+                        <Button type="submit" variant="contained" color="primary" disabled={isInvalid} style={{ marginRight: "10px" }}>
                             Regisztráció
                         </Button>
                         <Button variant="contained" color="secondary" onClick={() => {
@@ -149,7 +154,7 @@ export function SignUp() {
                         </Button>
                     </Grid>
                 </form>
-                <div>
+                <div className="m-2">
                     <p>
                         Van fiókja?{` `}
                         <Link to={ROUTES.LOGIN}>

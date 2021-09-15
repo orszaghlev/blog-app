@@ -63,16 +63,16 @@ export function Login() {
                 <div>
                     <h2>Bejelentkezés</h2>
                 </div>
-                {error && (
-                    <p>
-                        {error}
-                    </p>
-                )}
                 <form className={classes.root} noValidate autoComplete="off" onSubmit={handleLogin} method="POST">
                     <Grid container
-                        direction="row"
+                        direction="column"
                         justify="center"
                         alignItems="center">
+                        {error && (
+                            <div className="text-danger">
+                                {error}
+                            </div>
+                        )}
                         <TextField
                             required
                             id="filled-required"
@@ -90,7 +90,12 @@ export function Login() {
                             onChange={({ target }) => setPassword(target.value)}
                             value={password}
                         />
-                        <Button type="submit" variant="contained" color="primary" disabled={isInvalid}>
+                    </Grid>
+                    <Grid container
+                        direction="row"
+                        justify="center"
+                        alignItems="center">
+                        <Button type="submit" variant="contained" color="primary" disabled={isInvalid} style={{ marginRight: "10px" }}>
                             Bejelentkezés
                         </Button>
                         <Button variant="contained" color="secondary" onClick={() => {
@@ -100,7 +105,7 @@ export function Login() {
                         </Button>
                     </Grid>
                 </form>
-                <div>
+                <div className="m-2">
                     <p>
                         Nincsen fiókja?{` `}
                         <Link to={ROUTES.SIGN_UP}>

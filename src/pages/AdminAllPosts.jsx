@@ -451,7 +451,7 @@ export function AdminAllPosts() {
                                                             <FontAwesomeIcon icon={faCopy} />
                                                         </button>
                                                         <button className="btn btn-warning m-1" style={{ width: "50px", height: "50px" }} onClick={() => {
-                                                            history.push(ROUTES.ADMIN_EDIT_POST + `${post.id}`)
+                                                            history.push(`/admin/edit-post/${post.id}`)
                                                         }}>
                                                             <FontAwesomeIcon icon={faPencilAlt} />
                                                         </button>

@@ -1,6 +1,6 @@
-import * as Firebase from 'firebase/compat/app';
-import 'firebase/compat/firestore';
-import 'firebase/compat/auth';
+import Firebase from 'firebase/app';
+import 'firebase/firestore';
+import 'firebase/auth';
 
 const config = {
     apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -11,7 +11,7 @@ const config = {
     appId: process.env.REACT_APP_FIREBASE_APP_ID,
 };
 
-const firebase = Firebase.initializeApp(config);
+const firebase = !Firebase.apps.length ? Firebase.initializeApp(config) : Firebase.app();
 const { FieldValue } = Firebase.firestore;
 
 export { firebase, FieldValue };

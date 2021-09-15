@@ -93,13 +93,13 @@ function App() {
         </AppBar>
         <Switch>
           <Route path={ROUTES.HOME} exact component={Home} />
-          <Route path={ROUTES.VIEW_POST + ":id"} component={ViewPost} />
+          <Route path={ROUTES.VIEW_POST} component={ViewPost} />
           <Route path={ROUTES.LOGIN} component={Login} />
           <Route path={ROUTES.SIGN_UP} component={SignUp} />
           <Route path={ROUTES.ADMIN_ALL_POSTS} component={AdminAllPosts} />
           <Route path={ROUTES.ADMIN_FAVORITE_POSTS} component={AdminFavoritePosts} />
           <Route path={ROUTES.ADMIN_CREATE_POST} component={AdminCreatePost} />
-          <Route path={ROUTES.ADMIN_EDIT_POST + ":id"} component={AdminEditPost} />
+          <Route path={ROUTES.ADMIN_EDIT_POST} component={AdminEditPost} />
           <Redirect to={ROUTES.HOME} />
         </Switch>
       </BrowserRouter >

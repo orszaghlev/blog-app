@@ -18,7 +18,6 @@ import { NavigateBefore as NavigateBeforeIcon } from '@material-ui/icons';
 import { IconButton } from "@material-ui/core";
 import firebase from "../lib/Firebase";
 import { usePagination } from "use-pagination-firestore";
-import * as ROUTES from '../constants/Routes';
 import NoPostsAvailable from "../components/home/NoPostsAvailable";
 
 export function Home() {
@@ -131,7 +130,7 @@ export function Home() {
                                 li.content.toLowerCase().includes(search.toLowerCase())))
                             .map((post) => (
                                 <div className="card col-sm-3 d-inline-block m-1 p-2 h-100" style={{ border: "none" }} onClick={() => {
-                                    history.push(ROUTES.VIEW_POST + `${post.id}`)
+                                    history.push(`/home/${post.id}`)
                                 }}>
                                     <Grid container
                                         direction="row"

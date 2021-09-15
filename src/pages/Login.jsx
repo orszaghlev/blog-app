@@ -90,8 +90,13 @@ export function Login() {
                             onChange={({ target }) => setPassword(target.value)}
                             value={password}
                         />
-                        <Button type="submit" variant="contained" color="primary" disabled={isInvalid}> 
+                        <Button type="submit" variant="contained" color="primary" disabled={isInvalid}>
                             Bejelentkezés
+                        </Button>
+                        <Button variant="contained" color="secondary" onClick={() => {
+                            history.push(ROUTES.HOME);
+                        }}>
+                            Vissza
                         </Button>
                     </Grid>
                 </form>

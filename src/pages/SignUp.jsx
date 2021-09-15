@@ -142,6 +142,11 @@ export function SignUp() {
                         <Button type="submit" variant="contained" color="primary" disabled={isInvalid}>
                             Regisztráció
                         </Button>
+                        <Button variant="contained" color="secondary" onClick={() => {
+                            history.push(ROUTES.HOME);
+                        }}>
+                            Vissza
+                        </Button>
                     </Grid>
                 </form>
                 <div>

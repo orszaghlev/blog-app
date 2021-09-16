@@ -46,7 +46,7 @@ export function SignUp() {
                         dateCreated: Date.now()
                     });
 
-                return history.push(ROUTES.HOME);
+                return history.push(`/profile/${username}`);
             } catch (error) {
                 setUsername('');
                 setFullName('');

@@ -16,7 +16,7 @@ import Grid from '@material-ui/core/Grid';
 import { NavigateNext as NavigateNextIcon } from '@material-ui/icons';
 import { NavigateBefore as NavigateBeforeIcon } from '@material-ui/icons';
 import { IconButton } from "@material-ui/core";
-import firebase from "../lib/Firebase";
+import { firebase } from "../lib/Firebase";
 import { usePagination } from "use-pagination-firestore";
 import NoPostsAvailable from "../components/home/NoPostsAvailable";
 

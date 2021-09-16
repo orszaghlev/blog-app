@@ -22,7 +22,7 @@ import { faSortUp, faSortDown } from "@fortawesome/free-solid-svg-icons";
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import ModalImage from "react-modal-image";
-import firebase from "../lib/Firebase";
+import { firebase } from "../lib/Firebase";
 import latinize from 'latinize';
 import * as ROUTES from '../constants/Routes';
 import NoFavoritePosts from "../components/admin/favorite-posts/NoFavoritePosts";

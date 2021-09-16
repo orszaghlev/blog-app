@@ -12,7 +12,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { Editor } from '@tinymce/tinymce-react';
-import firebase from "../lib/Firebase";
+import { firebase } from "../lib/Firebase";
 import { useCollection } from "react-firebase-hooks/firestore";
 import * as ROUTES from '../constants/Routes';
 import PostNotAvailable from "../components/view-post/PostNotAvailable";

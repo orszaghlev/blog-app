@@ -26,7 +26,7 @@ import { faPencilAlt, faTrash, faCopy, faSortUp, faSortDown, faHeart } from "@fo
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import ModalImage from "react-modal-image";
-import firebase from "../lib/Firebase";
+import { firebase } from "../lib/Firebase";
 import { usePagination } from "use-pagination-firestore";
 import latinize from 'latinize';
 import * as ROUTES from '../constants/Routes';

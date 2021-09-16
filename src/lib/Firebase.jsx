@@ -1,8 +1,8 @@
-import firebase from "firebase/app";
-import "firebase/auth";
-import "firebase/firestore";
+import Firebase from 'firebase/app';
+import 'firebase/firestore';
+import 'firebase/auth';
 
-const clientCredentials = {
+const config = {
     apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
     authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
     projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
@@ -11,8 +11,7 @@ const clientCredentials = {
     appId: process.env.REACT_APP_FIREBASE_APP_ID,
 };
 
-if (!firebase.apps.length) {
-    firebase.initializeApp(clientCredentials);
-}
+const firebase = !Firebase.apps.length ? Firebase.initializeApp(config) : Firebase.app();
+const { FieldValue } = Firebase.firestore;
 
-export default firebase;
+export { firebase, FieldValue };

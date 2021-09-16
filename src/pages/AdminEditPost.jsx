@@ -9,7 +9,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import { makeStyles } from '@material-ui/core/styles';
 import { Editor } from '@tinymce/tinymce-react';
 import slugify from 'react-slugify';
-import firebase from "../lib/Firebase";
+import { firebase } from "../lib/Firebase";
 import * as ROUTES from '../constants/Routes';
 import PostNotAvailable from "../components/admin/edit-post/PostNotAvailable";
 import UnauthorizedAccess from "../components/admin/UnauthorizedAccess";

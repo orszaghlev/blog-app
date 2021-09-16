@@ -42,7 +42,7 @@ export function SignUp() {
                         username: username.toLowerCase(),
                         fullName,
                         emailAddress: emailAddress.toLowerCase(),
-                        followers: [],
+                        favoritePosts: [],
                         dateCreated: Date.now()
                     });
 

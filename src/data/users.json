@@ -1,18 +1,18 @@
 {
     "1": {
-        "userId": 1,
+        "userId": "SQ63uFaevONVpZHFAiMyjDbbmI52",
         "username": "admin",
         "fullName": "Levente Orszagh",
-        "emailAddress": "whoiszorz@gmail.com",
+        "emailAddress": "orszaghlev@gmail.com",
         "favoritePosts": [],
-        "dateCreated": "2021. 09. 14. 12:00"
+        "dateCreated": 1631791677094
     },
     "2": {
-        "userId": 2,
-        "username": "user",
-        "fullName": "User Test",
+        "userId": "PHwH4hY63QOQZEF2TLpnersijBw1",
+        "username": "testuser",
+        "fullName": "Test User",
         "emailAddress": "test@user.com",
         "favoritePosts": [],
-        "dateCreated": "2021. 09. 14. 12:00"
+        "dateCreated": 1631791677094
     }
 }

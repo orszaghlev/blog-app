@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import React, { useState, Suspense, useEffect } from "react";
 import { BrowserRouter, NavLink, Route, Redirect, Switch } from "react-router-dom";
 import { Home } from "./pages/Home";
 import { ViewPost } from "./pages/ViewPost";
@@ -8,7 +8,6 @@ import { Profile } from "./pages/Profile";
 import { AdminAllPosts } from "./pages/AdminAllPosts";
 import { AdminCreatePost } from "./pages/AdminCreatePost";
 import { AdminEditPost } from "./pages/AdminEditPost";
-import { AdminFavoritePosts } from "./pages/AdminFavoritePosts";
 import { Helmet } from "react-helmet-async";
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -18,12 +17,14 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import { firebase } from "./lib/Firebase";
 import * as ROUTES from "./constants/Routes";
-import ProtectedRoute from './helpers/ProtectedRoute';
+import ProtectedRouteUser from './helpers/ProtectedRouteUser';
+import ProtectedRouteAdmin from './helpers/ProtectedRouteAdmin';
 import UserContext from './contexts/User';
 import useAuthListener from './hooks/UseAuthListener';
 
 export default function App() {
   const { user } = useAuthListener();
+  const [admin, setAdmin] = useState(null);
 
   const useStyles = makeStyles((theme) => ({
     root: {
@@ -38,6 +39,14 @@ export default function App() {
   }));
 
   const classes = useStyles();
+
+  useEffect(() => {
+    if (user?.uid === process.env.REACT_APP_FIREBASE_ADMIN_UID) {
+      setAdmin(user);
+    } else {
+      setAdmin(null);
+    }
+  }, [user]);
 
   return (
     <div className="App">
@@ -64,29 +73,27 @@ export default function App() {
                     </NavLink>
                   </Button>
                 </>}
-                {user && user.username === "admin" && <>
+                {admin !== null && <>
                   <Button color="inherit">
                     <NavLink to={ROUTES.ADMIN_CREATE_POST}>
                       <span className="nav-link" style={{ color: 'white' }}>Új bejegyzés</span>
                     </NavLink>
                   </Button>
-                  <Button color="inherit">
-                    <NavLink to={ROUTES.ADMIN_FAVORITE_POSTS}>
-                      <span className="nav-link" style={{ color: 'white' }}>Kedvenc bejegyzések</span>
-                    </NavLink>
-                  </Button>
+                  <Typography>|</Typography>
                   <Button color="inherit">
                     <NavLink to={ROUTES.ADMIN_ALL_POSTS}>
                       <span className="nav-link" style={{ color: 'white' }}>Összes bejegyzés</span>
                     </NavLink>
                   </Button>
+                  <Typography>|</Typography>
                 </>}
                 {user && <>
                   <Button color="inherit">
                     <NavLink to={ROUTES.PROFILE}>
-                      <span className="nav-link" style={{ color: 'white' }}>Profil</span>
+                      <span className="nav-link" style={{ color: 'white' }}>{user.displayName}</span>
                     </NavLink>
                   </Button>
+                  <Typography>|</Typography>
                   <Button color="inherit" onClick={() => firebase.auth().signOut()}>
                     <NavLink to={ROUTES.HOME}>
                       <span className="nav-link" style={{ color: 'white' }}>Kijelentkezés</span>
@@ -100,13 +107,16 @@ export default function App() {
               <Route path={ROUTES.VIEW_POST} component={ViewPost} />
               <Route path={ROUTES.LOGIN} component={Login} />
               <Route path={ROUTES.SIGN_UP} component={SignUp} />
-              <ProtectedRoute user={user} path={ROUTES.PROFILE} exact>
+              <ProtectedRouteUser user={user} path={ROUTES.PROFILE} exact>
                 <Profile />
-              </ProtectedRoute>
-              <Route path={ROUTES.ADMIN_ALL_POSTS} component={AdminAllPosts} />
-              <Route path={ROUTES.ADMIN_FAVORITE_POSTS} component={AdminFavoritePosts} />
-              <Route path={ROUTES.ADMIN_CREATE_POST} component={AdminCreatePost} />
-              <Route path={ROUTES.ADMIN_EDIT_POST} component={AdminEditPost} />
+              </ProtectedRouteUser>
+              <ProtectedRouteAdmin admin={admin} path={ROUTES.ADMIN_ALL_POSTS} exact>
+                <AdminAllPosts />
+              </ProtectedRouteAdmin>
+              <ProtectedRouteAdmin admin={admin} path={ROUTES.ADMIN_CREATE_POST} exact>
+                <AdminCreatePost />
+              </ProtectedRouteAdmin>
+              <ProtectedRouteAdmin admin={admin} path={ROUTES.ADMIN_EDIT_POST} component={AdminEditPost} />
               <Redirect to={ROUTES.HOME} />
             </Switch>
           </Suspense>

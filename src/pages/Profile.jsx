@@ -10,6 +10,7 @@ import UserContext from '../contexts/User';
 export function Profile() {
     const { user: loggedInUser } = useContext(UserContext);
     const { user } = useUser(loggedInUser?.uid);
+    const date = new Date(parseInt(user?.dateCreated));
 
     return (
         <LoggedInUserContext.Provider value={{ user }}>
@@ -41,8 +42,8 @@ export function Profile() {
                         <p>Felhasználónév: {user?.username}</p>
                         <p>Teljes név: {user?.fullName}</p>
                         <p>E-mail cím: {user?.emailAddress}</p>
-                        <p>Profil létrehozásának dátuma: {user?.dateCreated}</p>
-                        <p>Kedvenc bejegyzések: {user?.favoritePosts}</p>
+                        <p>Profil létrehozásának dátuma: {date.toLocaleDateString() + " " + date.toLocaleTimeString()}</p>
+                        <p>{user?.favoritePosts.length === 0 ? "Jelenleg nincsenek kedvenc bejegyzései!" : "Kedvenc bejegyzések: " + user?.favoritePosts}</p>
                     </Grid>
                 </motion.div>
             </div>

@@ -32,11 +32,6 @@ export default function PostNotAvailable() {
                     }}>
                         Új bejegyzés
                     </Button>
-                    <Button size="2rem" style={{ marginRight: "10px" }} variant="contained" color="secondary" align="center" onClick={() => {
-                        history.push(ROUTES.ADMIN_FAVORITE_POSTS)
-                    }}>
-                        Kedvenc bejegyzések
-                    </Button>
                     <Button size="2rem" variant="contained" color="secondary" align="center" onClick={() => {
                         history.push(ROUTES.ADMIN_ALL_POSTS)
                     }}>

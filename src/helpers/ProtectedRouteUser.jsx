@@ -3,7 +3,7 @@ import { Route, Redirect } from 'react-router-dom';
 import React from 'react';
 import * as ROUTES from '../constants/Routes';
 
-export default function ProtectedRoute({ user, children, ...rest }) {
+export default function ProtectedRouteUser({ user, children, ...rest }) {
     return (
         <Route
             {...rest}
@@ -28,7 +28,7 @@ export default function ProtectedRoute({ user, children, ...rest }) {
     );
 }
 
-ProtectedRoute.propTypes = {
+ProtectedRouteUser.propTypes = {
     user: PropTypes.object,
     children: PropTypes.object.isRequired
 };

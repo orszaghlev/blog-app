@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { Spinner } from "../components/Spinner";
 import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
 import { makeStyles } from '@material-ui/core/styles';
@@ -13,18 +12,14 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
-import { NavigateNext as NavigateNextIcon } from '@material-ui/icons';
-import { NavigateBefore as NavigateBeforeIcon } from '@material-ui/icons';
-import { IconButton } from "@material-ui/core";
-import { firebase } from "../lib/Firebase";
-import { usePagination } from "use-pagination-firestore";
 import NoPostsAvailable from "../components/home/NoPostsAvailable";
+import useAllPosts from "../hooks/UseAllPosts";
 
 export function Home() {
+    const { posts } = useAllPosts();
     const [search, setSearch] = useState("");
     const [hunCount, setHunCount] = useState(1);
     const history = useHistory();
-
     const useStyles = makeStyles((theme) => ({
         root: {
             width: 350,
@@ -39,29 +34,9 @@ export function Home() {
             },
         },
     }));
-
     const classes = useStyles();
 
-    const {
-        items,
-        isLoading,
-        isStart,
-        isEnd,
-        getPrev,
-        getNext,
-    } = usePagination(
-        firebase
-            .firestore()
-            .collection("/posts")
-            .orderBy("id", "asc"),
-        {
-            limit: 9
-        }
-    );
-
-    if (isLoading) {
-        return <Spinner />
-    } else if (items.length === 0) {
+    if (!posts) {
         return <NoPostsAvailable />
     } else {
         return (
@@ -106,20 +81,8 @@ export function Home() {
                             }}>Csak magyar bejegyzések
                         </Button>
                     </Grid>
-                    <Grid item xs={12}>
-                        <Grid container justify="center">
-                            <Grid item>
-                                <IconButton onClick={getPrev} disabled={isStart}>
-                                    <NavigateBeforeIcon />
-                                </IconButton>
-                                <IconButton onClick={getNext} disabled={isEnd}>
-                                    <NavigateNextIcon />
-                                </IconButton>
-                            </Grid>
-                        </Grid>
-                    </Grid>
                     {
-                        items.filter(li =>
+                        posts?.filter(li =>
                             li.isActive.toString() === "true"
                             && (new Date(li.date).getTime() < new Date().getTime())
                             && (li.tag.toLowerCase().includes(search.toLowerCase()) ||
@@ -130,7 +93,7 @@ export function Home() {
                                 li.content.toLowerCase().includes(search.toLowerCase())))
                             .map((post) => (
                                 <div className="card col-sm-3 d-inline-block m-1 p-2 h-100" style={{ border: "none" }} onClick={() => {
-                                    history.push(`/home/${post.id}`)
+                                    history.push(`/home/${post?.id}`)
                                 }}>
                                     <Grid container
                                         direction="row"
@@ -140,15 +103,15 @@ export function Home() {
                                             <CardActionArea>
                                                 <CardMedia
                                                     className={classes.media}
-                                                    image={post.imgURL}
-                                                    title={post.title}
+                                                    image={post?.imgURL}
+                                                    title={post?.title}
                                                 />
                                                 <CardContent>
                                                     <Typography gutterBottom variant="h5" component="h2">
-                                                        {post.title}
+                                                        {post?.title}
                                                     </Typography>
                                                     <Typography variant="body2" color="textSecondary" component="p">
-                                                        {post.description}
+                                                        {post?.description}
                                                     </Typography>
                                                 </CardContent>
                                             </CardActionArea>

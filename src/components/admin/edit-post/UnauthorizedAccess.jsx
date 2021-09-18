@@ -2,8 +2,8 @@ import { motion } from "framer-motion";
 import { Grid } from "@material-ui/core";
 import { Button } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
-import { firebase } from "../../lib/Firebase";
-import * as ROUTES from '../../constants/Routes';
+import { firebase } from "../../../lib/Firebase";
+import * as ROUTES from '../../../constants/Routes';
 
 export default function UnauthorizedAccess() {
     const history = useHistory();

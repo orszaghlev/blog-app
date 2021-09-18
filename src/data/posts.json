@@ -1,6 +1,6 @@
 {
     "1": {
-        "id": 1,
+        "id": "1",
         "title": "Sunt aut facere",
         "slug": "sunt-aut-facere",
         "description": "Első bejegyzés",
@@ -8,10 +8,17 @@
         "imgURL": "https://sienaconstruction.com/wp-content/uploads/2017/05/test-image.jpg",
         "tag": "hun",
         "isActive": true,
-        "date": "2021. 01. 30. 10:59"
+        "date": "2021. 01. 30. 10:59",
+        "comments": [
+            {
+                "displayName": "admin",
+                "comment": "test"
+            }
+        ],
+        "saves": []
     },
     "2": {
-        "id": 2,
+        "id": "2",
         "title": "Qui est esse",
         "slug": "qui-est-esse",
         "description": "Second post",
@@ -19,10 +26,12 @@
         "imgURL": "https://sienaconstruction.com/wp-content/uploads/2017/05/test-image.jpg",
         "tag": "eng",
         "isActive": true,
-        "date": "2021. 02. 28. 10:59"
+        "date": "2021. 02. 28. 10:59",
+        "comments": [],
+        "saves": []
     },
     "3": {
-        "id": 3,
+        "id": "3",
         "title": "Ea molestias quasi",
         "slug": "ea-molestias-quasi",
         "description": "Harmadik bejegyzés",
@@ -30,10 +39,12 @@
         "imgURL": "https://sienaconstruction.com/wp-content/uploads/2017/05/test-image.jpg",
         "tag": "hun",
         "isActive": true,
-        "date": "2021. 03. 30. 10:59"
+        "date": "2021. 03. 30. 10:59",
+        "comments": [],
+        "saves": []
     },
     "4": {
-        "id": 4,
+        "id": "4",
         "title": "Eum et est occaecati",
         "slug": "eum-et-est-occaecati",
         "description": "Fourth post",
@@ -41,10 +52,12 @@
         "imgURL": "https://sienaconstruction.com/wp-content/uploads/2017/05/test-image.jpg",
         "tag": "eng",
         "isActive": true,
-        "date": "2021. 04. 30. 10:59"
+        "date": "2021. 04. 30. 10:59",
+        "comments": [],
+        "saves": []
     },
     "5": {
-        "id": 5,
+        "id": "5",
         "title": "Nesciunt quas odio",
         "slug": "nesciunt-quas-odio",
         "description": "Ötödik bejegyzés",
@@ -52,10 +65,12 @@
         "imgURL": "https://sienaconstruction.com/wp-content/uploads/2017/05/test-image.jpg",
         "tag": "hun",
         "isActive": true,
-        "date": "2021. 05. 30. 10:59"
+        "date": "2021. 05. 30. 10:59",
+        "comments": [],
+        "saves": []
     },
     "6": {
-        "id": 6,
+        "id": "6",
         "title": "Dolorem eum magni",
         "slug": "dolorem-eum-magni",
         "description": "Sixth post",
@@ -63,10 +78,12 @@
         "imgURL": "https://sienaconstruction.com/wp-content/uploads/2017/05/test-image.jpg",
         "tag": "eng",
         "isActive": false,
-        "date": "2021. 06. 30. 10:59"
+        "date": "2021. 06. 30. 10:59",
+        "comments": [],
+        "saves": []
     },
     "7": {
-        "id": 7,
+        "id": "7",
         "title": "Magnam facilis autem",
         "slug": "magnam-facilis-autem",
         "description": "Hetedik bejegyzés",
@@ -74,6 +91,8 @@
         "imgURL": "https://sienaconstruction.com/wp-content/uploads/2017/05/test-image.jpg",
         "tag": "hun",
         "isActive": false,
-        "date": "2021. 07. 30. 10:59"
+        "date": "2021. 07. 30. 10:59",
+        "comments": [],
+        "saves": []
     }
 }

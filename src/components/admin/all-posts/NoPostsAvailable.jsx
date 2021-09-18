@@ -22,7 +22,7 @@ export default function NoPostsAvailable() {
                     }
                 },
             }}>
-                <h3 className="text-center">Nincsenek elérhető bejegyzések!</h3>
+                <h3 className="text-center">Jelenleg nincsenek elérhető bejegyzések!</h3>
                 <Grid container
                     direction="row"
                     justify="center"

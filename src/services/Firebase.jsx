@@ -35,3 +35,91 @@ export async function getUserByUserId(userId) {
         docId: item.id
     }));
 }
+
+export async function getAllPosts() {
+    const result = await firebase
+        .firestore()
+        .collection('posts')
+        .get();
+
+    return result.docs.map((item) => ({
+        ...item.data()
+    }));
+}
+
+export async function getPostByPostId(postId) {
+    const result = await firebase
+        .firestore()
+        .collection('posts')
+        .where('id', '==', postId)
+        .get();
+
+    return result.docs.map((item) => ({
+        ...item.data(),
+        docId: item.id
+    }));
+}
+
+export async function updateLoggedInUserFavoritePosts(
+    loggedInUserDocId,
+    postId,
+    isFollowingPost
+) {
+    return firebase
+        .firestore()
+        .collection('users')
+        .doc(loggedInUserDocId)
+        .update({
+            favoritePosts: isFollowingPost
+                ? FieldValue.arrayRemove(postId)
+                : FieldValue.arrayUnion(postId)
+        });
+}
+
+export async function getFavoritePosts(userId, favoritePosts) {
+    const result = await firebase
+        .firestore()
+        .collection('posts')
+        .where('userId', 'in', favoritePosts)
+        .get();
+    const userFavoritePosts = result.docs.map((post) => ({
+        ...post.data(),
+        docId: post.id
+    }));
+    const postsWithUserDetails = await Promise.all(
+        userFavoritePosts.map(async (post) => {
+            let userSavedPost = false;
+            if (post.saves.includes(userId)) {
+                userSavedPost = true;
+            }
+            const user = await getUserByUserId(post.userId);
+            const { username } = user[0];
+            return { username, ...post, userSavedPost };
+        })
+    );
+
+    return postsWithUserDetails;
+}
+
+export async function isUserFollowingPost(loggedInUserUsername, postUserId) {
+    const result = await firebase
+        .firestore()
+        .collection('users')
+        .where('username', '==', loggedInUserUsername)
+        .where('favoritePosts', 'array-contains', postUserId)
+        .get();
+    const [response = {}] = result.docs.map((item) => ({
+        ...item.data(),
+        docId: item.id
+    }));
+
+    return response.userId;
+}
+
+export async function toggleSave(
+    isSavingPost,
+    activeUserDocId,
+    postUserId
+) {
+    await updateLoggedInUserFavoritePosts(activeUserDocId, postUserId, isSavingPost);
+}

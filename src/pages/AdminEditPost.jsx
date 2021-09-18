@@ -12,7 +12,7 @@ import slugify from 'react-slugify';
 import { firebase } from "../lib/Firebase";
 import * as ROUTES from '../constants/Routes';
 import PostNotAvailable from "../components/admin/edit-post/PostNotAvailable";
-import UnauthorizedAccess from "../components/admin/UnauthorizedAccess";
+import UnauthorizedAccess from "../components/admin/edit-post/UnauthorizedAccess";
 
 export function AdminEditPost(props) {
     const history = useHistory();

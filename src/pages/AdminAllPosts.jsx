@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useMemo } from "react";
+import React, { useState, useRef, useMemo } from "react";
 import { useHistory } from "react-router-dom";
 import { Spinner } from "../components/Spinner";
 import { motion } from "framer-motion";
@@ -111,39 +111,6 @@ export function AdminAllPosts() {
         }
         return sortConfig.key === name ? sortConfig.direction : undefined;
     };
-
-    const [favorites, setFavorites] = useState([]);
-
-    const addFav = (props) => {
-        let array = favorites;
-        let addArray = true;
-        // eslint-disable-next-line
-        array.map((item, key) => {
-            if (item === props.post) {
-                array.splice(key, 1);
-                addArray = false;
-            }
-        });
-        if (addArray) {
-            array.push(props.post);
-        }
-        setFavorites([...array]);
-
-        localStorage.setItem("favorites", JSON.stringify(favorites));
-        const storage = localStorage.getItem('favItem' + (props.post.id)) !== null ? localStorage.getItem('favItem' + (props.post.id)) : '0';
-        if (storage === '0') {
-            localStorage.setItem(('favItem' + (props.post.id)), JSON.stringify(props.post));
-        } else {
-            localStorage.removeItem('favItem' + (props.post.id));
-        }
-    }
-
-    useEffect(() => {
-        const getArray = localStorage.getItem('favorites') !== null ? JSON.parse(localStorage.getItem('favorites')) : [];
-        if (getArray !== []) {
-            setFavorites([...getArray]);
-        }
-    }, []);
 
     if (isLoading) {
         return <Spinner />
@@ -411,7 +378,7 @@ export function AdminAllPosts() {
                                                             width: "50px", height: "50px", border: '1px solid rgba(0, 0, 0, 0.5)'
                                                         }}
                                                         onClick={() => {
-                                                            addFav({ post });
+
                                                         }}>
                                                         <FontAwesomeIcon icon={faHeart} style={{
                                                             color: localStorage.getItem('favItem' + (post.id)) !== null ? '#dc3545' : 'black'

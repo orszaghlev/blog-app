@@ -41,7 +41,7 @@ export async function getAllPosts() {
         .firestore()
         .collection('posts')
         .get();
-
+        
     return result.docs.map((item) => ({
         ...item.data()
     }));

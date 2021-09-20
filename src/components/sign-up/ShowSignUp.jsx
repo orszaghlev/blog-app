@@ -21,7 +21,6 @@ export default function ShowSignUp() {
     const isInvalid = password === '' || emailAddress === '';
     const handleSignUp = async (e) => {
         e.preventDefault();
-
         const usernameExists = await doesUsernameExist(username);
         if (!usernameExists.length) {
             try {
@@ -32,7 +31,6 @@ export default function ShowSignUp() {
                 await createdUserResult.user.updateProfile({
                     displayName: username
                 });
-
                 await firebase
                     .firestore()
                     .collection('users')
@@ -44,7 +42,6 @@ export default function ShowSignUp() {
                         favoritePosts: [],
                         dateCreated: Date.now()
                     });
-
                 return history.push(ROUTES.PROFILE);
             } catch (error) {
                 setUsername('');

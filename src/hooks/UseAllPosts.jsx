@@ -2,14 +2,12 @@ import { useState, useEffect } from 'react';
 import { getAllPosts } from '../services/Firebase';
 
 export default function useAllPosts() {
-    const [allPosts, setAllPosts] = useState();
+    const [allPosts, setAllPosts] = useState(null);
 
     useEffect(() => {
         async function getPosts() {
-            const [{posts}] = await getAllPosts();
-
-            console.log(posts);
-            setAllPosts(posts || {});
+            const posts = await getAllPosts();
+            setAllPosts(posts);
         }
 
         getPosts();

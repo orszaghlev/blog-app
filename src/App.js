@@ -25,7 +25,6 @@ import useAuthListener from './hooks/UseAuthListener';
 export default function App() {
   const { user } = useAuthListener();
   const [admin, setAdmin] = useState(null);
-
   const useStyles = makeStyles((theme) => ({
     root: {
       flexGrow: 1,
@@ -37,7 +36,6 @@ export default function App() {
       flexGrow: 1,
     },
   }));
-
   const classes = useStyles();
 
   useEffect(() => {

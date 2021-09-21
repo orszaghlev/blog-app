@@ -6,7 +6,7 @@ import usePost from "../hooks/UsePost";
 import ShowEditPost from "../components/admin/edit-post/ShowEditPost";
 
 export function AdminEditPost(props) {
-    const { post } = usePost(props.match.params.id);
+    const { post } = usePost(props.match.params.slug);
     const [isSignedIn, setIsSignedIn] = useState(false);
 
     useEffect(() => {

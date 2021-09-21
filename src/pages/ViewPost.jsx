@@ -4,7 +4,7 @@ import usePost from "../hooks/UsePost";
 import ShowPost from "../components/view-post/ShowPost";
 
 export function ViewPost(props) {
-    const { post } = usePost(props.match.params.id);
+    const { post } = usePost(props.match.params.slug);
 
     if (!post) {
         return <PostNotAvailable />

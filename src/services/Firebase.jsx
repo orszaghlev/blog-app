@@ -47,11 +47,11 @@ export async function getAllPosts() {
     }));
 }
 
-export async function getPostByPostId(postId) {
+export async function getPostByPostSlug(postSlug) {
     const result = await firebase
         .firestore()
         .collection('posts')
-        .where('id', '==', postId)
+        .where('slug', '==', postSlug)
         .get();
 
     return result.docs.map((item) => ({

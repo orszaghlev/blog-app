@@ -1,19 +1,19 @@
 import { useState, useEffect } from 'react';
-import { getPostByPostId } from '../services/Firebase';
+import { getPostByPostSlug } from '../services/Firebase';
 
-export default function usePost(postId) {
+export default function usePost(postSlug) {
     const [activePost, setActivePost] = useState();
 
     useEffect(() => {
-        async function getPostObjByPostId(postId) {
-            const [post] = await getPostByPostId(postId);
+        async function getPostObjByPostSlug(postSlug) {
+            const [post] = await getPostByPostSlug(postSlug);
             setActivePost(post || {});
         }
 
-        if (postId) {
-            getPostObjByPostId(postId);
+        if (postSlug) {
+            getPostObjByPostSlug(postSlug);
         }
-    }, [postId]);
+    }, [postSlug]);
 
     return { post: activePost };
 }

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { getFavoritePosts } from '../services/firebase';
+import PropTypes from 'prop-types';
 
 export default function useFavoritePosts(user) {
     const [favoritePosts, setFavoritePosts] = useState(null);
@@ -17,3 +18,7 @@ export default function useFavoritePosts(user) {
 
     return { favoritePosts };
 }
+
+useFavoritePosts.propTypes = {
+    user: PropTypes.object.isRequired
+};

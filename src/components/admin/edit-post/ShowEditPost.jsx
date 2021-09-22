@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useHistory } from "react-router-dom";
+import PropTypes from 'prop-types';
 import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
 import { Button } from "@material-ui/core";
@@ -219,3 +220,7 @@ export default function ShowEditPost({ post }) {
         </div>
     )
 }
+
+ShowEditPost.propTypes = {
+    post: PropTypes.object.isRequired
+};

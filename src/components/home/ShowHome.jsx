@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
+import PropTypes from 'prop-types';
 import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
 import { makeStyles } from '@material-ui/core/styles';
@@ -123,3 +124,7 @@ export default function ShowHome({ posts }) {
         </div >
     )
 }
+
+ShowHome.propTypes = {
+    posts: PropTypes.array.isRequired
+};

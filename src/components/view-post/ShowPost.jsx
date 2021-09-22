@@ -1,5 +1,6 @@
-import React, { useRef } from "react";
+import { useRef } from "react";
 import { useHistory } from "react-router-dom";
+import PropTypes from 'prop-types';
 import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
 import { makeStyles } from '@material-ui/core/styles';
@@ -13,7 +14,7 @@ import Typography from '@material-ui/core/Typography';
 import { Editor } from '@tinymce/tinymce-react';
 import * as ROUTES from '../../constants/Routes';
 
-export default function ShowPost({ post }) {
+export default function ShowPost({ post, user }) {
     const history = useHistory();
     const useStyles = makeStyles({
         root: {
@@ -84,6 +85,13 @@ export default function ShowPost({ post }) {
                         }}
                     />
                     <CardActions style={{ justifyContent: "center" }}>
+                        {user &&
+                            <Button size="small" color="primary" align="center" onClick={() => {
+
+                            }}>
+                                Hozzáadás a kedvencekhez
+                            </Button>
+                        }
                         <Button size="small" color="secondary" align="center" onClick={() => {
                             history.push(ROUTES.HOME)
                         }}>
@@ -95,3 +103,8 @@ export default function ShowPost({ post }) {
         </div>
     )
 }
+
+ShowPost.propTypes = {
+    post: PropTypes.object.isRequired,
+    user: PropTypes.object
+};

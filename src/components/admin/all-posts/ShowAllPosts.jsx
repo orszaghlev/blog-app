@@ -1,5 +1,6 @@
 import { useState, useRef, useMemo } from "react";
 import { useHistory } from "react-router-dom";
+import PropTypes from 'prop-types';
 import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
 import Card from '@material-ui/core/Card';
@@ -376,3 +377,7 @@ export default function ShowAllPosts({ posts }) {
         </div >
     )
 }
+
+ShowAllPosts.propTypes = {
+    posts: PropTypes.array.isRequired
+};

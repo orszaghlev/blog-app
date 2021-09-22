@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { getPostByPostSlug } from '../services/Firebase';
+import PropTypes from 'prop-types';
 
 export default function usePost(postSlug) {
     const [activePost, setActivePost] = useState();
@@ -17,3 +18,7 @@ export default function usePost(postSlug) {
 
     return { post: activePost };
 }
+
+usePost.propTypes = {
+    postSlug: PropTypes.string.isRequired
+};

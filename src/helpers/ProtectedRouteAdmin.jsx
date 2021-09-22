@@ -29,6 +29,6 @@ export default function ProtectedRouteAdmin({ admin, children, ...rest }) {
 }
 
 ProtectedRouteAdmin.propTypes = {
-    admin: PropTypes.object,
+    admin: PropTypes.object.isRequired,
     children: PropTypes.object.isRequired
 };

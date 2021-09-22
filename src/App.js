@@ -1,4 +1,4 @@
-import React, { useState, Suspense, useEffect } from "react";
+import { useState, Suspense, useEffect } from "react";
 import { BrowserRouter, NavLink, Route, Redirect, Switch } from "react-router-dom";
 import { Home } from "./pages/Home";
 import { ViewPost } from "./pages/ViewPost";
@@ -102,7 +102,7 @@ export default function App() {
             </AppBar>
             <Switch>
               <Route path={ROUTES.HOME} exact component={Home} />
-              <Route path={ROUTES.VIEW_POST} component={ViewPost} />
+              <Route path={ROUTES.VIEW_POST} user={user} component={ViewPost} />
               <Route path={ROUTES.LOGIN} component={Login} />
               <Route path={ROUTES.SIGN_UP} component={SignUp} />
               <ProtectedRouteUser user={user} path={ROUTES.PROFILE} exact>

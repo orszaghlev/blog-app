@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
+import PropTypes from 'prop-types';
 import { firebase } from "../lib/Firebase";
 import PostNotAvailable from "../components/admin/edit-post/PostNotAvailable";
 import UnauthorizedAccess from "../components/admin/edit-post/UnauthorizedAccess";
@@ -24,3 +25,7 @@ export function AdminEditPost(props) {
         return <ShowEditPost post={post} />
     }
 }
+
+AdminEditPost.propTypes = {
+    props: PropTypes.object.isRequired
+};

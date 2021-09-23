@@ -38,40 +38,37 @@ export default function AddComment({ docId, comments, setComments, commentInput 
     const classes = useStyles();
 
     return (
-        <div className="p-3 content text-center m-auto" style={{ width: "1000px" }}>
-            <form className={classes.root} noValidate autoComplete="off" method="POST"
-                onSubmit={(e) =>
-                    comment.length >= 1 ? handleSubmitComment(e) : e.preventDefault()
-                }
-            >
-                <Grid container
-                    direction="column"
-                    justify="center"
-                    alignItems="center">
-                    <TextField
-                        aria-label="Hozzászólás"
-                        autoComplete="off"
-                        className="text-sm text-gray-base w-full mr-3 py-5 px-4"
-                        type="text"
-                        name="add-comment"
-                        placeholder="Hozzászólás"
-                        style={{ width: "800px" }}
-                        value={comment}
-                        onChange={({ target }) => setComment(target.value)}
-                        ref={commentInput}
-                    />
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        type="submit"
-                        disabled={comment.length < 1}
-                        onClick={handleSubmitComment}
-                    >
-                        Közzététel
-                    </Button>
-                </Grid>
-            </form>
-        </div>
+        <form className={classes.root} noValidate autoComplete="off" method="POST"
+            onSubmit={(e) =>
+                comment.length >= 1 ? handleSubmitComment(e) : e.preventDefault()
+            }
+        >
+            <Grid container
+                direction="column"
+                justify="center"
+                alignItems="center">
+                <TextField
+                    aria-label="Új hozzászólás"
+                    autoComplete="off"
+                    type="text"
+                    name="add-comment"
+                    placeholder="Új hozzászólás"
+                    style={{ width: "800px" }}
+                    value={comment}
+                    onChange={({ target }) => setComment(target.value)}
+                    ref={commentInput}
+                />
+                <Button
+                    variant="contained"
+                    color="primary"
+                    type="submit"
+                    disabled={comment.length < 1}
+                    onClick={handleSubmitComment}
+                >
+                    Közzététel
+                </Button>
+            </Grid>
+        </form>
     );
 }
 

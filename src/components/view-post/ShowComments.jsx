@@ -20,35 +20,33 @@ export default function ShowComments({ docId, comments: allComments, commentInpu
 
     return (
         <>
-            <div className="p-3 content text-center m-auto" style={{ width: "1000px" }}>
-                <Card className={classes.root}>
-                    <div>
-                        <h4>{comments?.length === 0 ? "Jelenleg nincsenek hozzászólások!" : "Hozzászólások"}</h4>
-                    </div>
-                    {comments?.slice(0, 3).map((item) => (
-                        <CardActionArea>
-                            <CardContent>
-                                <>
-                                    <p key={`${item.comment}-${item.displayName}`} className="mb-1">
-                                        <span className="mr-1 font-bold">{item.displayName}</span>
-                                    </p>
-                                    <p key={`${item.comment}-${item.displayName}`} className="mb-1">
-                                        <h5>{item.comment}</h5>
-                                    </p>
-                                </>
-                            </CardContent>
-                        </CardActionArea>
-                    ))}
-                    {user &&
-                        <AddComment
-                            docId={docId}
-                            comments={comments}
-                            setComments={setComments}
-                            commentInput={commentInput}
-                        />
-                    }
-                </Card>
-            </div>
+            <Card className={classes.root}>
+                <div>
+                    <h4>{comments?.length === 0 ? "Jelenleg nincsenek hozzászólások!" : "Hozzászólások"}</h4>
+                </div>
+                {comments?.map((item) => (
+                    <CardActionArea>
+                        <CardContent>
+                            <>
+                                <p key={`${item.comment}-${item.displayName}`} className="mb-1">
+                                    <span className="mr-1 font-bold">{item.displayName}</span>
+                                </p>
+                                <p key={`${item.comment}-${item.displayName}`} className="mb-1">
+                                    <h5>{item.comment}</h5>
+                                </p>
+                            </>
+                        </CardContent>
+                    </CardActionArea>
+                ))}
+                {user &&
+                    <AddComment
+                        docId={docId}
+                        comments={comments}
+                        setComments={setComments}
+                        commentInput={commentInput}
+                    />
+                }
+            </Card>
         </>
     )
 }

@@ -38,7 +38,8 @@ export function AdminEditPost(props) {
                     }
                 },
             }}>
-                {!post ? <PostNotAvailable /> : (!isSignedIn || firebase.auth().currentUser.uid !== process.env.REACT_APP_FIREBASE_ADMIN_UID ? <UnauthorizedAccess /> : <ShowEditPost post={post} />)}
+                {!post ? <PostNotAvailable /> :
+                    (!isSignedIn || firebase.auth().currentUser.uid !== process.env.REACT_APP_FIREBASE_ADMIN_UID ? <UnauthorizedAccess /> : <ShowEditPost post={post} />)}
             </motion.div>
         </div>
     )

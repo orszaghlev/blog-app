@@ -41,7 +41,7 @@ export function ViewPost(props) {
                     <>
                         <LoggedInUserContext.Provider value={{ user }}>
                             <ShowPost post={post} user={user} />
-                            <br />
+                            <hr />
                             <ShowComments
                                 docId={post?.docId}
                                 comments={post?.comments}

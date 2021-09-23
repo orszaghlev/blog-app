@@ -5,6 +5,8 @@ import useUser from '../hooks/UseUser';
 import UserContext from '../contexts/User';
 import LoggedInUserContext from '../contexts/LoggedInUser';
 import ShowProfile from "../components/profile/ShowProfile";
+import ShowFavoritePosts from "../components/profile/ShowFavoritePosts";
+import ShowOwnComments from "../components/profile/ShowOwnComments";
 
 export function Profile() {
     const { user: loggedInUser } = useContext(UserContext);
@@ -31,6 +33,10 @@ export function Profile() {
                     },
                 }}>
                     <ShowProfile user={user} />
+                    <hr />
+                    <ShowFavoritePosts user={user} />
+                    <hr />
+                    <ShowOwnComments user={user} />
                 </motion.div>
             </div>
         </LoggedInUserContext.Provider>

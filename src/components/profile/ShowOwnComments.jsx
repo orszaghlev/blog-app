@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { getAllPosts } from '../../services/Firebase';
 
 export default function ShowOwnComments({ user }) {
@@ -24,7 +25,12 @@ export default function ShowOwnComments({ user }) {
                         </div>
                     ))
                 ))}
+                <hr />
             </div>
         </>
     )
 }
+
+ShowOwnComments.propTypes = {
+    user: PropTypes.object.isRequired
+};

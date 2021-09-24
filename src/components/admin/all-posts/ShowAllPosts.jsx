@@ -16,7 +16,7 @@ import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import MenuItem from '@material-ui/core/MenuItem';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPencilAlt, faTrash, faCopy, faSortUp, faSortDown, faHeart } from "@fortawesome/free-solid-svg-icons";
+import { faPencilAlt, faTrash, faCopy, faSortUp, faSortDown } from "@fortawesome/free-solid-svg-icons";
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import ModalImage from "react-modal-image";
@@ -309,44 +309,38 @@ export default function ShowAllPosts({ posts }) {
                                             </TextField>
                                         </TableCell>
                                         <TableCell align="center">
-                                            <button className="btn btn-light m-1"
-                                                style={{
-                                                    width: "50px", height: "50px", border: '1px solid rgba(0, 0, 0, 0.5)'
-                                                }}
-                                                onClick={() => {
-
+                                            <Grid container
+                                                direction="column"
+                                                justify="center"
+                                                alignItems="center">
+                                                <button className="btn btn-primary m-1" style={{ width: "50px", height: "50px" }} onClick={() => {
+                                                    const data = {
+                                                        id: ((parseInt(post.id)) + 1).toString(),
+                                                        title: post.title,
+                                                        slug: post.slug,
+                                                        description: post.description,
+                                                        content: post.content,
+                                                        imgURL: post.imgURL,
+                                                        tag: post.tag,
+                                                        isActive: post.isActive,
+                                                        date: post.date
+                                                    };
+                                                    firebase.firestore().collection('posts').doc(data.id).set(data);
                                                 }}>
-                                                <FontAwesomeIcon icon={faHeart} style={{
-                                                    color: localStorage.getItem('favItem' + (post.id)) !== null ? '#dc3545' : 'black'
-                                                }} />
-                                            </button>
-                                            <button className="btn btn-primary m-1" style={{ width: "50px", height: "50px" }} onClick={() => {
-                                                const data = {
-                                                    id: ((parseInt(post.id)) + 1).toString(),
-                                                    title: post.title,
-                                                    slug: post.slug,
-                                                    description: post.description,
-                                                    content: post.content,
-                                                    imgURL: post.imgURL,
-                                                    tag: post.tag,
-                                                    isActive: post.isActive,
-                                                    date: post.date
-                                                };
-                                                firebase.firestore().collection('posts').doc(data.id).set(data);
-                                            }}>
-                                                <FontAwesomeIcon icon={faCopy} />
-                                            </button>
-                                            <button className="btn btn-warning m-1" style={{ width: "50px", height: "50px" }} onClick={() => {
-                                                history.push(`/admin/edit-post/${post.slug}`)
-                                            }}>
-                                                <FontAwesomeIcon icon={faPencilAlt} />
-                                            </button>
-                                            <button className="btn btn-danger m-1" style={{ width: "50px", height: "50px" }} onClick={async () => {
-                                                firebase.firestore().collection('posts').doc(post.id).delete().then(() => {
-                                                });
-                                            }}>
-                                                <FontAwesomeIcon icon={faTrash} />
-                                            </button>
+                                                    <FontAwesomeIcon icon={faCopy} />
+                                                </button>
+                                                <button className="btn btn-warning m-1" style={{ width: "50px", height: "50px" }} onClick={() => {
+                                                    history.push(`/admin/edit-post/${post.slug}`)
+                                                }}>
+                                                    <FontAwesomeIcon icon={faPencilAlt} />
+                                                </button>
+                                                <button className="btn btn-danger m-1" style={{ width: "50px", height: "50px" }} onClick={async () => {
+                                                    firebase.firestore().collection('posts').doc(post.id).delete().then(() => {
+                                                    });
+                                                }}>
+                                                    <FontAwesomeIcon icon={faTrash} />
+                                                </button>
+                                            </Grid>
                                         </TableCell>
                                     </TableRow>
                                 ))}

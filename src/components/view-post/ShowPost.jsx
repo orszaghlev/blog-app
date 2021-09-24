@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useState, useContext, useRef } from "react";
 import { useHistory } from "react-router-dom";
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
@@ -10,9 +10,14 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { Editor } from '@tinymce/tinymce-react';
+import FirebaseContext from "../../contexts/Firebase";
 import * as ROUTES from '../../constants/Routes';
 
 export default function ShowPost({ post, user }) {
+    const [toggleSaved, setToggleSaved] = useState(post?.userSavedPost);
+    // eslint-disable-next-line
+    const [saves, setSaves] = useState(post?.saves?.length);
+    const { firebase, FieldValue } = useContext(FirebaseContext);
     const history = useHistory();
     const useStyles = makeStyles({
         root: {
@@ -24,6 +29,24 @@ export default function ShowPost({ post, user }) {
     });
     const classes = useStyles();
     const editorRef = useRef(null);
+    const handleToggleSaved = async () => {
+        setToggleSaved((toggleSaved) => !toggleSaved);
+        await firebase
+            .firestore()
+            .collection('posts')
+            .doc(post.docId)
+            .update({
+                saves: toggleSaved ? FieldValue.arrayRemove(user?.userId) : FieldValue.arrayUnion(user?.userId)
+            });
+        await firebase
+            .firestore()
+            .collection('users')
+            .doc(user.docId)
+            .update({
+                favoritePosts: toggleSaved ? FieldValue.arrayRemove(post?.slug) : FieldValue.arrayUnion(post?.slug)
+            });
+        setSaves((saves) => (toggleSaved ? saves - 1 : saves + 1));
+    };
 
     return (
         <>
@@ -67,10 +90,8 @@ export default function ShowPost({ post, user }) {
                 />
                 <CardActions style={{ justifyContent: "center" }}>
                     {user &&
-                        <Button size="small" color="primary" align="center" onClick={() => {
-
-                        }}>
-                            Hozzáadás a kedvencekhez
+                        <Button size="small" color="primary" align="center" onClick={handleToggleSaved}>
+                            {!toggleSaved ? "Hozzáadás a kedvencekhez" : "Eltávolitás a kedvencek közül"}
                         </Button>
                     }
                     <Button size="small" color="secondary" align="center" onClick={() => {

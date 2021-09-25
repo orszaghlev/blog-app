@@ -16,7 +16,6 @@ export default function ShowLogin() {
     const isInvalid = password === '' || emailAddress === '';
     const handleLogin = async (e) => {
         e.preventDefault();
-
         try {
             await firebase.auth().signInWithEmailAndPassword(emailAddress, password);
             history.push(ROUTES.HOME);

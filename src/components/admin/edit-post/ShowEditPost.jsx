@@ -65,7 +65,9 @@ export default function ShowEditPost({ post }) {
                         isActive: e.target.elements.isActive.value,
                         date: e.target.elements.date.value ?
                             e.target.elements.date.value.toString().replace("T", ". ").replaceAll("-", ". ") :
-                            new Date().toLocaleTimeString([], { year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' })
+                            new Date().toLocaleTimeString([], { year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' }),
+                        comments: post?.comments,
+                        saves: post?.saves
                     };
                     firebase.firestore().collection('posts').doc(data.id).set(data);
                     history.push(ROUTES.ADMIN_ALL_POSTS);

@@ -13,7 +13,7 @@ export default function ShowProfile({ user }) {
             <p>Felhasználónév: {user?.username}</p>
             <p>Teljes név: {user?.fullName}</p>
             <p>E-mail cím: {user?.emailAddress}</p>
-            <p>Regisztráció dátuma: {date.toLocaleDateString() + " " + date.toLocaleTimeString()}</p>
+            <p>Regisztráció dátuma: {date?.toLocaleDateString() + " " + date?.toLocaleTimeString()}</p>
         </>
     )
 }

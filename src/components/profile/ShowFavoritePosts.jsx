@@ -16,7 +16,7 @@ export default function ShowFavoritePosts({ user }) {
                 <Button variant="text" color="primary" onClick={() => {
                     history.push(`/posts/${postSlug}`)
                 }}>
-                    {postSlug.replaceAll('-', ' ')}
+                    {postSlug?.replaceAll('-', ' ')}
                 </Button>
             ))}
         </Grid>

@@ -34,14 +34,14 @@ export default function ShowPost({ post, user }) {
         await firebase
             .firestore()
             .collection('posts')
-            .doc(post.docId)
+            .doc(post?.docId)
             .update({
                 saves: toggleSaved ? FieldValue.arrayRemove(user?.userId) : FieldValue.arrayUnion(user?.userId)
             });
         await firebase
             .firestore()
             .collection('users')
-            .doc(user.docId)
+            .doc(user?.docId)
             .update({
                 favoritePosts: toggleSaved ? FieldValue.arrayRemove(post?.slug) : FieldValue.arrayUnion(post?.slug)
             });

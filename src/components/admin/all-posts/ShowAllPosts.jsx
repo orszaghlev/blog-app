@@ -226,30 +226,17 @@ export default function ShowAllPosts({ posts }) {
                                 li.description.toLowerCase().includes(search.toLowerCase()) ||
                                 li.content.toLowerCase().includes(search.toLowerCase()))
                                 .map((post) => (
-                                    <TableRow key={post.id}>
-                                        <TableCell align="center">{post.id}</TableCell>
-                                        <TableCell align="center">{post.title}</TableCell>
-                                        <TableCell align="center">{post.slug}</TableCell>
+                                    <TableRow key={post?.id}>
+                                        <TableCell align="center">{post?.id}</TableCell>
+                                        <TableCell align="center">{post?.title}</TableCell>
+                                        <TableCell align="center">{post?.slug}</TableCell>
                                         <TableCell align="center" style={{ width: "200px" }}>
-                                            <textarea value={post.description} class="form-control" rows="3" onChange={(e) => {
-                                                const data = {
-                                                    id: post.id,
-                                                    title: post.title,
-                                                    slug: post.slug,
-                                                    description: e.target.value,
-                                                    content: post.content,
-                                                    imgURL: post.imgURL,
-                                                    tag: post.tag,
-                                                    isActive: post.isActive,
-                                                    date: post.date
-                                                };
-                                                firebase.firestore().collection('posts').doc(post.id).set(data);
-                                            }} />
+                                            <textarea value={post?.description} class="form-control" rows="3" />
                                         </TableCell>
                                         <TableCell align="center">
                                             <CKEditor
                                                 editor={ClassicEditor}
-                                                data={post.content}
+                                                data={post?.content}
                                                 config={{
                                                     toolbar: []
                                                 }}
@@ -259,50 +246,21 @@ export default function ShowAllPosts({ posts }) {
                                                         writer.setStyle('height', '150px', editor.editing.view.document.getRoot());
                                                     });
                                                 }}
-                                                onChange={(editor) => {
-                                                    const content = editor.getData();
-                                                    const data = {
-                                                        id: post.id,
-                                                        title: post.title,
-                                                        slug: post.slug,
-                                                        description: post.description,
-                                                        content: content,
-                                                        imgURL: post.imgURL,
-                                                        tag: post.tag,
-                                                        isActive: post.isActive,
-                                                        date: post.date
-                                                    };
-                                                    firebase.firestore().collection('posts').doc(post.id).set(data);
-                                                }}
                                             />
                                         </TableCell>
                                         <TableCell align="center">
                                             <div style={{ width: "100px", height: "100px" }}>
                                                 <ModalImage
-                                                    alt={post.title}
-                                                    small={post.imgURL}
-                                                    large={post.imgURL}
+                                                    alt={post?.title}
+                                                    small={post?.imgURL}
+                                                    large={post?.imgURL}
                                                 />
                                             </div>
                                         </TableCell>
-                                        <TableCell align="center">{post.tag}</TableCell>
-                                        <TableCell align="center" style={{ width: "150px" }}>{post.date}</TableCell>
+                                        <TableCell align="center">{post?.tag}</TableCell>
+                                        <TableCell align="center" style={{ width: "150px" }}>{post?.date}</TableCell>
                                         <TableCell align="center">
-                                            <TextField value={post.isActive} name="isActive" label="Állapot" variant="filled" type="text" select
-                                                onChange={(e) => {
-                                                    const data = {
-                                                        id: post.id,
-                                                        title: post.title,
-                                                        slug: post.slug,
-                                                        description: post.description,
-                                                        content: post.content,
-                                                        imgURL: post.imgURL,
-                                                        tag: post.tag,
-                                                        isActive: e.target.value,
-                                                        date: post.date
-                                                    };
-                                                    firebase.firestore().collection('posts').doc(post.id).set(data);
-                                                }}
+                                            <TextField value={post?.isActive} name="isActive" label="Állapot" variant="filled" type="text" select
                                                 style={{ textAlign: "left" }} >
                                                 <MenuItem value="true">Aktív</MenuItem>
                                                 <MenuItem value="false">Inaktív</MenuItem>
@@ -315,27 +273,29 @@ export default function ShowAllPosts({ posts }) {
                                                 alignItems="center">
                                                 <button className="btn btn-primary m-1" style={{ width: "50px", height: "50px" }} onClick={() => {
                                                     const data = {
-                                                        id: ((parseInt(post.id)) + 1).toString(),
-                                                        title: post.title,
-                                                        slug: post.slug,
-                                                        description: post.description,
-                                                        content: post.content,
-                                                        imgURL: post.imgURL,
-                                                        tag: post.tag,
-                                                        isActive: post.isActive,
-                                                        date: post.date
+                                                        id: ((parseInt(post?.id)) + 1).toString(),
+                                                        title: post?.title,
+                                                        slug: post?.slug,
+                                                        description: post?.description,
+                                                        content: post?.content,
+                                                        imgURL: post?.imgURL,
+                                                        tag: post?.tag,
+                                                        isActive: post?.isActive,
+                                                        date: post?.date,
+                                                        comments: post?.comments,
+                                                        saves: post?.saves
                                                     };
                                                     firebase.firestore().collection('posts').doc(data.id).set(data);
                                                 }}>
                                                     <FontAwesomeIcon icon={faCopy} />
                                                 </button>
                                                 <button className="btn btn-warning m-1" style={{ width: "50px", height: "50px" }} onClick={() => {
-                                                    history.push(`/admin/edit-post/${post.slug}`)
+                                                    history.push(`/admin/edit-post/${post?.slug}`)
                                                 }}>
                                                     <FontAwesomeIcon icon={faPencilAlt} />
                                                 </button>
                                                 <button className="btn btn-danger m-1" style={{ width: "50px", height: "50px" }} onClick={async () => {
-                                                    firebase.firestore().collection('posts').doc(post.id).delete().then(() => {
+                                                    firebase.firestore().collection('posts').doc(post?.id).delete().then(() => {
                                                     });
                                                 }}>
                                                     <FontAwesomeIcon icon={faTrash} />

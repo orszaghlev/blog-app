@@ -2,6 +2,7 @@ import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Grid } from "@material-ui/core";
 import { Button } from '@material-ui/core';
+import slugify from 'react-slugify';
 
 export default function ShowFavoritePosts({ user }) {
     const history = useHistory();
@@ -12,11 +13,11 @@ export default function ShowFavoritePosts({ user }) {
             justify="center"
             alignItems="center">
             <h5>{user?.favoritePosts.length === 0 ? "Jelenleg nincsenek kedvenc bejegyzései!" : "Kedvenc bejegyzések"}</h5>
-            {user?.favoritePosts.map((postSlug) => (
+            {user?.favoritePosts.map((postTitle) => (
                 <Button variant="text" color="primary" onClick={() => {
-                    history.push(`/posts/${postSlug}`)
+                    history.push(`/posts/${slugify(postTitle)}`)
                 }}>
-                    {postSlug?.replaceAll('-', ' ')}
+                    {postTitle}
                 </Button>
             ))}
         </Grid>

@@ -9,7 +9,8 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import { Editor } from '@tinymce/tinymce-react';
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import FirebaseContext from "../../contexts/Firebase";
 import * as ROUTES from '../../constants/Routes';
 
@@ -18,6 +19,7 @@ export default function ShowPost({ post, user }) {
     // eslint-disable-next-line
     const [saves, setSaves] = useState(post?.saves?.length);
     const { firebase, FieldValue } = useContext(FirebaseContext);
+    const [notification, setNotification] = useState('');
     const history = useHistory();
     const useStyles = makeStyles({
         root: {
@@ -43,7 +45,7 @@ export default function ShowPost({ post, user }) {
             .collection('users')
             .doc(user?.docId)
             .update({
-                favoritePosts: toggleSaved ? FieldValue.arrayRemove(post?.slug) : FieldValue.arrayUnion(post?.slug)
+                favoritePosts: toggleSaved ? FieldValue.arrayRemove(post?.title) : FieldValue.arrayUnion(post?.title)
             });
         setSaves((saves) => (toggleSaved ? saves - 1 : saves + 1));
     };
@@ -73,24 +75,23 @@ export default function ShowPost({ post, user }) {
                         </Typography>
                     </CardContent>
                 </CardActionArea>
-                <Editor
-                    apiKey={process.env.REACT_APP_TINY_API_KEY}
-                    onInit={(editor) => editorRef.current = editor}
-                    value={post?.content}
-                    init={{
-                        selector: 'textarea',
-                        readonly: 1,
-                        language: 'hu_HU',
-                        menubar: false,
-                        toolbar: false,
-                        statusbar: false,
-                        resize: false,
-                        content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+                <CKEditor
+                    editor={ClassicEditor}
+                    data={post?.content}
+                    config={{
+                        toolbar: []
+                    }}
+                    onReady={editor => {
+                        editorRef.current = editor;
+                        editor.isReadOnly = true;
                     }}
                 />
                 <CardActions style={{ justifyContent: "center" }}>
                     {user &&
-                        <Button size="small" color="primary" align="center" onClick={handleToggleSaved}>
+                        <Button size="small" color="primary" align="center" onClick={() => {
+                            handleToggleSaved();
+                            setNotification(!toggleSaved ? "Sikeres hozzáadás!" : "Sikeres eltávolítás!");
+                        }}>
                             {!toggleSaved ? "Hozzáadás a kedvencekhez" : "Eltávolitás a kedvencek közül"}
                         </Button>
                     }
@@ -100,6 +101,11 @@ export default function ShowPost({ post, user }) {
                         Vissza
                     </Button>
                 </CardActions>
+                {notification && (
+                    <div className="text-success">
+                        {notification}
+                    </div>
+                )}
             </Card>
         </>
     )

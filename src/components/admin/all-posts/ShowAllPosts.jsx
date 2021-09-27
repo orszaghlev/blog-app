@@ -241,10 +241,11 @@ export default function ShowAllPosts({ posts }) {
                                                     toolbar: []
                                                 }}
                                                 onReady={editor => {
-                                                    editorRef.current = editor
+                                                    editorRef.current = editor;
                                                     editor.editing.view.change(writer => {
                                                         writer.setStyle('height', '150px', editor.editing.view.document.getRoot());
                                                     });
+                                                    editor.isReadOnly = true;
                                                 }}
                                             />
                                         </TableCell>

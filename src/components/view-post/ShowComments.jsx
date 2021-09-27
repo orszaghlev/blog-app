@@ -6,7 +6,7 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import AddComment from './AddComment';
 
-export default function ShowComments({ docId, comments: allComments, commentInput, user }) {
+export default function ShowComments({ docId, title, comments: allComments, commentInput, user }) {
     const [comments, setComments] = useState(allComments);
     const useStyles = makeStyles({
         root: {
@@ -41,6 +41,7 @@ export default function ShowComments({ docId, comments: allComments, commentInpu
                 {user &&
                     <AddComment
                         docId={docId}
+                        title={title}
                         comments={comments}
                         setComments={setComments}
                         commentInput={commentInput}
@@ -53,6 +54,7 @@ export default function ShowComments({ docId, comments: allComments, commentInpu
 
 ShowComments.propTypes = {
     docId: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
     comments: PropTypes.array.isRequired,
     posted: PropTypes.number.isRequired,
     commentInput: PropTypes.object.isRequired,

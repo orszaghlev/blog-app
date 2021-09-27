@@ -38,6 +38,7 @@ export default function ShowSignUp() {
                         fullName,
                         emailAddress: emailAddress.toLowerCase(),
                         favoritePosts: [],
+                        ownComments: [],
                         dateCreated: Date.now()
                     });
                 return history.push(ROUTES.PROFILE);

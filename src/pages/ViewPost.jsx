@@ -44,6 +44,7 @@ export function ViewPost(props) {
                             <hr />
                             <ShowComments
                                 docId={post?.docId}
+                                title={post?.title}
                                 comments={post?.comments}
                                 posted={post?.date}
                                 commentInput={commentInput}

@@ -5,6 +5,7 @@
         "fullName": "Levente Orszagh",
         "emailAddress": "orszaghlev@gmail.com",
         "favoritePosts": [],
+        "ownComments": [],
         "dateCreated": 1631791677094
     },
     "2": {
@@ -13,6 +14,7 @@
         "fullName": "Test User",
         "emailAddress": "test@user.com",
         "favoritePosts": [],
+        "ownComments": [],
         "dateCreated": 1631791677094
     }
 }

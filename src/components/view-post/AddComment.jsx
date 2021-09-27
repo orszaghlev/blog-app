@@ -8,7 +8,7 @@ import FirebaseContext from '../../contexts/Firebase';
 import useUser from '../../hooks/UseUser';
 import UserContext from '../../contexts/User';
 
-export default function AddComment({ docId, comments, setComments, commentInput }) {
+export default function AddComment({ docId, title, comments, setComments, commentInput }) {
     const [comment, setComment] = useState('');
     const { firebase, FieldValue } = useContext(FirebaseContext);
     const {
@@ -19,12 +19,19 @@ export default function AddComment({ docId, comments, setComments, commentInput 
         e.preventDefault();
         setComments([...comments, { displayName: user.username, comment }]);
         setComment('');
-        return firebase
+        firebase
             .firestore()
             .collection('posts')
             .doc(docId)
             .update({
                 comments: FieldValue.arrayUnion({ displayName: user.username, comment })
+            });
+        firebase
+            .firestore()
+            .collection('users')
+            .doc(user?.docId)
+            .update({
+                ownComments: FieldValue.arrayUnion({ comment, title })
             });
     };
     const useStyles = makeStyles((theme) => ({
@@ -74,6 +81,7 @@ export default function AddComment({ docId, comments, setComments, commentInput 
 
 AddComment.propTypes = {
     docId: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
     comments: PropTypes.array.isRequired,
     setComments: PropTypes.func.isRequired,
     commentInput: PropTypes.object

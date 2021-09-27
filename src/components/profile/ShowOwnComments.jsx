@@ -1,33 +1,30 @@
-import { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { getAllPosts } from '../../services/Firebase';
+import { Grid } from "@material-ui/core";
+import { Button } from '@material-ui/core';
+import slugify from 'react-slugify';
 
 export default function ShowOwnComments({ user }) {
-    const [posts, setPosts] = useState([]);
-
-    useEffect(() => {
-        async function getPosts() {
-            const posts = await getAllPosts();
-            setPosts(posts);
-        }
-
-        getPosts();
-    }, []);
+    const history = useHistory();
 
     return (
-        <>
-            <div>
-                <h5>Saját hozzászólások</h5>
-                {posts?.map((post) => (
-                    post?.comments?.map((comment) => (
-                        <div>
-                            <p>{comment?.displayName === user?.username ? comment?.comment : ""}</p>
-                        </div>
-                    ))
-                ))}
-                <hr />
-            </div>
-        </>
+        <Grid container
+            direction="column"
+            justify="center"
+            alignItems="center">
+            <h5>{user?.ownComments.length === 0 ? "Jelenleg nincsenek saját hozzászólásai!" : "Saját hozzászólások"}</h5>
+            {user?.ownComments?.map((item) => (
+                <div>
+                    <Button variant="text" color="primary" onClick={() => {
+                        history.push(`/posts/${slugify(item?.title)}`)
+                    }}>
+                        <h6>{item?.title}</h6>
+                    </Button>
+                    <p>{item?.comment}</p>
+                </div>
+            ))}
+            <hr />
+        </Grid>
     )
 }
 

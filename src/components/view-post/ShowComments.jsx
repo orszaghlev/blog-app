@@ -24,15 +24,15 @@ export default function ShowComments({ docId, title, comments: allComments, comm
                 <div>
                     <h4>{comments?.length === 0 ? "Jelenleg nincsenek hozzászólások!" : "Hozzászólások"}</h4>
                 </div>
-                {comments?.map((item) => (
+                {comments?.map((comment) => (
                     <CardActionArea>
                         <CardContent>
                             <>
-                                <p key={`${item.comment}-${item.displayName}`} className="mb-1">
-                                    <span className="mr-1 font-bold">{item.displayName}</span>
+                                <p key={`${comment.comment}-${comment.displayName}`} className="mb-1">
+                                    <span className="mr-1 font-bold">{comment.displayName}</span>
                                 </p>
-                                <p key={`${item.comment}-${item.displayName}`} className="mb-1">
-                                    <h5>{item.comment}</h5>
+                                <p key={`${comment.comment}-${comment.displayName}`} className="mb-1">
+                                    <h5>{comment.comment}</h5>
                                 </p>
                             </>
                         </CardContent>

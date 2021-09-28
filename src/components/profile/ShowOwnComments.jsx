@@ -13,14 +13,14 @@ export default function ShowOwnComments({ user }) {
             justify="center"
             alignItems="center">
             <h5>{user?.ownComments.length === 0 ? "Jelenleg nincsenek saját hozzászólásai!" : "Saját hozzászólások"}</h5>
-            {user?.ownComments?.map((item) => (
+            {user?.ownComments?.map((comment) => (
                 <div>
                     <Button variant="text" color="primary" onClick={() => {
-                        history.push(`/posts/${slugify(item?.title)}`)
+                        history.push(`/posts/${slugify(comment?.title)}`)
                     }}>
-                        <h6>{item?.title}</h6>
+                        <h6>{comment?.title}</h6>
                     </Button>
-                    <p>{item?.comment}</p>
+                    <p>{comment?.comment}</p>
                 </div>
             ))}
             <hr />

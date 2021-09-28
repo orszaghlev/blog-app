@@ -36,17 +36,6 @@ export async function getUserByUserId(userId) {
     }));
 }
 
-export async function getAllPosts() {
-    const result = await firebase
-        .firestore()
-        .collection('posts')
-        .get();
-
-    return result.docs.map((item) => ({
-        ...item.data()
-    }));
-}
-
 export async function getPostByPostSlug(postSlug) {
     const result = await firebase
         .firestore()

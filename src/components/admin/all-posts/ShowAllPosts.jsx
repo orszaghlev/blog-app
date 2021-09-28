@@ -24,7 +24,7 @@ import { firebase } from "../../../lib/Firebase";
 import latinize from 'latinize';
 import * as ROUTES from '../../../constants/Routes';
 
-export default function ShowAllPosts({ posts }) {
+export default function ShowAllPosts({ allPosts, isLoading, isEmpty, fetchMoreData }) {
     const [search, setSearch] = useState("");
     const [hunCount, setHunCount] = useState(1);
     const [activeCount, setActiveCount] = useState(1);
@@ -48,7 +48,7 @@ export default function ShowAllPosts({ posts }) {
     const editorRef = useRef(null);
     const [sortConfig, setSortConfig] = useState(null);
     const sortedItems = useMemo(() => {
-        let sortableItems = [...posts];
+        let sortableItems = [...allPosts];
         if (sortConfig !== null) {
             sortableItems.sort((a, b) => {
                 if (latinize(a[sortConfig.key].toString()) < latinize(b[sortConfig.key].toString())) {
@@ -61,7 +61,7 @@ export default function ShowAllPosts({ posts }) {
             });
         }
         return sortableItems;
-    }, [posts, sortConfig]);
+    }, [allPosts, sortConfig]);
     const requestSort = (key) => {
         let direction = 'ascending';
         if (
@@ -261,8 +261,23 @@ export default function ShowAllPosts({ posts }) {
                                         <TableCell align="center">{post?.tag}</TableCell>
                                         <TableCell align="center" style={{ width: "150px" }}>{post?.date}</TableCell>
                                         <TableCell align="center">
-                                            <TextField value={post?.isActive} name="isActive" label="Állapot" variant="filled" type="text" select
-                                                style={{ textAlign: "left" }} >
+                                            <TextField value={post?.isActive} name="isActive" label="Állapot" type="text" select
+                                                style={{ textAlign: "left" }}
+                                                onChange={(e) => {
+                                                    const data = {
+                                                        id: post.id,
+                                                        title: post.title,
+                                                        slug: post.slug,
+                                                        description: post.description,
+                                                        content: post.content,
+                                                        imgURL: post.imgURL,
+                                                        tag: post.tag,
+                                                        isActive: e.target.value,
+                                                        date: post.date
+                                                    };
+                                                    firebase.firestore().collection('posts').doc(post.id).set(data);
+                                                }}
+                                            >
                                                 <MenuItem value="true">Aktív</MenuItem>
                                                 <MenuItem value="false">Inaktív</MenuItem>
                                             </TextField>
@@ -274,7 +289,7 @@ export default function ShowAllPosts({ posts }) {
                                                 alignItems="center">
                                                 <button className="btn btn-primary m-1" style={{ width: "50px", height: "50px" }} onClick={() => {
                                                     const data = {
-                                                        id: ((parseInt(post?.id)) + 1).toString(),
+                                                        id: post?.id + "_másolat",
                                                         title: post?.title,
                                                         slug: post?.slug,
                                                         description: post?.description,
@@ -309,10 +324,33 @@ export default function ShowAllPosts({ posts }) {
                     </Table>
                 </TableContainer>
             </div>
+            <br />
+            {isLoading && (
+                <div className="text-danger">
+                    <h6>Betöltés...</h6>
+                </div>
+            )}
+            {!isLoading && !isEmpty && (
+                <Grid>
+                    <Button variant="contained" onClick={() => {
+                        fetchMoreData();
+                    }}>
+                        Korábbi bejegyzések
+                    </Button>
+                </Grid>
+            )}
+            {isEmpty && (
+                <div className="text-danger">
+                    <h6>Minden bejegyzés betöltve!</h6>
+                </div>
+            )}
         </>
     )
 }
 
 ShowAllPosts.propTypes = {
-    posts: PropTypes.array.isRequired
+    allPosts: PropTypes.object.isRequired,
+    isLoading: PropTypes.bool.isRequired,
+    isEmpty: PropTypes.bool.isRequired,
+    fetchMoreData: PropTypes.func.isRequired
 };

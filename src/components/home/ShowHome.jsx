@@ -12,7 +12,7 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 
-export default function ShowHome({ posts }) {
+export default function ShowHome({ allPosts, isLoading, isEmpty, fetchMoreData }) {
     const [search, setSearch] = useState("");
     const [hunCount, setHunCount] = useState(1);
     const history = useHistory();
@@ -58,7 +58,7 @@ export default function ShowHome({ posts }) {
                 </Button>
             </Grid>
             {
-                posts?.filter(li =>
+                allPosts?.filter(li =>
                     li.isActive.toString() === "true"
                     && (new Date(li.date).getTime() < new Date().getTime())
                     && (li.tag.toLowerCase().includes(search.toLowerCase()) ||
@@ -101,10 +101,32 @@ export default function ShowHome({ posts }) {
                         </div>
                     ))
             }
+            {isLoading && (
+                <div className="text-danger">
+                    <h6>Betöltés...</h6>
+                </div>
+            )}
+            {!isLoading && !isEmpty && (
+                <Grid>
+                    <Button variant="contained" onClick={() => {
+                        fetchMoreData();
+                    }}>
+                        Korábbi bejegyzések
+                    </Button>
+                </Grid>
+            )}
+            {isEmpty && (
+                <div className="text-danger">
+                    <h6>Minden bejegyzés betöltve!</h6>
+                </div>
+            )}
         </>
     )
 }
 
 ShowHome.propTypes = {
-    posts: PropTypes.array.isRequired
+    allPosts: PropTypes.object.isRequired,
+    isLoading: PropTypes.bool.isRequired,
+    isEmpty: PropTypes.bool.isRequired,
+    fetchMoreData: PropTypes.func.isRequired
 };

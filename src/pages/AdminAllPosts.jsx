@@ -1,20 +1,50 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
-import { getAllPosts } from "../services/Firebase";
-import NoPostsAvailable from "../components/admin/all-posts/NoPostsAvailable";
+import { firebase } from '../lib/Firebase';
+import NoPostsAvailable from '../components/admin/all-posts/NoPostsAvailable';
 import ShowAllPosts from "../components/admin/all-posts/ShowAllPosts";
 
 export function AdminAllPosts() {
-    const [posts, setPosts] = useState([]);
+    const [allPosts, setAllPosts] = useState([]);
+    const [lastPost, setLastPost] = useState();
+    const [isLoading, setIsLoading] = useState(false);
+    const [isEmpty, setIsEmpty] = useState(false);
+    const postsRef = firebase
+        .firestore()
+        .collection('posts')
+        .orderBy('date', 'desc');
+    const updateState = (collections) => {
+        const isCollectionEmpty = collections.size === 0;
+        if (!isCollectionEmpty) {
+            const posts = collections.docs.map((post) => post.data());
+            const lastPost = collections.docs[collections.docs.length - 1];
+            setAllPosts(allPosts => [...allPosts, ...posts]);
+            setLastPost(lastPost);
+        } else {
+            setIsEmpty(true);
+        }
+        setIsLoading(false);
+    };
+    const fetchMoreData = () => {
+        setIsLoading(true);
+        postsRef
+            .startAfter(lastPost)
+            .limit(5)
+            .get()
+            .then((collections) => {
+                updateState(collections);
+            });
+    };
 
     useEffect(() => {
-        async function getPosts() {
-            const posts = await getAllPosts();
-            setPosts(posts);
-        }
-
-        getPosts();
+        postsRef
+            .limit(5)
+            .get()
+            .then((collections) => {
+                updateState(collections);
+            });
+        // eslint-disable-next-line
     }, []);
 
     return (
@@ -36,7 +66,7 @@ export function AdminAllPosts() {
                     }
                 },
             }}>
-                {!posts ? <NoPostsAvailable /> : <ShowAllPosts posts={posts} />}
+                {allPosts.length === 0 ? <NoPostsAvailable /> : <ShowAllPosts allPosts={allPosts} isLoading={isLoading} isEmpty={isEmpty} fetchMoreData={fetchMoreData} />}
             </motion.div>
         </div>
     )

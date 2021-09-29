@@ -143,7 +143,7 @@ export default function ShowCreatePost() {
                             justify="space-evenly"
                             alignItems="stretch">
                             <Button type="submit" variant="contained" color="primary">
-                                Küldés
+                                Létrehozás
                             </Button>
                             <Button variant="contained" color="secondary" onClick={() => {
                                 history.push(ROUTES.ADMIN_ALL_POSTS)

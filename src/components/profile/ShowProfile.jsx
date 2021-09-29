@@ -1,6 +1,11 @@
+import { useHistory } from "react-router-dom";
 import PropTypes from 'prop-types';
+import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
+import * as ROUTES from '../../constants/Routes';
 
 export default function ShowProfile({ user }) {
+    const history = useHistory();
     const date = new Date(parseInt(user?.dateCreated));
 
     return (
@@ -14,6 +19,13 @@ export default function ShowProfile({ user }) {
             <p>Teljes név: {user?.fullName}</p>
             <p>E-mail cím: {user?.emailAddress}</p>
             <p>Regisztráció dátuma: {date?.toLocaleDateString() + " " + date?.toLocaleTimeString()}</p>
+            <Grid>
+                <Button variant="contained" onClick={() => {
+                    history.push(ROUTES.PROFILE_EDIT);
+                }}>
+                    Adatok szerkesztése
+                </Button>
+            </Grid>
         </>
     )
 }

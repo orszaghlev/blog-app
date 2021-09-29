@@ -6,7 +6,7 @@ import { Button } from "@material-ui/core";
 import { Grid } from "@material-ui/core";
 import FirebaseContext from '../../contexts/Firebase';
 import * as ROUTES from '../../constants/Routes';
-import { doesUsernameExist } from '../../services/Firebase';
+import { doesEmailAddressExist, doesUsernameExist } from '../../services/Firebase';
 
 export default function ShowSignUp() {
     const history = useHistory();
@@ -20,7 +20,8 @@ export default function ShowSignUp() {
     const handleSignUp = async (e) => {
         e.preventDefault();
         const usernameExists = await doesUsernameExist(username);
-        if (!usernameExists.length) {
+        const emailAddressExists = await doesEmailAddressExist(emailAddress);
+        if (!usernameExists.length && !emailAddressExists.length) {
             try {
                 const createdUserResult = await firebase
                     .auth()
@@ -29,32 +30,34 @@ export default function ShowSignUp() {
                 await createdUserResult.user.updateProfile({
                     displayName: username
                 });
+                const data = {
+                    userId: createdUserResult.user.uid,
+                    username: username.toLowerCase(),
+                    fullName,
+                    emailAddress: emailAddress.toLowerCase(),
+                    favoritePosts: [],
+                    ownComments: [],
+                    dateCreated: Date.now()
+                }
                 await firebase
                     .firestore()
                     .collection('users')
-                    .add({
-                        userId: createdUserResult.user.uid,
-                        username: username.toLowerCase(),
-                        fullName,
-                        emailAddress: emailAddress.toLowerCase(),
-                        favoritePosts: [],
-                        ownComments: [],
-                        dateCreated: Date.now()
-                    });
+                    .doc(data.userId)
+                    .set(data);
                 return history.push(ROUTES.PROFILE);
             } catch (error) {
                 setUsername('');
                 setFullName('');
                 setEmailAddress('');
                 setPassword('');
-                setError('A regisztráció során hiba történt!');
+                setError('A regisztráció során hiba történt! Kérjük, próbálja újra!');
             }
         } else {
             setUsername('');
             setFullName('');
             setEmailAddress('');
             setPassword('');
-            setError('Már regisztráltak ezzel a felhasználónévvel!');
+            setError('Már regisztráltak ezzel a felhasználónévvel és/vagy e-mail címmel!');
         }
     };
     const useStyles = makeStyles((theme) => ({

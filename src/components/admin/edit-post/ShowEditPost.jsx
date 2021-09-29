@@ -188,7 +188,7 @@ export default function ShowEditPost({ post }) {
                             justify="space-evenly"
                             alignItems="stretch">
                             <Button type="submit" variant="contained" color="primary">
-                                Küldés
+                                Szerkesztés
                             </Button>
                             <Button variant="contained" color="secondary" onClick={() => {
                                 history.push(ROUTES.ADMIN_ALL_POSTS)

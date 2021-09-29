@@ -4,6 +4,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
+import Grid from '@material-ui/core/Grid';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPencilAlt, faTrash } from "@fortawesome/free-solid-svg-icons";
 import AddComment from './AddComment';
 
 export default function ShowComments({ docId, title, comments: allComments, commentInput, user }) {
@@ -28,12 +31,29 @@ export default function ShowComments({ docId, title, comments: allComments, comm
                     <CardActionArea>
                         <CardContent>
                             <>
-                                <p key={`${comment.comment}-${comment.displayName}`} className="mb-1">
-                                    <span className="mr-1 font-bold">{comment.displayName}</span>
+                                <p key={`${comment?.comment}-${comment?.displayName}`} className="mb-1">
+                                    <span className="mr-1 font-bold">{comment?.displayName}</span>
                                 </p>
-                                <p key={`${comment.comment}-${comment.displayName}`} className="mb-1">
-                                    <h5>{comment.comment}</h5>
+                                <p key={`${comment?.comment}-${comment?.displayName}`} className="mb-1">
+                                    <h5>{comment?.comment}</h5>
                                 </p>
+                                {user?.userId === process.env.REACT_APP_FIREBASE_ADMIN_UID &&
+                                    <Grid container
+                                        direction="row"
+                                        justify="center"
+                                        alignItems="center">
+                                        <button className="btn btn-warning m-1" style={{ width: "40px", height: "40px" }} onClick={() => {
+
+                                        }}>
+                                            <FontAwesomeIcon icon={faPencilAlt} />
+                                        </button>
+                                        <button className="btn btn-danger m-1" style={{ width: "40px", height: "40px" }} onClick={async () => {
+
+                                        }}>
+                                            <FontAwesomeIcon icon={faTrash} />
+                                        </button>
+                                    </Grid>
+                                }
                             </>
                         </CardContent>
                     </CardActionArea>

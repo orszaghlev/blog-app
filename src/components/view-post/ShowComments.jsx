@@ -5,9 +5,9 @@ import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import Grid from '@material-ui/core/Grid';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPencilAlt, faTrash } from "@fortawesome/free-solid-svg-icons";
 import AddComment from './AddComment';
+import EditComment from './EditComment';
+import DeleteComment from './DeleteComment';
 
 export default function ShowComments({ docId, title, comments: allComments, commentInput, user }) {
     const [comments, setComments] = useState(allComments);
@@ -42,16 +42,21 @@ export default function ShowComments({ docId, title, comments: allComments, comm
                                         direction="row"
                                         justify="center"
                                         alignItems="center">
-                                        <button className="btn btn-warning m-1" style={{ width: "40px", height: "40px" }} onClick={() => {
-
-                                        }}>
-                                            <FontAwesomeIcon icon={faPencilAlt} />
-                                        </button>
-                                        <button className="btn btn-danger m-1" style={{ width: "40px", height: "40px" }} onClick={async () => {
-
-                                        }}>
-                                            <FontAwesomeIcon icon={faTrash} />
-                                        </button>
+                                        <DeleteComment
+                                            docId={docId}
+                                            title={title}
+                                            displayName={comment?.displayName}
+                                            comment={comment?.comment}
+                                        />
+                                        <EditComment
+                                            docId={docId}
+                                            title={title}
+                                            displayName={comment?.displayName}
+                                            originalComment={comment?.comment}
+                                            comments={comments}
+                                            setComments={setComments}
+                                            commentInput={commentInput}
+                                        />
                                     </Grid>
                                 }
                             </>

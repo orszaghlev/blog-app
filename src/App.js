@@ -9,7 +9,6 @@ import { ProfileEdit } from "./pages/ProfileEdit";
 import { AdminAllPosts } from "./pages/AdminAllPosts";
 import { AdminCreatePost } from "./pages/AdminCreatePost";
 import { AdminEditPost } from "./pages/AdminEditPost";
-import { AdminEditComment } from "./pages/AdminEditComment";
 import { Helmet } from "react-helmet-async";
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -118,9 +117,6 @@ export default function App() {
               </ProtectedRouteAdmin>
               <ProtectedRouteAdmin admin={admin} path={ROUTES.ADMIN_CREATE_POST} exact>
                 <AdminCreatePost />
-              </ProtectedRouteAdmin>
-              <ProtectedRouteAdmin admin={admin} path={ROUTES.ADMIN_EDIT_COMMENT} exact>
-                <AdminEditComment />
               </ProtectedRouteAdmin>
               <ProtectedRouteAdmin admin={admin} path={ROUTES.ADMIN_EDIT_POST} component={AdminEditPost} />
               <Redirect to={ROUTES.HOME} />

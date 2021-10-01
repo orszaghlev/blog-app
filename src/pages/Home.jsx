@@ -13,7 +13,7 @@ export function Home() {
     const postsRef = firebase
         .firestore()
         .collection('posts')
-        .orderBy('date', 'desc');
+        .orderBy('isActive', 'asc');
     const updateState = (collections) => {
         const isCollectionEmpty = collections.size === 0;
         if (!isCollectionEmpty) {
@@ -39,6 +39,7 @@ export function Home() {
 
     useEffect(() => {
         postsRef
+            .startAt('true')
             .limit(6)
             .get()
             .then((collections) => {

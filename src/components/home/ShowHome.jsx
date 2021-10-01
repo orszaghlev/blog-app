@@ -59,14 +59,14 @@ export default function ShowHome({ allPosts, isLoading, isEmpty, fetchMoreData }
             </Grid>
             {
                 allPosts?.filter(li =>
-                    li.isActive.toString() === "true"
-                    && (new Date(li.date).getTime() < new Date().getTime())
+                    (new Date(li.date).getTime() < new Date().getTime())
                     && (li.tag.toLowerCase().includes(search.toLowerCase()) ||
                         li.date.includes(search.toLowerCase()) ||
                         li.title.toLowerCase().includes(search.toLowerCase()) ||
                         li.slug.toLowerCase().includes(search.toLowerCase()) ||
                         li.description.toLowerCase().includes(search.toLowerCase()) ||
                         li.content.toLowerCase().includes(search.toLowerCase())))
+                    .sort((a, b) => b.date.localeCompare(a.date))
                     .map((post) => (
                         <div className="card col-sm-3 d-inline-block m-1 p-2 h-100" style={{ border: "none" }} onClick={() => {
                             history.push(`/posts/${post?.slug}`)

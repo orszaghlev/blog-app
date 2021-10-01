@@ -20,8 +20,8 @@ export function ViewPost(props) {
     return (
         <div className="m-auto text-center" style={{ width: "1000px" }}>
             <Helmet>
-                <title>{post ? post?.title : "Bejegyzés"}</title>
-                <meta name="description" content={post ? post?.description : "Bejegyzés"} />
+                <title>{(post && post?.isActive?.toString() === "true") ? post?.title : "Bejegyzés"}</title>
+                <meta name="description" content={(post && post?.isActive?.toString() === "true") ? post?.description : "Bejegyzés"} />
             </Helmet>
             <motion.div initial="hidden" animate="visible" variants={{
                 hidden: {

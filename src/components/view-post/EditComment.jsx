@@ -89,15 +89,27 @@ export default function EditComment({ docId, title, displayName, originalComment
                                     onChange={({ target }) => setComment(target.value)}
                                     ref={commentInput}
                                 />
-                                <Button
-                                    variant="contained"
-                                    color="primary"
-                                    type="submit"
-                                    disabled={comment.length < 1}
-                                    onClick={handleEditComment}
-                                >
-                                    Szerkesztés
-                                </Button>
+                                <div className="m-2">
+                                </div>
+                                <Grid container spacing={2}
+                                    direction="row"
+                                    justify="space-evenly"
+                                    alignItems="stretch">
+                                    <Button
+                                        variant="contained"
+                                        color="primary"
+                                        type="submit"
+                                        disabled={comment.length < 1}
+                                        onClick={handleEditComment}
+                                    >
+                                        Szerkesztés
+                                    </Button>
+                                    <Button variant="contained" color="secondary" onClick={() => {
+                                        setShowForm(!showForm);
+                                    }}>
+                                        Vissza
+                                    </Button>
+                                </Grid>
                             </Grid>
                         </form>
                     )

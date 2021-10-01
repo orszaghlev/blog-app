@@ -15,9 +15,7 @@ import FirebaseContext from "../../contexts/Firebase";
 import * as ROUTES from '../../constants/Routes';
 
 export default function ShowPost({ post, user }) {
-    const [toggleSaved, setToggleSaved] = useState(post?.userSavedPost);
-    // eslint-disable-next-line
-    const [saves, setSaves] = useState(post?.saves?.length);
+    const [toggleSaved, setToggleSaved] = useState(user?.favoritePosts?.includes(post?.title));
     const { firebase, FieldValue } = useContext(FirebaseContext);
     const [notification, setNotification] = useState('');
     const history = useHistory();
@@ -47,7 +45,6 @@ export default function ShowPost({ post, user }) {
             .update({
                 favoritePosts: toggleSaved ? FieldValue.arrayRemove(post?.title) : FieldValue.arrayUnion(post?.title)
             });
-        setSaves((saves) => (toggleSaved ? saves - 1 : saves + 1));
     };
 
     return (

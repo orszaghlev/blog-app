@@ -1,5 +1,5 @@
 # blog-app
-A React blog app, which lets you view posts as a guest and perform operations as a verified user.
+A React blog app, which lets you view posts as a guest, save your favorite posts and write comments as a user, or create/edit/duplicate/delete posts as an admin.
 
 ## Deploy
 
@@ -15,6 +15,7 @@ REACT_APP_FIREBASE_PROJECT_ID="your-project-id"
 REACT_APP_FIREBASE_STORAGE_BUCKET="your-storage-bucket"
 REACT_APP_FIREBASE_MESSAGING_SENDER_ID="your-messaging-sender-id"
 REACT_APP_FIREBASE_APP_ID="your-app-id"
+REACT_APP_FIREBASE_ADMIN_UID="your-admin-uid"
 ```
 
 If you have a Tiny API Key, you can include this line as well:

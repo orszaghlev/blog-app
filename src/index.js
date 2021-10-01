@@ -3,12 +3,14 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import 'bootstrap/dist/css/bootstrap.css';
 import { HelmetProvider } from "react-helmet-async";
+import FirebaseContext from './contexts/Firebase';
+import { firebase, FieldValue } from './lib/Firebase';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <HelmetProvider>
-      <App />
-    </HelmetProvider>
-  </React.StrictMode>,
+    <FirebaseContext.Provider value={{ firebase, FieldValue }}>
+      <HelmetProvider>
+        <App />
+      </HelmetProvider>
+    </FirebaseContext.Provider>,
   document.getElementById('root')
 );

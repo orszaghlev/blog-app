@@ -11,7 +11,7 @@ import slugify from 'react-slugify';
 import { firebase } from "../../../lib/Firebase";
 import * as ROUTES from '../../../constants/Routes';
 
-export default function ShowEditPost({ post }) {
+export default function EditPost({ post }) {
     const history = useHistory();
     const [id, setId] = useState("");
     const [title, setTitle] = useState("");
@@ -22,6 +22,7 @@ export default function ShowEditPost({ post }) {
     const [tag, setTag] = useState("");
     const [isActive, setIsActive] = useState("");
     const [date, setDate] = useState("");
+    const [notification, setNotification] = useState("");
     const editorRef = useRef(null);
     const useStyles = makeStyles((theme) => ({
         container: {
@@ -50,7 +51,7 @@ export default function ShowEditPost({ post }) {
 
     return (
         <>
-            <h2>Bejegyzés szerkesztése</h2>
+            <h5>Bejegyzés szerkesztése</h5>
             <form className={classes.container} noValidate
                 onSubmit={async (e) => {
                     e.preventDefault();
@@ -184,17 +185,19 @@ export default function ShowEditPost({ post }) {
                     </Grid>
                     <Grid item xs>
                         <Grid container spacing={2}
-                            direction="row"
-                            justify="space-evenly"
-                            alignItems="stretch">
-                            <Button type="submit" variant="contained" color="primary">
+                            direction="column"
+                            justify="center"
+                            alignItems="center">
+                            <Button type="submit" variant="contained" color="secondary" onClick={() => {
+                                setNotification("Sikeres szerkesztés!");
+                            }}>
                                 Szerkesztés
                             </Button>
-                            <Button variant="contained" color="secondary" onClick={() => {
-                                history.push(ROUTES.ADMIN_ALL_POSTS)
-                            }}>
-                                Vissza
-                            </Button>
+                            {notification !== "" && (
+                                <div className="text-success">
+                                    <h6>{notification}</h6>
+                                </div>
+                            )}
                         </Grid>
                     </Grid>
                 </Grid>
@@ -203,6 +206,6 @@ export default function ShowEditPost({ post }) {
     )
 }
 
-ShowEditPost.propTypes = {
+EditPost.propTypes = {
     post: PropTypes.object.isRequired
 };

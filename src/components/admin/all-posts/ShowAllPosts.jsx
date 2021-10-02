@@ -16,19 +16,23 @@ import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import MenuItem from '@material-ui/core/MenuItem';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPencilAlt, faTrash, faCopy, faSortUp, faSortDown } from "@fortawesome/free-solid-svg-icons";
+import { faPencilAlt, faSortUp, faSortDown } from "@fortawesome/free-solid-svg-icons";
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import ModalImage from "react-modal-image";
 import { firebase } from "../../../lib/Firebase";
 import latinize from 'latinize';
 import * as ROUTES from '../../../constants/Routes';
+import DuplicatePost from './DuplicatePost';
+import DeletePost from './DeletePost';
+import EditPost from "./EditPost";
 
 export default function ShowAllPosts({ allPosts, isLoading, isEmpty, fetchMoreData }) {
     const [search, setSearch] = useState("");
     const [hunCount, setHunCount] = useState(1);
     const [activeCount, setActiveCount] = useState(1);
     const [inactiveCount, setInactiveCount] = useState(1);
+    const [postToBeEdited, setPostToBeEdited] = useState();
     const history = useHistory();
     const useStyles = makeStyles({
         table: {
@@ -143,6 +147,13 @@ export default function ShowAllPosts({ allPosts, isLoading, isEmpty, fetchMoreDa
                         }
                     }}>Csak inaktív bejegyzések</Button>
             </Grid>
+            {postToBeEdited &&
+                <>
+                    <br />
+                    <EditPost post={postToBeEdited} />
+                    <br />
+                </>
+            }
             <div className="card">
                 <TableContainer component={Paper}>
                     <Table className={classes.table} aria-label="simple table">
@@ -287,35 +298,13 @@ export default function ShowAllPosts({ allPosts, isLoading, isEmpty, fetchMoreDa
                                                 direction="column"
                                                 justify="center"
                                                 alignItems="center">
-                                                <button className="btn btn-primary m-1" style={{ width: "50px", height: "50px" }} onClick={() => {
-                                                    const data = {
-                                                        id: post?.id + "_másolat",
-                                                        title: post?.title,
-                                                        slug: post?.slug,
-                                                        description: post?.description,
-                                                        content: post?.content,
-                                                        imgURL: post?.imgURL,
-                                                        tag: post?.tag,
-                                                        isActive: post?.isActive,
-                                                        date: post?.date,
-                                                        comments: post?.comments,
-                                                        saves: post?.saves
-                                                    };
-                                                    firebase.firestore().collection('posts').doc(data.id).set(data);
-                                                }}>
-                                                    <FontAwesomeIcon icon={faCopy} />
-                                                </button>
+                                                <DeletePost post={post} />
                                                 <button className="btn btn-warning m-1" style={{ width: "50px", height: "50px" }} onClick={() => {
-                                                    history.push(`/admin/edit-post/${post?.slug}`)
+                                                    setPostToBeEdited(post);
                                                 }}>
                                                     <FontAwesomeIcon icon={faPencilAlt} />
                                                 </button>
-                                                <button className="btn btn-danger m-1" style={{ width: "50px", height: "50px" }} onClick={async () => {
-                                                    firebase.firestore().collection('posts').doc(post?.id).delete().then(() => {
-                                                    });
-                                                }}>
-                                                    <FontAwesomeIcon icon={faTrash} />
-                                                </button>
+                                                <DuplicatePost post={post} />
                                             </Grid>
                                         </TableCell>
                                     </TableRow>

@@ -3,19 +3,29 @@ import { Route, Redirect } from 'react-router-dom';
 import React from 'react';
 import * as ROUTES from '../constants/Routes';
 
-export default function ProtectedRouteAdmin({ admin, children, ...rest }) {
+export default function ProtectedRouteAdmin({ admin, user, children, ...rest }) {
     return (
         <Route
             {...rest}
             render={({ location }) => {
-                if (admin) {
+                if (user?.uid === process.env.REACT_APP_FIREBASE_ADMIN_UID) {
                     return React.cloneElement(children, { admin });
                 }
-                if (!admin) {
+                if (!admin && user) {
                     return (
                         <Redirect
                             to={{
                                 pathname: ROUTES.HOME,
+                                state: { from: location }
+                            }}
+                        />
+                    );
+                }
+                if (!admin && !user) {
+                    return (
+                        <Redirect
+                            to={{
+                                pathname: ROUTES.LOGIN,
                                 state: { from: location }
                             }}
                         />
@@ -30,5 +40,6 @@ export default function ProtectedRouteAdmin({ admin, children, ...rest }) {
 
 ProtectedRouteAdmin.propTypes = {
     admin: PropTypes.object.isRequired,
+    user: PropTypes.object.isRequired,
     children: PropTypes.object.isRequired
 };

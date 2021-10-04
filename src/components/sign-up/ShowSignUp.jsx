@@ -51,6 +51,9 @@ export default function ShowSignUp() {
                 setEmailAddress('');
                 setPassword('');
                 setError('A regisztráció során hiba történt! Kérjük, próbálja újra!');
+                setTimeout(() => {
+                    setError("");
+                }, 5000);
             }
         } else {
             setUsername('');
@@ -58,6 +61,9 @@ export default function ShowSignUp() {
             setEmailAddress('');
             setPassword('');
             setError('Már regisztráltak ezzel a felhasználónévvel és/vagy e-mail címmel!');
+            setTimeout(() => {
+                setError("");
+            }, 5000);
         }
     };
     const useStyles = makeStyles((theme) => ({

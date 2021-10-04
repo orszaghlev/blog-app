@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
@@ -15,6 +15,7 @@ import Grid from '@material-ui/core/Grid';
 export default function ShowHome({ allPosts, isLoading, isEmpty, fetchMoreData }) {
     const [search, setSearch] = useState("");
     const [hunCount, setHunCount] = useState(1);
+    const [notification, setNotification] = useState("");
     const history = useHistory();
     const useStyles = makeStyles((theme) => ({
         root: {
@@ -31,6 +32,15 @@ export default function ShowHome({ allPosts, isLoading, isEmpty, fetchMoreData }
         },
     }));
     const classes = useStyles();
+
+    useEffect(() => {
+        if (isEmpty) {
+            setNotification("Minden bejegyzés betöltve!");
+            setTimeout(() => {
+                setNotification("");
+            }, 5000);
+        }
+    }, [isEmpty]);
 
     return (
         <>
@@ -117,7 +127,7 @@ export default function ShowHome({ allPosts, isLoading, isEmpty, fetchMoreData }
             )}
             {isEmpty && (
                 <div className="text-danger">
-                    <h6>Minden bejegyzés betöltve!</h6>
+                    <h6>{notification}</h6>
                 </div>
             )}
         </>

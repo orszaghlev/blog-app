@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
 import { firebase } from '../lib/Firebase';
-import NoPostsAvailable from '../components/admin/all-posts/NoPostsAvailable';
+import Spinner from '../components/Spinner';
 import ShowAllPosts from "../components/admin/all-posts/ShowAllPosts";
 
 export function AdminAllPosts() {
@@ -66,7 +66,7 @@ export function AdminAllPosts() {
                     }
                 },
             }}>
-                {allPosts.length === 0 ? <NoPostsAvailable /> : <ShowAllPosts allPosts={allPosts} isLoading={isLoading} isEmpty={isEmpty} fetchMoreData={fetchMoreData} />}
+                {allPosts.length === 0 ? <Spinner /> : <ShowAllPosts allPosts={allPosts} isLoading={isLoading} isEmpty={isEmpty} fetchMoreData={fetchMoreData} />}
             </motion.div>
         </div>
     )

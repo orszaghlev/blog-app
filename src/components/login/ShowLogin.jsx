@@ -23,6 +23,9 @@ export default function ShowLogin() {
             setEmailAddress('');
             setPassword('');
             setError("Sikertelen bejelentkezés, nem megfelelő e-mail és/vagy jelszó!");
+            setTimeout(() => {
+                setError("");
+            }, 5000);
         }
     };
     const useStyles = makeStyles((theme) => ({

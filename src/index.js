@@ -8,9 +8,9 @@ import { firebase, FieldValue } from './lib/Firebase';
 
 ReactDOM.render(
     <FirebaseContext.Provider value={{ firebase, FieldValue }}>
-      <HelmetProvider>
-        <App />
-      </HelmetProvider>
+        <HelmetProvider>
+            <App />
+        </HelmetProvider>
     </FirebaseContext.Provider>,
-  document.getElementById('root')
+    document.getElementById('root')
 );

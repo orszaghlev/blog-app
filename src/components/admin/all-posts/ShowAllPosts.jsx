@@ -1,4 +1,4 @@
-import { useState, useRef, useMemo } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { useHistory } from "react-router-dom";
 import PropTypes from 'prop-types';
 import Card from '@material-ui/core/Card';
@@ -33,6 +33,7 @@ export default function ShowAllPosts({ allPosts, isLoading, isEmpty, fetchMoreDa
     const [activeCount, setActiveCount] = useState(1);
     const [inactiveCount, setInactiveCount] = useState(1);
     const [postToBeEdited, setPostToBeEdited] = useState();
+    const [notification, setNotification] = useState("");
     const history = useHistory();
     const useStyles = makeStyles({
         table: {
@@ -84,8 +85,23 @@ export default function ShowAllPosts({ allPosts, isLoading, isEmpty, fetchMoreDa
         return sortConfig.key === name ? sortConfig.direction : undefined;
     };
 
+    useEffect(() => {
+        if (isEmpty) {
+            setNotification("Minden bejegyzés betöltve!");
+            setTimeout(() => {
+                setNotification("");
+            }, 5000);
+        }
+    }, [isEmpty]);
+
     return (
         <>
+            {postToBeEdited &&
+                <>
+                    <EditPost post={postToBeEdited} />
+                    <hr />
+                </>
+            }
             <h2>Összes bejegyzés</h2>
             <Grid container
                 direction="row"
@@ -147,13 +163,6 @@ export default function ShowAllPosts({ allPosts, isLoading, isEmpty, fetchMoreDa
                         }
                     }}>Csak inaktív bejegyzések</Button>
             </Grid>
-            {postToBeEdited &&
-                <>
-                    <br />
-                    <EditPost post={postToBeEdited} />
-                    <br />
-                </>
-            }
             <div className="card">
                 <TableContainer component={Paper}>
                     <Table className={classes.table} aria-label="simple table">
@@ -222,7 +231,7 @@ export default function ShowAllPosts({ allPosts, isLoading, isEmpty, fetchMoreDa
                                 </StyledTableCell>
                                 <StyledTableCell align="center">
                                     <Button style={{ color: "white" }}>
-                                        OPCIÓK
+                                        MŰVELETEK
                                     </Button>
                                 </StyledTableCell>
                             </TableRow>
@@ -301,6 +310,7 @@ export default function ShowAllPosts({ allPosts, isLoading, isEmpty, fetchMoreDa
                                                 <DeletePost post={post} />
                                                 <button className="btn btn-warning m-1" style={{ width: "50px", height: "50px" }} onClick={() => {
                                                     setPostToBeEdited(post);
+                                                    window.scrollTo(0, 70);
                                                 }}>
                                                     <FontAwesomeIcon icon={faPencilAlt} />
                                                 </button>
@@ -330,7 +340,7 @@ export default function ShowAllPosts({ allPosts, isLoading, isEmpty, fetchMoreDa
             )}
             {isEmpty && (
                 <div className="text-danger">
-                    <h6>Minden bejegyzés betöltve!</h6>
+                    <h6>{notification}</h6>
                 </div>
             )}
         </>

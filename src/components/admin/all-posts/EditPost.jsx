@@ -51,6 +51,7 @@ export default function EditPost({ post }) {
 
     return (
         <>
+            <br />
             <h5>Bejegyzés szerkesztése</h5>
             <form className={classes.container} noValidate
                 onSubmit={async (e) => {
@@ -190,11 +191,14 @@ export default function EditPost({ post }) {
                             alignItems="center">
                             <Button type="submit" variant="contained" color="secondary" onClick={() => {
                                 setNotification("Sikeres szerkesztés!");
+                                setTimeout(() => {
+                                    setNotification("");
+                                }, 5000);
                             }}>
                                 Szerkesztés
                             </Button>
                             {notification !== "" && (
-                                <div className="text-success">
+                                <div className="text-success m-1">
                                     <h6>{notification}</h6>
                                 </div>
                             )}
@@ -202,6 +206,9 @@ export default function EditPost({ post }) {
                     </Grid>
                 </Grid>
             </form>
+            {notification === "" && (
+                <br />
+            )}
         </>
     )
 }

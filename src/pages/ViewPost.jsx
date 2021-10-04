@@ -2,12 +2,12 @@ import { useContext, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
-import PostNotAvailable from "../components/view-post/PostNotAvailable";
 import PostInactive from "../components/view-post/PostInactive";
 import usePost from "../hooks/UsePost";
 import useUser from "../hooks/UseUser";
 import UserContext from '../contexts/User';
 import LoggedInUserContext from "../contexts/LoggedInUser";
+import PostNotAvailable from "../components/view-post/PostNotAvailable";
 import ShowPost from "../components/view-post/ShowPost";
 import ShowComments from "../components/view-post/ShowComments";
 
@@ -36,7 +36,7 @@ export function ViewPost(props) {
                     }
                 },
             }}>
-                {!post ? <PostNotAvailable /> : (post?.isActive !== "true" ||
+                {!post?.title ? <PostNotAvailable /> : (post?.isActive !== "true" ||
                     (new Date(post?.date).getTime() >= new Date().getTime()) ? <PostInactive /> :
                     <>
                         <LoggedInUserContext.Provider value={{ user }}>

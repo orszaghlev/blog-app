@@ -23,105 +23,110 @@ import UserContext from './contexts/User';
 import useAuthListener from './hooks/UseAuthListener';
 
 export default function App() {
-  const { user } = useAuthListener();
-  const [admin, setAdmin] = useState(null);
-  const useStyles = makeStyles((theme) => ({
-    root: {
-      flexGrow: 1,
-    },
-    menuButton: {
-      marginRight: theme.spacing(2),
-    },
-    title: {
-      flexGrow: 1,
-    },
-  }));
-  const classes = useStyles();
+    const { user } = useAuthListener();
+    const [admin, setAdmin] = useState(null);
+    const useStyles = makeStyles((theme) => ({
+        root: {
+            flexGrow: 1,
+        },
+        menuButton: {
+            marginRight: theme.spacing(2),
+        },
+        title: {
+            flexGrow: 1,
+        },
+    }));
+    const classes = useStyles();
 
-  useEffect(() => {
-    if (user?.uid === process.env.REACT_APP_FIREBASE_ADMIN_UID) {
-      setAdmin(user);
-    } else {
-      setAdmin(null);
-    }
-  }, [user]);
+    useEffect(() => {
+        if (user?.uid === process.env.REACT_APP_FIREBASE_ADMIN_UID) {
+            setAdmin(user);
+        } else {
+            setAdmin(null);
+        }
+    }, [user]);
 
-  return (
-    <div className="App">
-      <Helmet>
-        <title>Blogmotor</title>
-        <meta name="description" content="Blogmotor" />
-      </Helmet>
-      <UserContext.Provider value={{ user }}>
-        <BrowserRouter>
-          <Suspense fallback={<p>Betöltés...</p>}>
-            <AppBar position="static">
-              <Toolbar>
-                <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-                </IconButton>
-                <Typography variant="h6" className={classes.title} align="left">
-                  <NavLink to={ROUTES.HOME}>
-                    <span className="nav-link" style={{ color: 'white' }}>Blogmotor</span>
-                  </NavLink>
-                </Typography>
-                {!user && <>
-                  <Button color="inherit">
-                    <NavLink to={ROUTES.LOGIN}>
-                      <span className="nav-link" style={{ color: 'white' }}>Bejelentkezés</span>
-                    </NavLink>
-                  </Button>
-                </>}
-                {admin !== null && <>
-                  <Button color="inherit">
-                    <NavLink to={ROUTES.ADMIN_CREATE_POST}>
-                      <span className="nav-link" style={{ color: 'white' }}>Új bejegyzés</span>
-                    </NavLink>
-                  </Button>
-                  <Typography>|</Typography>
-                  <Button color="inherit">
-                    <NavLink to={ROUTES.ADMIN_ALL_POSTS}>
-                      <span className="nav-link" style={{ color: 'white' }}>Összes bejegyzés</span>
-                    </NavLink>
-                  </Button>
-                  <Typography>|</Typography>
-                </>}
-                {user && <>
-                  <Button color="inherit">
-                    <NavLink to={ROUTES.PROFILE}>
-                      <span className="nav-link" style={{ color: 'white' }}>{user?.displayName}</span>
-                    </NavLink>
-                  </Button>
-                  <Typography>|</Typography>
-                  <Button color="inherit" onClick={() => firebase.auth().signOut()}>
-                    <NavLink to={ROUTES.HOME}>
-                      <span className="nav-link" style={{ color: 'white' }}>Kijelentkezés</span>
-                    </NavLink>
-                  </Button>
-                </>}
-              </Toolbar>
-            </AppBar>
-            <Switch>
-              <Route path={ROUTES.HOME} exact component={Home} />
-              <Route path={ROUTES.VIEW_POST} user={user} component={ViewPost} />
-              <Route path={ROUTES.LOGIN} component={Login} />
-              <Route path={ROUTES.SIGN_UP} component={SignUp} />
-              <ProtectedRouteUser user={user} path={ROUTES.PROFILE} exact>
-                <Profile />
-              </ProtectedRouteUser>
-              <ProtectedRouteUser user={user} path={ROUTES.PROFILE_EDIT} exact>
-                <ProfileEdit />
-              </ProtectedRouteUser>
-              <ProtectedRouteAdmin admin={admin} path={ROUTES.ADMIN_ALL_POSTS} exact>
-                <AdminAllPosts />
-              </ProtectedRouteAdmin>
-              <ProtectedRouteAdmin admin={admin} path={ROUTES.ADMIN_CREATE_POST} exact>
-                <AdminCreatePost />
-              </ProtectedRouteAdmin>
-              <Redirect to={ROUTES.HOME} />
-            </Switch>
-          </Suspense>
-        </BrowserRouter>
-      </UserContext.Provider>
-    </div >
-  );
+    return (
+        <div className="App">
+            <Helmet>
+                <title>Blogmotor</title>
+                <meta
+                    name="description"
+                    content="Egy React blogmotor, amely lehetővé teszi bejegyzések megtekintését az olvasók számára, 
+                a bejegyzések elmentését és a hozzászólást a felhasználók számára, 
+                illetve műveletek végrehajtását bejegyzéseken és hozzászólásokon az adminisztrátorok számára."
+                />
+            </Helmet>
+            <UserContext.Provider value={{ user }}>
+                <BrowserRouter>
+                    <Suspense fallback={<p>Betöltés...</p>}>
+                        <AppBar position="static">
+                            <Toolbar>
+                                <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+                                </IconButton>
+                                <Typography variant="h6" className={classes.title} align="left">
+                                    <NavLink to={ROUTES.HOME}>
+                                        <span className="nav-link" style={{ color: 'white' }}>Blogmotor</span>
+                                    </NavLink>
+                                </Typography>
+                                {!user && <>
+                                    <Button color="inherit">
+                                        <NavLink to={ROUTES.LOGIN}>
+                                            <span className="nav-link" style={{ color: 'white' }}>Bejelentkezés</span>
+                                        </NavLink>
+                                    </Button>
+                                </>}
+                                {admin !== null && <>
+                                    <Button color="inherit">
+                                        <NavLink to={ROUTES.ADMIN_CREATE_POST}>
+                                            <span className="nav-link" style={{ color: 'white' }}>Új bejegyzés</span>
+                                        </NavLink>
+                                    </Button>
+                                    <Typography>|</Typography>
+                                    <Button color="inherit">
+                                        <NavLink to={ROUTES.ADMIN_ALL_POSTS}>
+                                            <span className="nav-link" style={{ color: 'white' }}>Összes bejegyzés</span>
+                                        </NavLink>
+                                    </Button>
+                                    <Typography>|</Typography>
+                                </>}
+                                {user && <>
+                                    <Button color="inherit">
+                                        <NavLink to={ROUTES.PROFILE}>
+                                            <span className="nav-link" style={{ color: 'white' }}>{user?.displayName}</span>
+                                        </NavLink>
+                                    </Button>
+                                    <Typography>|</Typography>
+                                    <Button color="inherit" onClick={() => firebase.auth().signOut()}>
+                                        <NavLink to={ROUTES.HOME}>
+                                            <span className="nav-link" style={{ color: 'white' }}>Kijelentkezés</span>
+                                        </NavLink>
+                                    </Button>
+                                </>}
+                            </Toolbar>
+                        </AppBar>
+                        <Switch>
+                            <Route path={ROUTES.HOME} exact component={Home} />
+                            <Route path={ROUTES.VIEW_POST} user={user} component={ViewPost} />
+                            <Route path={ROUTES.LOGIN} component={Login} />
+                            <Route path={ROUTES.SIGN_UP} component={SignUp} />
+                            <ProtectedRouteUser user={user} path={ROUTES.PROFILE} exact>
+                                <Profile />
+                            </ProtectedRouteUser>
+                            <ProtectedRouteUser user={user} path={ROUTES.PROFILE_EDIT} exact>
+                                <ProfileEdit />
+                            </ProtectedRouteUser>
+                            <ProtectedRouteAdmin admin={admin} user={user} path={ROUTES.ADMIN_ALL_POSTS} exact>
+                                <AdminAllPosts />
+                            </ProtectedRouteAdmin>
+                            <ProtectedRouteAdmin admin={admin} user={user} path={ROUTES.ADMIN_CREATE_POST} exact>
+                                <AdminCreatePost />
+                            </ProtectedRouteAdmin>
+                            <Redirect to={ROUTES.HOME} />
+                        </Switch>
+                    </Suspense>
+                </BrowserRouter>
+            </UserContext.Provider>
+        </div >
+    );
 }

@@ -51,6 +51,9 @@ export default function ShowProfileEdit({ user }) {
                     if (usernameExists.length && e.target.elements.username.value !== user?.username) {
                         setUsername('');
                         setError('A felhasználónév foglalt!');
+                        setTimeout(() => {
+                            setError("");
+                        }, 5000);
                     } else {
                         await firebase.auth().currentUser.updateProfile({
                             displayName: data.username

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
 import { firebase } from '../lib/Firebase';
-import NoPostsAvailable from '../components/home/NoPostsAvailable';
+import Spinner from '../components/Spinner';
 import ShowHome from "../components/home/ShowHome";
 
 export function Home() {
@@ -67,7 +67,7 @@ export function Home() {
                     }
                 },
             }}>
-                {allPosts.length === 0 ? <NoPostsAvailable /> : <ShowHome allPosts={allPosts} isLoading={isLoading} isEmpty={isEmpty} fetchMoreData={fetchMoreData} />}
+                {allPosts.length === 0 ? <Spinner /> : <ShowHome allPosts={allPosts} isLoading={isLoading} isEmpty={isEmpty} fetchMoreData={fetchMoreData} />}
             </motion.div>
         </div>
     )

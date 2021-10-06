@@ -9,42 +9,41 @@ import { faPencilAlt } from "@fortawesome/free-solid-svg-icons";
 import FirebaseContext from '../../contexts/Firebase';
 import useUserWhoCommented from '../../hooks/UseUserWhoCommented';
 
-export default function EditComment({ docId, title, displayName, originalComment, comments, setComments, commentInput }) {
-    const [comment, setComment] = useState(originalComment);
+export default function EditComment({ docId, title, displayName, comment, comments, setComments, commentInput }) {
     const { firebase, FieldValue } = useContext(FirebaseContext);
     const [showForm, setShowForm] = useState(false);
     const { user } = useUserWhoCommented(displayName);
+    const [commentToBeEdited, setCommentToBeEdited] = useState(comment);
     const handleEditComment = (e) => {
         e.preventDefault();
-        setComments([...comments, { displayName: user.username, comment }]);
-        setComment('');
+        setComments([...comments, { displayName: user.username, comment: commentToBeEdited }].filter(item => item.comment !== comment));
         firebase
             .firestore()
             .collection('posts')
             .doc(docId)
             .update({
-                comments: FieldValue.arrayRemove({ displayName, comment: originalComment })
+                comments: FieldValue.arrayRemove({ displayName, comment })
             });
         firebase
             .firestore()
             .collection('posts')
             .doc(docId)
             .update({
-                comments: FieldValue.arrayUnion({ displayName: user.username, comment })
+                comments: FieldValue.arrayUnion({ displayName: user.username, comment: commentToBeEdited })
             });
         firebase
             .firestore()
             .collection('users')
             .doc(user?.docId)
             .update({
-                ownComments: FieldValue.arrayRemove({ comment: originalComment, title })
+                ownComments: FieldValue.arrayRemove({ comment, title })
             });
         firebase
             .firestore()
             .collection('users')
             .doc(user?.docId)
             .update({
-                ownComments: FieldValue.arrayUnion({ comment, title })
+                ownComments: FieldValue.arrayUnion({ comment: commentToBeEdited, title })
             });
     };
     const useStyles = makeStyles((theme) => ({
@@ -85,8 +84,8 @@ export default function EditComment({ docId, title, displayName, originalComment
                                     type="text"
                                     name="add-comment"
                                     style={{ width: "800px" }}
-                                    value={comment}
-                                    onChange={({ target }) => setComment(target.value)}
+                                    value={commentToBeEdited}
+                                    onChange={({ target }) => setCommentToBeEdited(target.value)}
                                     ref={commentInput}
                                 />
                                 <div className="m-2">
@@ -100,7 +99,10 @@ export default function EditComment({ docId, title, displayName, originalComment
                                         color="primary"
                                         type="submit"
                                         disabled={comment.length < 1}
-                                        onClick={handleEditComment}
+                                        onClick={(e) => {
+                                            handleEditComment(e);
+                                            setShowForm(!showForm);
+                                        }}
                                     >
                                         Szerkesztés
                                     </Button>
@@ -123,7 +125,7 @@ EditComment.propTypes = {
     docId: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     displayName: PropTypes.string.isRequired,
-    originalComment: PropTypes.string.isRequired,
+    comment: PropTypes.string.isRequired,
     comments: PropTypes.array.isRequired,
     setComments: PropTypes.func.isRequired,
     commentInput: PropTypes.object

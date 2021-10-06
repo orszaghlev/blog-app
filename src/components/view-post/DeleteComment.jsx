@@ -1,14 +1,17 @@
-import { useContext } from 'react';
+import { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import FirebaseContext from '../../contexts/Firebase';
 import useUserWhoCommented from '../../hooks/UseUserWhoCommented';
 
-export default function DeleteComment({ docId, title, displayName, comment }) {
+export default function DeleteComment({ docId, title, displayName, comment, comments, setComments }) {
     const { firebase, FieldValue } = useContext(FirebaseContext);
     const { user } = useUserWhoCommented(displayName);
+    const [commentToBeDeleted, setCommentToBeDeleted] = useState(comment);
     const handleDeleteComment = () => {
+        setComments(comments.filter(item => item.comment !== commentToBeDeleted));
+        setCommentToBeDeleted('');
         firebase
             .firestore()
             .collection('posts')
@@ -38,5 +41,7 @@ DeleteComment.propTypes = {
     docId: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     displayName: PropTypes.string.isRequired,
-    comment: PropTypes.string.isRequired
+    comment: PropTypes.string.isRequired,
+    comments: PropTypes.array.isRequired,
+    setComments: PropTypes.func.isRequired
 };

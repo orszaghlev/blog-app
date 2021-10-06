@@ -31,10 +31,10 @@ export default function ShowComments({ docId, title, comments: allComments, comm
                     <CardActionArea>
                         <CardContent>
                             <>
-                                <p key={`${comment?.comment}-${comment?.displayName}`} className="mb-1">
+                                <p className="mb-1">
                                     <span className="mr-1 font-bold">{comment?.displayName}</span>
                                 </p>
-                                <p key={`${comment?.comment}-${comment?.displayName}`} className="mb-1">
+                                <p className="mb-1">
                                     <h5>{comment?.comment}</h5>
                                 </p>
                                 {user?.userId === process.env.REACT_APP_FIREBASE_ADMIN_UID &&
@@ -47,12 +47,14 @@ export default function ShowComments({ docId, title, comments: allComments, comm
                                             title={title}
                                             displayName={comment?.displayName}
                                             comment={comment?.comment}
+                                            comments={comments}
+                                            setComments={setComments}
                                         />
                                         <EditComment
                                             docId={docId}
                                             title={title}
                                             displayName={comment?.displayName}
-                                            originalComment={comment?.comment}
+                                            comment={comment?.comment}
                                             comments={comments}
                                             setComments={setComments}
                                             commentInput={commentInput}

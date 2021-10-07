@@ -66,7 +66,7 @@ export function AdminAllPosts() {
                     }
                 },
             }}>
-                {allPosts.length === 0 ? <Spinner /> : <ShowAllPosts allPosts={allPosts} isLoading={isLoading} isEmpty={isEmpty} fetchMoreData={fetchMoreData} />}
+                {allPosts.length === 0 ? <Spinner /> : <ShowAllPosts allPosts={allPosts} setAllPosts={setAllPosts} isLoading={isLoading} isEmpty={isEmpty} fetchMoreData={fetchMoreData} />}
             </motion.div>
         </div>
     )

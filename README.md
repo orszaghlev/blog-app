@@ -1,10 +1,11 @@
 # blog-app
-A React blog app, which lets you view posts as a guest, save your favorite posts and write comments as a user, or create/edit/duplicate/delete posts as an admin.
+A React blog engine, which lets you view posts as a guest, save your favorite posts and write comments as a user, or perform operations on posts and comments as an admin.
 
 ## Deploy
 
-Create a Firebase project, use the Firestore database to store blog posts.  
-You can use the JSON data from the src/data folder or you can add your own posts as well.
+Create a Firebase project, use the Firestore database to store blog posts and users.  
+You can use the JSON data from the src/data folder or you can add your own posts/users as well.
+(The posts were based on various Wikipedia pages. [CC-BY-SA-3.0])
 
 Create your local .env file and include the following lines:
 

@@ -1,9 +1,12 @@
+import { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { firebase } from "../../../lib/Firebase";
+import FirebaseContext from '../../../contexts/Firebase';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCopy } from "@fortawesome/free-solid-svg-icons";
 
-export default function DuplicatePost({ post }) {
+export default function DuplicatePost({ allPosts, setAllPosts, post }) {
+    const { firebase } = useContext(FirebaseContext);
+
     return (
         <button className="btn btn-primary m-1" style={{ width: "50px", height: "50px" }} onClick={() => {
             const data = {
@@ -19,6 +22,7 @@ export default function DuplicatePost({ post }) {
                 comments: [],
                 saves: []
             };
+            setAllPosts([data, ...allPosts]);
             firebase.firestore().collection('posts').doc(data.id).set(data);
         }}>
             <FontAwesomeIcon icon={faCopy} />
@@ -27,5 +31,7 @@ export default function DuplicatePost({ post }) {
 }
 
 DuplicatePost.propTypes = {
+    allPosts: PropTypes.object.isRequired,
+    setAllPosts: PropTypes.func.isRequired,
     post: PropTypes.object.isRequired
 };

@@ -20,14 +20,14 @@ import { faPencilAlt, faSortUp, faSortDown } from "@fortawesome/free-solid-svg-i
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import ModalImage from "react-modal-image";
-import { firebase } from "../../../lib/Firebase";
 import latinize from 'latinize';
 import * as ROUTES from '../../../constants/Routes';
 import DuplicatePost from './DuplicatePost';
 import DeletePost from './DeletePost';
 import EditPost from "./EditPost";
+import ViewPost from "./ViewPost";
 
-export default function ShowAllPosts({ allPosts, isLoading, isEmpty, fetchMoreData }) {
+export default function ShowAllPosts({ allPosts, setAllPosts, isLoading, isEmpty, fetchMoreData }) {
     const [search, setSearch] = useState("");
     const [hunCount, setHunCount] = useState(1);
     const [activeCount, setActiveCount] = useState(1);
@@ -98,7 +98,7 @@ export default function ShowAllPosts({ allPosts, isLoading, isEmpty, fetchMoreDa
         <>
             {postToBeEdited &&
                 <>
-                    <EditPost post={postToBeEdited} />
+                    <EditPost allPosts={allPosts} setAllPosts={setAllPosts} post={postToBeEdited} />
                     <hr />
                 </>
             }
@@ -282,20 +282,8 @@ export default function ShowAllPosts({ allPosts, isLoading, isEmpty, fetchMoreDa
                                         <TableCell align="center" style={{ width: "150px" }}>{post?.date}</TableCell>
                                         <TableCell align="center">
                                             <TextField value={post?.isActive} name="isActive" label="Állapot" type="text" select
-                                                style={{ textAlign: "left" }}
-                                                onChange={(e) => {
-                                                    const data = {
-                                                        id: post.id,
-                                                        title: post.title,
-                                                        slug: post.slug,
-                                                        description: post.description,
-                                                        content: post.content,
-                                                        imgURL: post.imgURL,
-                                                        tag: post.tag,
-                                                        isActive: e.target.value,
-                                                        date: post.date
-                                                    };
-                                                    firebase.firestore().collection('posts').doc(post.id).set(data);
+                                                style={{ textAlign: "left" }} InputProps={{
+                                                    readOnly: true,
                                                 }}
                                             >
                                                 <MenuItem value="true">Aktív</MenuItem>
@@ -307,14 +295,15 @@ export default function ShowAllPosts({ allPosts, isLoading, isEmpty, fetchMoreDa
                                                 direction="column"
                                                 justify="center"
                                                 alignItems="center">
-                                                <DeletePost post={post} />
+                                                <DeletePost allPosts={allPosts} setAllPosts={setAllPosts} post={post} />
                                                 <button className="btn btn-warning m-1" style={{ width: "50px", height: "50px" }} onClick={() => {
                                                     setPostToBeEdited(post);
                                                     window.scrollTo(0, 70);
                                                 }}>
                                                     <FontAwesomeIcon icon={faPencilAlt} />
                                                 </button>
-                                                <DuplicatePost post={post} />
+                                                <DuplicatePost allPosts={allPosts} setAllPosts={setAllPosts} post={post} />
+                                                <ViewPost post={post} />
                                             </Grid>
                                         </TableCell>
                                     </TableRow>
@@ -349,6 +338,7 @@ export default function ShowAllPosts({ allPosts, isLoading, isEmpty, fetchMoreDa
 
 ShowAllPosts.propTypes = {
     allPosts: PropTypes.object.isRequired,
+    setAllPosts: PropTypes.func.isRequired,
     isLoading: PropTypes.bool.isRequired,
     isEmpty: PropTypes.bool.isRequired,
     fetchMoreData: PropTypes.func.isRequired

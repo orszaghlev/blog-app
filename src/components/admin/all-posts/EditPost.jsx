@@ -1,5 +1,4 @@
-import { useState, useEffect, useRef } from "react";
-import { useHistory } from "react-router-dom";
+import { useState, useEffect, useContext, useRef } from "react";
 import PropTypes from 'prop-types';
 import { Button } from "@material-ui/core";
 import { TextField } from "@material-ui/core";
@@ -8,11 +7,9 @@ import MenuItem from '@material-ui/core/MenuItem';
 import { makeStyles } from '@material-ui/core/styles';
 import { Editor } from '@tinymce/tinymce-react';
 import slugify from 'react-slugify';
-import { firebase } from "../../../lib/Firebase";
-import * as ROUTES from '../../../constants/Routes';
+import FirebaseContext from '../../../contexts/Firebase';
 
-export default function EditPost({ post }) {
-    const history = useHistory();
+export default function EditPost({ allPosts, setAllPosts, post }) {
     const [id, setId] = useState("");
     const [title, setTitle] = useState("");
     const [slug, setSlug] = useState("");
@@ -36,6 +33,8 @@ export default function EditPost({ post }) {
         },
     }));
     const classes = useStyles();
+    const { firebase } = useContext(FirebaseContext);
+    const [postToBeEdited, setPostToBeEdited] = useState(post);
 
     useEffect(() => {
         setId(post?.id);
@@ -68,11 +67,12 @@ export default function EditPost({ post }) {
                         date: e.target.elements.date.value ?
                             e.target.elements.date.value.toString().replace("T", ". ").replaceAll("-", ". ") :
                             new Date().toLocaleTimeString([], { year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' }),
-                        comments: post?.comments,
-                        saves: post?.saves
+                        comments: post?.comments ? post.comments : [],
+                        saves: post?.saves ? post.saves : []
                     };
+                    setAllPosts([data, ...allPosts].filter((item => item !== postToBeEdited)));
                     firebase.firestore().collection('posts').doc(data.id).set(data);
-                    history.push(ROUTES.ADMIN_ALL_POSTS);
+                    setPostToBeEdited();
                 }}
             >
                 <Grid container spacing={2}
@@ -214,5 +214,7 @@ export default function EditPost({ post }) {
 }
 
 EditPost.propTypes = {
+    allPosts: PropTypes.object.isRequired,
+    setAllPosts: PropTypes.func.isRequired,
     post: PropTypes.object.isRequired
 };

@@ -1,18 +1,9 @@
 {
-    "1": {
+    "admin": {
         "userId": "SQ63uFaevONVpZHFAiMyjDbbmI52",
         "username": "admin",
         "fullName": "Levente Orszagh",
         "emailAddress": "orszaghlev@gmail.com",
-        "favoritePosts": [],
-        "ownComments": [],
-        "dateCreated": 1631791677094
-    },
-    "2": {
-        "userId": "PHwH4hY63QOQZEF2TLpnersijBw1",
-        "username": "testuser",
-        "fullName": "Test User",
-        "emailAddress": "test@user.com",
         "favoritePosts": [],
         "ownComments": [],
         "dateCreated": 1631791677094

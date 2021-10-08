@@ -65,7 +65,7 @@ export default function ShowPost({ post, user }) {
                             {post?.title}
                         </Typography>
                         <Typography variant="body2" color="textSecondary" component="p">
-                            {post?.tag.includes(",") ? "Címkék" : "Címke"}: {post?.tag}
+                            {post?.language === "Hungarian" ? (post?.tag.includes(",") ? "Címkék" : "Címke") : (post?.tag.includes(",") ? "Tags" : "Tag")}: {post?.tag}
                         </Typography>
                         <Typography variant="h6" color="textPrimary" component="h6">
                             {post?.description}
@@ -87,15 +87,15 @@ export default function ShowPost({ post, user }) {
                     {user &&
                         <Button size="small" color="primary" align="center" onClick={() => {
                             handleToggleSaved();
-                            setNotification(!toggleSaved ? "Sikeres hozzáadás!" : "Sikeres eltávolítás!");
+                            setNotification(post?.language === "Hungarian" ? (!toggleSaved ? "Sikeres hozzáadás!" : "Sikeres eltávolítás!") : (!toggleSaved ? "Post successfully added!" : "Post successfully removed!"));
                         }}>
-                            {!toggleSaved ? "Hozzáadás a kedvencekhez" : "Eltávolitás a kedvencek közül"}
+                            {post?.language === "Hungarian" ? (!toggleSaved ? "Hozzáadás a kedvencekhez" : "Eltávolitás a kedvencek közül") : (!toggleSaved ? "Add to favorites" : "Remove from favorites")}
                         </Button>
                     }
                     <Button size="small" color="secondary" align="center" onClick={() => {
                         history.push(ROUTES.HOME)
                     }}>
-                        Vissza
+                        {post?.language === "Hungarian" ? "Vissza" : "Return"}
                     </Button>
                 </CardActions>
                 {notification && (

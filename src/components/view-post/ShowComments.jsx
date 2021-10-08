@@ -9,7 +9,7 @@ import AddComment from './AddComment';
 import EditComment from './EditComment';
 import DeleteComment from './DeleteComment';
 
-export default function ShowComments({ docId, title, comments: allComments, commentInput, user }) {
+export default function ShowComments({ docId, title, language, comments: allComments, commentInput, user }) {
     const [comments, setComments] = useState(allComments);
     const useStyles = makeStyles({
         root: {
@@ -25,7 +25,7 @@ export default function ShowComments({ docId, title, comments: allComments, comm
         <>
             <Card className={classes.root}>
                 <div>
-                    <h4>{comments?.length === 0 ? "Jelenleg nincsenek hozzászólások!" : "Hozzászólások"}</h4>
+                    <h4>{language === "Hungarian" ? (comments?.length === 0 ? "Jelenleg nincsenek hozzászólások!" : "Hozzászólások") : (comments?.length === 0 ? "There are no comments yet!" : "Comments")}</h4>
                 </div>
                 {comments?.map((comment) => (
                     <CardActionArea>
@@ -53,6 +53,7 @@ export default function ShowComments({ docId, title, comments: allComments, comm
                                         <EditComment
                                             docId={docId}
                                             title={title}
+                                            language={language}
                                             displayName={comment?.displayName}
                                             comment={comment?.comment}
                                             comments={comments}
@@ -69,6 +70,7 @@ export default function ShowComments({ docId, title, comments: allComments, comm
                     <AddComment
                         docId={docId}
                         title={title}
+                        language={language}
                         comments={comments}
                         setComments={setComments}
                         commentInput={commentInput}
@@ -82,6 +84,7 @@ export default function ShowComments({ docId, title, comments: allComments, comm
 ShowComments.propTypes = {
     docId: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
+    language: PropTypes.string.isRequired,
     comments: PropTypes.array.isRequired,
     posted: PropTypes.number.isRequired,
     commentInput: PropTypes.object.isRequired,

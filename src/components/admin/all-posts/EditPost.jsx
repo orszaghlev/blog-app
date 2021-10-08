@@ -17,6 +17,7 @@ export default function EditPost({ allPosts, setAllPosts, post }) {
     const [content, setContent] = useState("");
     const [imgURL, setImgURL] = useState("");
     const [tag, setTag] = useState("");
+    const [language, setLanguage] = useState("");
     const [isActive, setIsActive] = useState("");
     const [date, setDate] = useState("");
     const [notification, setNotification] = useState("");
@@ -44,6 +45,7 @@ export default function EditPost({ allPosts, setAllPosts, post }) {
         setContent(post?.content);
         setImgURL(post?.imgURL);
         setTag(post?.tag);
+        setLanguage(post?.language);
         setIsActive(post?.isActive);
         setDate(post?.date);
     }, [post]);
@@ -63,6 +65,7 @@ export default function EditPost({ allPosts, setAllPosts, post }) {
                         content: content,
                         imgURL: e.target.elements.imgURL.value,
                         tag: e.target.elements.tag.value,
+                        language: e.target.elements.language.value,
                         isActive: e.target.elements.isActive.value,
                         date: e.target.elements.date.value ?
                             e.target.elements.date.value.toString().replace("T", ". ").replaceAll("-", ". ") :
@@ -156,6 +159,16 @@ export default function EditPost({ allPosts, setAllPosts, post }) {
                                 setTag(e.target.value);
                             }}
                             required style={{ width: 800 }} />
+                    </Grid>
+                    <Grid item xs>
+                        <TextField value={language} name="language" label="Nyelv" variant="filled" type="text" select
+                            onChange={(e) => {
+                                setLanguage(e.target.value)
+                            }}
+                            required style={{ width: 800, textAlign: "left" }} >
+                            <MenuItem value="Hungarian">Magyar</MenuItem>
+                            <MenuItem value="English">Angol</MenuItem>
+                        </TextField>
                     </Grid>
                     <Grid item xs>
                         <TextField

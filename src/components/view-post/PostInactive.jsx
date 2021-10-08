@@ -1,14 +1,15 @@
+import { useHistory } from "react-router-dom";
+import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import { useHistory } from "react-router-dom";
 import * as ROUTES from '../../constants/Routes';
 
-export default function PostInactive() {
+export default function PostInactive({ post }) {
     const history = useHistory();
 
     return (
         <>
-            <h3>A kért bejegyzés inaktív!</h3>
+            <h3>{post?.language === "Hungarian" ? "A kért bejegyzés inaktív!" : "The requested post is inactive!"}</h3>
             <Grid container
                 direction="row"
                 justify="center"
@@ -16,9 +17,13 @@ export default function PostInactive() {
                 <Button m="2rem" variant="contained" color="secondary" onClick={() => {
                     history.push(ROUTES.HOME)
                 }}>
-                    Vissza
+                    {post?.language === "Hungarian" ? "Vissza" : "Return"}
                 </Button>
             </Grid>
         </>
     )
 }
+
+PostInactive.propTypes = {
+    post: PropTypes.object.isRequired
+};

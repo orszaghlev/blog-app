@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
@@ -14,8 +14,8 @@ import Grid from '@material-ui/core/Grid';
 
 export default function ShowHome({ allPosts, isLoading, isEmpty, fetchMoreData }) {
     const [search, setSearch] = useState("");
+    const [hunSearch, setHunSearch] = useState(false);
     const [hunCount, setHunCount] = useState(1);
-    const [notification, setNotification] = useState("");
     const history = useHistory();
     const useStyles = makeStyles((theme) => ({
         root: {
@@ -33,15 +33,6 @@ export default function ShowHome({ allPosts, isLoading, isEmpty, fetchMoreData }
     }));
     const classes = useStyles();
 
-    useEffect(() => {
-        if (isEmpty) {
-            setNotification("Minden bejegyzés betöltve!");
-            setTimeout(() => {
-                setNotification("");
-            }, 5000);
-        }
-    }, [isEmpty]);
-
     return (
         <>
             <h2>Bejegyzések</h2>
@@ -54,15 +45,15 @@ export default function ShowHome({ allPosts, isLoading, isEmpty, fetchMoreData }
                     <TextField id="search" label="Keresés..." variant="filled" />
                 </form>
                 <Button variant="contained" style={{
-                    backgroundColor: search === "hun" ? 'green' : '#dc3545',
+                    backgroundColor: hunSearch ? 'green' : '#dc3545',
                     color: 'white'
                 }}
                     onClick={() => {
                         setHunCount(hunCount + 1);
                         if (hunCount % 2 === 1) {
-                            setSearch("hun");
+                            setHunSearch(true);
                         } else if (hunCount % 2 === 0) {
-                            setSearch("");
+                            setHunSearch(false);
                         }
                     }}>Csak magyar bejegyzések
                 </Button>
@@ -70,7 +61,9 @@ export default function ShowHome({ allPosts, isLoading, isEmpty, fetchMoreData }
             {
                 allPosts?.filter(li =>
                     (new Date(li.date).getTime() < new Date().getTime())
+                    && hunSearch ? li.language.toLowerCase().includes("hungarian") : li.language.toLowerCase().includes("")
                     && (li.tag.toLowerCase().includes(search.toLowerCase()) ||
+                        li.language.toLowerCase().includes(search.toLowerCase()) ||
                         li.date.includes(search.toLowerCase()) ||
                         li.title.toLowerCase().includes(search.toLowerCase()) ||
                         li.slug.toLowerCase().includes(search.toLowerCase()) ||
@@ -127,7 +120,7 @@ export default function ShowHome({ allPosts, isLoading, isEmpty, fetchMoreData }
             )}
             {isEmpty && (
                 <div className="text-danger">
-                    <h6>{notification}</h6>
+                    <h6>Minden bejegyzés betöltve!</h6>
                 </div>
             )}
         </>

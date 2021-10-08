@@ -42,6 +42,7 @@ export default function ShowCreatePost() {
                         content: content,
                         imgURL: e.target.elements.imgURL.value,
                         tag: e.target.elements.tag.value,
+                        language: e.target.elements.language.value,
                         isActive: e.target.elements.isActive.value,
                         date: e.target.elements.date.value ?
                             e.target.elements.date.value.toString().replace("T", ". ").replaceAll("-", ". ") :
@@ -116,6 +117,13 @@ export default function ShowCreatePost() {
                     </Grid>
                     <Grid item xs>
                         <TextField name="tag" label="Címkék" variant="filled" type="text" required style={{ width: 800 }} />
+                    </Grid>
+                    <Grid item xs>
+                        <TextField name="language" label="Nyelv" variant="filled" type="text" required
+                            style={{ width: 800, textAlign: "left" }} select>
+                            <MenuItem value="Hungarian">Magyar</MenuItem>
+                            <MenuItem value="English">Angol</MenuItem>
+                        </TextField>
                     </Grid>
                     <Grid item xs>
                         <TextField

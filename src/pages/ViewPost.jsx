@@ -37,7 +37,7 @@ export function ViewPost(props) {
                 },
             }}>
                 {!post?.title ? <PostNotAvailable /> : (post?.isActive !== "true" ||
-                    (new Date(post?.date).getTime() >= new Date().getTime()) ? <PostInactive /> :
+                    (new Date(post?.date).getTime() >= new Date().getTime()) ? <PostInactive post={post} /> :
                     <>
                         <LoggedInUserContext.Provider value={{ user }}>
                             <ShowPost post={post} user={user} />
@@ -45,6 +45,7 @@ export function ViewPost(props) {
                             <ShowComments
                                 docId={post?.docId}
                                 title={post?.title}
+                                language={post?.language}
                                 comments={post?.comments}
                                 posted={post?.date}
                                 commentInput={commentInput}

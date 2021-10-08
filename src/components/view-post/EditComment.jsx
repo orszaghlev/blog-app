@@ -9,7 +9,7 @@ import { faPencilAlt } from "@fortawesome/free-solid-svg-icons";
 import FirebaseContext from '../../contexts/Firebase';
 import useUserWhoCommented from '../../hooks/UseUserWhoCommented';
 
-export default function EditComment({ docId, title, displayName, comment, comments, setComments, commentInput }) {
+export default function EditComment({ docId, title, language, displayName, comment, comments, setComments, commentInput }) {
     const { firebase, FieldValue } = useContext(FirebaseContext);
     const [showForm, setShowForm] = useState(false);
     const { user } = useUserWhoCommented(displayName);
@@ -79,10 +79,10 @@ export default function EditComment({ docId, title, displayName, comment, commen
                                 justify="center"
                                 alignItems="center">
                                 <TextField
-                                    aria-label="Hozzászólás szerkesztése"
+                                    aria-label={language === "Hungarian" ? "Hozzászólás szerkesztése" : "Edit comment"}
                                     autoComplete="off"
                                     type="text"
-                                    name="add-comment"
+                                    name="edit-comment"
                                     style={{ width: "800px" }}
                                     value={commentToBeEdited}
                                     onChange={({ target }) => setCommentToBeEdited(target.value)}
@@ -109,7 +109,7 @@ export default function EditComment({ docId, title, displayName, comment, commen
                                     <Button variant="contained" color="secondary" onClick={() => {
                                         setShowForm(!showForm);
                                     }}>
-                                        Vissza
+                                        {language === "Hungarian" ? "Vissza" : "Return"}
                                     </Button>
                                 </Grid>
                             </Grid>
@@ -124,6 +124,7 @@ export default function EditComment({ docId, title, displayName, comment, commen
 EditComment.propTypes = {
     docId: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
+    language: PropTypes.string.isRequired,
     displayName: PropTypes.string.isRequired,
     comment: PropTypes.string.isRequired,
     comments: PropTypes.array.isRequired,

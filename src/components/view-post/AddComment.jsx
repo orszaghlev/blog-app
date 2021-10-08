@@ -8,7 +8,7 @@ import FirebaseContext from '../../contexts/Firebase';
 import useUser from '../../hooks/UseUser';
 import UserContext from '../../contexts/User';
 
-export default function AddComment({ docId, title, comments, setComments, commentInput }) {
+export default function AddComment({ docId, title, language, comments, setComments, commentInput }) {
     const [comment, setComment] = useState('');
     const { firebase, FieldValue } = useContext(FirebaseContext);
     const {
@@ -55,11 +55,11 @@ export default function AddComment({ docId, title, comments, setComments, commen
                 justify="center"
                 alignItems="center">
                 <TextField
-                    aria-label="Új hozzászólás"
+                    aria-label={language === "Hungarian" ? "Új hozzászólás" : "New comment"}
                     autoComplete="off"
                     type="text"
                     name="add-comment"
-                    placeholder="Új hozzászólás"
+                    placeholder={language === "Hungarian" ? "Új hozzászólás" : "New comment"}
                     style={{ width: "800px" }}
                     value={comment}
                     onChange={({ target }) => setComment(target.value)}
@@ -72,7 +72,7 @@ export default function AddComment({ docId, title, comments, setComments, commen
                     disabled={comment.length < 1}
                     onClick={handleSubmitComment}
                 >
-                    Közzététel
+                    {language === "Hungarian" ? "Közzététel" : "Send"}
                 </Button>
             </Grid>
         </form>
@@ -82,6 +82,7 @@ export default function AddComment({ docId, title, comments, setComments, commen
 AddComment.propTypes = {
     docId: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
+    language: PropTypes.string.isRequired,
     comments: PropTypes.array.isRequired,
     setComments: PropTypes.func.isRequired,
     commentInput: PropTypes.object

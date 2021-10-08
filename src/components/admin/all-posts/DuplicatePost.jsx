@@ -17,6 +17,7 @@ export default function DuplicatePost({ allPosts, setAllPosts, post }) {
                 content: post?.content,
                 imgURL: post?.imgURL,
                 tag: post?.tag,
+                language: post?.language,
                 isActive: post?.isActive,
                 date: new Date().toLocaleTimeString([], { year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' }),
                 comments: [],

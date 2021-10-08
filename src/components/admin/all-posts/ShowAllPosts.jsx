@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useMemo } from "react";
+import { useState, useRef, useMemo } from "react";
 import { useHistory } from "react-router-dom";
 import PropTypes from 'prop-types';
 import Card from '@material-ui/core/Card';
@@ -29,11 +29,11 @@ import ViewPost from "./ViewPost";
 
 export default function ShowAllPosts({ allPosts, setAllPosts, isLoading, isEmpty, fetchMoreData }) {
     const [search, setSearch] = useState("");
+    const [hunSearch, setHunSearch] = useState(false);
     const [hunCount, setHunCount] = useState(1);
     const [activeCount, setActiveCount] = useState(1);
     const [inactiveCount, setInactiveCount] = useState(1);
     const [postToBeEdited, setPostToBeEdited] = useState();
-    const [notification, setNotification] = useState("");
     const history = useHistory();
     const useStyles = makeStyles({
         table: {
@@ -85,15 +85,6 @@ export default function ShowAllPosts({ allPosts, setAllPosts, isLoading, isEmpty
         return sortConfig.key === name ? sortConfig.direction : undefined;
     };
 
-    useEffect(() => {
-        if (isEmpty) {
-            setNotification("Minden bejegyzés betöltve!");
-            setTimeout(() => {
-                setNotification("");
-            }, 5000);
-        }
-    }, [isEmpty]);
-
     return (
         <>
             {postToBeEdited &&
@@ -127,15 +118,15 @@ export default function ShowAllPosts({ allPosts, setAllPosts, isLoading, isEmpty
                 justify="space-around"
                 alignItems="center">
                 <Button variant="contained" style={{
-                    backgroundColor: search === "hun" ? 'green' : '#dc3545',
+                    backgroundColor: hunSearch ? 'green' : '#dc3545',
                     color: 'white'
                 }}
                     onClick={() => {
                         setHunCount(hunCount + 1);
                         if (hunCount % 2 === 1) {
-                            setSearch("hun");
+                            setHunSearch(true);
                         } else if (hunCount % 2 === 0) {
-                            setSearch("");
+                            setHunSearch(false);
                         }
                     }}>Csak magyar bejegyzések</Button>
                 <Button variant="contained" style={{
@@ -216,6 +207,13 @@ export default function ShowAllPosts({ allPosts, setAllPosts, isLoading, isEmpty
                                     </Button>
                                 </StyledTableCell>
                                 <StyledTableCell align="center">
+                                    <Button style={{ color: "white" }} onClick={() => requestSort('language')} className={getClassNamesFor('language')}>
+                                        NYELV
+                                        {getClassNamesFor('language') === "ascending" ? <FontAwesomeIcon icon={faSortUp} /> : ""}
+                                        {getClassNamesFor('language') === "descending" ? <FontAwesomeIcon icon={faSortDown} /> : ""}
+                                    </Button>
+                                </StyledTableCell>
+                                <StyledTableCell align="center">
                                     <Button style={{ color: "white" }} onClick={() => requestSort('date')} className={getClassNamesFor('date')}>
                                         DÁTUM
                                         {getClassNamesFor('date') === "ascending" ? <FontAwesomeIcon icon={faSortUp} /> : ""}
@@ -238,13 +236,15 @@ export default function ShowAllPosts({ allPosts, setAllPosts, isLoading, isEmpty
                         </TableHead>
                         <TableBody>
                             {sortedItems.filter(li =>
-                                li.isActive.toString().toLowerCase().includes(search.toLowerCase()) ||
-                                li.tag.toLowerCase().includes(search.toLowerCase()) ||
-                                li.date.includes(search.toLowerCase()) ||
-                                li.title.toLowerCase().includes(search.toLowerCase()) ||
-                                li.slug.toLowerCase().includes(search.toLowerCase()) ||
-                                li.description.toLowerCase().includes(search.toLowerCase()) ||
-                                li.content.toLowerCase().includes(search.toLowerCase()))
+                                hunSearch ? li.language.toLowerCase().includes("hungarian") : li.language.toLowerCase().includes("")
+                                    &&
+                                    (li.isActive.toString().toLowerCase().includes(search.toLowerCase()) ||
+                                        li.tag.toLowerCase().includes(search.toLowerCase()) ||
+                                        li.date.includes(search.toLowerCase()) ||
+                                        li.title.toLowerCase().includes(search.toLowerCase()) ||
+                                        li.slug.toLowerCase().includes(search.toLowerCase()) ||
+                                        li.description.toLowerCase().includes(search.toLowerCase()) ||
+                                        li.content.toLowerCase().includes(search.toLowerCase())))
                                 .map((post) => (
                                     <TableRow key={post?.id}>
                                         <TableCell align="center">{post?.id}</TableCell>
@@ -279,6 +279,16 @@ export default function ShowAllPosts({ allPosts, setAllPosts, isLoading, isEmpty
                                             </div>
                                         </TableCell>
                                         <TableCell align="center">{post?.tag}</TableCell>
+                                        <TableCell align="center">
+                                            <TextField value={post?.language} name="language" label="Nyelv" type="text" select
+                                                style={{ textAlign: "left" }} InputProps={{
+                                                    readOnly: true,
+                                                }}
+                                            >
+                                                <MenuItem value="Hungarian">Magyar</MenuItem>
+                                                <MenuItem value="English">Angol</MenuItem>
+                                            </TextField>
+                                        </TableCell>
                                         <TableCell align="center" style={{ width: "150px" }}>{post?.date}</TableCell>
                                         <TableCell align="center">
                                             <TextField value={post?.isActive} name="isActive" label="Állapot" type="text" select
@@ -329,7 +339,7 @@ export default function ShowAllPosts({ allPosts, setAllPosts, isLoading, isEmpty
             )}
             {isEmpty && (
                 <div className="text-danger">
-                    <h6>{notification}</h6>
+                    <h6>Minden bejegyzés betöltve!</h6>
                 </div>
             )}
         </>

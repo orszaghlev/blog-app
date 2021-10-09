@@ -76,6 +76,9 @@ export default function ShowPost({ post, user }) {
                     editor={ClassicEditor}
                     data={post?.content}
                     config={{
+                        alignment: {
+                            options: ['justify']
+                        },
                         toolbar: []
                     }}
                     onReady={editor => {
@@ -88,6 +91,9 @@ export default function ShowPost({ post, user }) {
                         <Button size="small" color="primary" align="center" onClick={() => {
                             handleToggleSaved();
                             setNotification(post?.language === "Hungarian" ? (!toggleSaved ? "Sikeres hozzáadás!" : "Sikeres eltávolítás!") : (!toggleSaved ? "Post successfully added!" : "Post successfully removed!"));
+                            setTimeout(() => {
+                                setNotification("");
+                            }, 5000);
                         }}>
                             {post?.language === "Hungarian" ? (!toggleSaved ? "Hozzáadás a kedvencekhez" : "Eltávolitás a kedvencek közül") : (!toggleSaved ? "Add to favorites" : "Remove from favorites")}
                         </Button>

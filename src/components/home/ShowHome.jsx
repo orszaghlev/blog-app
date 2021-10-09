@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
@@ -14,6 +14,7 @@ import Grid from '@material-ui/core/Grid';
 
 export default function ShowHome({ allPosts, isLoading, isEmpty, fetchMoreData }) {
     const [search, setSearch] = useState("");
+    const [notification, setNotification] = useState("");
     const [hunSearch, setHunSearch] = useState(false);
     const [hunCount, setHunCount] = useState(1);
     const history = useHistory();
@@ -32,6 +33,15 @@ export default function ShowHome({ allPosts, isLoading, isEmpty, fetchMoreData }
         },
     }));
     const classes = useStyles();
+
+    useEffect(() => {
+        if (isEmpty) {
+            setNotification("Minden bejegyzés betöltve!");
+            setTimeout(() => {
+                setNotification("");
+            }, 5000);
+        }
+    }, [isEmpty]);
 
     return (
         <>
@@ -61,7 +71,7 @@ export default function ShowHome({ allPosts, isLoading, isEmpty, fetchMoreData }
             {
                 allPosts?.filter(li =>
                     (new Date(li.date).getTime() < new Date().getTime())
-                    && hunSearch ? li.language.toLowerCase().includes("hungarian") : li.language.toLowerCase().includes("")
+                    && (hunSearch ? li.language.toLowerCase().includes("hungarian") : li.language.toLowerCase().includes(""))
                     && (li.tag.toLowerCase().includes(search.toLowerCase()) ||
                         li.language.toLowerCase().includes(search.toLowerCase()) ||
                         li.date.includes(search.toLowerCase()) ||
@@ -120,7 +130,7 @@ export default function ShowHome({ allPosts, isLoading, isEmpty, fetchMoreData }
             )}
             {isEmpty && (
                 <div className="text-danger">
-                    <h6>Minden bejegyzés betöltve!</h6>
+                    <h6>{notification}</h6>
                 </div>
             )}
         </>

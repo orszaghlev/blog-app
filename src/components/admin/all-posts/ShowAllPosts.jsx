@@ -1,4 +1,4 @@
-import { useState, useRef, useMemo } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { useHistory } from "react-router-dom";
 import PropTypes from 'prop-types';
 import Card from '@material-ui/core/Card';
@@ -29,7 +29,10 @@ import ViewPost from "./ViewPost";
 
 export default function ShowAllPosts({ allPosts, setAllPosts, isLoading, isEmpty, fetchMoreData }) {
     const [search, setSearch] = useState("");
+    const [notification, setNotification] = useState("");
     const [hunSearch, setHunSearch] = useState(false);
+    const [active, setActive] = useState(false);
+    const [inactive, setInactive] = useState(false);
     const [hunCount, setHunCount] = useState(1);
     const [activeCount, setActiveCount] = useState(1);
     const [inactiveCount, setInactiveCount] = useState(1);
@@ -85,6 +88,15 @@ export default function ShowAllPosts({ allPosts, setAllPosts, isLoading, isEmpty
         return sortConfig.key === name ? sortConfig.direction : undefined;
     };
 
+    useEffect(() => {
+        if (isEmpty) {
+            setNotification("Minden bejegyzés betöltve!");
+            setTimeout(() => {
+                setNotification("");
+            }, 5000);
+        }
+    }, [isEmpty]);
+
     return (
         <>
             {postToBeEdited &&
@@ -130,27 +142,29 @@ export default function ShowAllPosts({ allPosts, setAllPosts, isLoading, isEmpty
                         }
                     }}>Csak magyar bejegyzések</Button>
                 <Button variant="contained" style={{
-                    backgroundColor: search === "true" ? 'green' : '#dc3545',
+                    backgroundColor: active ? 'green' : '#dc3545',
                     color: 'white'
                 }}
                     onClick={() => {
                         setActiveCount(activeCount + 1);
                         if (activeCount % 2 === 1) {
-                            setSearch("true");
+                            setActive(true);
+                            setInactive(false);
                         } else if (activeCount % 2 === 0) {
-                            setSearch("");
+                            setActive(false);
                         }
                     }}>Csak aktív bejegyzések</Button>
                 <Button variant="contained" style={{
-                    backgroundColor: search === "false" ? 'green' : '#dc3545',
+                    backgroundColor: inactive ? 'green' : '#dc3545',
                     color: 'white'
                 }}
                     onClick={() => {
                         setInactiveCount(inactiveCount + 1);
                         if (inactiveCount % 2 === 1) {
-                            setSearch("false");
+                            setInactive(true);
+                            setActive(false);
                         } else if (inactiveCount % 2 === 0) {
-                            setSearch("");
+                            setInactive(false);
                         }
                     }}>Csak inaktív bejegyzések</Button>
             </Grid>
@@ -236,28 +250,33 @@ export default function ShowAllPosts({ allPosts, setAllPosts, isLoading, isEmpty
                         </TableHead>
                         <TableBody>
                             {sortedItems.filter(li =>
-                                hunSearch ? li.language.toLowerCase().includes("hungarian") : li.language.toLowerCase().includes("")
-                                    &&
-                                    (li.isActive.toString().toLowerCase().includes(search.toLowerCase()) ||
-                                        li.tag.toLowerCase().includes(search.toLowerCase()) ||
-                                        li.date.includes(search.toLowerCase()) ||
-                                        li.title.toLowerCase().includes(search.toLowerCase()) ||
-                                        li.slug.toLowerCase().includes(search.toLowerCase()) ||
-                                        li.description.toLowerCase().includes(search.toLowerCase()) ||
-                                        li.content.toLowerCase().includes(search.toLowerCase())))
+                                (hunSearch ? li.language.toLowerCase().includes("hungarian") : li.language.toLowerCase().includes(""))
+                                && (active ? li.isActive.toLowerCase().includes("true") : li.isActive.toLowerCase().includes(""))
+                                && (inactive ? li.isActive.toLowerCase().includes("false") : li.isActive.toLowerCase().includes(""))
+                                && (li.isActive.toString().toLowerCase().includes(search.toLowerCase()) ||
+                                    li.tag.toLowerCase().includes(search.toLowerCase()) ||
+                                    li.language.toLowerCase().includes(search.toLowerCase()) ||
+                                    li.date.includes(search.toLowerCase()) ||
+                                    li.title.toLowerCase().includes(search.toLowerCase()) ||
+                                    li.slug.toLowerCase().includes(search.toLowerCase()) ||
+                                    li.description.toLowerCase().includes(search.toLowerCase()) ||
+                                    li.content.toLowerCase().includes(search.toLowerCase())))
                                 .map((post) => (
                                     <TableRow key={post?.id}>
                                         <TableCell align="center">{post?.id}</TableCell>
                                         <TableCell align="center">{post?.title}</TableCell>
                                         <TableCell align="center">{post?.slug}</TableCell>
                                         <TableCell align="center" style={{ width: "200px" }}>
-                                            <textarea value={post?.description} class="form-control" rows="3" />
+                                            <textarea value={post?.description} class="form-control" rows="5" />
                                         </TableCell>
                                         <TableCell align="center">
                                             <CKEditor
                                                 editor={ClassicEditor}
                                                 data={post?.content}
                                                 config={{
+                                                    alignment: {
+                                                        options: ['justify']
+                                                    },
                                                     toolbar: []
                                                 }}
                                                 onReady={editor => {
@@ -339,7 +358,7 @@ export default function ShowAllPosts({ allPosts, setAllPosts, isLoading, isEmpty
             )}
             {isEmpty && (
                 <div className="text-danger">
-                    <h6>Minden bejegyzés betöltve!</h6>
+                    <h6>{notification}</h6>
                 </div>
             )}
         </>

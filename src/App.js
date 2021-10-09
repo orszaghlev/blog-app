@@ -93,7 +93,7 @@ export default function App() {
                                 {user && <>
                                     <Button color="inherit">
                                         <NavLink to={ROUTES.PROFILE}>
-                                            <span className="nav-link" style={{ color: 'white' }}>{user?.displayName}</span>
+                                            <span className="nav-link" style={{ color: 'white' }}>Profil</span>
                                         </NavLink>
                                     </Button>
                                     <Typography>|</Typography>

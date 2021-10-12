@@ -5,7 +5,7 @@ import { firebase } from '../lib/Firebase';
 import Spinner from '../components/Spinner';
 import ShowHome from "../components/home/ShowHome";
 
-export function Home() {
+export default function Home() {
     const [allPosts, setAllPosts] = useState([]);
     const [lastPost, setLastPost] = useState();
     const [isLoading, setIsLoading] = useState(false);

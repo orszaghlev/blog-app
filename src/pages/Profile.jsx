@@ -8,7 +8,7 @@ import ShowProfile from "../components/profile/ShowProfile";
 import ShowFavoritePosts from "../components/profile/ShowFavoritePosts";
 import ShowOwnComments from "../components/profile/ShowOwnComments";
 
-export function Profile() {
+export default function Profile() {
     const { user: loggedInUser } = useContext(UserContext);
     const { user } = useUser(loggedInUser?.uid);
 

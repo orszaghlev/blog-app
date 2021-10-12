@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
 import ShowLogin from "../components/login/ShowLogin";
 
-export function Login() {
+export default function Login() {
     return (
         <div className="p-3 content text-center m-auto" style={{ width: "1000px" }}>
             <Helmet>

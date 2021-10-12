@@ -11,7 +11,7 @@ import PostNotAvailable from "../components/view-post/PostNotAvailable";
 import ShowPost from "../components/view-post/ShowPost";
 import ShowComments from "../components/view-post/ShowComments";
 
-export function ViewPost(props) {
+export default function ViewPost(props) {
     const { user: loggedInUser } = useContext(UserContext);
     const { user } = useUser(loggedInUser?.uid);
     const { post } = usePost(props.match.params.slug);

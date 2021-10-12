@@ -6,7 +6,7 @@ import UserContext from '../contexts/User';
 import LoggedInUserContext from '../contexts/LoggedInUser';
 import ShowProfileEdit from "../components/profile/edit/ShowProfileEdit";
 
-export function ProfileEdit() {
+export default function ProfileEdit() {
     const { user: loggedInUser } = useContext(UserContext);
     const { user } = useUser(loggedInUser?.uid);
 

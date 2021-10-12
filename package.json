@@ -38,13 +38,36 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --coverage --watchAll",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
       "react-app",
       "react-app/jest"
+    ]
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "!<rootDir>/src/App.js",
+      "!<rootDir>/src/index.js",
+      "!<rootDir>/src/data/*.json",
+      "!<rootDir>/src/fixtures/*.jsx",
+      "!<rootDir>/src/hooks/*.jsx",
+      "!<rootDir>/src/helpers/*.jsx",
+      "!<rootDir>/src/services/firebase.jsx"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 75,
+        "functions": 75,
+        "lines": 75,
+        "statements": 75
+      }
+    },
+    "coverageReporters": [
+      "html",
+      "text"
     ]
   },
   "browserslist": {

@@ -5,7 +5,7 @@ import { firebase } from '../lib/Firebase';
 import Spinner from '../components/Spinner';
 import ShowAllPosts from "../components/admin/all-posts/ShowAllPosts";
 
-export function AdminAllPosts() {
+export default function AdminAllPosts() {
     const [allPosts, setAllPosts] = useState([]);
     const [lastPost, setLastPost] = useState();
     const [isLoading, setIsLoading] = useState(false);

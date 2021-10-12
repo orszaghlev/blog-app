@@ -43,18 +43,19 @@ export default function ShowLogin() {
             <div>
                 <h2>Bejelentkezés</h2>
             </div>
-            <form className={classes.root} noValidate autoComplete="off" onSubmit={handleLogin} method="POST">
+            <form data-testid="login" className={classes.root} noValidate autoComplete="off" onSubmit={handleLogin} method="POST">
                 <Grid container
                     direction="column"
                     justify="center"
                     alignItems="center">
                     {error && (
-                        <div className="text-danger">
+                        <div data-testid="error" className="text-danger">
                             {error}
                         </div>
                     )}
                     <TextField
                         required
+                        inputProps={{ "data-testid": "input-email" }}
                         id="filled-required"
                         label="E-mail cím"
                         variant="filled"
@@ -63,6 +64,7 @@ export default function ShowLogin() {
                     />
                     <TextField
                         required
+                        inputProps={{ "data-testid": "input-password" }}
                         id="filled-password-input"
                         label="Jelszó"
                         variant="filled"
@@ -78,7 +80,7 @@ export default function ShowLogin() {
                     <Button type="submit" variant="contained" color="primary" disabled={isInvalid} style={{ marginRight: "10px" }}>
                         Bejelentkezés
                     </Button>
-                    <Button variant="contained" color="secondary" onClick={() => {
+                    <Button data-testid="return" variant="contained" color="secondary" onClick={() => {
                         history.push(ROUTES.HOME);
                     }}>
                         Vissza
@@ -88,7 +90,7 @@ export default function ShowLogin() {
             <div className="m-2">
                 <p>
                     Nincsen fiókja?{` `}
-                    <Link to={ROUTES.SIGN_UP}>
+                    <Link to={ROUTES.SIGN_UP} data-testid="sign-up">
                         Regisztráljon!
                     </Link>
                 </p>

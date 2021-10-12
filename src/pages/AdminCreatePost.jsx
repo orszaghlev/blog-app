@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
 import ShowCreatePost from "../components/admin/create-post/ShowCreatePost";
 
-export function AdminCreatePost() {
+export default function AdminCreatePost() {
     return (
         <div className="p-3 content text-center m-auto" style={{ width: "1000px" }}>
             <Helmet>

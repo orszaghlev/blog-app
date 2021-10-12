@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
 import ShowSignUp from "../components/sign-up/ShowSignUp"
 
-export function SignUp() {
+export default function SignUp() {
     return (
         <div className="p-3 content text-center m-auto" style={{ width: "1000px" }}>
             <Helmet>

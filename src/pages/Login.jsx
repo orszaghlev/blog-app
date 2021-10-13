@@ -1,14 +1,14 @@
+import { useEffect } from 'react';
 import { motion } from "framer-motion";
-import { Helmet } from "react-helmet-async";
 import ShowLogin from "../components/login/ShowLogin";
 
 export default function Login() {
+    useEffect(() => {
+        document.title = 'Bejelentkezés';
+    }, []);
+
     return (
         <div className="p-3 content text-center m-auto" style={{ width: "1000px" }}>
-            <Helmet>
-                <title>Bejelentkezés</title>
-                <meta name="description" content="Bejelentkezés" />
-            </Helmet>
             <motion.div initial="hidden" animate="visible" variants={{
                 hidden: {
                     scale: .8,

@@ -44,7 +44,7 @@ export default function ShowSignUp() {
                     .collection('users')
                     .doc(data.userId)
                     .set(data);
-                return history.push(ROUTES.PROFILE);
+                history.push(ROUTES.PROFILE);
             } catch (error) {
                 setUsername('');
                 setFullName('');
@@ -81,18 +81,19 @@ export default function ShowSignUp() {
             <div>
                 <h2>Regisztráció</h2>
             </div>
-            <form className={classes.root} noValidate autoComplete="off" onSubmit={handleSignUp} method="POST">
+            <form data-testid="sign-up" className={classes.root} noValidate autoComplete="off" onSubmit={handleSignUp} method="POST">
                 <Grid container
                     direction="column"
                     justify="center"
                     alignItems="center">
                     {error && (
-                        <div className="text-danger">
+                        <div data-testid="error" className="text-danger">
                             {error}
                         </div>
                     )}
                     <TextField
                         required
+                        inputProps={{ "data-testid": "input-username" }}
                         id="filled-required"
                         label="Felhasználónév"
                         variant="filled"
@@ -101,6 +102,7 @@ export default function ShowSignUp() {
                     />
                     <TextField
                         required
+                        inputProps={{ "data-testid": "input-fullname" }}
                         id="filled-required"
                         label="Teljes név"
                         variant="filled"
@@ -109,6 +111,7 @@ export default function ShowSignUp() {
                     />
                     <TextField
                         required
+                        inputProps={{ "data-testid": "input-email" }}
                         id="filled-required"
                         label="E-mail cím"
                         variant="filled"
@@ -117,6 +120,7 @@ export default function ShowSignUp() {
                     />
                     <TextField
                         required
+                        inputProps={{ "data-testid": "input-password" }}
                         id="filled-password-input"
                         label="Jelszó"
                         variant="filled"
@@ -132,7 +136,7 @@ export default function ShowSignUp() {
                     <Button type="submit" variant="contained" color="primary" disabled={isInvalid} style={{ marginRight: "10px" }}>
                         Regisztráció
                     </Button>
-                    <Button variant="contained" color="secondary" onClick={() => {
+                    <Button data-testid="return" variant="contained" color="secondary" onClick={() => {
                         history.push(ROUTES.HOME);
                     }}>
                         Vissza
@@ -142,7 +146,7 @@ export default function ShowSignUp() {
             <div className="m-2">
                 <p>
                     Van fiókja?{` `}
-                    <Link to={ROUTES.LOGIN}>
+                    <Link to={ROUTES.LOGIN} data-testid="login">
                         Jelentkezzen be!
                     </Link>
                 </p>

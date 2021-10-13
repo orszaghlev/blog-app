@@ -7,13 +7,13 @@ import FirebaseContext from '../../contexts/Firebase';
 import * as ROUTES from '../../constants/Routes';
 
 const mockHistoryPush = jest.fn();
+
 jest.mock('react-router-dom', () => ({
     ...jest.requireActual('react-router-dom'),
     useHistory: () => ({
         push: mockHistoryPush
     })
 }));
-
 jest.mock('../../services/firebase');
 
 describe('<Login />', () => {
@@ -29,11 +29,11 @@ describe('<Login />', () => {
             }))
         };
         const { getByTestId, queryByTestId } = render(
-                <Router>
-                    <FirebaseContext.Provider value={{ firebase }}>
-                        <Login />
-                    </FirebaseContext.Provider>
-                </Router>
+            <Router>
+                <FirebaseContext.Provider value={{ firebase }}>
+                    <Login />
+                </FirebaseContext.Provider>
+            </Router>
         );
 
         await act(async () => {
@@ -64,11 +64,11 @@ describe('<Login />', () => {
             }))
         };
         const { getByTestId, queryByTestId } = render(
-                <Router>
-                    <FirebaseContext.Provider value={{ firebase }}>
-                        <Login />
-                    </FirebaseContext.Provider>
-                </Router>
+            <Router>
+                <FirebaseContext.Provider value={{ firebase }}>
+                    <Login />
+                </FirebaseContext.Provider>
+            </Router>
         );
 
         await act(async () => {
@@ -83,7 +83,9 @@ describe('<Login />', () => {
             expect(failToLogin).toHaveBeenCalledWith('orszaghlev.com', 'test1234');
             expect(failToLogin).rejects.toThrow('Sikertelen bejelentkezés, nem megfelelő e-mail és/vagy jelszó!');
 
-            //expect(failToLogin).rejects.toThrow('Sikertelen bejelentkezés, nem megfelelő e-mail és/vagy jelszó!');
+            //jest.useFakeTimers();
+            //await expect(setTimeout).toHaveBeenCalled();
+            //await expect(setTimeout).toHaveBeenWith(expect.any(Function), 5000);
 
             await waitFor(() => {
                 expect(mockHistoryPush).not.toHaveBeenCalledWith(ROUTES.HOME);
@@ -100,11 +102,11 @@ describe('<Login />', () => {
             }))
         };
         const { getByTestId } = render(
-                <Router>
-                    <FirebaseContext.Provider value={{ firebase }}>
-                        <Login />
-                    </FirebaseContext.Provider>
-                </Router>
+            <Router>
+                <FirebaseContext.Provider value={{ firebase }}>
+                    <Login />
+                </FirebaseContext.Provider>
+            </Router>
         );
 
         await act(async () => {

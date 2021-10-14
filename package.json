@@ -55,7 +55,7 @@
       "!<rootDir>/src/fixtures/*.jsx",
       "!<rootDir>/src/hooks/*.jsx",
       "!<rootDir>/src/helpers/*.jsx",
-      "!<rootDir>/src/services/firebase.jsx"
+      "!<rootDir>/src/services/Firebase.jsx"
     ],
     "coverageThreshold": {
       "global": {

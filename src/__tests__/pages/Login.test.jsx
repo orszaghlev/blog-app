@@ -14,7 +14,6 @@ jest.mock('react-router-dom', () => ({
         push: mockHistoryPush
     })
 }));
-jest.mock('../../services/firebase');
 
 describe('<Login />', () => {
     beforeEach(() => {
@@ -84,8 +83,10 @@ describe('<Login />', () => {
             expect(failToLogin).rejects.toThrow('Sikertelen bejelentkezés, nem megfelelő e-mail és/vagy jelszó!');
 
             //jest.useFakeTimers();
-            //await expect(setTimeout).toHaveBeenCalled();
-            //await expect(setTimeout).toHaveBeenWith(expect.any(Function), 5000);
+            //setTimeout(() => {
+            //    expect(queryByTestId('error')).toBeFalsy();
+            //}, 5000);
+            //jest.runAllTimers();
 
             await waitFor(() => {
                 expect(mockHistoryPush).not.toHaveBeenCalledWith(ROUTES.HOME);

@@ -31,7 +31,7 @@ export default function ShowCreatePost() {
     return (
         <>
             <h2>Új bejegyzés</h2>
-            <form className={classes.container} noValidate
+            <form data-testid="create-post" className={classes.container} noValidate
                 onSubmit={async (e) => {
                     e.preventDefault();
                     const data = {
@@ -59,16 +59,16 @@ export default function ShowCreatePost() {
                     justify="space-around"
                     alignItems="stretch">
                     <Grid item xs>
-                        <TextField name="id" label="ID" variant="filled" type="text" required style={{ width: 800 }} />
+                        <TextField inputProps={{ "data-testid": "input-id" }} name="id" label="ID" variant="filled" type="text" required style={{ width: 800 }} />
                     </Grid>
                     <Grid item xs>
-                        <TextField name="title" label="Cím" variant="filled" type="text" required style={{ width: 800 }}
+                        <TextField inputProps={{ "data-testid": "input-title" }} name="title" label="Cím" variant="filled" type="text" required style={{ width: 800 }}
                             onChange={(e) => {
                                 setSlug(slugify(e.target.value));
                             }} />
                     </Grid>
                     <Grid item xs>
-                        <TextField value={slug} name="slug" label="Slug" variant="filled" type="text" required style={{ width: 800 }} />
+                        <TextField inputProps={{ "data-testid": "input-slug" }} value={slug} name="slug" label="Slug" variant="filled" type="text" required style={{ width: 800 }} />
                     </Grid>
                     <Grid item xs>
                         <Grid
@@ -77,7 +77,7 @@ export default function ShowCreatePost() {
                             justify="center"
                         >
                             <div class="form-group" style={{ width: "800px" }}>
-                                <textarea name="description" label="Leírás" class="form-control" rows="3" placeholder="Leírás" required />
+                                <textarea data-testid="input-description" name="description" label="Leírás" class="form-control" rows="3" placeholder="Leírás" required />
                             </div>
                         </Grid>
                     </Grid>
@@ -113,13 +113,13 @@ export default function ShowCreatePost() {
                         </Grid>
                     </Grid>
                     <Grid item xs>
-                        <TextField name="imgURL" label="Kép URL" variant="filled" type="text" required style={{ width: 800 }} />
+                        <TextField inputProps={{ "data-testid": "input-imgURL" }} name="imgURL" label="Kép URL" variant="filled" type="text" required style={{ width: 800 }} />
                     </Grid>
                     <Grid item xs>
-                        <TextField name="tag" label="Címkék" variant="filled" type="text" required style={{ width: 800 }} />
+                        <TextField inputProps={{ "data-testid": "input-tag" }} name="tag" label="Címkék" variant="filled" type="text" required style={{ width: 800 }} />
                     </Grid>
                     <Grid item xs>
-                        <TextField name="language" label="Nyelv" variant="filled" type="text" required
+                        <TextField inputProps={{ "data-testid": "input-language" }} name="language" label="Nyelv" variant="filled" type="text" required
                             style={{ width: 800, textAlign: "left" }} select>
                             <MenuItem value="Hungarian">Magyar</MenuItem>
                             <MenuItem value="English">Angol</MenuItem>
@@ -127,6 +127,7 @@ export default function ShowCreatePost() {
                     </Grid>
                     <Grid item xs>
                         <TextField
+                            inputProps={{ "data-testid": "input-date" }}
                             style={{ width: "800px" }}
                             id="datetime-local"
                             name="date"
@@ -139,7 +140,7 @@ export default function ShowCreatePost() {
                         />
                     </Grid>
                     <Grid item xs>
-                        <TextField name="isActive" label="Állapot" variant="filled" type="text" required
+                        <TextField inputProps={{ "data-testid": "input-isActive" }} name="isActive" label="Állapot" variant="filled" type="text" required
                             style={{ width: 800, textAlign: "left" }} select>
                             <MenuItem value="true">Aktív</MenuItem>
                             <MenuItem value="false">Inaktív</MenuItem>
@@ -153,7 +154,7 @@ export default function ShowCreatePost() {
                             <Button type="submit" variant="contained" color="primary">
                                 Létrehozás
                             </Button>
-                            <Button variant="contained" color="secondary" onClick={() => {
+                            <Button data-testid="return" variant="contained" color="secondary" onClick={() => {
                                 history.push(ROUTES.ADMIN_ALL_POSTS)
                             }}>
                                 Vissza

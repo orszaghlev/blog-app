@@ -35,7 +35,7 @@ export default function ShowProfileEdit({ user }) {
     return (
         <>
             <h2>Felhasználói adatok szerkesztése</h2>
-            <form className={classes.container} noValidate
+            <form data-testid="edit-user-data" className={classes.container} noValidate
                 onSubmit={async (e) => {
                     e.preventDefault();
                     const usernameExists = await doesUsernameExist(username);
@@ -68,14 +68,14 @@ export default function ShowProfileEdit({ user }) {
                     justify="space-around"
                     alignItems="stretch">
                     <Grid item xs>
-                        <TextField value={username} name="username" type="text" label="Felhasználónév" variant="filled"
+                        <TextField inputProps={{ "data-testid": "input-username" }} value={username} name="username" type="text" label="Felhasználónév" variant="filled"
                             onChange={(e) => {
                                 setUsername(e.target.value);
                             }}
                             required style={{ width: 800 }} />
                     </Grid>
                     <Grid item xs>
-                        <TextField value={fullName} name="fullName" type="text" label="Teljes név" variant="filled"
+                        <TextField inputProps={{ "data-testid": "input-fullname" }} value={fullName} name="fullName" type="text" label="Teljes név" variant="filled"
                             onChange={(e) => {
                                 setFullName(e.target.value);
                             }}
@@ -89,7 +89,7 @@ export default function ShowProfileEdit({ user }) {
                             <Button type="submit" variant="contained" color="primary">
                                 Szerkesztés
                             </Button>
-                            <Button variant="contained" color="secondary" onClick={() => {
+                            <Button data-testid="return" variant="contained" color="secondary" onClick={() => {
                                 history.push(ROUTES.PROFILE)
                             }}>
                                 Vissza
@@ -97,7 +97,7 @@ export default function ShowProfileEdit({ user }) {
                         </Grid>
                     </Grid>
                     {error && (
-                        <div className="text-danger">
+                        <div data-testid="error" className="text-danger">
                             {error}
                         </div>
                     )}

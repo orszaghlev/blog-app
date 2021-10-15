@@ -3,12 +3,7 @@ export default {
     username: 'admin',
     fullName: 'Levente Országh',
     emailAddress: 'orszaghlev@gmail.com',
-    favoritePosts: ["JSX (JavaScript)"],
-    ownComments: [
-        {
-            "comment": "(Y)",
-            "title": "Facebook"
-        }
-    ],
+    favoritePosts: [],
+    ownComments: [],
     dateCreated: 1631791677094
 };

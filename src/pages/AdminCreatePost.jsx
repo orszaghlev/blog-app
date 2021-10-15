@@ -5,7 +5,7 @@ import ShowCreatePost from "../components/admin/create-post/ShowCreatePost";
 export default function AdminCreatePost() {
     useEffect(() => {
         document.title = "Új bejegyzés";
-    })
+    }, []);
 
     return (
         <div className="p-3 content text-center m-auto" style={{ width: "1000px" }}>

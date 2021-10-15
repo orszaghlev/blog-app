@@ -1,6 +1,5 @@
-import { useContext } from "react";
+import { useEffect, useContext } from "react";
 import { motion } from "framer-motion";
-import { Helmet } from "react-helmet-async";
 import useUser from '../hooks/UseUser';
 import UserContext from '../contexts/User';
 import LoggedInUserContext from '../contexts/LoggedInUser';
@@ -12,13 +11,13 @@ export default function Profile() {
     const { user: loggedInUser } = useContext(UserContext);
     const { user } = useUser(loggedInUser?.uid);
 
+    useEffect(() => {
+        document.title = "Profil";
+    }, []);
+
     return (
         <LoggedInUserContext.Provider value={{ user }}>
             <div className="p-3 content text-center m-auto" style={{ width: "1000px" }}>
-                <Helmet>
-                    <title>Profil</title>
-                    <meta name="description" content="Profil" />
-                </Helmet>
                 <motion.div initial="hidden" animate="visible" variants={{
                     hidden: {
                         scale: .8,

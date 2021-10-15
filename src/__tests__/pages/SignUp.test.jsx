@@ -15,7 +15,7 @@ jest.mock('react-router-dom', () => ({
         push: mockHistoryPush
     })
 }));
-jest.mock('../../services/firebase');
+jest.mock('../../services/Firebase');
 
 describe('<SignUp />', () => {
     beforeEach(() => {
@@ -64,12 +64,12 @@ describe('<SignUp />', () => {
             await expect(doesEmailAddressExist).toHaveBeenCalledWith('orszaghlev@gmail.com');
 
             await waitFor(() => {
-                //expect(mockHistoryPush).toHaveBeenCalledWith(ROUTES.PROFILE);
-                //expect(getByTestId('input-username').value).toBe('admin');
-                //expect(getByTestId('input-fullname').value).toBe('Levente Országh');
-                //expect(getByTestId('input-email').value).toBe('orszaghlev@gmail.com');
-                //expect(getByTestId('input-password').value).toBe('test1234');
-                //expect(queryByTestId('error')).toBeFalsy();
+                expect(mockHistoryPush).toHaveBeenCalledWith(ROUTES.PROFILE);
+                expect(getByTestId('input-username').value).toBe('admin');
+                expect(getByTestId('input-fullname').value).toBe('Levente Országh');
+                expect(getByTestId('input-email').value).toBe('orszaghlev@gmail.com');
+                expect(getByTestId('input-password').value).toBe('test1234');
+                expect(queryByTestId('error')).toBeFalsy();
             });
         });
     });

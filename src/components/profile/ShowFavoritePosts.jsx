@@ -12,12 +12,12 @@ export default function ShowFavoritePosts({ user }) {
             direction="column"
             justify="center"
             alignItems="center">
-            <h5>{user?.favoritePosts?.length === 0 ? "Jelenleg nincsenek kedvenc bejegyzései!" : "Kedvenc bejegyzések"}</h5>
+            <h5 data-testid="user-favoritePosts-title">{user?.favoritePosts?.length === 0 ? "Jelenleg nincsenek kedvenc bejegyzései!" : "Kedvenc bejegyzések"}</h5>
             {user?.favoritePosts?.map((postTitle) => (
-                <Button variant="text" color="primary" onClick={() => {
+                <Button data-testid="user-favoritePost-button" variant="text" color="primary" onClick={() => {
                     history.push(`/posts/${slugify(postTitle)}`)
                 }}>
-                    {postTitle}
+                    <p data-testid="user-favoritePost-title">{postTitle}</p>
                 </Button>
             ))}
         </Grid>

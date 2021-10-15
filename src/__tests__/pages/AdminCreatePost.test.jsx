@@ -15,7 +15,7 @@ jest.mock('react-router-dom', () => ({
     })
 }));
 
-describe('<SignUp />', () => {
+describe('<AdminCreatePost />', () => {
     beforeEach(() => {
         jest.clearAllMocks();
     });

@@ -11,16 +11,16 @@ export default function ShowProfile({ user }) {
     return (
         <>
             <div>
-                <h2>Profil</h2>
+                <h2 data-testid="profile-title">Profil</h2>
             </div>
             <hr />
-            <h5>Felhasználó adatai</h5>
-            <p>Felhasználónév: {user?.username}</p>
-            <p>Teljes név: {user?.fullName}</p>
-            <p>E-mail cím: {user?.emailAddress}</p>
-            <p>Regisztráció dátuma: {date?.toLocaleDateString() + " " + date?.toLocaleTimeString()}</p>
+            <h5 data-testid="user-data">Felhasználó adatai</h5>
+            <p data-testid="user-username">Felhasználónév: {user?.username}</p>
+            <p data-testid="user-fullname">Teljes név: {user?.fullName}</p>
+            <p data-testid="user-email">E-mail cím: {user?.emailAddress}</p>
+            <p data-testid="user-date">Regisztráció dátuma: {date?.toLocaleDateString() + " " + date?.toLocaleTimeString()}</p>
             <Grid>
-                <Button variant="contained" onClick={() => {
+                <Button data-testid="profile-edit" variant="contained" onClick={() => {
                     history.push(ROUTES.PROFILE_EDIT);
                 }}>
                     Adatok szerkesztése

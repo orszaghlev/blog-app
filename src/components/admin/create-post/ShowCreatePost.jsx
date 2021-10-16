@@ -127,7 +127,6 @@ export default function ShowCreatePost() {
                     </Grid>
                     <Grid item xs>
                         <TextField
-                            inputProps={{ "data-testid": "input-date" }}
                             style={{ width: "800px" }}
                             id="datetime-local"
                             name="date"

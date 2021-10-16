@@ -82,12 +82,6 @@ describe('<Login />', () => {
             expect(failToLogin).toHaveBeenCalledWith('orszaghlev.com', 'test1234');
             expect(failToLogin).rejects.toThrow('Sikertelen bejelentkezés, nem megfelelő e-mail és/vagy jelszó!');
 
-            //jest.useFakeTimers();
-            //setTimeout(() => {
-            //    expect(queryByTestId('error')).toBeFalsy();
-            //}, 5000);
-            //jest.runAllTimers();
-
             await waitFor(() => {
                 expect(mockHistoryPush).not.toHaveBeenCalledWith(ROUTES.HOME);
                 expect(getByTestId('input-email').value).toBe('');

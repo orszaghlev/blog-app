@@ -44,7 +44,7 @@ export default function ShowSignUp() {
                     .collection('users')
                     .doc(data.userId)
                     .set(data);
-                history.push(ROUTES.PROFILE);
+                return history.push(ROUTES.PROFILE);
             } catch (error) {
                 setUsername('');
                 setFullName('');

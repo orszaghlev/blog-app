@@ -33,7 +33,7 @@ describe('<Profile />', () => {
             getUserByUserId.mockImplementation(() => [userFixture]);
             useUser.mockImplementation(() => ({ user: userFixture }));
 
-            const { getByTestId } = render(
+            const { getByText } = render(
                 <Router>
                     <FirebaseContext.Provider
                         value={{
@@ -57,23 +57,19 @@ describe('<Profile />', () => {
                 </Router>
             );
 
-            expect(document.title).toEqual('Profil');
-
             await waitFor(() => {
                 expect(mockHistoryPush).not.toHaveBeenCalledWith(ROUTES.HOME);
-                expect(getUserByUserId).toHaveBeenCalled();
-                expect(getUserByUserId).toHaveBeenCalledWith('SQ63uFaevONVpZHFAiMyjDbbmI52');
-                expect(getByTestId('profile-title').value).toBe('Profil');
-                expect(getByTestId('user-data').value).toBe('Felhasználó adatai');
-                expect(getByTestId('user-username').value).toBe('Felhasználónév: admin');
-                expect(getByTestId('user-fullname').value).toBe('Teljes név: Levente Országh');
-                expect(getByTestId('user-email').value).toBe('E-mail cím: orszaghlev@gmail.com');
-                expect(getByTestId('user-date').value).toBe('Regisztráció dátuma: 2021. 09. 16. 13:27:57');
-                expect(getByTestId('user-favoritePosts-title').value).toBe('Kedvenc bejegyzések');
-                expect(getByTestId('user-favoritePost-title').value).toBe('JSX (JavaScript)');
-                expect(getByTestId('user-comments-title').value).toBe('Saját hozzászólások');
-                expect(getByTestId('user-comment-title').value).toBe('Facebook');
-                expect(getByTestId('user-comment-comment').value).toBe('(Y)');
+                expect(getByText('Profil')).toBeTruthy();
+                expect(getByText('Felhasználó adatai')).toBeTruthy();
+                expect(getByText('Felhasználónév: admin')).toBeTruthy();
+                expect(getByText('Teljes név: Levente Országh')).toBeTruthy();
+                expect(getByText('E-mail cím: orszaghlev@gmail.com')).toBeTruthy();
+                expect(getByText('Regisztráció dátuma: 2021. 09. 16. 13:27:57')).toBeTruthy();
+                expect(getByText('Kedvenc bejegyzések')).toBeTruthy();
+                expect(getByText('JSX (JavaScript)')).toBeTruthy();
+                expect(getByText('Saját hozzászólások')).toBeTruthy();
+                expect(getByText('Facebook')).toBeTruthy();
+                expect(getByText('(Y)')).toBeTruthy();
             });
         });
     });
@@ -83,7 +79,7 @@ describe('<Profile />', () => {
             getUserByUserId.mockImplementation(() => [userWithNoFavoritesOrCommentsFixture]);
             useUser.mockImplementation(() => ({ user: userWithNoFavoritesOrCommentsFixture }));
 
-            const { getByTestId } = render(
+            const { getByText } = render(
                 <Router>
                     <FirebaseContext.Provider
                         value={{
@@ -111,16 +107,14 @@ describe('<Profile />', () => {
 
             await waitFor(() => {
                 expect(mockHistoryPush).not.toHaveBeenCalledWith(ROUTES.HOME);
-                expect(getUserByUserId).toHaveBeenCalled();
-                expect(getUserByUserId).toHaveBeenCalledWith('SQ63uFaevONVpZHFAiMyjDbbmI52');
-                expect(getByTestId('profile-title').value).toBe('Profil');
-                expect(getByTestId('user-data').value).toBe('Felhasználó adatai');
-                expect(getByTestId('user-username').value).toBe('Felhasználónév: admin');
-                expect(getByTestId('user-fullname').value).toBe('Teljes név: Levente Országh');
-                expect(getByTestId('user-email').value).toBe('E-mail cím: orszaghlev@gmail.com');
-                expect(getByTestId('user-date').value).toBe('Regisztráció dátuma: 2021. 09. 16. 13:27:57');
-                expect(getByTestId('user-favoritePosts-title').value).toBe('Jelenleg nincsenek kedvenc bejegyzései!');
-                expect(getByTestId('user-comments-title').value).toBe('Jelenleg nincsenek saját hozzászólásai!');
+                expect(getByText('Profil')).toBeTruthy();
+                expect(getByText('Felhasználó adatai')).toBeTruthy();
+                expect(getByText('Felhasználónév: admin')).toBeTruthy();
+                expect(getByText('Teljes név: Levente Országh')).toBeTruthy();
+                expect(getByText('E-mail cím: orszaghlev@gmail.com')).toBeTruthy();
+                expect(getByText('Regisztráció dátuma: 2021. 09. 16. 13:27:57')).toBeTruthy();
+                expect(getByText('Jelenleg nincsenek kedvenc bejegyzései!')).toBeTruthy();
+                expect(getByText('Jelenleg nincsenek saját hozzászólásai!')).toBeTruthy();
             });
         });
     });

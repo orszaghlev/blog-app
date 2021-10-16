@@ -12,15 +12,15 @@ export default function ShowOwnComments({ user }) {
             direction="column"
             justify="center"
             alignItems="center">
-            <h5 data-testid="user-comments-title">{user?.ownComments.length === 0 ? "Jelenleg nincsenek saját hozzászólásai!" : "Saját hozzászólások"}</h5>
+            <h5>{user?.ownComments.length === 0 ? "Jelenleg nincsenek saját hozzászólásai!" : "Saját hozzászólások"}</h5>
             {user?.ownComments?.map((comment) => (
                 <div>
                     <Button data-testid="user-comment-button" variant="text" color="primary" onClick={() => {
                         history.push(`/posts/${slugify(comment?.title)}`)
                     }}>
-                        <h6 data-testid="user-comment-title">{comment?.title}</h6>
+                        <h6>{comment?.title}</h6>
                     </Button>
-                    <p data-testid="user-comment-comment">{comment?.comment}</p>
+                    <p>{comment?.comment}</p>
                 </div>
             ))}
             <hr />

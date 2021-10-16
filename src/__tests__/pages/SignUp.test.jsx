@@ -26,7 +26,8 @@ describe('<SignUp />', () => {
         const firebase = {
             firestore: jest.fn(() => ({
                 collection: jest.fn(() => ({
-                    add: jest.fn(() => Promise.resolve('Felhasználó hozzáadva'))
+                    doc: jest.fn().mockReturnThis(),
+                    set: jest.fn(() => Promise.resolve('Felhasználó hozzáadva'))
                 }))
             })),
             auth: jest.fn(() => ({

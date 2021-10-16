@@ -55,12 +55,8 @@ describe('<ProfileEdit />', () => {
                 </Router>
             );
 
-            expect(document.title).toEqual('Felhasználói adatok szerkesztése');
-
             await waitFor(() => {
                 expect(mockHistoryPush).not.toHaveBeenCalledWith(ROUTES.HOME);
-                expect(getUserByUserId).toHaveBeenCalled();
-                expect(getUserByUserId).toHaveBeenCalledWith('SQ63uFaevONVpZHFAiMyjDbbmI52');
                 expect(getByTestId('input-username').value).toBe('admin');
                 expect(getByTestId('input-fullname').value).toBe('Levente Országh');
                 expect(queryByTestId('error')).toBeFalsy();
@@ -70,14 +66,16 @@ describe('<ProfileEdit />', () => {
 
     it('Megjelenik a profilszerkesztő oldal, a felhasználó saját adataival, a felhasználó sikeresen szerkesztette azokat', async () => {
         const firebase = {
+            auth: jest.fn(() => ({
+                currentUser: {
+                    uid: 'SQ63uFaevONVpZHFAiMyjDbbmI52', displayName: "admin",
+                    updateProfile: jest.fn(() => Promise.resolve('Sikeres szerkesztés!'))
+                }
+            })),
             firestore: jest.fn(() => ({
                 collection: jest.fn(() => ({
+                    doc: jest.fn().mockReturnThis(),
                     set: jest.fn(() => Promise.resolve('Felhasználó szerkesztve'))
-                }))
-            })),
-            auth: jest.fn(() => ({
-                createUserWithEmailAndPassword: jest.fn(() => ({
-                    user: { updateProfile: jest.fn(() => Promise.resolve('Sikeres szerkesztés!')) }
                 }))
             }))
         };
@@ -85,7 +83,7 @@ describe('<ProfileEdit />', () => {
         await act(async () => {
             getUserByUserId.mockImplementation(() => [userFixture]);
             useUser.mockImplementation(() => ({ user: userFixture }));
-            doesUsernameExist.mockImplementation(() => Promise.resolve(true));
+            doesUsernameExist.mockImplementation(() => Promise.resolve(false));
 
             const { getByTestId, queryByTestId } = render(
                 <Router>
@@ -116,12 +114,10 @@ describe('<ProfileEdit />', () => {
 
             expect(document.title).toEqual('Felhasználói adatok szerkesztése');
             await expect(doesUsernameExist).toHaveBeenCalled();
-            await expect(doesUsernameExist).toHaveBeenCalledWith('admin2');
+            await expect(doesUsernameExist).toHaveBeenCalledWith('admin');
 
             await waitFor(() => {
                 expect(mockHistoryPush).toHaveBeenCalledWith(ROUTES.PROFILE);
-                expect(getUserByUserId).toHaveBeenCalled();
-                expect(getUserByUserId).toHaveBeenCalledWith('SQ63uFaevONVpZHFAiMyjDbbmI52');
                 expect(getByTestId('input-username').value).toBe('admin2');
                 expect(getByTestId('input-fullname').value).toBe('Levente Orszagh');
                 expect(queryByTestId('error')).toBeFalsy();
@@ -132,16 +128,17 @@ describe('<ProfileEdit />', () => {
     it('Megjelenik a profilszerkesztő oldal, a felhasználó saját adataival, de a szerkesztés során hiba következik be', async () => {
         const firebase = {
             auth: jest.fn(() => ({
-                createUserWithEmailAndPassword: jest.fn(() => ({
-                    user: { updateProfile: jest.fn(() => Promise.resolve('A felhasználónév foglalt!')) }
-                }))
+                currentUser: { 
+                    uid: 'SQ63uFaevONVpZHFAiMyjDbbmI52', displayName: "admin",
+                    updateProfile: jest.fn(() => Promise.resolve('A felhasználónév foglalt!')) 
+                }
             }))
         };
 
         await act(async () => {
             getUserByUserId.mockImplementation(() => [userFixture]);
             useUser.mockImplementation(() => ({ user: userFixture }));
-            doesUsernameExist.mockImplementation(() => Promise.resolve([false]));
+            doesUsernameExist.mockImplementation(() => Promise.resolve(true));
 
             const { getByTestId, queryByTestId } = render(
                 <Router>
@@ -176,8 +173,6 @@ describe('<ProfileEdit />', () => {
 
             await waitFor(() => {
                 expect(mockHistoryPush).not.toHaveBeenCalledWith(ROUTES.PROFILE);
-                expect(getUserByUserId).toHaveBeenCalled();
-                expect(getUserByUserId).toHaveBeenCalledWith('SQ63uFaevONVpZHFAiMyjDbbmI52');
                 expect(getByTestId('input-username').value).toBe('');
                 expect(getByTestId('input-fullname').value).toBe('Levente Országh');
                 expect(queryByTestId('error')).toBeTruthy();

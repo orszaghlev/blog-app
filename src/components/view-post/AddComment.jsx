@@ -45,7 +45,7 @@ export default function AddComment({ docId, title, language, comments, setCommen
     const classes = useStyles();
 
     return (
-        <form className={classes.root} noValidate autoComplete="off" method="POST"
+        <form data-testid="add-comment-submit" className={classes.root} noValidate autoComplete="off" method="POST"
             onSubmit={(e) =>
                 comment.length >= 1 ? handleSubmitComment(e) : e.preventDefault()
             }
@@ -55,6 +55,7 @@ export default function AddComment({ docId, title, language, comments, setCommen
                 justify="center"
                 alignItems="center">
                 <TextField
+                    inputProps={{ "data-testid": "input-add-comment" }}
                     aria-label={language === "Hungarian" ? "Új hozzászólás" : "New comment"}
                     autoComplete="off"
                     type="text"

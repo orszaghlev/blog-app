@@ -55,9 +55,6 @@ export default function ShowProfileEdit({ user }) {
                             setError("");
                         }, 5000);
                     } else {
-                        await firebase.auth().currentUser.updateProfile({
-                            displayName: data.username
-                        });
                         firebase.firestore().collection('users').doc(data.userId).set(data);
                         history.push(ROUTES.PROFILE);
                     }

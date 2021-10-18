@@ -27,6 +27,13 @@ describe('<ProfileEdit />', () => {
     });
 
     it('Megjelenik a profilszerkesztő oldal, a felhasználó saját adataival', async () => {
+        const firebase = {
+            auth: jest.fn(() => ({
+            })),
+            firestore: jest.fn(() => ({
+            }))
+        };
+
         await act(async () => {
             getUserByUserId.mockImplementation(() => [userFixture]);
             useUser.mockImplementation(() => ({ user: userFixture }));
@@ -34,12 +41,7 @@ describe('<ProfileEdit />', () => {
             const { getByTestId, queryByTestId } = render(
                 <Router>
                     <FirebaseContext.Provider
-                        value={{
-                            firebase: {
-                                auth: jest.fn(() => ({
-                                }))
-                            }
-                        }}
+                        value={firebase}
                     >
                         <UserContext.Provider
                             value={{
@@ -67,10 +69,6 @@ describe('<ProfileEdit />', () => {
     it('Megjelenik a profilszerkesztő oldal, a felhasználó saját adataival, a felhasználó sikeresen szerkesztette azokat', async () => {
         const firebase = {
             auth: jest.fn(() => ({
-                currentUser: {
-                    uid: 'SQ63uFaevONVpZHFAiMyjDbbmI52', displayName: "admin",
-                    updateProfile: jest.fn(() => Promise.resolve('Sikeres szerkesztés!'))
-                }
             })),
             firestore: jest.fn(() => ({
                 collection: jest.fn(() => ({
@@ -101,11 +99,11 @@ describe('<ProfileEdit />', () => {
                             <ProfileEdit />
                         </UserContext.Provider>
                     </FirebaseContext.Provider>
-                </Router>
+                </Router >
             );
 
             await fireEvent.change(getByTestId('input-username'), {
-                target: { value: 'admin2' }
+                target: { value: 'admin' }
             });
             await fireEvent.change(getByTestId('input-fullname'), {
                 target: { value: 'Levente Orszagh' }
@@ -118,29 +116,26 @@ describe('<ProfileEdit />', () => {
 
             await waitFor(() => {
                 expect(mockHistoryPush).toHaveBeenCalledWith(ROUTES.PROFILE);
-                expect(getByTestId('input-username').value).toBe('admin2');
+                expect(getByTestId('input-username').value).toBe('admin');
                 expect(getByTestId('input-fullname').value).toBe('Levente Orszagh');
                 expect(queryByTestId('error')).toBeFalsy();
             });
         });
     });
 
-    it('Megjelenik a profilszerkesztő oldal, a felhasználó saját adataival, de a szerkesztés során hiba következik be', async () => {
+    it('Megjelenik a profilszerkesztő oldal, de a felhasználó visszalép a profiloldalra', async () => {
         const firebase = {
             auth: jest.fn(() => ({
-                currentUser: { 
-                    uid: 'SQ63uFaevONVpZHFAiMyjDbbmI52', displayName: "admin",
-                    updateProfile: jest.fn(() => Promise.resolve('A felhasználónév foglalt!')) 
-                }
+            })),
+            firestore: jest.fn(() => ({
             }))
         };
 
         await act(async () => {
             getUserByUserId.mockImplementation(() => [userFixture]);
             useUser.mockImplementation(() => ({ user: userFixture }));
-            doesUsernameExist.mockImplementation(() => Promise.resolve(true));
 
-            const { getByTestId, queryByTestId } = render(
+            const { getByTestId } = render(
                 <Router>
                     <FirebaseContext.Provider
                         value={firebase}
@@ -159,32 +154,21 @@ describe('<ProfileEdit />', () => {
                 </Router>
             );
 
-            await fireEvent.change(getByTestId('input-username'), {
-                target: { value: 'admin' }
-            });
-            await fireEvent.change(getByTestId('input-fullname'), {
-                target: { value: 'Levente Országh' }
-            });
-            fireEvent.submit(getByTestId('edit-user-data'));
+            fireEvent.click(getByTestId('return'));
 
             expect(document.title).toEqual('Felhasználói adatok szerkesztése');
-            await expect(doesUsernameExist).toHaveBeenCalled();
-            await expect(doesUsernameExist).toHaveBeenCalledWith('admin');
 
             await waitFor(() => {
-                expect(mockHistoryPush).not.toHaveBeenCalledWith(ROUTES.PROFILE);
-                expect(getByTestId('input-username').value).toBe('');
-                expect(getByTestId('input-fullname').value).toBe('Levente Országh');
-                expect(queryByTestId('error')).toBeTruthy();
+                expect(mockHistoryPush).toHaveBeenCalledWith(ROUTES.PROFILE);
             });
         });
     });
 
-    it('Megjelenik a profilszerkesztő oldal, de a felhasználó visszalép a profiloldalra', async () => {
+        it('Megjelenik a profilszerkesztő oldal, de a felhasználó visszalép a profiloldalra', async () => {
         const firebase = {
-            firestore: jest.fn(() => ({
-            })),
             auth: jest.fn(() => ({
+            })),
+            firestore: jest.fn(() => ({
             }))
         };
 

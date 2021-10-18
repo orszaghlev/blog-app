@@ -14,7 +14,7 @@ export default function PostInactive({ post }) {
                 direction="row"
                 justify="center"
                 alignItems="center">
-                <Button m="2rem" variant="contained" color="secondary" onClick={() => {
+                <Button data-testid="post-inactive-return" m="2rem" variant="contained" color="secondary" onClick={() => {
                     history.push(ROUTES.HOME)
                 }}>
                     {post?.language === "Hungarian" ? "Vissza" : "Return"}

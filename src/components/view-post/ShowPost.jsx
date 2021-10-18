@@ -88,7 +88,7 @@ export default function ShowPost({ post, user }) {
                 />
                 <CardActions style={{ justifyContent: "center" }}>
                     {user &&
-                        <Button size="small" color="primary" align="center" onClick={() => {
+                        <Button data-testid="add-to-favorites" size="small" color="primary" align="center" onClick={() => {
                             handleToggleSaved();
                             setNotification(post?.language === "Hungarian" ? (!toggleSaved ? "Sikeres hozzáadás!" : "Sikeres eltávolítás!") : (!toggleSaved ? "Post successfully added!" : "Post successfully removed!"));
                             setTimeout(() => {
@@ -98,7 +98,7 @@ export default function ShowPost({ post, user }) {
                             {post?.language === "Hungarian" ? (!toggleSaved ? "Hozzáadás a kedvencekhez" : "Eltávolitás a kedvencek közül") : (!toggleSaved ? "Add to favorites" : "Remove from favorites")}
                         </Button>
                     }
-                    <Button size="small" color="secondary" align="center" onClick={() => {
+                    <Button data-testid="show-post-return" size="small" color="secondary" align="center" onClick={() => {
                         history.push(ROUTES.HOME)
                     }}>
                         {post?.language === "Hungarian" ? "Vissza" : "Return"}

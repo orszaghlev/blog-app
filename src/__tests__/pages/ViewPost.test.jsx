@@ -1,0 +1,305 @@
+import React from 'react';
+import { render, waitFor, fireEvent } from '@testing-library/react';
+import { BrowserRouter as Router } from 'react-router-dom';
+import { act } from 'react-dom/test-utils';
+import ViewPost from '../../pages/ViewPost';
+import UserContext from '../../contexts/User';
+import FirebaseContext from '../../contexts/Firebase';
+import LoggedInUserContext from '../../contexts/LoggedInUser';
+import * as ROUTES from '../../constants/Routes';
+import { getUserByUserId, getPostByPostSlug } from '../../services/Firebase';
+import useUser from '../../hooks/UseUser';
+import usePost from '../../hooks/UsePost';
+import userFixture from '../../fixtures/LoggedInUser';
+import postFixture from '../../fixtures/CreatedPost';
+import postFixtureHun from '../../fixtures/CreatedPostHun';
+import postFixtureWithComment from '../../fixtures/CreatedPostWithComment';
+import postFixtureWithCommentHun from '../../fixtures/CreatedPostWithCommentHun';
+
+const mockHistoryPush = jest.fn();
+
+jest.mock('../../services/Firebase');
+jest.mock('../../hooks/UseUser');
+jest.mock('../../hooks/UsePost');
+
+describe('<ViewPost />', () => {
+    beforeEach(() => {
+        jest.clearAllMocks();
+    });
+
+    it('Megjelenik az angol nyelvű bejegyzéshez tartozó aloldal, a bejegyzéshez tartozó adatokkal', async () => {
+        jest.mock('react-router-dom', () => ({
+            ...jest.requireActual('react-router-dom'),
+            useParams: () => ({ slug: 'react-javascript-library-' }),
+            useHistory: () => ({
+                push: mockHistoryPush
+            })
+        }));
+
+        const firebase = {
+            firestore: jest.fn(() => ({
+            }))
+        }
+
+        await act(async () => {
+            getUserByUserId.mockImplementation(() => [userFixture]);
+            useUser.mockImplementation(() => ({ user: userFixture }));
+            getPostByPostSlug.mockImplementation(() => [postFixture]);
+            usePost.mockImplementation(() => ({ post: postFixture }));
+
+            const { getByText } = render(
+                <Router>
+                    <FirebaseContext.Provider
+                        value={firebase}
+                    >
+                        <UserContext.Provider
+                            value={{
+                                user: {
+                                    uid: 'SQ63uFaevONVpZHFAiMyjDbbmI52',
+                                    displayName: 'admin'
+                                }
+                            }}
+                        >
+                            <LoggedInUserContext.Provider value={{ user: userFixture }}>
+                                <ViewPost />
+                            </LoggedInUserContext.Provider>
+                        </UserContext.Provider>
+                    </FirebaseContext.Provider>
+                </Router>
+            );
+
+            await waitFor(() => {
+                expect(document.title).toEqual('React (JavaScript library)');
+                expect(mockHistoryPush).not.toHaveBeenCalledWith(ROUTES.HOME);
+                expect(getByText('2021. 10. 07. 13:00')).toBeTruthy();
+                expect(getByText('React (JavaScript library)')).toBeTruthy();
+                expect(getByText('React (also known as React.js or ReactJS) is a free and open-source front-end JavaScript library for building user interfaces or UI components.')).toBeTruthy();
+                expect(getByText("React (also known as React.js or ReactJS) is a free and open-source front-end JavaScript library for building user interfaces or UI components. It is maintained by Facebook and a community of individual developers and companies. React can be used as a base in the development of single-page or mobile applications. However, React is only concerned with state management and rendering that state to the DOM, so creating React applications usually requires the use of additional libraries for routing, as well as certain client-side functionality. React was created by Jordan Walke, a software engineer at Facebook, who released an early prototype of React called 'FaxJS'. He was influenced by XHP, an HTML component library for PHP. It was first deployed on Facebook's News Feed in 2011 and later on Instagram in 2012. It was open-sourced at JSConf US in May 2013. React Native, which enables native Android, iOS, and UWP development with React, was announced at Facebook's React Conf in February 2015 and open-sourced in March 2015. On April 18, 2017, Facebook announced React Fiber, a new set of internal algorithms for rendering, as opposed to React's old rendering algorithm, Stack. React Fiber was to become the foundation of any future improvements and feature development of the React library. The actual syntax for programming with React does not change; only the way that the syntax is executed has changed. React's old rendering system, Stack, was developed at a time when the focus of the system on dynamic change was not understood. Stack was slow to draw complex animation, for example, trying to accomplish all of it in one chunk. Fiber breaks down animation into segments that can be spread out over multiple frames. Likewise, the structure of a page can be broken into segments that may be maintained and updated separately. JavaScript functions and virtual DOM objects are called 'fibers', and each can be operated and updated separately, allowing for smoother on-screen rendering. On September 26, 2017, React 16.0 was released to the public. On February 16, 2019, React 16.8 was released to the public. The release introduced React Hooks. On August 10, 2020, the React team announced the first release candidate for React v17.0, notable as the first major release without major changes to the React developer-facing API. Source: Wikipedia [CC-BY-SA-3.0] (https://en.wikipedia.org/wiki/React_(JavaScript_library)")).toBeTruthy();
+                expect(getByText('Add to favorites')).toBeTruthy();
+                expect(getByText('Return')).toBeTruthy();
+                expect(getByText('There are no comments yet!')).toBeTruthy();
+            });
+        });
+    });
+
+    it('Megjelenik a magyar nyelvű bejegyzéshez tartozó aloldal, a bejegyzéshez tartozó adatokkal', async () => {
+        jest.mock('react-router-dom', () => ({
+            ...jest.requireActual('react-router-dom'),
+            useParams: () => ({ slug: 'html5' }),
+            useHistory: () => ({
+                push: mockHistoryPush
+            })
+        }));
+
+        const firebase = {
+            firestore: jest.fn(() => ({
+            }))
+        }
+
+        await act(async () => {
+            getUserByUserId.mockImplementation(() => [userFixture]);
+            useUser.mockImplementation(() => ({ user: userFixture }));
+            getPostByPostSlug.mockImplementation(() => [postFixtureHun]);
+            usePost.mockImplementation(() => ({ post: postFixtureHun }));
+
+            const { getByText } = render(
+                <Router>
+                    <FirebaseContext.Provider
+                        value={firebase}
+                    >
+                        <UserContext.Provider
+                            value={{
+                                user: {
+                                    uid: 'SQ63uFaevONVpZHFAiMyjDbbmI52',
+                                    displayName: 'admin'
+                                }
+                            }}
+                        >
+                            <LoggedInUserContext.Provider value={{ user: userFixture }}>
+                                <ViewPost />
+                            </LoggedInUserContext.Provider>
+                        </UserContext.Provider>
+                    </FirebaseContext.Provider>
+                </Router>
+            );
+
+            await waitFor(() => {
+                expect(document.title).toEqual('HTML5');
+                expect(mockHistoryPush).not.toHaveBeenCalledWith(ROUTES.HOME);
+                expect(getByText('2021. 10. 07. 14:00')).toBeTruthy();
+                expect(getByText('HTML5')).toBeTruthy();
+                expect(getByText('Címke: html5')).toBeTruthy();
+                expect(getByText('A HTML5 a HTML (Hypertext Markup Language, a web fő jelölőnyelve) korábbi verzióinak az átdolgozott változata.')).toBeTruthy();
+                expect(getByText("A HTML5 a HTML (Hypertext Markup Language, a web fő jelölőnyelve) korábbi verzióinak az átdolgozott változata. A kifejlesztésének egyik fő célja, hogy a webes alkalmazásokhoz ne legyen szükség pluginek (pl. Adobe Flash, Microsoft Silverlight, Oracle JavaFX) telepítésére. A specifikáció a HTML4 és az XHTML1 új verzióját jelenti, a hozzájuk tartozó DOM2 HTML API-val együtt. A HTML5 specifikációban leírt formátumba történő migráció HTML4-ről, vagy XHTML1-ről a legtöbb esetben egyszerű, mivel a visszamenőleges kompatibilitás biztosított. A specifikáció a közeljövőben támogatni fogja a Web Forms 2.0 specifikációt is. A HTML5 bevezet jó néhány új elemet (címkét) és tulajdonságot, amelyek a modern weblapokon jellemzően alkalmazott szerkezetekre kínálnak új megoldást. Néhány változtatás szemantikai jellegű, például az általánosan használt div és a soron belüli részek formázását biztosító span helyett a nav (a weboldal navigációs területe) és a footer (lábléc). Más elemek új funkciók elérését biztosítják szabványosított felületen, mint az audio és a video elemek. Néhány a HTML 4.01-ben már érvénytelenített elem az új szabványba már nem került be. Ilyenek a mai weblapokon még gyakran jelenlévő font és center elemek, amelyek hatását most már végleg CSS kóddal kell megvalósítani. Újra hangsúlyt helyeztek a DOM szkriptek (gyakorlatilag a JavaScript) jelentőségére a weboldalak viselkedésével kapcsolatban. A jelölések hasonlósága ellenére a HTML5 szintaxisa már nem az SGML-en alapul. Ezzel együtt úgy tervezték, hogy visszafelé kompatibilis legyen, így a korábbi HTML szabványokhoz készült elemzők a szokásos elemeket megérthetik. Forrás: Wikipédia [CC-BY-SA-3.0] (https://hu.wikipedia.org/wiki/HTML5)")).toBeTruthy();
+                expect(getByText('Hozzáadás a kedvencekhez')).toBeTruthy();
+                expect(getByText('Vissza')).toBeTruthy();
+                expect(getByText('Jelenleg nincsenek hozzászólások!')).toBeTruthy();
+            });
+        });
+    });
+
+    it('Megjelenik az angol nyelvű bejegyzéshez tartozó aloldal, a bejegyzéshez tartozó adatokkal és kommentekkel', async () => {
+        jest.mock('react-router-dom', () => ({
+            ...jest.requireActual('react-router-dom'),
+            useParams: () => ({ slug: 'react-javascript-library-' }),
+            useHistory: () => ({
+                push: mockHistoryPush
+            })
+        }));
+
+        const firebase = {
+            firestore: jest.fn(() => ({
+            }))
+        }
+
+        await act(async () => {
+            getUserByUserId.mockImplementation(() => [userFixture]);
+            useUser.mockImplementation(() => ({ user: userFixture }));
+            getPostByPostSlug.mockImplementation(() => [postFixtureWithComment]);
+            usePost.mockImplementation(() => ({ post: postFixtureWithComment }));
+
+            const { getByText } = render(
+                <Router>
+                    <FirebaseContext.Provider
+                        value={firebase}
+                    >
+                        <UserContext.Provider
+                            value={{
+                                user: {
+                                    uid: 'SQ63uFaevONVpZHFAiMyjDbbmI52',
+                                    displayName: 'admin'
+                                }
+                            }}
+                        >
+                            <LoggedInUserContext.Provider value={{ user: userFixture }}>
+                                <ViewPost />
+                            </LoggedInUserContext.Provider>
+                        </UserContext.Provider>
+                    </FirebaseContext.Provider>
+                </Router>
+            );
+
+            await waitFor(() => {
+                expect(document.title).toEqual('React (JavaScript library)');
+                expect(mockHistoryPush).not.toHaveBeenCalledWith(ROUTES.HOME);
+                expect(getByText('2021. 10. 07. 13:00')).toBeTruthy();
+                expect(getByText('React (JavaScript library)')).toBeTruthy();
+                expect(getByText('React (also known as React.js or ReactJS) is a free and open-source front-end JavaScript library for building user interfaces or UI components.')).toBeTruthy();
+                expect(getByText("React (also known as React.js or ReactJS) is a free and open-source front-end JavaScript library for building user interfaces or UI components. It is maintained by Facebook and a community of individual developers and companies. React can be used as a base in the development of single-page or mobile applications. However, React is only concerned with state management and rendering that state to the DOM, so creating React applications usually requires the use of additional libraries for routing, as well as certain client-side functionality. React was created by Jordan Walke, a software engineer at Facebook, who released an early prototype of React called 'FaxJS'. He was influenced by XHP, an HTML component library for PHP. It was first deployed on Facebook's News Feed in 2011 and later on Instagram in 2012. It was open-sourced at JSConf US in May 2013. React Native, which enables native Android, iOS, and UWP development with React, was announced at Facebook's React Conf in February 2015 and open-sourced in March 2015. On April 18, 2017, Facebook announced React Fiber, a new set of internal algorithms for rendering, as opposed to React's old rendering algorithm, Stack. React Fiber was to become the foundation of any future improvements and feature development of the React library. The actual syntax for programming with React does not change; only the way that the syntax is executed has changed. React's old rendering system, Stack, was developed at a time when the focus of the system on dynamic change was not understood. Stack was slow to draw complex animation, for example, trying to accomplish all of it in one chunk. Fiber breaks down animation into segments that can be spread out over multiple frames. Likewise, the structure of a page can be broken into segments that may be maintained and updated separately. JavaScript functions and virtual DOM objects are called 'fibers', and each can be operated and updated separately, allowing for smoother on-screen rendering. On September 26, 2017, React 16.0 was released to the public. On February 16, 2019, React 16.8 was released to the public. The release introduced React Hooks. On August 10, 2020, the React team announced the first release candidate for React v17.0, notable as the first major release without major changes to the React developer-facing API. Source: Wikipedia [CC-BY-SA-3.0] (https://en.wikipedia.org/wiki/React_(JavaScript_library)")).toBeTruthy();
+                expect(getByText('Add to favorites')).toBeTruthy();
+                expect(getByText('Return')).toBeTruthy();
+                expect(getByText('Comments')).toBeTruthy();
+                expect(getByText('(Y)')).toBeTruthy();
+                expect(getByText('admin')).toBeTruthy();
+            });
+        });
+    });
+
+    it('Megjelenik a magyar nyelvű bejegyzéshez tartozó aloldal, a bejegyzéshez tartozó adatokkal és kommentekkel', async () => {
+        jest.mock('react-router-dom', () => ({
+            ...jest.requireActual('react-router-dom'),
+            useParams: () => ({ slug: 'html5' }),
+            useHistory: () => ({
+                push: mockHistoryPush
+            })
+        }));
+
+        const firebase = {
+            firestore: jest.fn(() => ({
+            }))
+        }
+
+        await act(async () => {
+            getUserByUserId.mockImplementation(() => [userFixture]);
+            useUser.mockImplementation(() => ({ user: userFixture }));
+            getPostByPostSlug.mockImplementation(() => [postFixtureWithCommentHun]);
+            usePost.mockImplementation(() => ({ post: postFixtureWithCommentHun }));
+
+            const { getByText } = render(
+                <Router>
+                    <FirebaseContext.Provider
+                        value={firebase}
+                    >
+                        <UserContext.Provider
+                            value={{
+                                user: {
+                                    uid: 'SQ63uFaevONVpZHFAiMyjDbbmI52',
+                                    displayName: 'admin'
+                                }
+                            }}
+                        >
+                            <LoggedInUserContext.Provider value={{ user: userFixture }}>
+                                <ViewPost />
+                            </LoggedInUserContext.Provider>
+                        </UserContext.Provider>
+                    </FirebaseContext.Provider>
+                </Router>
+            );
+
+            await waitFor(() => {
+                expect(document.title).toEqual('HTML5');
+                expect(mockHistoryPush).not.toHaveBeenCalledWith(ROUTES.HOME);
+                expect(getByText('2021. 10. 07. 14:00')).toBeTruthy();
+                expect(getByText('HTML5')).toBeTruthy();
+                expect(getByText('Címke: html5')).toBeTruthy();
+                expect(getByText('A HTML5 a HTML (Hypertext Markup Language, a web fő jelölőnyelve) korábbi verzióinak az átdolgozott változata.')).toBeTruthy();
+                expect(getByText("A HTML5 a HTML (Hypertext Markup Language, a web fő jelölőnyelve) korábbi verzióinak az átdolgozott változata. A kifejlesztésének egyik fő célja, hogy a webes alkalmazásokhoz ne legyen szükség pluginek (pl. Adobe Flash, Microsoft Silverlight, Oracle JavaFX) telepítésére. A specifikáció a HTML4 és az XHTML1 új verzióját jelenti, a hozzájuk tartozó DOM2 HTML API-val együtt. A HTML5 specifikációban leírt formátumba történő migráció HTML4-ről, vagy XHTML1-ről a legtöbb esetben egyszerű, mivel a visszamenőleges kompatibilitás biztosított. A specifikáció a közeljövőben támogatni fogja a Web Forms 2.0 specifikációt is. A HTML5 bevezet jó néhány új elemet (címkét) és tulajdonságot, amelyek a modern weblapokon jellemzően alkalmazott szerkezetekre kínálnak új megoldást. Néhány változtatás szemantikai jellegű, például az általánosan használt div és a soron belüli részek formázását biztosító span helyett a nav (a weboldal navigációs területe) és a footer (lábléc). Más elemek új funkciók elérését biztosítják szabványosított felületen, mint az audio és a video elemek. Néhány a HTML 4.01-ben már érvénytelenített elem az új szabványba már nem került be. Ilyenek a mai weblapokon még gyakran jelenlévő font és center elemek, amelyek hatását most már végleg CSS kóddal kell megvalósítani. Újra hangsúlyt helyeztek a DOM szkriptek (gyakorlatilag a JavaScript) jelentőségére a weboldalak viselkedésével kapcsolatban. A jelölések hasonlósága ellenére a HTML5 szintaxisa már nem az SGML-en alapul. Ezzel együtt úgy tervezték, hogy visszafelé kompatibilis legyen, így a korábbi HTML szabványokhoz készült elemzők a szokásos elemeket megérthetik. Forrás: Wikipédia [CC-BY-SA-3.0] (https://hu.wikipedia.org/wiki/HTML5)")).toBeTruthy();
+                expect(getByText('Hozzáadás a kedvencekhez')).toBeTruthy();
+                expect(getByText('Vissza')).toBeTruthy();
+                expect(getByText('Hozzászólások')).toBeTruthy();
+                expect(getByText('(Y)')).toBeTruthy();
+                expect(getByText('admin')).toBeTruthy();
+            });
+        });
+    });
+
+    it('Nem jelenik meg a bejegyzéshez tartozó aloldal, mert nem megfelelő slug lett átadva', async () => {
+        jest.mock('react-router-dom', () => ({
+            ...jest.requireActual('react-router-dom'),
+            useParams: () => ({ slug: 'not-a-real-post' }),
+            useHistory: () => ({
+                push: mockHistoryPush
+            })
+        }));
+
+        const firebase = {
+            firestore: jest.fn(() => ({
+            }))
+        }
+
+        await act(async () => {
+            getUserByUserId.mockImplementation(() => [userFixture]);
+            useUser.mockImplementation(() => ({ user: userFixture }));
+            getPostByPostSlug.mockImplementation(() => [postFixtureHun]);
+            usePost.mockImplementation(() => ({ post: postFixtureHun }));
+
+            const { getByTestId } = render(
+                <Router>
+                    <FirebaseContext.Provider
+                        value={firebase}
+                    >
+                        <UserContext.Provider
+                            value={{
+                                user: {
+                                    uid: 'SQ63uFaevONVpZHFAiMyjDbbmI52',
+                                    displayName: 'admin'
+                                }
+                            }}
+                        >
+                            <LoggedInUserContext.Provider value={{ user: userFixture }}>
+                                <ViewPost />
+                            </LoggedInUserContext.Provider>
+                        </UserContext.Provider>
+                    </FirebaseContext.Provider>
+                </Router>
+            );
+
+            fireEvent.click(getByTestId('post-not-available-return'));
+
+            await waitFor(() => {
+                expect(document.title).toEqual('Bejegyzés');
+                expect(mockHistoryPush).toHaveBeenCalledWith(ROUTES.HOME);
+            });
+        });
+    });
+})

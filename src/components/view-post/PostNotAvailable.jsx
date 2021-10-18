@@ -26,7 +26,7 @@ export default function PostNotAvailable() {
                     justify="center"
                     alignItems="center">
                     <h3>{error}</h3>
-                    <Button m="2rem" variant="contained" color="secondary" onClick={() => {
+                    <Button data-testid="post-not-available-return" m="2rem" variant="contained" color="secondary" onClick={() => {
                         history.push(ROUTES.HOME)
                     }}>
                         Kezdőlap

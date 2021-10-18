@@ -58,7 +58,7 @@ export default function EditComment({ docId, title, language, displayName, comme
 
     return (
         <>
-            <button className="btn btn-warning m-1" style={{ width: "40px", height: "40px" }} onClick={() => {
+            <button data-testid="show-edit-form" className="btn btn-warning m-1" style={{ width: "40px", height: "40px" }} onClick={() => {
                 setShowForm(!showForm);
             }}>
                 <FontAwesomeIcon icon={faPencilAlt} />
@@ -69,7 +69,7 @@ export default function EditComment({ docId, title, language, displayName, comme
                 alignItems="center">
                 {
                     showForm && (
-                        <form className={classes.root} noValidate autoComplete="off" method="POST"
+                        <form data-testid="edit-comment-submit" className={classes.root} noValidate autoComplete="off" method="POST"
                             onSubmit={(e) =>
                                 comment.length >= 1 ? handleEditComment(e) : e.preventDefault()
                             }
@@ -79,6 +79,7 @@ export default function EditComment({ docId, title, language, displayName, comme
                                 justify="center"
                                 alignItems="center">
                                 <TextField
+                                    inputProps={{ "data-testid": "input-edit-comment" }}
                                     aria-label={language === "Hungarian" ? "Hozzászólás szerkesztése" : "Edit comment"}
                                     autoComplete="off"
                                     type="text"
@@ -106,7 +107,7 @@ export default function EditComment({ docId, title, language, displayName, comme
                                     >
                                         Szerkesztés
                                     </Button>
-                                    <Button variant="contained" color="secondary" onClick={() => {
+                                    <Button data-testid="edit-comment-return" variant="contained" color="secondary" onClick={() => {
                                         setShowForm(!showForm);
                                     }}>
                                         {language === "Hungarian" ? "Vissza" : "Return"}

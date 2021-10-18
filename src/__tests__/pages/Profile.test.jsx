@@ -29,6 +29,11 @@ describe('<Profile />', () => {
     });
 
     it('Megjelenik a profiloldal, a felhasználó saját adataival, a felhasználó rendelkezik kedvenc bejegyzéssel és saját kommenttel', async () => {
+        const firebase = {
+            auth: jest.fn(() => ({
+            }))
+        };
+
         await act(async () => {
             getUserByUserId.mockImplementation(() => [userFixture]);
             useUser.mockImplementation(() => ({ user: userFixture }));
@@ -36,12 +41,7 @@ describe('<Profile />', () => {
             const { getByText } = render(
                 <Router>
                     <FirebaseContext.Provider
-                        value={{
-                            firebase: {
-                                auth: jest.fn(() => ({
-                                }))
-                            }
-                        }}
+                        value={firebase}
                     >
                         <UserContext.Provider
                             value={{
@@ -75,6 +75,11 @@ describe('<Profile />', () => {
     });
 
     it('Megjelenik a profiloldal, a felhasználó saját adataival, a felhasználó nem rendelkezik kedvenc bejegyzéssel és saját kommenttel', async () => {
+        const firebase = {
+            auth: jest.fn(() => ({
+            }))
+        };
+
         await act(async () => {
             getUserByUserId.mockImplementation(() => [userWithNoFavoritesOrCommentsFixture]);
             useUser.mockImplementation(() => ({ user: userWithNoFavoritesOrCommentsFixture }));
@@ -82,12 +87,7 @@ describe('<Profile />', () => {
             const { getByText } = render(
                 <Router>
                     <FirebaseContext.Provider
-                        value={{
-                            firebase: {
-                                auth: jest.fn(() => ({
-                                }))
-                            }
-                        }}
+                        value={firebase}
                     >
                         <UserContext.Provider
                             value={{
@@ -120,6 +120,11 @@ describe('<Profile />', () => {
     });
 
     it('Megjelenik a profiloldal, a felhasználó saját adataival, a felhasználó az adatok szerkesztése gombra kattint', async () => {
+        const firebase = {
+            auth: jest.fn(() => ({
+            }))
+        };
+
         await act(async () => {
             getUserByUserId.mockImplementation(() => [userFixture]);
             useUser.mockImplementation(() => ({ user: userFixture }));
@@ -127,12 +132,7 @@ describe('<Profile />', () => {
             const { getByTestId } = render(
                 <Router>
                     <FirebaseContext.Provider
-                        value={{
-                            firebase: {
-                                auth: jest.fn(() => ({
-                                }))
-                            }
-                        }}
+                        value={firebase}
                     >
                         <UserContext.Provider
                             value={{
@@ -159,6 +159,11 @@ describe('<Profile />', () => {
     });
 
     it('Megjelenik a profiloldal, a felhasználó saját adataival, a felhasználó a kedvenc bejegyzésére kattint', async () => {
+        const firebase = {
+            auth: jest.fn(() => ({
+            }))
+        };
+
         await act(async () => {
             getUserByUserId.mockImplementation(() => [userFixture]);
             useUser.mockImplementation(() => ({ user: userFixture }));
@@ -166,12 +171,7 @@ describe('<Profile />', () => {
             const { getByTestId } = render(
                 <Router>
                     <FirebaseContext.Provider
-                        value={{
-                            firebase: {
-                                auth: jest.fn(() => ({
-                                }))
-                            }
-                        }}
+                        value={firebase}
                     >
                         <UserContext.Provider
                             value={{
@@ -198,6 +198,11 @@ describe('<Profile />', () => {
     });
 
     it('Megjelenik a profiloldal, a felhasználó saját adataival, a felhasználó a saját hozzászólásának forrására kattint', async () => {
+        const firebase = {
+            auth: jest.fn(() => ({
+            }))
+        };
+
         await act(async () => {
             getUserByUserId.mockImplementation(() => [userFixture]);
             useUser.mockImplementation(() => ({ user: userFixture }));
@@ -205,12 +210,7 @@ describe('<Profile />', () => {
             const { getByTestId } = render(
                 <Router>
                     <FirebaseContext.Provider
-                        value={{
-                            firebase: {
-                                auth: jest.fn(() => ({
-                                }))
-                            }
-                        }}
+                        value={firebase}
                     >
                         <UserContext.Provider
                             value={{

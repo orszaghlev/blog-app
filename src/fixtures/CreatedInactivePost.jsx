@@ -8,7 +8,7 @@ export default {
     tag: "react, javascript, library",
     language: "English",
     isActive: "false",
-    date: "2021. 10. 07. 13:00",
+    date: "2024. 10. 07. 13:00",
     comments: [],
     saves: []
 }

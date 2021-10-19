@@ -163,45 +163,4 @@ describe('<ProfileEdit />', () => {
             });
         });
     });
-
-        it('Megjelenik a profilszerkesztő oldal, de a felhasználó visszalép a profiloldalra', async () => {
-        const firebase = {
-            auth: jest.fn(() => ({
-            })),
-            firestore: jest.fn(() => ({
-            }))
-        };
-
-        await act(async () => {
-            getUserByUserId.mockImplementation(() => [userFixture]);
-            useUser.mockImplementation(() => ({ user: userFixture }));
-
-            const { getByTestId } = render(
-                <Router>
-                    <FirebaseContext.Provider
-                        value={firebase}
-                    >
-                        <UserContext.Provider
-                            value={{
-                                user: {
-                                    uid: 'SQ63uFaevONVpZHFAiMyjDbbmI52',
-                                    displayName: 'admin'
-                                }
-                            }}
-                        >
-                            <ProfileEdit />
-                        </UserContext.Provider>
-                    </FirebaseContext.Provider>
-                </Router>
-            );
-
-            fireEvent.click(getByTestId('return'));
-
-            expect(document.title).toEqual('Felhasználói adatok szerkesztése');
-
-            await waitFor(() => {
-                expect(mockHistoryPush).toHaveBeenCalledWith(ROUTES.PROFILE);
-            });
-        });
-    });
 });

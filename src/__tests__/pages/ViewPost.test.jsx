@@ -15,6 +15,8 @@ import postFixture from '../../fixtures/CreatedPost';
 import postFixtureHun from '../../fixtures/CreatedPostHun';
 import postFixtureWithComment from '../../fixtures/CreatedPostWithComment';
 import postFixtureWithCommentHun from '../../fixtures/CreatedPostWithCommentHun';
+import postFixtureInactive from '../../fixtures/CreatedInactivePost';
+import postFixtureInactiveHun from '../../fixtures/CreatedInactivePostHun';
 
 const mockHistoryPush = jest.fn();
 
@@ -270,8 +272,8 @@ describe('<ViewPost />', () => {
         await act(async () => {
             getUserByUserId.mockImplementation(() => [userFixture]);
             useUser.mockImplementation(() => ({ user: userFixture }));
-            getPostByPostSlug.mockImplementation(() => [postFixtureHun]);
-            usePost.mockImplementation(() => ({ post: postFixtureHun }));
+            getPostByPostSlug.mockImplementation(() => undefined);
+            usePost.mockImplementation(() => ({ post: undefined }));
 
             const { getByTestId } = render(
                 <Router>
@@ -298,7 +300,624 @@ describe('<ViewPost />', () => {
 
             await waitFor(() => {
                 expect(document.title).toEqual('Bejegyzés');
-                expect(mockHistoryPush).toHaveBeenCalledWith(ROUTES.HOME);
+            });
+        });
+    });
+
+    it('Nem jelenik meg az angol bejegyzéshez tartozó aloldal, mert inaktív a bejegyzés', async () => {
+        jest.mock('react-router-dom', () => ({
+            ...jest.requireActual('react-router-dom'),
+            useParams: () => ({ slug: 'react-javascript-library-' }),
+            useHistory: () => ({
+                push: mockHistoryPush
+            })
+        }));
+
+        const firebase = {
+            firestore: jest.fn(() => ({
+            }))
+        }
+
+        await act(async () => {
+            getUserByUserId.mockImplementation(() => [userFixture]);
+            useUser.mockImplementation(() => ({ user: userFixture }));
+            getPostByPostSlug.mockImplementation(() => [postFixtureInactive]);
+            usePost.mockImplementation(() => ({ post: postFixtureInactive }));
+
+            const { getByTestId } = render(
+                <Router>
+                    <FirebaseContext.Provider
+                        value={firebase}
+                    >
+                        <UserContext.Provider
+                            value={{
+                                user: {
+                                    uid: 'SQ63uFaevONVpZHFAiMyjDbbmI52',
+                                    displayName: 'admin'
+                                }
+                            }}
+                        >
+                            <LoggedInUserContext.Provider value={{ user: userFixture }}>
+                                <ViewPost />
+                            </LoggedInUserContext.Provider>
+                        </UserContext.Provider>
+                    </FirebaseContext.Provider>
+                </Router>
+            );
+
+            fireEvent.click(getByTestId('post-inactive-return'));
+
+            await waitFor(() => {
+                expect(document.title).toEqual('Bejegyzés');
+            });
+        });
+    });
+
+    it('Nem jelenik meg a magyar bejegyzéshez tartozó aloldal, mert inaktív a bejegyzés', async () => {
+        jest.mock('react-router-dom', () => ({
+            ...jest.requireActual('react-router-dom'),
+            useParams: () => ({ slug: 'react-javascript-library-' }),
+            useHistory: () => ({
+                push: mockHistoryPush
+            })
+        }));
+
+        const firebase = {
+            firestore: jest.fn(() => ({
+            }))
+        }
+
+        await act(async () => {
+            getUserByUserId.mockImplementation(() => [userFixture]);
+            useUser.mockImplementation(() => ({ user: userFixture }));
+            getPostByPostSlug.mockImplementation(() => [postFixtureInactiveHun]);
+            usePost.mockImplementation(() => ({ post: postFixtureInactiveHun }));
+
+            const { getByTestId } = render(
+                <Router>
+                    <FirebaseContext.Provider
+                        value={firebase}
+                    >
+                        <UserContext.Provider
+                            value={{
+                                user: {
+                                    uid: 'SQ63uFaevONVpZHFAiMyjDbbmI52',
+                                    displayName: 'admin'
+                                }
+                            }}
+                        >
+                            <LoggedInUserContext.Provider value={{ user: userFixture }}>
+                                <ViewPost />
+                            </LoggedInUserContext.Provider>
+                        </UserContext.Provider>
+                    </FirebaseContext.Provider>
+                </Router>
+            );
+
+            fireEvent.click(getByTestId('post-inactive-return'));
+
+            await waitFor(() => {
+                expect(document.title).toEqual('Bejegyzés');
+            });
+        });
+    });
+
+    it('Megjelenik az angol nyelvű bejegyzéshez tartozó aloldal, a bejegyzéshez tartozó adatokkal, a felhasználó elmenti a kedvencek közé a bejegyzést', async () => {
+        jest.mock('react-router-dom', () => ({
+            ...jest.requireActual('react-router-dom'),
+            useParams: () => ({ slug: 'react-javascript-library-' }),
+            useHistory: () => ({
+                push: mockHistoryPush
+            })
+        }));
+
+        await act(async () => {
+            getUserByUserId.mockImplementation(() => [userFixture]);
+            useUser.mockImplementation(() => ({ user: userFixture }));
+            getPostByPostSlug.mockImplementation(() => [postFixture]);
+            usePost.mockImplementation(() => ({ post: postFixture }));
+
+            const { getByText, getByTestId } = render(
+                <Router>
+                    <FirebaseContext.Provider
+                        value={{
+                            firebase: {
+                                firestore: jest.fn(() => ({
+                                    collection: jest.fn(() => ({
+                                        doc: jest.fn(() => ({
+                                            update: jest.fn(() => Promise.resolve('Added to favorites'))
+                                        }))
+                                    }))
+                                }))
+                            },
+                            FieldValue: {
+                                arrayUnion: jest.fn(),
+                                arrayRemove: jest.fn()
+                            }
+                        }}
+                    >
+                        <UserContext.Provider
+                            value={{
+                                user: {
+                                    uid: 'SQ63uFaevONVpZHFAiMyjDbbmI52',
+                                    displayName: 'admin'
+                                }
+                            }}
+                        >
+                            <LoggedInUserContext.Provider value={{ user: userFixture }}>
+                                <ViewPost />
+                            </LoggedInUserContext.Provider>
+                        </UserContext.Provider>
+                    </FirebaseContext.Provider>
+                </Router>
+            );
+
+            fireEvent.click(getByTestId('add-to-favorites'));
+
+            await waitFor(() => {
+                expect(document.title).toEqual('React (JavaScript library)');
+                expect(mockHistoryPush).not.toHaveBeenCalledWith(ROUTES.HOME);
+                expect(getByText('Remove from favorites')).toBeTruthy();
+                expect(getByText('Post successfully added!')).toBeTruthy();
+            });
+        });
+    });
+
+    it('Megjelenik a magyar nyelvű bejegyzéshez tartozó aloldal, a bejegyzéshez tartozó adatokkal, a felhasználó elmenti a kedvencek közé a bejegyzést', async () => {
+        jest.mock('react-router-dom', () => ({
+            ...jest.requireActual('react-router-dom'),
+            useParams: () => ({ slug: 'html5' }),
+            useHistory: () => ({
+                push: mockHistoryPush
+            })
+        }));
+
+        await act(async () => {
+            getUserByUserId.mockImplementation(() => [userFixture]);
+            useUser.mockImplementation(() => ({ user: userFixture }));
+            getPostByPostSlug.mockImplementation(() => [postFixtureHun]);
+            usePost.mockImplementation(() => ({ post: postFixtureHun }));
+
+            const { getByText, getByTestId } = render(
+                <Router>
+                    <FirebaseContext.Provider
+                        value={{
+                            firebase: {
+                                firestore: jest.fn(() => ({
+                                    collection: jest.fn(() => ({
+                                        doc: jest.fn(() => ({
+                                            update: jest.fn(() => Promise.resolve('Hozzáadva a kedvencekhez'))
+                                        }))
+                                    }))
+                                }))
+                            },
+                            FieldValue: {
+                                arrayUnion: jest.fn(),
+                                arrayRemove: jest.fn()
+                            }
+                        }}
+                    >
+                        <UserContext.Provider
+                            value={{
+                                user: {
+                                    uid: 'SQ63uFaevONVpZHFAiMyjDbbmI52',
+                                    displayName: 'admin'
+                                }
+                            }}
+                        >
+                            <LoggedInUserContext.Provider value={{ user: userFixture }}>
+                                <ViewPost />
+                            </LoggedInUserContext.Provider>
+                        </UserContext.Provider>
+                    </FirebaseContext.Provider>
+                </Router>
+            );
+
+            fireEvent.click(getByTestId('add-to-favorites'));
+
+            await waitFor(() => {
+                expect(document.title).toEqual('HTML5');
+                expect(mockHistoryPush).not.toHaveBeenCalledWith(ROUTES.HOME);
+                expect(getByText('Eltávolítás a kedvencek közül')).toBeTruthy();
+                expect(getByText('Sikeres hozzáadás!')).toBeTruthy();
+            });
+        });
+    });
+
+    it('Megjelenik az angol nyelvű bejegyzéshez tartozó aloldal, a bejegyzéshez tartozó adatokkal, de a felhasználó visszalép a kezdőoldalra', async () => {
+        jest.mock('react-router-dom', () => ({
+            ...jest.requireActual('react-router-dom'),
+            useParams: () => ({ slug: 'react-javascript-library-' }),
+            useHistory: () => ({
+                push: mockHistoryPush
+            })
+        }));
+
+        await act(async () => {
+            getUserByUserId.mockImplementation(() => [userFixture]);
+            useUser.mockImplementation(() => ({ user: userFixture }));
+            getPostByPostSlug.mockImplementation(() => [postFixture]);
+            usePost.mockImplementation(() => ({ post: postFixture }));
+
+            const { getByText, getByTestId } = render(
+                <Router>
+                    <FirebaseContext.Provider
+                        value={{
+                            firebase: {
+                            },
+                            FieldValue: {
+                            }
+                        }}
+                    >
+                        <UserContext.Provider
+                            value={{
+                                user: {
+                                    uid: 'SQ63uFaevONVpZHFAiMyjDbbmI52',
+                                    displayName: 'admin'
+                                }
+                            }}
+                        >
+                            <LoggedInUserContext.Provider value={{ user: userFixture }}>
+                                <ViewPost />
+                            </LoggedInUserContext.Provider>
+                        </UserContext.Provider>
+                    </FirebaseContext.Provider>
+                </Router>
+            );
+
+            fireEvent.click(getByTestId('show-post-return'));
+
+            await waitFor(() => {
+                expect(document.title).toEqual('React (JavaScript library)');
+                expect(getByText('Return')).toBeTruthy();
+            });
+        });
+    });
+
+    it('Megjelenik a magyar nyelvű bejegyzéshez tartozó aloldal, a bejegyzéshez tartozó adatokkal, de a felhasználó visszalép a kezdőoldalra', async () => {
+        jest.mock('react-router-dom', () => ({
+            ...jest.requireActual('react-router-dom'),
+            useParams: () => ({ slug: 'html5' }),
+            useHistory: () => ({
+                push: mockHistoryPush
+            })
+        }));
+
+        await act(async () => {
+            getUserByUserId.mockImplementation(() => [userFixture]);
+            useUser.mockImplementation(() => ({ user: userFixture }));
+            getPostByPostSlug.mockImplementation(() => [postFixtureHun]);
+            usePost.mockImplementation(() => ({ post: postFixtureHun }));
+
+            const { getByText, getByTestId } = render(
+                <Router>
+                    <FirebaseContext.Provider
+                        value={{
+                            firebase: {
+                            },
+                            FieldValue: {
+                            }
+                        }}
+                    >
+                        <UserContext.Provider
+                            value={{
+                                user: {
+                                    uid: 'SQ63uFaevONVpZHFAiMyjDbbmI52',
+                                    displayName: 'admin'
+                                }
+                            }}
+                        >
+                            <LoggedInUserContext.Provider value={{ user: userFixture }}>
+                                <ViewPost />
+                            </LoggedInUserContext.Provider>
+                        </UserContext.Provider>
+                    </FirebaseContext.Provider>
+                </Router>
+            );
+
+            fireEvent.click(getByTestId('show-post-return'));
+
+            await waitFor(() => {
+                expect(document.title).toEqual('HTML5');
+                expect(getByText('Vissza')).toBeTruthy();
+            });
+        });
+    });
+
+    it('Megjelenik az angol nyelvű bejegyzéshez tartozó aloldal, a bejegyzéshez tartozó adatokkal, a felhasználó semmit sem szól hozzá a bejegyzéshez', async () => {
+        jest.mock('react-router-dom', () => ({
+            ...jest.requireActual('react-router-dom'),
+            useParams: () => ({ slug: 'react-javascript-library-' }),
+            useHistory: () => ({
+                push: mockHistoryPush
+            })
+        }));
+
+        await act(async () => {
+            getUserByUserId.mockImplementation(() => [userFixture]);
+            useUser.mockImplementation(() => ({ user: userFixture }));
+            getPostByPostSlug.mockImplementation(() => [postFixture]);
+            usePost.mockImplementation(() => ({ post: postFixture }));
+
+            const { getByText, getByTestId } = render(
+                <Router>
+                    <FirebaseContext.Provider
+                        value={{
+                            firebase: {
+                                firestore: jest.fn(() => ({
+                                    collection: jest.fn(() => ({
+                                        doc: jest.fn(() => ({
+                                            update: jest.fn(() => Promise.resolve('Added comment'))
+                                        }))
+                                    }))
+                                }))
+                            },
+                            FieldValue: {
+                                arrayUnion: jest.fn()
+                            }
+                        }}
+                    >
+                        <UserContext.Provider
+                            value={{
+                                user: {
+                                    uid: 'SQ63uFaevONVpZHFAiMyjDbbmI52',
+                                    displayName: 'admin'
+                                }
+                            }}
+                        >
+                            <LoggedInUserContext.Provider value={{ user: userFixture }}>
+                                <ViewPost />
+                            </LoggedInUserContext.Provider>
+                        </UserContext.Provider>
+                    </FirebaseContext.Provider>
+                </Router>
+            );
+
+            await fireEvent.change(getByTestId('input-add-comment'), {
+                target: { value: '(Y)' }
+            });
+            fireEvent.submit(getByTestId('add-comment-submit'));
+
+            await waitFor(() => {
+                expect(document.title).toEqual('React (JavaScript library)');
+                expect(getByTestId('input-add-comment').value).toBe('(Y)');
+                expect(getByText('Comments')).toBeTruthy();
+                expect(getByText('(Y)')).toBeTruthy();
+                expect(getByText('admin')).toBeTruthy();
+            });
+        });
+    });
+
+    it('Megjelenik az angol nyelvű bejegyzéshez tartozó aloldal, a bejegyzéshez tartozó adatokkal, a felhasználó semmit sem szól hozzá a bejegyzéshez', async () => {
+        jest.mock('react-router-dom', () => ({
+            ...jest.requireActual('react-router-dom'),
+            useParams: () => ({ slug: 'react-javascript-library-' }),
+            useHistory: () => ({
+                push: mockHistoryPush
+            })
+        }));
+
+        await act(async () => {
+            getUserByUserId.mockImplementation(() => [userFixture]);
+            useUser.mockImplementation(() => ({ user: userFixture }));
+            getPostByPostSlug.mockImplementation(() => [postFixture]);
+            usePost.mockImplementation(() => ({ post: postFixture }));
+
+            const { getByTestId } = render(
+                <Router>
+                    <FirebaseContext.Provider
+                        value={{
+                            firebase: {
+                                firestore: jest.fn(() => ({
+                                    collection: jest.fn(() => ({
+                                        doc: jest.fn(() => ({
+                                            update: jest.fn(() => Promise.resolve('Added comment'))
+                                        }))
+                                    }))
+                                }))
+                            },
+                            FieldValue: {
+                                arrayUnion: jest.fn()
+                            }
+                        }}
+                    >
+                        <UserContext.Provider
+                            value={{
+                                user: {
+                                    uid: 'SQ63uFaevONVpZHFAiMyjDbbmI52',
+                                    displayName: 'admin'
+                                }
+                            }}
+                        >
+                            <LoggedInUserContext.Provider value={{ user: userFixture }}>
+                                <ViewPost />
+                            </LoggedInUserContext.Provider>
+                        </UserContext.Provider>
+                    </FirebaseContext.Provider>
+                </Router>
+            );
+
+            await fireEvent.change(getByTestId('input-add-comment'), {
+                target: { value: '' }
+            });
+            fireEvent.submit(getByTestId('add-comment-submit'));
+
+            await waitFor(() => {
+                expect(document.title).toEqual('React (JavaScript library)');
+                expect(getByTestId('input-add-comment').value).toBe('');
+            });
+        });
+    });
+
+    it('Megjelenik az angol nyelvű bejegyzéshez tartozó aloldal, a bejegyzéshez tartozó adatokkal, az adminisztrátor törli az egyik hozzászólást', async () => {
+        jest.mock('react-router-dom', () => ({
+            ...jest.requireActual('react-router-dom'),
+            useParams: () => ({ slug: 'react-javascript-library-' }),
+            useHistory: () => ({
+                push: mockHistoryPush
+            })
+        }));
+
+        await act(async () => {
+            getUserByUserId.mockImplementation(() => [userFixture]);
+            useUser.mockImplementation(() => ({ user: userFixture }));
+            getPostByPostSlug.mockImplementation(() => [postFixtureWithComment]);
+            usePost.mockImplementation(() => ({ post: postFixtureWithComment }));
+
+            const { getByText, getByTestId } = render(
+                <Router>
+                    <FirebaseContext.Provider
+                        value={{
+                            firebase: {
+                                firestore: jest.fn(() => ({
+                                    collection: jest.fn(() => ({
+                                        doc: jest.fn(() => ({
+                                            update: jest.fn(() => Promise.resolve('Deleted comment'))
+                                        }))
+                                    }))
+                                }))
+                            },
+                            FieldValue: {
+                                arrayRemove: jest.fn()
+                            }
+                        }}
+                    >
+                        <UserContext.Provider
+                            value={{
+                                user: {
+                                    uid: 'SQ63uFaevONVpZHFAiMyjDbbmI52',
+                                    displayName: 'admin'
+                                }
+                            }}
+                        >
+                            <LoggedInUserContext.Provider value={{ user: userFixture }}>
+                                <ViewPost />
+                            </LoggedInUserContext.Provider>
+                        </UserContext.Provider>
+                    </FirebaseContext.Provider>
+                </Router>
+            );
+
+            fireEvent.click(getByTestId('delete-comment'));
+
+            await waitFor(() => {
+                expect(document.title).toEqual('React (JavaScript library)');
+                expect(getByText('There are no comments yet!')).toBeTruthy();
+            });
+        });
+    });
+
+    it('Megjelenik az angol nyelvű bejegyzéshez tartozó aloldal, a bejegyzéshez tartozó adatokkal, az adminisztrátor szerkeszti az egyik hozzászólást', async () => {
+        jest.mock('react-router-dom', () => ({
+            ...jest.requireActual('react-router-dom'),
+            useParams: () => ({ slug: 'react-javascript-library-' }),
+            useHistory: () => ({
+                push: mockHistoryPush
+            })
+        }));
+
+        await act(async () => {
+            getUserByUserId.mockImplementation(() => [userFixture]);
+            useUser.mockImplementation(() => ({ user: userFixture }));
+            getPostByPostSlug.mockImplementation(() => [postFixtureWithComment]);
+            usePost.mockImplementation(() => ({ post: postFixtureWithComment }));
+
+            const { getByTestId } = render(
+                <Router>
+                    <FirebaseContext.Provider
+                        value={{
+                            firebase: {
+                                firestore: jest.fn(() => ({
+                                    collection: jest.fn(() => ({
+                                        doc: jest.fn(() => ({
+                                            update: jest.fn(() => Promise.resolve('Edited comment'))
+                                        }))
+                                    }))
+                                }))
+                            },
+                            FieldValue: {
+                                arrayUnion: jest.fn(),
+                                arrayRemove: jest.fn()
+                            }
+                        }}
+                    >
+                        <UserContext.Provider
+                            value={{
+                                user: {
+                                    uid: 'SQ63uFaevONVpZHFAiMyjDbbmI52',
+                                    displayName: 'admin'
+                                }
+                            }}
+                        >
+                            <LoggedInUserContext.Provider value={{ user: userFixture }}>
+                                <ViewPost />
+                            </LoggedInUserContext.Provider>
+                        </UserContext.Provider>
+                    </FirebaseContext.Provider>
+                </Router>
+            );
+
+            fireEvent.click(getByTestId('show-edit-form'));
+
+            await fireEvent.change(getByTestId('input-edit-comment'), {
+                target: { value: 'Like' }
+            });
+            fireEvent.submit(getByTestId('edit-comment-submit'));
+
+            await waitFor(() => {
+                expect(document.title).toEqual('React (JavaScript library)');
+                expect(getByTestId('input-edit-comment').value).toBe('Like');
+            });
+        });
+    });
+
+    it('Megjelenik az angol nyelvű bejegyzéshez tartozó aloldal, a bejegyzéshez tartozó adatokkal, az adminisztrátor szerkesztené az egyik hozzászólást, de végül visszalép', async () => {
+        jest.mock('react-router-dom', () => ({
+            ...jest.requireActual('react-router-dom'),
+            useParams: () => ({ slug: 'react-javascript-library-' }),
+            useHistory: () => ({
+                push: mockHistoryPush
+            })
+        }));
+
+        await act(async () => {
+            getUserByUserId.mockImplementation(() => [userFixture]);
+            useUser.mockImplementation(() => ({ user: userFixture }));
+            getPostByPostSlug.mockImplementation(() => [postFixtureWithComment]);
+            usePost.mockImplementation(() => ({ post: postFixtureWithComment }));
+
+            const { getByTestId } = render(
+                <Router>
+                    <FirebaseContext.Provider
+                        value={{
+                            firebase: {
+                            },
+                            FieldValue: {
+                            }
+                        }}
+                    >
+                        <UserContext.Provider
+                            value={{
+                                user: {
+                                    uid: 'SQ63uFaevONVpZHFAiMyjDbbmI52',
+                                    displayName: 'admin'
+                                }
+                            }}
+                        >
+                            <LoggedInUserContext.Provider value={{ user: userFixture }}>
+                                <ViewPost />
+                            </LoggedInUserContext.Provider>
+                        </UserContext.Provider>
+                    </FirebaseContext.Provider>
+                </Router>
+            );
+
+            //fireEvent.click(getByTestId('show-edit-form'));
+            fireEvent.click(getByTestId('edit-comment-return'));
+
+            await waitFor(() => {
+                expect(document.title).toEqual('React (JavaScript library)');
+                expect(getByText('Return')).toBeFalsy();
             });
         });
     });

@@ -95,7 +95,7 @@ export default function ShowPost({ post, user }) {
                                 setNotification("");
                             }, 5000);
                         }}>
-                            {post?.language === "Hungarian" ? (!toggleSaved ? "Hozzáadás a kedvencekhez" : "Eltávolitás a kedvencek közül") : (!toggleSaved ? "Add to favorites" : "Remove from favorites")}
+                            {post?.language === "Hungarian" ? (!toggleSaved ? "Hozzáadás a kedvencekhez" : "Eltávolítás a kedvencek közül") : (!toggleSaved ? "Add to favorites" : "Remove from favorites")}
                         </Button>
                     }
                     <Button data-testid="show-post-return" size="small" color="secondary" align="center" onClick={() => {

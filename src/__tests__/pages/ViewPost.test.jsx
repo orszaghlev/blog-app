@@ -9,6 +9,7 @@ import LoggedInUserContext from '../../contexts/LoggedInUser';
 import * as ROUTES from '../../constants/Routes';
 import { getUserByUserId, getPostByPostSlug } from '../../services/Firebase';
 import useUser from '../../hooks/UseUser';
+import useUserWhoCommented from '../../hooks/UseUserWhoCommented';
 import usePost from '../../hooks/UsePost';
 import userFixture from '../../fixtures/LoggedInUser';
 import postFixture from '../../fixtures/CreatedPost';
@@ -22,6 +23,7 @@ const mockHistoryPush = jest.fn();
 
 jest.mock('../../services/Firebase');
 jest.mock('../../hooks/UseUser');
+jest.mock('../../hooks/UseUserWhoCommented');
 jest.mock('../../hooks/UsePost');
 
 describe('<ViewPost />', () => {
@@ -157,6 +159,7 @@ describe('<ViewPost />', () => {
         await act(async () => {
             getUserByUserId.mockImplementation(() => [userFixture]);
             useUser.mockImplementation(() => ({ user: userFixture }));
+            useUserWhoCommented.mockImplementation(() => ({ user: userFixture }));
             getPostByPostSlug.mockImplementation(() => [postFixtureWithComment]);
             usePost.mockImplementation(() => ({ post: postFixtureWithComment }));
 
@@ -214,6 +217,7 @@ describe('<ViewPost />', () => {
         await act(async () => {
             getUserByUserId.mockImplementation(() => [userFixture]);
             useUser.mockImplementation(() => ({ user: userFixture }));
+            useUserWhoCommented.mockImplementation(() => ({ user: userFixture }));
             getPostByPostSlug.mockImplementation(() => [postFixtureWithCommentHun]);
             usePost.mockImplementation(() => ({ post: postFixtureWithCommentHun }));
 
@@ -624,7 +628,7 @@ describe('<ViewPost />', () => {
         });
     });
 
-    it('Megjelenik az angol nyelvű bejegyzéshez tartozó aloldal, a bejegyzéshez tartozó adatokkal, a felhasználó semmit sem szól hozzá a bejegyzéshez', async () => {
+    it('Megjelenik az angol nyelvű bejegyzéshez tartozó aloldal, a bejegyzéshez tartozó adatokkal, a felhasználó hozzászól a bejegyzéshez', async () => {
         jest.mock('react-router-dom', () => ({
             ...jest.requireActual('react-router-dom'),
             useParams: () => ({ slug: 'react-javascript-library-' }),
@@ -636,6 +640,7 @@ describe('<ViewPost />', () => {
         await act(async () => {
             getUserByUserId.mockImplementation(() => [userFixture]);
             useUser.mockImplementation(() => ({ user: userFixture }));
+            useUserWhoCommented.mockImplementation(() => ({ user: userFixture }));
             getPostByPostSlug.mockImplementation(() => [postFixture]);
             usePost.mockImplementation(() => ({ post: postFixture }));
 
@@ -680,7 +685,6 @@ describe('<ViewPost />', () => {
 
             await waitFor(() => {
                 expect(document.title).toEqual('React (JavaScript library)');
-                expect(getByTestId('input-add-comment').value).toBe('(Y)');
                 expect(getByText('Comments')).toBeTruthy();
                 expect(getByText('(Y)')).toBeTruthy();
                 expect(getByText('admin')).toBeTruthy();
@@ -761,6 +765,7 @@ describe('<ViewPost />', () => {
         await act(async () => {
             getUserByUserId.mockImplementation(() => [userFixture]);
             useUser.mockImplementation(() => ({ user: userFixture }));
+            useUserWhoCommented.mockImplementation(() => ({ user: userFixture }));
             getPostByPostSlug.mockImplementation(() => [postFixtureWithComment]);
             usePost.mockImplementation(() => ({ post: postFixtureWithComment }));
 
@@ -819,6 +824,7 @@ describe('<ViewPost />', () => {
         await act(async () => {
             getUserByUserId.mockImplementation(() => [userFixture]);
             useUser.mockImplementation(() => ({ user: userFixture }));
+            useUserWhoCommented.mockImplementation(() => ({ user: userFixture }));
             getPostByPostSlug.mockImplementation(() => [postFixtureWithComment]);
             usePost.mockImplementation(() => ({ post: postFixtureWithComment }));
 
@@ -867,6 +873,9 @@ describe('<ViewPost />', () => {
             await waitFor(() => {
                 expect(document.title).toEqual('React (JavaScript library)');
                 expect(getByTestId('input-edit-comment').value).toBe('Like');
+                expect(getByText('Comments')).toBeTruthy();
+                expect(getByText('Like')).toBeTruthy();
+                expect(getByText('admin')).toBeTruthy();
             });
         });
     });
@@ -883,6 +892,7 @@ describe('<ViewPost />', () => {
         await act(async () => {
             getUserByUserId.mockImplementation(() => [userFixture]);
             useUser.mockImplementation(() => ({ user: userFixture }));
+            useUserWhoCommented.mockImplementation(() => ({ user: userFixture }));
             getPostByPostSlug.mockImplementation(() => [postFixtureWithComment]);
             usePost.mockImplementation(() => ({ post: postFixtureWithComment }));
 
@@ -912,7 +922,7 @@ describe('<ViewPost />', () => {
                 </Router>
             );
 
-            //fireEvent.click(getByTestId('show-edit-form'));
+            fireEvent.click(getByTestId('show-edit-form'));
             fireEvent.click(getByTestId('edit-comment-return'));
 
             await waitFor(() => {

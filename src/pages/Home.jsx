@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Helmet } from "react-helmet-async";
 import { firebase } from '../lib/Firebase';
 import Spinner from '../components/Spinner';
 import ShowHome from "../components/home/ShowHome";
@@ -38,6 +37,7 @@ export default function Home() {
     };
 
     useEffect(() => {
+        document.title = 'Bejegyzések';
         postsRef
             .startAt('true')
             .limit(6)
@@ -50,10 +50,6 @@ export default function Home() {
 
     return (
         <div className="p-1 m-auto text-center content bg-ivory">
-            <Helmet>
-                <title>Bejegyzések</title>
-                <meta name="description" content="Bejegyzések" />
-            </Helmet>
             <motion.div initial="hidden" animate="visible" variants={{
                 hidden: {
                     scale: .8,

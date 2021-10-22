@@ -105,7 +105,7 @@ export default function EditComment({ docId, title, language, displayName, comme
                                             setShowForm(!showForm);
                                         }}
                                     >
-                                        Szerkesztés
+                                        {language === "Hungarian" ? "Szerkesztés" : "Edit"}
                                     </Button>
                                     <Button data-testid="edit-comment-return" variant="contained" color="secondary" onClick={() => {
                                         setShowForm(!showForm);

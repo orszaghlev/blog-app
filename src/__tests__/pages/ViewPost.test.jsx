@@ -828,7 +828,7 @@ describe('<ViewPost />', () => {
             getPostByPostSlug.mockImplementation(() => [postFixtureWithComment]);
             usePost.mockImplementation(() => ({ post: postFixtureWithComment }));
 
-            const { getByTestId } = render(
+            const { queryByTestId, getByText, getByTestId } = render(
                 <Router>
                     <FirebaseContext.Provider
                         value={{
@@ -863,7 +863,9 @@ describe('<ViewPost />', () => {
                 </Router>
             );
 
+            expect(queryByTestId('input-edit-comment')).not.toBeInTheDocument();
             fireEvent.click(getByTestId('show-edit-form'));
+            expect(queryByTestId('input-edit-comment')).toBeInTheDocument();
 
             await fireEvent.change(getByTestId('input-edit-comment'), {
                 target: { value: 'Like' }
@@ -876,6 +878,7 @@ describe('<ViewPost />', () => {
                 expect(getByText('Comments')).toBeTruthy();
                 expect(getByText('Like')).toBeTruthy();
                 expect(getByText('admin')).toBeTruthy();
+                expect(getByText('Edit')).toBeFalsy();
             });
         });
     });
@@ -896,7 +899,7 @@ describe('<ViewPost />', () => {
             getPostByPostSlug.mockImplementation(() => [postFixtureWithComment]);
             usePost.mockImplementation(() => ({ post: postFixtureWithComment }));
 
-            const { getByTestId } = render(
+            const { getByTestId, queryByTestId } = render(
                 <Router>
                     <FirebaseContext.Provider
                         value={{
@@ -922,12 +925,14 @@ describe('<ViewPost />', () => {
                 </Router>
             );
 
+            expect(queryByTestId('edit-comment-return')).not.toBeInTheDocument();
             fireEvent.click(getByTestId('show-edit-form'));
+            expect(queryByTestId('edit-comment-return')).toBeInTheDocument();
             fireEvent.click(getByTestId('edit-comment-return'));
 
             await waitFor(() => {
                 expect(document.title).toEqual('React (JavaScript library)');
-                expect(getByText('Return')).toBeFalsy();
+                expect(getByText('Edit')).toBeFalsy();
             });
         });
     });

@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Helmet } from "react-helmet-async";
 import { firebase } from '../lib/Firebase';
 import Spinner from '../components/Spinner';
 import ShowAllPosts from "../components/admin/all-posts/ShowAllPosts";
@@ -38,6 +37,7 @@ export default function AdminAllPosts() {
     };
 
     useEffect(() => {
+        document.title = 'Összes bejegyzés';
         postsRef
             .limit(5)
             .get()
@@ -49,10 +49,6 @@ export default function AdminAllPosts() {
 
     return (
         <div className="p-1 m-auto text-center content bg-ivory">
-            <Helmet>
-                <title>Összes bejegyzés</title>
-                <meta name="description" content="Összes bejegyzés" />
-            </Helmet>
             <motion.div initial="hidden" animate="visible" variants={{
                 hidden: {
                     scale: .8,

@@ -828,7 +828,7 @@ describe('<ViewPost />', () => {
             getPostByPostSlug.mockImplementation(() => [postFixtureWithComment]);
             usePost.mockImplementation(() => ({ post: postFixtureWithComment }));
 
-            const { queryByTestId, getByText, getByTestId } = render(
+            const { findByTestId, getByText, getByTestId, queryByTestId } = render(
                 <Router>
                     <FirebaseContext.Provider
                         value={{
@@ -865,20 +865,82 @@ describe('<ViewPost />', () => {
 
             expect(queryByTestId('input-edit-comment')).not.toBeInTheDocument();
             fireEvent.click(getByTestId('show-edit-form'));
-            expect(queryByTestId('input-edit-comment')).toBeInTheDocument();
-
-            await fireEvent.change(getByTestId('input-edit-comment'), {
+            fireEvent.change(await findByTestId('input-edit-comment'), {
                 target: { value: 'Like' }
             });
-            fireEvent.submit(getByTestId('edit-comment-submit'));
+            fireEvent.submit(await findByTestId('edit-comment-submit'));
 
             await waitFor(() => {
                 expect(document.title).toEqual('React (JavaScript library)');
                 expect(getByTestId('input-edit-comment').value).toBe('Like');
-                expect(getByText('Comments')).toBeTruthy();
                 expect(getByText('Like')).toBeTruthy();
                 expect(getByText('admin')).toBeTruthy();
-                expect(getByText('Edit')).toBeFalsy();
+            });
+        });
+    });
+
+    it('Megjelenik a magyar nyelvű bejegyzéshez tartozó aloldal, a bejegyzéshez tartozó adatokkal, az adminisztrátor szerkeszti az egyik hozzászólást', async () => {
+        jest.mock('react-router-dom', () => ({
+            ...jest.requireActual('react-router-dom'),
+            useParams: () => ({ slug: 'html5' }),
+            useHistory: () => ({
+                push: mockHistoryPush
+            })
+        }));
+
+        await act(async () => {
+            getUserByUserId.mockImplementation(() => [userFixture]);
+            useUser.mockImplementation(() => ({ user: userFixture }));
+            useUserWhoCommented.mockImplementation(() => ({ user: userFixture }));
+            getPostByPostSlug.mockImplementation(() => [postFixtureWithComment]);
+            usePost.mockImplementation(() => ({ post: postFixtureWithComment }));
+
+            const { findByTestId, getByText, getByTestId, queryByTestId } = render(
+                <Router>
+                    <FirebaseContext.Provider
+                        value={{
+                            firebase: {
+                                firestore: jest.fn(() => ({
+                                    collection: jest.fn(() => ({
+                                        doc: jest.fn(() => ({
+                                            update: jest.fn(() => Promise.resolve('Szerkesztett hozzászólás'))
+                                        }))
+                                    }))
+                                }))
+                            },
+                            FieldValue: {
+                                arrayUnion: jest.fn(),
+                                arrayRemove: jest.fn()
+                            }
+                        }}
+                    >
+                        <UserContext.Provider
+                            value={{
+                                user: {
+                                    uid: 'SQ63uFaevONVpZHFAiMyjDbbmI52',
+                                    displayName: 'admin'
+                                }
+                            }}
+                        >
+                            <LoggedInUserContext.Provider value={{ user: userFixture }}>
+                                <ViewPost />
+                            </LoggedInUserContext.Provider>
+                        </UserContext.Provider>
+                    </FirebaseContext.Provider>
+                </Router>
+            );
+
+            expect(queryByTestId('input-edit-comment')).not.toBeInTheDocument();
+            fireEvent.click(getByTestId('show-edit-form'));
+            fireEvent.change(await findByTestId('input-edit-comment'), {
+                target: { value: 'Like' }
+            });
+            fireEvent.submit(await findByTestId('edit-comment-submit'));
+
+            await waitFor(() => {
+                expect(getByTestId('input-edit-comment').value).toBe('Like');
+                expect(getByText('Like')).toBeTruthy();
+                expect(getByText('admin')).toBeTruthy();
             });
         });
     });
@@ -899,7 +961,7 @@ describe('<ViewPost />', () => {
             getPostByPostSlug.mockImplementation(() => [postFixtureWithComment]);
             usePost.mockImplementation(() => ({ post: postFixtureWithComment }));
 
-            const { getByTestId, queryByTestId } = render(
+            const { findByTestId, getByTestId, queryByTestId } = render(
                 <Router>
                     <FirebaseContext.Provider
                         value={{
@@ -927,12 +989,62 @@ describe('<ViewPost />', () => {
 
             expect(queryByTestId('edit-comment-return')).not.toBeInTheDocument();
             fireEvent.click(getByTestId('show-edit-form'));
-            expect(queryByTestId('edit-comment-return')).toBeInTheDocument();
-            fireEvent.click(getByTestId('edit-comment-return'));
+            fireEvent.click(await findByTestId('edit-comment-return'));
 
             await waitFor(() => {
                 expect(document.title).toEqual('React (JavaScript library)');
-                expect(getByText('Edit')).toBeFalsy();
+            });
+        });
+    });
+
+    it('Megjelenik a magyar nyelvű bejegyzéshez tartozó aloldal, a bejegyzéshez tartozó adatokkal, az adminisztrátor szerkesztené az egyik hozzászólást, de végül visszalép', async () => {
+        jest.mock('react-router-dom', () => ({
+            ...jest.requireActual('react-router-dom'),
+            useParams: () => ({ slug: 'html5' }),
+            useHistory: () => ({
+                push: mockHistoryPush
+            })
+        }));
+
+        await act(async () => {
+            getUserByUserId.mockImplementation(() => [userFixture]);
+            useUser.mockImplementation(() => ({ user: userFixture }));
+            useUserWhoCommented.mockImplementation(() => ({ user: userFixture }));
+            getPostByPostSlug.mockImplementation(() => [postFixtureWithCommentHun]);
+            usePost.mockImplementation(() => ({ post: postFixtureWithCommentHun }));
+
+            const { findByTestId, getByTestId, queryByTestId } = render(
+                <Router>
+                    <FirebaseContext.Provider
+                        value={{
+                            firebase: {
+                            },
+                            FieldValue: {
+                            }
+                        }}
+                    >
+                        <UserContext.Provider
+                            value={{
+                                user: {
+                                    uid: 'SQ63uFaevONVpZHFAiMyjDbbmI52',
+                                    displayName: 'admin'
+                                }
+                            }}
+                        >
+                            <LoggedInUserContext.Provider value={{ user: userFixture }}>
+                                <ViewPost />
+                            </LoggedInUserContext.Provider>
+                        </UserContext.Provider>
+                    </FirebaseContext.Provider>
+                </Router>
+            );
+
+            expect(queryByTestId('edit-comment-return')).not.toBeInTheDocument();
+            fireEvent.click(getByTestId('show-edit-form'));
+            fireEvent.click(await findByTestId('edit-comment-return'));
+
+            await waitFor(() => {
+                expect(document.title).toEqual('HTML5');
             });
         });
     });

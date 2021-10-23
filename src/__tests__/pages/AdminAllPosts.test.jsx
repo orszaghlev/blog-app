@@ -1,8 +1,8 @@
 import React from 'react';
-import { render, waitFor, fireEvent } from '@testing-library/react';
+import { render, waitFor, fireEvent, findByText } from '@testing-library/react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { act } from 'react-dom/test-utils';
-import Home from '../../pages/Home';
+import AdminAllPosts from '../../pages/AdminAllPosts';
 import UserContext from '../../contexts/User';
 import FirebaseContext from '../../contexts/Firebase';
 import LoggedInUserContext from '../../contexts/LoggedInUser';
@@ -23,12 +23,12 @@ jest.mock('react-router-dom', () => ({
 jest.mock('../../services/Firebase');
 jest.mock('../../hooks/UseUser');
 
-describe('<Home />', () => {
+describe('<AdminAllPosts />', () => {
     beforeEach(() => {
         jest.clearAllMocks();
     });
 
-    it('Megjelenik a bejegyzéseket tartalmazó kezdőlap, de nincsenek bejegyzések', async () => {
+    it('Megjelenik a bejegyzéseket tartalmazó admin felület, de nincsenek bejegyzések', async () => {
         const firebase = {
             firestore: jest.fn(() => ({
                 collection: jest.fn(() => ({
@@ -57,7 +57,7 @@ describe('<Home />', () => {
                         }}
                     >
                         <LoggedInUserContext.Provider value={{ user: userFixture }}>
-                            <Home />
+                            <AdminAllPosts />
                         </LoggedInUserContext.Provider>
                     </UserContext.Provider>
                 </FirebaseContext.Provider>
@@ -69,13 +69,13 @@ describe('<Home />', () => {
             useUser.mockImplementation(() => ({ user: userFixture }));
 
             await waitFor(() => {
-                expect(document.title).toEqual('Bejegyzések');
-                expect(queryByText('Bejegyzések')).not.toBeInTheDocument();
+                expect(document.title).toEqual('Összes bejegyzés');
+                expect(queryByText('Összes bejegyzés')).not.toBeInTheDocument();
             });
         });
     });
 
-    it('Megjelenik a bejegyzéseket tartalmazó kezdőlap, a bejegyzések adataival', async () => {
+    it('Megjelenik a bejegyzéseket tartalmazó admin felület, a bejegyzések adataival', async () => {
         const firebase = {
             firestore: jest.fn(() => ({
                 collection: jest.fn(() => ({
@@ -103,7 +103,7 @@ describe('<Home />', () => {
                         }}
                     >
                         <LoggedInUserContext.Provider value={{ user: userFixture }}>
-                            <Home />
+                            <AdminAllPosts />
                         </LoggedInUserContext.Provider>
                     </UserContext.Provider>
                 </FirebaseContext.Provider>
@@ -114,10 +114,10 @@ describe('<Home />', () => {
             getUserByUserId.mockImplementation(() => [userFixture]);
             useUser.mockImplementation(() => ({ user: userFixture }));
 
-            expect(await findByText('Bejegyzések'));
+            expect(await findByText('Összes bejegyzés'));
 
             await waitFor(() => {
-                expect(document.title).toEqual('Bejegyzések');
+                expect(document.title).toEqual('Összes bejegyzés');
             });
         });
     });

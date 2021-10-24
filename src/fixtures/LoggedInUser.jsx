@@ -1,5 +1,5 @@
 export default {
-    userId: 'SQ63uFaevONVpZHFAiMyjDbbmI52',
+    userId: process.env.REACT_APP_FIREBASE_ADMIN_UID,
     username: 'admin',
     fullName: 'Levente Országh',
     emailAddress: 'orszaghlev@gmail.com',

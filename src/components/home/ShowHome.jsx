@@ -50,11 +50,11 @@ export default function ShowHome({ allPosts, isLoading, isEmpty, fetchMoreData }
                 direction="row"
                 justify="space-evenly"
                 alignItems="center">
-                <form className={classes.search} noValidate autoComplete="off"
+                <form data-testid="search" className={classes.search} noValidate autoComplete="off"
                     onChange={e => setSearch(e.target.value)}>
                     <TextField id="search" label="Keresés..." variant="filled" />
                 </form>
-                <Button variant="contained" style={{
+                <Button data-testid="hungarian-posts-only" variant="contained" style={{
                     backgroundColor: hunSearch ? 'green' : '#dc3545',
                     color: 'white'
                 }}
@@ -81,9 +81,7 @@ export default function ShowHome({ allPosts, isLoading, isEmpty, fetchMoreData }
                         li.content.toLowerCase().includes(search.toLowerCase())))
                     .sort((a, b) => b.date.localeCompare(a.date))
                     .map((post) => (
-                        <div className="card col-sm-3 d-inline-block m-1 p-2 h-100" style={{ border: "none" }} onClick={() => {
-                            history.push(`/posts/${post?.slug}`)
-                        }}>
+                        <div className="card col-sm-3 d-inline-block m-1 p-2 h-100" style={{ border: "none" }}>
                             <Grid container
                                 direction="row"
                                 justify="space-evenly"
@@ -105,7 +103,9 @@ export default function ShowHome({ allPosts, isLoading, isEmpty, fetchMoreData }
                                         </CardContent>
                                     </CardActionArea>
                                     <CardActions style={{ justifyContent: "center" }}>
-                                        <Button size="small" color="primary" align="center">
+                                        <Button data-testid="view-post" size="small" color="primary" align="center" onClick={() => {
+                                            history.push(`posts/${post?.slug}`)
+                                        }}>
                                             Tovább
                                         </Button>
                                     </CardActions>
@@ -115,13 +115,13 @@ export default function ShowHome({ allPosts, isLoading, isEmpty, fetchMoreData }
                     ))
             }
             {isLoading && (
-                <div className="text-danger">
+                <div data-testid="loading" className="text-danger">
                     <h6>Betöltés...</h6>
                 </div>
             )}
             {!isLoading && !isEmpty && (
                 <Grid>
-                    <Button variant="contained" onClick={() => {
+                    <Button data-testid="fetch-more-data" variant="contained" onClick={() => {
                         fetchMoreData();
                     }}>
                         Korábbi bejegyzések
@@ -129,7 +129,7 @@ export default function ShowHome({ allPosts, isLoading, isEmpty, fetchMoreData }
                 </Grid>
             )}
             {isEmpty && (
-                <div className="text-danger">
+                <div data-testid="empty" className="text-danger">
                     <h6>{notification}</h6>
                 </div>
             )}

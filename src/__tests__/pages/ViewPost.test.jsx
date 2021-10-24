@@ -59,7 +59,7 @@ describe('<ViewPost />', () => {
                         <UserContext.Provider
                             value={{
                                 user: {
-                                    uid: 'SQ63uFaevONVpZHFAiMyjDbbmI52',
+                                    uid: process.env.REACT_APP_FIREBASE_ADMIN_UID,
                                     displayName: 'admin'
                                 }
                             }}
@@ -114,7 +114,7 @@ describe('<ViewPost />', () => {
                         <UserContext.Provider
                             value={{
                                 user: {
-                                    uid: 'SQ63uFaevONVpZHFAiMyjDbbmI52',
+                                    uid: process.env.REACT_APP_FIREBASE_ADMIN_UID,
                                     displayName: 'admin'
                                 }
                             }}
@@ -171,7 +171,7 @@ describe('<ViewPost />', () => {
                         <UserContext.Provider
                             value={{
                                 user: {
-                                    uid: 'SQ63uFaevONVpZHFAiMyjDbbmI52',
+                                    uid: process.env.REACT_APP_FIREBASE_ADMIN_UID,
                                     displayName: 'admin'
                                 }
                             }}
@@ -229,7 +229,7 @@ describe('<ViewPost />', () => {
                         <UserContext.Provider
                             value={{
                                 user: {
-                                    uid: 'SQ63uFaevONVpZHFAiMyjDbbmI52',
+                                    uid: process.env.REACT_APP_FIREBASE_ADMIN_UID,
                                     displayName: 'admin'
                                 }
                             }}
@@ -287,7 +287,7 @@ describe('<ViewPost />', () => {
                         <UserContext.Provider
                             value={{
                                 user: {
-                                    uid: 'SQ63uFaevONVpZHFAiMyjDbbmI52',
+                                    uid: process.env.REACT_APP_FIREBASE_ADMIN_UID,
                                     displayName: 'admin'
                                 }
                             }}
@@ -336,7 +336,7 @@ describe('<ViewPost />', () => {
                         <UserContext.Provider
                             value={{
                                 user: {
-                                    uid: 'SQ63uFaevONVpZHFAiMyjDbbmI52',
+                                    uid: process.env.REACT_APP_FIREBASE_ADMIN_UID,
                                     displayName: 'admin'
                                 }
                             }}
@@ -385,7 +385,7 @@ describe('<ViewPost />', () => {
                         <UserContext.Provider
                             value={{
                                 user: {
-                                    uid: 'SQ63uFaevONVpZHFAiMyjDbbmI52',
+                                    uid: process.env.REACT_APP_FIREBASE_ADMIN_UID,
                                     displayName: 'admin'
                                 }
                             }}
@@ -443,7 +443,7 @@ describe('<ViewPost />', () => {
                         <UserContext.Provider
                             value={{
                                 user: {
-                                    uid: 'SQ63uFaevONVpZHFAiMyjDbbmI52',
+                                    uid: process.env.REACT_APP_FIREBASE_ADMIN_UID,
                                     displayName: 'admin'
                                 }
                             }}
@@ -504,7 +504,7 @@ describe('<ViewPost />', () => {
                         <UserContext.Provider
                             value={{
                                 user: {
-                                    uid: 'SQ63uFaevONVpZHFAiMyjDbbmI52',
+                                    uid: process.env.REACT_APP_FIREBASE_ADMIN_UID,
                                     displayName: 'admin'
                                 }
                             }}
@@ -556,7 +556,7 @@ describe('<ViewPost />', () => {
                         <UserContext.Provider
                             value={{
                                 user: {
-                                    uid: 'SQ63uFaevONVpZHFAiMyjDbbmI52',
+                                    uid: process.env.REACT_APP_FIREBASE_ADMIN_UID,
                                     displayName: 'admin'
                                 }
                             }}
@@ -606,7 +606,7 @@ describe('<ViewPost />', () => {
                         <UserContext.Provider
                             value={{
                                 user: {
-                                    uid: 'SQ63uFaevONVpZHFAiMyjDbbmI52',
+                                    uid: process.env.REACT_APP_FIREBASE_ADMIN_UID,
                                     displayName: 'admin'
                                 }
                             }}
@@ -665,7 +665,7 @@ describe('<ViewPost />', () => {
                         <UserContext.Provider
                             value={{
                                 user: {
-                                    uid: 'SQ63uFaevONVpZHFAiMyjDbbmI52',
+                                    uid: process.env.REACT_APP_FIREBASE_ADMIN_UID,
                                     displayName: 'admin'
                                 }
                             }}
@@ -728,7 +728,7 @@ describe('<ViewPost />', () => {
                         <UserContext.Provider
                             value={{
                                 user: {
-                                    uid: 'SQ63uFaevONVpZHFAiMyjDbbmI52',
+                                    uid: process.env.REACT_APP_FIREBASE_ADMIN_UID,
                                     displayName: 'admin'
                                 }
                             }}
@@ -790,7 +790,7 @@ describe('<ViewPost />', () => {
                         <UserContext.Provider
                             value={{
                                 user: {
-                                    uid: 'SQ63uFaevONVpZHFAiMyjDbbmI52',
+                                    uid: process.env.REACT_APP_FIREBASE_ADMIN_UID,
                                     displayName: 'admin'
                                 }
                             }}
@@ -850,7 +850,7 @@ describe('<ViewPost />', () => {
                         <UserContext.Provider
                             value={{
                                 user: {
-                                    uid: 'SQ63uFaevONVpZHFAiMyjDbbmI52',
+                                    uid: process.env.REACT_APP_FIREBASE_ADMIN_UID,
                                     displayName: 'admin'
                                 }
                             }}
@@ -917,7 +917,7 @@ describe('<ViewPost />', () => {
                         <UserContext.Provider
                             value={{
                                 user: {
-                                    uid: 'SQ63uFaevONVpZHFAiMyjDbbmI52',
+                                    uid: process.env.REACT_APP_FIREBASE_ADMIN_UID,
                                     displayName: 'admin'
                                 }
                             }}
@@ -974,7 +974,7 @@ describe('<ViewPost />', () => {
                         <UserContext.Provider
                             value={{
                                 user: {
-                                    uid: 'SQ63uFaevONVpZHFAiMyjDbbmI52',
+                                    uid: process.env.REACT_APP_FIREBASE_ADMIN_UID,
                                     displayName: 'admin'
                                 }
                             }}
@@ -1026,7 +1026,7 @@ describe('<ViewPost />', () => {
                         <UserContext.Provider
                             value={{
                                 user: {
-                                    uid: 'SQ63uFaevONVpZHFAiMyjDbbmI52',
+                                    uid: process.env.REACT_APP_FIREBASE_ADMIN_UID,
                                     displayName: 'admin'
                                 }
                             }}

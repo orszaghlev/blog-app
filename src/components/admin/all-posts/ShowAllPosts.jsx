@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useMemo } from "react";
+import { useState, useRef, useMemo } from "react";
 import { useHistory } from "react-router-dom";
 import PropTypes from 'prop-types';
 import Card from '@material-ui/core/Card';
@@ -27,9 +27,8 @@ import DeletePost from './DeletePost';
 import EditPost from "./EditPost";
 import ViewPost from "./ViewPost";
 
-export default function ShowAllPosts({ allPosts, setAllPosts, isLoading, isEmpty, fetchMoreData }) {
+export default function ShowAllPosts({ allPosts }) {
     const [search, setSearch] = useState("");
-    const [notification, setNotification] = useState("");
     const [hunSearch, setHunSearch] = useState(false);
     const [active, setActive] = useState(false);
     const [inactive, setInactive] = useState(false);
@@ -88,20 +87,11 @@ export default function ShowAllPosts({ allPosts, setAllPosts, isLoading, isEmpty
         return sortConfig.key === name ? sortConfig.direction : undefined;
     };
 
-    useEffect(() => {
-        if (isEmpty) {
-            setNotification("Minden bejegyzés betöltve!");
-            setTimeout(() => {
-                setNotification("");
-            }, 5000);
-        }
-    }, [isEmpty]);
-
     return (
         <>
             {postToBeEdited &&
                 <>
-                    <EditPost allPosts={allPosts} setAllPosts={setAllPosts} post={postToBeEdited} />
+                    <EditPost post={postToBeEdited} />
                     <hr />
                 </>
             }
@@ -324,14 +314,14 @@ export default function ShowAllPosts({ allPosts, setAllPosts, isLoading, isEmpty
                                                 direction="column"
                                                 justify="center"
                                                 alignItems="center">
-                                                <DeletePost allPosts={allPosts} setAllPosts={setAllPosts} post={post} />
+                                                <DeletePost post={post} />
                                                 <button className="btn btn-warning m-1" style={{ width: "50px", height: "50px" }} onClick={() => {
                                                     setPostToBeEdited(post);
                                                     window.scrollTo(0, 70);
                                                 }}>
                                                     <FontAwesomeIcon icon={faPencilAlt} />
                                                 </button>
-                                                <DuplicatePost allPosts={allPosts} setAllPosts={setAllPosts} post={post} />
+                                                <DuplicatePost post={post} />
                                                 <ViewPost post={post} />
                                             </Grid>
                                         </TableCell>
@@ -341,34 +331,10 @@ export default function ShowAllPosts({ allPosts, setAllPosts, isLoading, isEmpty
                     </Table>
                 </TableContainer>
             </div>
-            <br />
-            {isLoading && (
-                <div className="text-danger">
-                    <h6>Betöltés...</h6>
-                </div>
-            )}
-            {!isLoading && !isEmpty && (
-                <Grid>
-                    <Button variant="contained" onClick={() => {
-                        fetchMoreData();
-                    }}>
-                        Korábbi bejegyzések
-                    </Button>
-                </Grid>
-            )}
-            {isEmpty && (
-                <div className="text-danger">
-                    <h6>{notification}</h6>
-                </div>
-            )}
         </>
     )
 }
 
 ShowAllPosts.propTypes = {
-    allPosts: PropTypes.object.isRequired,
-    setAllPosts: PropTypes.func.isRequired,
-    isLoading: PropTypes.bool.isRequired,
-    isEmpty: PropTypes.bool.isRequired,
-    fetchMoreData: PropTypes.func.isRequired
+    allPosts: PropTypes.object.isRequired
 };

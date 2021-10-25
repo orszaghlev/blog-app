@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
@@ -12,9 +12,8 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 
-export default function ShowHome({ allPosts, isLoading, isEmpty, fetchMoreData }) {
+export default function ShowHome({ activePosts }) {
     const [search, setSearch] = useState("");
-    const [notification, setNotification] = useState("");
     const [hunSearch, setHunSearch] = useState(false);
     const [hunCount, setHunCount] = useState(1);
     const history = useHistory();
@@ -33,15 +32,6 @@ export default function ShowHome({ allPosts, isLoading, isEmpty, fetchMoreData }
         },
     }));
     const classes = useStyles();
-
-    useEffect(() => {
-        if (isEmpty) {
-            setNotification("Minden bejegyzés betöltve!");
-            setTimeout(() => {
-                setNotification("");
-            }, 5000);
-        }
-    }, [isEmpty]);
 
     return (
         <>
@@ -69,7 +59,7 @@ export default function ShowHome({ allPosts, isLoading, isEmpty, fetchMoreData }
                 </Button>
             </Grid>
             {
-                allPosts?.filter(li =>
+                activePosts?.filter(li =>
                     (new Date(li.date).getTime() < new Date().getTime())
                     && (hunSearch ? li.language.toLowerCase().includes("hungarian") : li.language.toLowerCase().includes(""))
                     && (li.tag.toLowerCase().includes(search.toLowerCase()) ||
@@ -114,32 +104,10 @@ export default function ShowHome({ allPosts, isLoading, isEmpty, fetchMoreData }
                         </div>
                     ))
             }
-            {isLoading && (
-                <div data-testid="loading" className="text-danger">
-                    <h6>Betöltés...</h6>
-                </div>
-            )}
-            {!isLoading && !isEmpty && (
-                <Grid>
-                    <Button data-testid="fetch-more-data" variant="contained" onClick={() => {
-                        fetchMoreData();
-                    }}>
-                        Korábbi bejegyzések
-                    </Button>
-                </Grid>
-            )}
-            {isEmpty && (
-                <div data-testid="empty" className="text-danger">
-                    <h6>{notification}</h6>
-                </div>
-            )}
         </>
     )
 }
 
 ShowHome.propTypes = {
-    allPosts: PropTypes.object.isRequired,
-    isLoading: PropTypes.bool.isRequired,
-    isEmpty: PropTypes.bool.isRequired,
-    fetchMoreData: PropTypes.func.isRequired
+    allPosts: PropTypes.object.isRequired
 };

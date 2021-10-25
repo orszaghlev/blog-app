@@ -9,7 +9,7 @@ import { Editor } from '@tinymce/tinymce-react';
 import slugify from 'react-slugify';
 import FirebaseContext from '../../../contexts/Firebase';
 
-export default function EditPost({ allPosts, setAllPosts, post }) {
+export default function EditPost({ post }) {
     const [id, setId] = useState("");
     const [title, setTitle] = useState("");
     const [slug, setSlug] = useState("");
@@ -35,7 +35,7 @@ export default function EditPost({ allPosts, setAllPosts, post }) {
     }));
     const classes = useStyles();
     const { firebase } = useContext(FirebaseContext);
-    const [postToBeEdited, setPostToBeEdited] = useState(post);
+    //const [postToBeEdited, setPostToBeEdited] = useState(post);
 
     useEffect(() => {
         setId(post?.id);
@@ -73,9 +73,9 @@ export default function EditPost({ allPosts, setAllPosts, post }) {
                         comments: post?.comments ? post.comments : [],
                         saves: post?.saves ? post.saves : []
                     };
-                    setAllPosts([data, ...allPosts].filter((item => item !== postToBeEdited)));
+                    //setAllPosts([data, ...allPosts].filter((item => item !== postToBeEdited)));
                     firebase.firestore().collection('posts').doc(data.id).set(data);
-                    setPostToBeEdited();
+                    //setPostToBeEdited();
                 }}
             >
                 <Grid container spacing={2}
@@ -227,7 +227,5 @@ export default function EditPost({ allPosts, setAllPosts, post }) {
 }
 
 EditPost.propTypes = {
-    allPosts: PropTypes.object.isRequired,
-    setAllPosts: PropTypes.func.isRequired,
     post: PropTypes.object.isRequired
 };

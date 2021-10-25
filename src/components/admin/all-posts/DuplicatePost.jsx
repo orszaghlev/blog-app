@@ -4,7 +4,7 @@ import FirebaseContext from '../../../contexts/Firebase';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCopy } from "@fortawesome/free-solid-svg-icons";
 
-export default function DuplicatePost({ allPosts, setAllPosts, post }) {
+export default function DuplicatePost({ post }) {
     const { firebase } = useContext(FirebaseContext);
 
     return (
@@ -23,7 +23,7 @@ export default function DuplicatePost({ allPosts, setAllPosts, post }) {
                 comments: [],
                 saves: []
             };
-            setAllPosts([data, ...allPosts]);
+            //setAllPosts([data, ...allPosts]);
             firebase.firestore().collection('posts').doc(data.id).set(data);
         }}>
             <FontAwesomeIcon icon={faCopy} />
@@ -32,7 +32,5 @@ export default function DuplicatePost({ allPosts, setAllPosts, post }) {
 }
 
 DuplicatePost.propTypes = {
-    allPosts: PropTypes.object.isRequired,
-    setAllPosts: PropTypes.func.isRequired,
     post: PropTypes.object.isRequired
 };

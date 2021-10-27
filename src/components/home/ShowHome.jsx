@@ -42,7 +42,7 @@ export default function ShowHome({ activePosts }) {
                 alignItems="center">
                 <form data-testid="search" className={classes.search} noValidate autoComplete="off"
                     onChange={e => setSearch(e.target.value)}>
-                    <TextField id="search" label="Keresés..." variant="filled" />
+                    <TextField inputProps={{ "data-testid": "input-search" }} id="search" label="Keresés..." variant="filled" />
                 </form>
                 <Button data-testid="hungarian-posts-only" variant="contained" style={{
                     backgroundColor: hunSearch ? 'green' : '#dc3545',

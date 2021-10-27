@@ -13,7 +13,8 @@ export default function useAllPosts() {
             .get()
             .then((snapshot) => {
                 const allPosts = snapshot.docs.map((postsObj) => ({
-                    ...postsObj.data()
+                    ...postsObj.data(),
+                    docId: postsObj.id,
                 }));
                 setPosts(allPosts);
             })
@@ -22,5 +23,5 @@ export default function useAllPosts() {
             });
     }, [firebase]);
 
-    return [posts];
+    return { posts };
 }

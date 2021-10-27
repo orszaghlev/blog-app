@@ -5,7 +5,7 @@ import ShowHome from "../components/home/ShowHome";
 import useActivePosts from "../hooks/UseActivePosts";
 
 export default function Home() {
-    const [posts] = useActivePosts();
+    const { posts } = useActivePosts();
 
     useEffect(() => {
         document.title = 'Bejegyzések';
@@ -26,7 +26,7 @@ export default function Home() {
                     }
                 },
             }}>
-                {posts.length === 0 ? <Spinner /> : <ShowHome activePosts={posts} />}
+                {(!posts || posts.length === 0) ? <Spinner /> : <ShowHome activePosts={posts} />}
             </motion.div>
         </div>
     )

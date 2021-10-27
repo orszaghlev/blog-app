@@ -35,7 +35,6 @@ export default function EditPost({ post }) {
     }));
     const classes = useStyles();
     const { firebase } = useContext(FirebaseContext);
-    //const [postToBeEdited, setPostToBeEdited] = useState(post);
 
     useEffect(() => {
         setId(post?.id);
@@ -73,9 +72,7 @@ export default function EditPost({ post }) {
                         comments: post?.comments ? post.comments : [],
                         saves: post?.saves ? post.saves : []
                     };
-                    //setAllPosts([data, ...allPosts].filter((item => item !== postToBeEdited)));
-                    firebase.firestore().collection('posts').doc(data.id).set(data);
-                    //setPostToBeEdited();
+                    await firebase.firestore().collection('posts').doc(data.id).set(data);
                 }}
             >
                 <Grid container spacing={2}

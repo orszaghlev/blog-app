@@ -2,10 +2,11 @@ import React from 'react';
 import { render, waitFor, fireEvent } from '@testing-library/react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { act } from 'react-dom/test-utils';
+import slugify from 'react-slugify';
 import Home from '../../pages/Home';
 import FirebaseContext from '../../contexts/Firebase';
-import * as ROUTES from '../../constants/Routes';
 import activePostsFixture from '../../fixtures/CreatedActivePosts';
+import activePostsFixtureHun from '../../fixtures/CreatedActivePostsHun';
 import useActivePosts from '../../hooks/UseActivePosts';
 
 const mockHistoryPush = jest.fn();
@@ -28,18 +29,19 @@ describe('<Home />', () => {
             firestore: jest.fn(() => ({
             }))
         };
-        const { queryByText } = render(
-            <Router>
-                <FirebaseContext.Provider
-                    value={firebase}
-                >
-                    <Home />
-                </FirebaseContext.Provider>
-            </Router>
-        );
 
         await act(async () => {
-            useActivePosts.mockImplementation(() => ([]));
+            useActivePosts.mockImplementation(() => ({ posts: undefined }));
+
+            const { queryByText } = render(
+                <Router>
+                    <FirebaseContext.Provider
+                        value={firebase}
+                    >
+                        <Home />
+                    </FirebaseContext.Provider>
+                </Router>
+            );
 
             await waitFor(() => {
                 expect(document.title).toEqual('Bejegyzések');
@@ -53,55 +55,115 @@ describe('<Home />', () => {
             firestore: jest.fn(() => ({
             }))
         };
-        const { findByText, queryByText } = render(
-            <Router>
-                <FirebaseContext.Provider
-                    value={firebase}
-                >
-                    <Home />
-                </FirebaseContext.Provider>
-            </Router >
-        );
 
         await act(async () => {
-            useActivePosts.mockImplementation(() => ([activePostsFixture]));
+            useActivePosts.mockImplementation(() => ({ posts: activePostsFixture }));
 
-            expect(queryByText('Összes bejegyzés')).not.toBeInTheDocument();
-            expect(await findByText('Összes bejegyzés'));
+            const { queryByText } = render(
+                <Router>
+                    <FirebaseContext.Provider
+                        value={firebase}
+                    >
+                        <Home />
+                    </FirebaseContext.Provider>
+                </Router>
+            );
 
             await waitFor(() => {
                 expect(document.title).toEqual('Bejegyzések');
-                //expect(queryByText('Bejegyzések')).toBeInTheDocument();
+                expect(queryByText('Bejegyzések')).toBeInTheDocument();
             });
         });
     });
 
-    /*it('Megjelenik a bejegyzéseket tartalmazó kezdőlap, a felhasználó továbblép az egyik bejegyzéshez tartozó aloldalra', async () => {
+    it('Megjelenik a bejegyzéseket tartalmazó kezdőlap, a felhasználó továbblép az egyik bejegyzéshez tartozó aloldalra', async () => {
         const firebase = {
             firestore: jest.fn(() => ({
             }))
         };
-        const { getByTestId } = render(
-            <Router>
-                <FirebaseContext.Provider
-                    value={firebase}
-                >
-                    <Home />
-                </FirebaseContext.Provider>
-            </Router >
-        );
 
         await act(async () => {
-            getPosts.mockImplementation(() => [postsFixture]);
-            usePosts.mockImplementation(() => ({ posts: postsFixture }));
+            useActivePosts.mockImplementation(() => ({ posts: activePostsFixture }));
+
+            const { getByTestId } = render(
+                <Router>
+                    <FirebaseContext.Provider
+                        value={firebase}
+                    >
+                        <Home />
+                    </FirebaseContext.Provider>
+                </Router >
+            );
 
             fireEvent.click(getByTestId('view-post'));
 
-            expect(document.title).toEqual('Bejegyzések');
-
             await waitFor(() => {
-                expect(mockHistoryPush).toHaveBeenCalledWith(`/posts/${slugify("React (JavaScript library)")}`);
+                expect(document.title).toEqual('Bejegyzések');
+                expect(mockHistoryPush).toHaveBeenCalledWith(`posts/${slugify("React (JavaScript library)")}`);
             });
         });
-    });*/
+    });
+
+    it('Megjelenik a bejegyzéseket tartalmazó kezdőlap, a felhasználó rákattint a szűrés gombra', async () => {
+        const firebase = {
+            firestore: jest.fn(() => ({
+            }))
+        };
+
+        await act(async () => {
+            useActivePosts.mockImplementation(() => ({ posts: activePostsFixtureHun }));
+
+            const { getByTestId, getByText, queryByText } = render(
+                <Router>
+                    <FirebaseContext.Provider
+                        value={firebase}
+                    >
+                        <Home />
+                    </FirebaseContext.Provider>
+                </Router >
+            );
+
+            expect(queryByText('HTML5')).toBeInTheDocument();
+            fireEvent.click(getByTestId('hungarian-posts-only'));
+            expect(queryByText('HTML5')).toBeInTheDocument();
+
+            await waitFor(() => {
+                expect(document.title).toEqual('Bejegyzések');
+                expect(getByText('HTML5')).toBeTruthy();
+            });
+        });
+    });
+
+    it('Megjelenik a bejegyzéseket tartalmazó kezdőlap, a felhasználó ír valamit a keresőbe', async () => {
+        const firebase = {
+            firestore: jest.fn(() => ({
+            }))
+        };
+
+        await act(async () => {
+            useActivePosts.mockImplementation(() => ({ posts: activePostsFixtureHun }));
+
+            const { getByTestId, getByText, queryByText } = render(
+                <Router>
+                    <FirebaseContext.Provider
+                        value={firebase}
+                    >
+                        <Home />
+                    </FirebaseContext.Provider>
+                </Router >
+            );
+
+            expect(queryByText('HTML5')).toBeInTheDocument();
+            await fireEvent.change(getByTestId('input-search'), {
+                target: { value: 'H' }
+            });
+            expect(queryByText('HTML5')).toBeInTheDocument();
+
+            await waitFor(() => {
+                expect(document.title).toEqual('Bejegyzések');
+                expect(getByTestId('input-search').value).toBe('H');
+                expect(getByText('HTML5')).toBeTruthy();
+            });
+        });
+    });
 })

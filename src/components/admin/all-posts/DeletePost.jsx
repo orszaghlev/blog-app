@@ -6,13 +6,10 @@ import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 export default function DeletePost({ post }) {
     const { firebase } = useContext(FirebaseContext);
-    //const [postToBeDeleted, setPostToBeDeleted] = useState(post);
 
     return (
-        <button className="btn btn-danger m-1" style={{ width: "50px", height: "50px" }} onClick={async () => {
-            //setAllPosts(allPosts.filter(item => item !== postToBeDeleted));
-            firebase.firestore().collection('posts').doc(post?.id).delete();
-            //setPostToBeDeleted();
+        <button data-testid="delete-post-button" className="btn btn-danger m-1" style={{ width: "50px", height: "50px" }} onClick={async () => {
+            await firebase.firestore().collection('posts').doc(post?.id).delete();
         }}>
             <FontAwesomeIcon icon={faTrash} />
         </button>

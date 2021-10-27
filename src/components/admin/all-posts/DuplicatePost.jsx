@@ -8,7 +8,7 @@ export default function DuplicatePost({ post }) {
     const { firebase } = useContext(FirebaseContext);
 
     return (
-        <button className="btn btn-primary m-1" style={{ width: "50px", height: "50px" }} onClick={() => {
+        <button data-testid="duplicate-post-button" className="btn btn-primary m-1" style={{ width: "50px", height: "50px" }} onClick={async () => {
             const data = {
                 id: post?.id + "_masolat",
                 title: post?.title + " (másolat)",
@@ -23,8 +23,7 @@ export default function DuplicatePost({ post }) {
                 comments: [],
                 saves: []
             };
-            //setAllPosts([data, ...allPosts]);
-            firebase.firestore().collection('posts').doc(data.id).set(data);
+            await firebase.firestore().collection('posts').doc(data.id).set(data);
         }}>
             <FontAwesomeIcon icon={faCopy} />
         </button>

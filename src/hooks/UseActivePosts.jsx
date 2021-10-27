@@ -13,7 +13,8 @@ export default function useActivePosts() {
             .get()
             .then((snapshot) => {
                 const activePosts = snapshot.docs.map((postsObj) => ({
-                    ...postsObj.data()
+                    ...postsObj.data(),
+                    docId: postsObj.id,
                 }));
                 setPosts(activePosts);
             })
@@ -22,5 +23,5 @@ export default function useActivePosts() {
             });
     }, [firebase]);
 
-    return [posts];
+    return { posts };
 }

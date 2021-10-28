@@ -102,11 +102,11 @@ export default function ShowAllPosts({ allPosts }) {
                 alignItems="center">
                 <form className={classes.search} noValidate autoComplete="off"
                     onChange={e => setSearch(e.target.value)}>
-                    <TextField id="search" label="Keresés..." variant="filled" />
+                    <TextField data-testid="input-search" id="search" label="Keresés..." variant="filled" />
                 </form>
                 <Card className={classes.root}>
                     <CardActions style={{ justifyContent: "center" }}>
-                        <Button size="2rem" color="primary" align="center" onClick={() => {
+                        <Button data-testid="create-post-button" size="2rem" color="primary" align="center" onClick={() => {
                             history.push(ROUTES.ADMIN_CREATE_POST)
                         }}>
                             Új bejegyzés
@@ -119,7 +119,7 @@ export default function ShowAllPosts({ allPosts }) {
                 direction="row"
                 justify="space-around"
                 alignItems="center">
-                <Button variant="contained" style={{
+                <Button data-testid="hungarian-posts-only" variant="contained" style={{
                     backgroundColor: hunSearch ? 'green' : '#dc3545',
                     color: 'white'
                 }}
@@ -131,7 +131,7 @@ export default function ShowAllPosts({ allPosts }) {
                             setHunSearch(false);
                         }
                     }}>Csak magyar bejegyzések</Button>
-                <Button variant="contained" style={{
+                <Button data-testid="active-posts-only" variant="contained" style={{
                     backgroundColor: active ? 'green' : '#dc3545',
                     color: 'white'
                 }}
@@ -144,7 +144,7 @@ export default function ShowAllPosts({ allPosts }) {
                             setActive(false);
                         }
                     }}>Csak aktív bejegyzések</Button>
-                <Button variant="contained" style={{
+                <Button data-testid="inactive-posts-only" variant="contained" style={{
                     backgroundColor: inactive ? 'green' : '#dc3545',
                     color: 'white'
                 }}
@@ -164,35 +164,35 @@ export default function ShowAllPosts({ allPosts }) {
                         <TableHead>
                             <TableRow>
                                 <StyledTableCell align="center">
-                                    <Button style={{ color: "white" }} onClick={() => requestSort('id')} className={getClassNamesFor('id')}>
+                                    <Button data-testid="sort-by-id-button" style={{ color: "white" }} onClick={() => requestSort('id')} className={getClassNamesFor('id')}>
                                         ID
                                         {getClassNamesFor('id') === "ascending" ? <FontAwesomeIcon icon={faSortUp} /> : ""}
                                         {getClassNamesFor('id') === "descending" ? <FontAwesomeIcon icon={faSortDown} /> : ""}
                                     </Button>
                                 </StyledTableCell>
                                 <StyledTableCell align="center">
-                                    <Button style={{ color: "white" }} onClick={() => requestSort('title')} className={getClassNamesFor('title')}>
+                                    <Button data-testid="sort-by-title-button" style={{ color: "white" }} onClick={() => requestSort('title')} className={getClassNamesFor('title')}>
                                         CÍM
                                         {getClassNamesFor('title') === "ascending" ? <FontAwesomeIcon icon={faSortUp} /> : ""}
                                         {getClassNamesFor('title') === "descending" ? <FontAwesomeIcon icon={faSortDown} /> : ""}
                                     </Button>
                                 </StyledTableCell>
                                 <StyledTableCell align="center">
-                                    <Button style={{ color: "white" }} onClick={() => requestSort('slug')} className={getClassNamesFor('slug')}>
+                                    <Button data-testid="sort-by-slug-button" style={{ color: "white" }} onClick={() => requestSort('slug')} className={getClassNamesFor('slug')}>
                                         SLUG
                                         {getClassNamesFor('slug') === "ascending" ? <FontAwesomeIcon icon={faSortUp} /> : ""}
                                         {getClassNamesFor('slug') === "descending" ? <FontAwesomeIcon icon={faSortDown} /> : ""}
                                     </Button>
                                 </StyledTableCell>
                                 <StyledTableCell align="center">
-                                    <Button style={{ color: "white" }} onClick={() => requestSort('description')} className={getClassNamesFor('description')}>
+                                    <Button data-testid="sort-by-description-button" style={{ color: "white" }} onClick={() => requestSort('description')} className={getClassNamesFor('description')}>
                                         LEÍRÁS
                                         {getClassNamesFor('description') === "ascending" ? <FontAwesomeIcon icon={faSortUp} /> : ""}
                                         {getClassNamesFor('description') === "descending" ? <FontAwesomeIcon icon={faSortDown} /> : ""}
                                     </Button>
                                 </StyledTableCell>
                                 <StyledTableCell align="center">
-                                    <Button style={{ color: "white" }} onClick={() => requestSort('content')} className={getClassNamesFor('content')}>
+                                    <Button data-testid="sort-by-content-button" style={{ color: "white" }} onClick={() => requestSort('content')} className={getClassNamesFor('content')}>
                                         TARTALOM
                                         {getClassNamesFor('content') === "ascending" ? <FontAwesomeIcon icon={faSortUp} /> : ""}
                                         {getClassNamesFor('content') === "descending" ? <FontAwesomeIcon icon={faSortDown} /> : ""}
@@ -204,28 +204,28 @@ export default function ShowAllPosts({ allPosts }) {
                                     </Button>
                                 </StyledTableCell>
                                 <StyledTableCell align="center">
-                                    <Button style={{ color: "white" }} onClick={() => requestSort('tag')} className={getClassNamesFor('tag')}>
+                                    <Button data-testid="sort-by-tag-button" style={{ color: "white" }} onClick={() => requestSort('tag')} className={getClassNamesFor('tag')}>
                                         CÍMKÉK
                                         {getClassNamesFor('tag') === "ascending" ? <FontAwesomeIcon icon={faSortUp} /> : ""}
                                         {getClassNamesFor('tag') === "descending" ? <FontAwesomeIcon icon={faSortDown} /> : ""}
                                     </Button>
                                 </StyledTableCell>
                                 <StyledTableCell align="center">
-                                    <Button style={{ color: "white" }} onClick={() => requestSort('language')} className={getClassNamesFor('language')}>
+                                    <Button data-testid="sort-by-language-button" style={{ color: "white" }} onClick={() => requestSort('language')} className={getClassNamesFor('language')}>
                                         NYELV
                                         {getClassNamesFor('language') === "ascending" ? <FontAwesomeIcon icon={faSortUp} /> : ""}
                                         {getClassNamesFor('language') === "descending" ? <FontAwesomeIcon icon={faSortDown} /> : ""}
                                     </Button>
                                 </StyledTableCell>
                                 <StyledTableCell align="center">
-                                    <Button style={{ color: "white" }} onClick={() => requestSort('date')} className={getClassNamesFor('date')}>
+                                    <Button data-testid="sort-by-date-button" style={{ color: "white" }} onClick={() => requestSort('date')} className={getClassNamesFor('date')}>
                                         DÁTUM
                                         {getClassNamesFor('date') === "ascending" ? <FontAwesomeIcon icon={faSortUp} /> : ""}
                                         {getClassNamesFor('date') === "descending" ? <FontAwesomeIcon icon={faSortDown} /> : ""}
                                     </Button>
                                 </StyledTableCell>
                                 <StyledTableCell align="center">
-                                    <Button style={{ color: "white" }} onClick={() => requestSort('isActive')} className={getClassNamesFor('isActive')}>
+                                    <Button data-testid="sort-by-isActive-button" style={{ color: "white" }} onClick={() => requestSort('isActive')} className={getClassNamesFor('isActive')}>
                                         ÁLLAPOT
                                         {getClassNamesFor('isActive') === "ascending" ? <FontAwesomeIcon icon={faSortUp} /> : ""}
                                         {getClassNamesFor('isActive') === "descending" ? <FontAwesomeIcon icon={faSortDown} /> : ""}
@@ -315,10 +315,11 @@ export default function ShowAllPosts({ allPosts }) {
                                                 justify="center"
                                                 alignItems="center">
                                                 <DeletePost post={post} />
-                                                <button className="btn btn-warning m-1" style={{ width: "50px", height: "50px" }} onClick={() => {
-                                                    setPostToBeEdited(post);
-                                                    window.scrollTo(0, 70);
-                                                }}>
+                                                <button data-testid="scroll-to-edit-post-button" className="btn btn-warning m-1"
+                                                    style={{ width: "50px", height: "50px" }} onClick={() => {
+                                                        setPostToBeEdited(post);
+                                                        window.scrollTo(0, 70);
+                                                    }}>
                                                     <FontAwesomeIcon icon={faPencilAlt} />
                                                 </button>
                                                 <DuplicatePost post={post} />

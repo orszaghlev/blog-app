@@ -8,6 +8,7 @@ import FirebaseContext from '../../contexts/Firebase';
 import activePostsFixture from '../../fixtures/CreatedActivePosts';
 import activePostsFixtureHun from '../../fixtures/CreatedActivePostsHun';
 import useActivePosts from '../../hooks/UseActivePosts';
+import inverseSortingPostsFixture from '../../fixtures/CreatedPostsForSortingInverse';
 
 const mockHistoryPush = jest.fn();
 
@@ -141,7 +142,7 @@ describe('<Home />', () => {
         };
 
         await act(async () => {
-            useActivePosts.mockImplementation(() => ({ posts: activePostsFixtureHun }));
+            useActivePosts.mockImplementation(() => ({ posts: inverseSortingPostsFixture }));
 
             const { getByTestId, getByText, queryByText } = render(
                 <Router>

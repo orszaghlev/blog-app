@@ -135,7 +135,7 @@ describe('<Home />', () => {
         });
     });
 
-    it('Megjelenik a bejegyzéseket tartalmazó kezdőlap, a felhasználó ír valamit a keresőbe', async () => {
+    it('Megjelenik a bejegyzéseket tartalmazó kezdőlap, a felhasználó ír egy betűt a keresőbe', async () => {
         const firebase = {
             firestore: jest.fn(() => ({
             }))
@@ -163,6 +163,72 @@ describe('<Home />', () => {
             await waitFor(() => {
                 expect(document.title).toEqual('Bejegyzések');
                 expect(getByTestId('input-search').value).toBe('H');
+                expect(getByText('HTML5')).toBeTruthy();
+            });
+        });
+    });
+
+    it('Megjelenik a bejegyzéseket tartalmazó kezdőlap, a felhasználó ír egy számot a keresőbe', async () => {
+        const firebase = {
+            firestore: jest.fn(() => ({
+            }))
+        };
+
+        await act(async () => {
+            useActivePosts.mockImplementation(() => ({ posts: inverseSortingPostsFixture }));
+
+            const { getByTestId, getByText, queryByText } = render(
+                <Router>
+                    <FirebaseContext.Provider
+                        value={firebase}
+                    >
+                        <Home />
+                    </FirebaseContext.Provider>
+                </Router >
+            );
+
+            expect(queryByText('HTML5')).toBeInTheDocument();
+            await fireEvent.change(getByTestId('input-search'), {
+                target: { value: '2' }
+            });
+            expect(queryByText('HTML5')).toBeInTheDocument();
+
+            await waitFor(() => {
+                expect(document.title).toEqual('Bejegyzések');
+                expect(getByTestId('input-search').value).toBe('2');
+                expect(getByText('HTML5')).toBeTruthy();
+            });
+        });
+    });
+
+    it('Megjelenik a bejegyzéseket tartalmazó kezdőlap, a felhasználó ír egy címet a keresőbe', async () => {
+        const firebase = {
+            firestore: jest.fn(() => ({
+            }))
+        };
+
+        await act(async () => {
+            useActivePosts.mockImplementation(() => ({ posts: inverseSortingPostsFixture }));
+
+            const { getByTestId, getByText, queryByText } = render(
+                <Router>
+                    <FirebaseContext.Provider
+                        value={firebase}
+                    >
+                        <Home />
+                    </FirebaseContext.Provider>
+                </Router >
+            );
+
+            expect(queryByText('HTML5')).toBeInTheDocument();
+            await fireEvent.change(getByTestId('input-search'), {
+                target: { value: 'HTML5' }
+            });
+            expect(queryByText('HTML5')).toBeInTheDocument();
+
+            await waitFor(() => {
+                expect(document.title).toEqual('Bejegyzések');
+                expect(getByTestId('input-search').value).toBe('HTML5');
                 expect(getByText('HTML5')).toBeTruthy();
             });
         });

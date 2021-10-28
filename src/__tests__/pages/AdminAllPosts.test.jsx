@@ -293,14 +293,14 @@ describe('<AdminAllPosts />', () => {
         });
     });
 
-    it('Megjelenik a bejegyzéseket tartalmazó admin felület, az adminisztrátor ír valamit a keresőbe', async () => {
+    it('Megjelenik a bejegyzéseket tartalmazó admin felület, az adminisztrátor ír egy betűt a keresőbe', async () => {
         const firebase = {
             firestore: jest.fn(() => ({
             }))
         };
 
         await act(async () => {
-            useAllPosts.mockImplementation(() => ({ posts: allPostsFixtureHun }));
+            useAllPosts.mockImplementation(() => ({ posts: inverseSortingPostsFixture }));
 
             const { getByTestId, getByText, queryByText } = render(
                 <Router>
@@ -313,7 +313,7 @@ describe('<AdminAllPosts />', () => {
             );
 
             expect(queryByText('HTML5')).toBeInTheDocument();
-            //fireEvent.change(await findByTestId('input-search'), {
+            //await fireEvent.change(getByTestId('input-search'), {
             //    target: { value: 'H' }
             //});
             expect(queryByText('HTML5')).toBeInTheDocument();

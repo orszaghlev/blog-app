@@ -10,7 +10,7 @@ export default function ShowOwnComments({ user }) {
     return (
         <Grid container
             direction="column"
-            justify="center"
+            justifyContent="center"
             alignItems="center">
             <h5>{user?.ownComments.length === 0 ? "Jelenleg nincsenek saját hozzászólásai!" : "Saját hozzászólások"}</h5>
             {user?.ownComments?.map((comment) => (

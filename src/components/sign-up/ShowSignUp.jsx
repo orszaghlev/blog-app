@@ -84,7 +84,7 @@ export default function ShowSignUp() {
             <form data-testid="sign-up" className={classes.root} noValidate autoComplete="off" onSubmit={handleSignUp} method="POST">
                 <Grid container
                     direction="column"
-                    justify="center"
+                    justifyContent="center"
                     alignItems="center">
                     {error && (
                         <div data-testid="error" className="text-danger">
@@ -131,7 +131,7 @@ export default function ShowSignUp() {
                 </Grid>
                 <Grid container
                     direction="row"
-                    justify="center"
+                    justifyContent="center"
                     alignItems="center">
                     <Button type="submit" variant="contained" color="primary" disabled={isInvalid} style={{ marginRight: "10px" }}>
                         Regisztráció

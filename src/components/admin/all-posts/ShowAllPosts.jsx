@@ -98,15 +98,15 @@ export default function ShowAllPosts({ allPosts }) {
             <h2>Összes bejegyzés</h2>
             <Grid container
                 direction="row"
-                justify="space-around"
+                justifyContent="space-around"
                 alignItems="center">
                 <form className={classes.search} noValidate autoComplete="off"
                     onChange={e => setSearch(e.target.value)}>
-                    <TextField data-testid="input-search" id="search" label="Keresés..." variant="filled" />
+                    <TextField inputProps={{ "data-testid": "input-search" }} id="search" label="Keresés..." variant="filled" />
                 </form>
                 <Card className={classes.root}>
                     <CardActions style={{ justifyContent: "center" }}>
-                        <Button data-testid="create-post-button" size="2rem" color="primary" align="center" onClick={() => {
+                        <Button data-testid="create-post-button" color="primary" align="center" onClick={() => {
                             history.push(ROUTES.ADMIN_CREATE_POST)
                         }}>
                             Új bejegyzés
@@ -117,7 +117,7 @@ export default function ShowAllPosts({ allPosts }) {
             <br />
             <Grid container
                 direction="row"
-                justify="space-around"
+                justifyContent="space-around"
                 alignItems="center">
                 <Button data-testid="hungarian-posts-only" variant="contained" style={{
                     backgroundColor: hunSearch ? 'green' : '#dc3545',
@@ -257,7 +257,7 @@ export default function ShowAllPosts({ allPosts }) {
                                         <TableCell align="center">{post?.title}</TableCell>
                                         <TableCell align="center">{post?.slug}</TableCell>
                                         <TableCell align="center" style={{ width: "200px" }}>
-                                            <textarea value={post?.description} class="form-control" rows="5" />
+                                            <textarea readOnly value={post?.description} className="form-control" rows="5" />
                                         </TableCell>
                                         <TableCell align="center">
                                             <CKEditor
@@ -312,7 +312,7 @@ export default function ShowAllPosts({ allPosts }) {
                                         <TableCell align="center">
                                             <Grid container
                                                 direction="column"
-                                                justify="center"
+                                                justifyContent="center"
                                                 alignItems="center">
                                                 <DeletePost post={post} />
                                                 <button data-testid="scroll-to-edit-post-button" className="btn btn-warning m-1"
@@ -337,5 +337,5 @@ export default function ShowAllPosts({ allPosts }) {
 }
 
 ShowAllPosts.propTypes = {
-    allPosts: PropTypes.object.isRequired
+    allPosts: PropTypes.array.isRequired
 };

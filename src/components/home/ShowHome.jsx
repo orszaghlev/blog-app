@@ -38,7 +38,7 @@ export default function ShowHome({ activePosts }) {
             <h2>Bejegyzések</h2>
             <Grid container
                 direction="row"
-                justify="space-evenly"
+                justifyContent="space-evenly"
                 alignItems="center">
                 <form data-testid="search" className={classes.search} noValidate autoComplete="off"
                     onChange={e => setSearch(e.target.value)}>
@@ -74,7 +74,7 @@ export default function ShowHome({ activePosts }) {
                         <div className="card col-sm-3 d-inline-block m-1 p-2 h-100" style={{ border: "none" }}>
                             <Grid container
                                 direction="row"
-                                justify="space-evenly"
+                                justifyContent="space-evenly"
                                 alignItems="center">
                                 <Card className={classes.root}>
                                     <CardActionArea>
@@ -109,5 +109,5 @@ export default function ShowHome({ activePosts }) {
 }
 
 ShowHome.propTypes = {
-    allPosts: PropTypes.object.isRequired
+    allPosts: PropTypes.object
 };

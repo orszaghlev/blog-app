@@ -52,7 +52,7 @@ export default function AddComment({ docId, title, language, comments, setCommen
         >
             <Grid container
                 direction="column"
-                justify="center"
+                justifyContent="center"
                 alignItems="center">
                 <TextField
                     inputProps={{ "data-testid": "input-add-comment" }}
@@ -81,7 +81,7 @@ export default function AddComment({ docId, title, language, comments, setCommen
 }
 
 AddComment.propTypes = {
-    docId: PropTypes.string.isRequired,
+    docId: PropTypes.string,
     title: PropTypes.string.isRequired,
     language: PropTypes.string.isRequired,
     comments: PropTypes.array.isRequired,

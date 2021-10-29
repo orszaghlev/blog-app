@@ -53,7 +53,7 @@ export default function EditPost({ post }) {
         <>
             <br />
             <h5>Bejegyzés szerkesztése</h5>
-            <form data-testid="edit-post" className={classes.container} noValidate
+            <form data-testid="edit-post-form" className={classes.container} noValidate
                 onSubmit={async (e) => {
                     e.preventDefault();
                     const data = {
@@ -77,7 +77,7 @@ export default function EditPost({ post }) {
             >
                 <Grid container spacing={2}
                     direction="column"
-                    justify="space-around"
+                    justifyContent="space-around"
                     alignItems="stretch">
                     <Grid item xs>
                         <TextField inputProps={{ "data-testid": "input-edit-id" }} value={id} name="id" type="text" label="ID" variant="filled"
@@ -102,10 +102,10 @@ export default function EditPost({ post }) {
                         <Grid
                             container
                             alignItems="center"
-                            justify="center"
+                            justifyContent="center"
                         >
-                            <div class="form-group" style={{ width: "800px" }}>
-                                <textarea data-tesitd="input-edit-description" value={description} name="description" label="Leírás" class="form-control" rows="3" required
+                            <div className="form-group" style={{ width: "800px" }}>
+                                <textarea data-testid="input-edit-description" value={description} name="description" label="Leírás" className="form-control" rows="3" required
                                     onChange={(e) => {
                                         setDescription(e.target.value);
                                     }}>{description}</textarea>
@@ -116,7 +116,7 @@ export default function EditPost({ post }) {
                         <Grid
                             container
                             alignItems="center"
-                            justify="center"
+                            justifyContent="center"
                         >
                             <Editor
                                 apiKey={process.env.REACT_APP_TINY_API_KEY}
@@ -144,7 +144,7 @@ export default function EditPost({ post }) {
                         </Grid>
                     </Grid>
                     <Grid item xs>
-                        <TextField inputProps={{ "data-testid": "input-edit-imgurl" }} value={imgURL} name="imgURL" label="Kép URL" variant="filled"
+                        <TextField inputProps={{ "data-testid": "input-edit-imgURL" }} value={imgURL} name="imgURL" label="Kép URL" variant="filled"
                             onChange={(e) => {
                                 setImgURL(e.target.value);
                             }}
@@ -198,9 +198,9 @@ export default function EditPost({ post }) {
                     <Grid item xs>
                         <Grid container spacing={2}
                             direction="column"
-                            justify="center"
+                            justifyContent="center"
                             alignItems="center">
-                            <Button type="submit" variant="contained" color="secondary" onClick={() => {
+                            <Button data-testid="successful-submit-button" type="submit" variant="contained" color="secondary" onClick={() => {
                                 setNotification("Sikeres szerkesztés!");
                                 setTimeout(() => {
                                     setNotification("");

@@ -65,7 +65,7 @@ export default function EditComment({ docId, title, language, displayName, comme
             </button>
             <Grid container
                 direction="column"
-                justify="center"
+                justifyContent="center"
                 alignItems="center">
                 {
                     showForm && (
@@ -76,7 +76,7 @@ export default function EditComment({ docId, title, language, displayName, comme
                         >
                             <Grid container
                                 direction="column"
-                                justify="center"
+                                justifyContent="center"
                                 alignItems="center">
                                 <TextField
                                     inputProps={{ "data-testid": "input-edit-comment" }}
@@ -93,7 +93,7 @@ export default function EditComment({ docId, title, language, displayName, comme
                                 </div>
                                 <Grid container spacing={2}
                                     direction="row"
-                                    justify="space-evenly"
+                                    justifyContent="space-evenly"
                                     alignItems="stretch">
                                     <Button
                                         variant="contained"
@@ -123,7 +123,7 @@ export default function EditComment({ docId, title, language, displayName, comme
 }
 
 EditComment.propTypes = {
-    docId: PropTypes.string.isRequired,
+    docId: PropTypes.string,
     title: PropTypes.string.isRequired,
     language: PropTypes.string.isRequired,
     displayName: PropTypes.string.isRequired,

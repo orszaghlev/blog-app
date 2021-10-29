@@ -62,7 +62,7 @@ export default function ShowProfileEdit({ user }) {
             >
                 <Grid container spacing={2}
                     direction="column"
-                    justify="space-around"
+                    justifyContent="space-around"
                     alignItems="stretch">
                     <Grid item xs>
                         <TextField inputProps={{ "data-testid": "input-username" }} value={username} name="username" type="text" label="Felhasználónév" variant="filled"
@@ -81,7 +81,7 @@ export default function ShowProfileEdit({ user }) {
                     <Grid item xs>
                         <Grid container spacing={2}
                             direction="row"
-                            justify="space-evenly"
+                            justifyContent="space-evenly"
                             alignItems="stretch">
                             <Button type="submit" variant="contained" color="primary">
                                 Szerkesztés

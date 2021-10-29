@@ -175,7 +175,7 @@ describe('<AdminAllPosts />', () => {
         });
     });
 
-    it('Megjelenik a bejegyzéseket tartalmazó kezdőlap, a felhasználó továbblép az egyik bejegyzéshez tartozó aloldalra', async () => {
+    it('Megjelenik a bejegyzéseket tartalmazó admin felület, a felhasználó továbblép az egyik bejegyzéshez tartozó aloldalra', async () => {
         const firebase = {
             firestore: jest.fn(() => ({
             }))
@@ -313,14 +313,80 @@ describe('<AdminAllPosts />', () => {
             );
 
             expect(queryByText('HTML5')).toBeInTheDocument();
-            //await fireEvent.change(getByTestId('input-search'), {
-            //    target: { value: 'H' }
-            //});
+            await fireEvent.change(getByTestId('input-search'), {
+                target: { value: 'H' }
+            });
             expect(queryByText('HTML5')).toBeInTheDocument();
 
             await waitFor(() => {
                 expect(document.title).toEqual('Összes bejegyzés');
-                //expect(getByTestId('input-search').value).toBe('H');
+                expect(getByTestId('input-search').value).toBe('H');
+                expect(getByText('HTML5')).toBeTruthy();
+            });
+        });
+    });
+
+    it('Megjelenik a bejegyzéseket tartalmazó admin felület, az adminisztrátor ír egy számot a keresőbe', async () => {
+        const firebase = {
+            firestore: jest.fn(() => ({
+            }))
+        };
+
+        await act(async () => {
+            useAllPosts.mockImplementation(() => ({ posts: inverseSortingPostsFixture }));
+
+            const { getByTestId, getByText, queryByText } = render(
+                <Router>
+                    <FirebaseContext.Provider
+                        value={firebase}
+                    >
+                        <AdminAllPosts />
+                    </FirebaseContext.Provider>
+                </Router >
+            );
+
+            expect(queryByText('HTML5')).toBeInTheDocument();
+            await fireEvent.change(getByTestId('input-search'), {
+                target: { value: '2' }
+            });
+            expect(queryByText('HTML5')).toBeInTheDocument();
+
+            await waitFor(() => {
+                expect(document.title).toEqual('Összes bejegyzés');
+                expect(getByTestId('input-search').value).toBe('2');
+                expect(getByText('HTML5')).toBeTruthy();
+            });
+        });
+    });
+
+    it('Megjelenik a bejegyzéseket tartalmazó admin felület, az adminisztrátor ír egy címet a keresőbe', async () => {
+        const firebase = {
+            firestore: jest.fn(() => ({
+            }))
+        };
+
+        await act(async () => {
+            useAllPosts.mockImplementation(() => ({ posts: inverseSortingPostsFixture }));
+
+            const { getByTestId, getByText, queryByText } = render(
+                <Router>
+                    <FirebaseContext.Provider
+                        value={firebase}
+                    >
+                        <AdminAllPosts />
+                    </FirebaseContext.Provider>
+                </Router >
+            );
+
+            expect(queryByText('HTML5')).toBeInTheDocument();
+            await fireEvent.change(getByTestId('input-search'), {
+                target: { value: 'HTML' }
+            });
+            expect(queryByText('HTML5')).toBeInTheDocument();
+
+            await waitFor(() => {
+                expect(document.title).toEqual('Összes bejegyzés');
+                expect(getByTestId('input-search').value).toBe('HTML');
                 expect(getByText('HTML5')).toBeTruthy();
             });
         });
@@ -570,10 +636,12 @@ describe('<AdminAllPosts />', () => {
     });
 
     it('Megjelenik a bejegyzéseket tartalmazó admin felület, az adminisztrátor a bejegyzést szerkeszti', async () => {
+        window.scrollTo = jest.fn()
+        
         await act(async () => {
             useAllPosts.mockImplementation(() => ({ posts: allPostsFixture }));
 
-            const { getByText, getByTestId } = render(
+            const { findByTestId, getByText, getByTestId } = render(
                 <Router>
                     <FirebaseContext.Provider
                         value={{
@@ -594,10 +662,45 @@ describe('<AdminAllPosts />', () => {
             );
 
             fireEvent.click(getByTestId('scroll-to-edit-post-button'));
+            fireEvent.change(await findByTestId('input-edit-id'), {
+                target: { value: 'react' }
+            });
+            fireEvent.change(await findByTestId('input-edit-title'), {
+                target: { value: 'React (JavaScript library)' }
+            });
+            fireEvent.change(await findByTestId('input-edit-slug'), {
+                target: { value: 'react-javascript-library-' }
+            });
+            fireEvent.change(await findByTestId('input-edit-description'), {
+                target: { value: 'React (also known as React.js or ReactJS) is a free and open-source front-end JavaScript library for building user interfaces or UI components.' }
+            });
+            fireEvent.change(await findByTestId('input-edit-imgURL'), {
+                target: { value: 'https://www.mobinius.com/wp-content/uploads/2019/03/React_Native_Logo.png' }
+            })
+            fireEvent.change(await findByTestId('input-edit-tag'), {
+                target: { value: 'react, javascript, library' }
+            })
+            fireEvent.change(await findByTestId('input-edit-language'), {
+                target: { value: 'English' }
+            })
+            fireEvent.change(await findByTestId('input-edit-isActive'), {
+                target: { value: 'false' }
+            })
+            fireEvent.click(await findByTestId('successful-submit-button'));
+            fireEvent.submit(await findByTestId('edit-post-form'));
 
             await waitFor(() => {
                 expect(document.title).toEqual('Összes bejegyzés');
                 expect(getByText('Bejegyzés szerkesztése')).toBeTruthy();
+                expect(getByTestId('input-edit-id').value).toBe('react');
+                expect(getByTestId('input-edit-title').value).toBe('React (JavaScript library)');
+                expect(getByTestId('input-edit-slug').value).toBe('react-javascript-library-');
+                expect(getByTestId('input-edit-description').value).toBe('React (also known as React.js or ReactJS) is a free and open-source front-end JavaScript library for building user interfaces or UI components.');
+                expect(getByTestId('input-edit-imgURL').value).toBe('https://www.mobinius.com/wp-content/uploads/2019/03/React_Native_Logo.png');
+                expect(getByTestId('input-edit-tag').value).toBe('react, javascript, library');
+                expect(getByTestId('input-edit-language').value).toBe('English');
+                expect(getByTestId('input-edit-isActive').value).toBe('false');
+                expect(getByText("Sikeres szerkesztés!")).toBeTruthy();
             });
         });
     });

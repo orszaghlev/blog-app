@@ -38,7 +38,7 @@ export default function DeleteComment({ docId, title, displayName, comment, comm
 }
 
 DeleteComment.propTypes = {
-    docId: PropTypes.string.isRequired,
+    docId: PropTypes.string,
     title: PropTypes.string.isRequired,
     displayName: PropTypes.string.isRequired,
     comment: PropTypes.string.isRequired,

@@ -10,7 +10,7 @@ export default function ShowFavoritePosts({ user }) {
     return (
         <Grid container
             direction="column"
-            justify="center"
+            justifyContent="center"
             alignItems="center">
             <h5>{user?.favoritePosts?.length === 0 ? "Jelenleg nincsenek kedvenc bejegyzései!" : "Kedvenc bejegyzések"}</h5>
             {user?.favoritePosts?.map((postTitle) => (

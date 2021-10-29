@@ -10,7 +10,7 @@ export default function PostNotAvailable() {
         <>
             <Grid container
                 direction="column"
-                justify="center"
+                justifyContent="center"
                 alignItems="center">
                 <Button data-testid="post-not-available-return" m="2rem" variant="contained" color="secondary" onClick={() => {
                     history.push(ROUTES.HOME)

@@ -46,7 +46,7 @@ export default function ShowLogin() {
             <form data-testid="login" className={classes.root} noValidate autoComplete="off" onSubmit={handleLogin} method="POST">
                 <Grid container
                     direction="column"
-                    justify="center"
+                    justifyContent="center"
                     alignItems="center">
                     {error && (
                         <div data-testid="error" className="text-danger">
@@ -75,7 +75,7 @@ export default function ShowLogin() {
                 </Grid>
                 <Grid container
                     direction="row"
-                    justify="center"
+                    justifyContent="center"
                     alignItems="center">
                     <Button type="submit" variant="contained" color="primary" disabled={isInvalid} style={{ marginRight: "10px" }}>
                         Bejelentkezés

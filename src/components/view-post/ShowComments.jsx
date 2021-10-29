@@ -40,7 +40,7 @@ export default function ShowComments({ docId, title, language, comments: allComm
                                 {user?.userId === process.env.REACT_APP_FIREBASE_ADMIN_UID &&
                                     <Grid container
                                         direction="row"
-                                        justify="center"
+                                        justifyContent="center"
                                         alignItems="center">
                                         <DeleteComment
                                             docId={docId}
@@ -82,11 +82,10 @@ export default function ShowComments({ docId, title, language, comments: allComm
 }
 
 ShowComments.propTypes = {
-    docId: PropTypes.string.isRequired,
+    docId: PropTypes.string,
     title: PropTypes.string.isRequired,
     language: PropTypes.string.isRequired,
     comments: PropTypes.array.isRequired,
-    posted: PropTypes.number.isRequired,
     commentInput: PropTypes.object.isRequired,
     user: PropTypes.object
 };

@@ -56,7 +56,7 @@ export default function ShowCreatePost() {
             >
                 <Grid container spacing={2}
                     direction="column"
-                    justify="space-around"
+                    justifyContent="space-around"
                     alignItems="stretch">
                     <Grid item xs>
                         <TextField inputProps={{ "data-testid": "input-id" }} name="id" label="ID" variant="filled" type="text" required style={{ width: 800 }} />
@@ -74,10 +74,10 @@ export default function ShowCreatePost() {
                         <Grid
                             container
                             alignItems="center"
-                            justify="center"
+                            justifyContent="center"
                         >
-                            <div class="form-group" style={{ width: "800px" }}>
-                                <textarea data-testid="input-description" name="description" label="Leírás" class="form-control" rows="3" placeholder="Leírás" required />
+                            <div className="form-group" style={{ width: "800px" }}>
+                                <textarea data-testid="input-description" name="description" label="Leírás" className="form-control" rows="3" placeholder="Leírás" required />
                             </div>
                         </Grid>
                     </Grid>
@@ -85,7 +85,7 @@ export default function ShowCreatePost() {
                         <Grid
                             container
                             alignItems="center"
-                            justify="center"
+                            justifyContent="center"
                         >
                             <Editor
                                 apiKey={process.env.REACT_APP_TINY_API_KEY}
@@ -120,7 +120,7 @@ export default function ShowCreatePost() {
                     </Grid>
                     <Grid item xs>
                         <TextField inputProps={{ "data-testid": "input-language" }} name="language" label="Nyelv" variant="filled" type="text" required
-                            style={{ width: 800, textAlign: "left" }} select>
+                            style={{ width: 800, textAlign: "left" }} defaultValue="" select>
                             <MenuItem value="Hungarian">Magyar</MenuItem>
                             <MenuItem value="English">Angol</MenuItem>
                         </TextField>
@@ -140,7 +140,7 @@ export default function ShowCreatePost() {
                     </Grid>
                     <Grid item xs>
                         <TextField inputProps={{ "data-testid": "input-isActive" }} name="isActive" label="Állapot" variant="filled" type="text" required
-                            style={{ width: 800, textAlign: "left" }} select>
+                            style={{ width: 800, textAlign: "left" }} defaultValue="" select>
                             <MenuItem value="true">Aktív</MenuItem>
                             <MenuItem value="false">Inaktív</MenuItem>
                         </TextField>
@@ -148,7 +148,7 @@ export default function ShowCreatePost() {
                     <Grid item xs>
                         <Grid container spacing={2}
                             direction="row"
-                            justify="space-evenly"
+                            justifyContent="space-evenly"
                             alignItems="stretch">
                             <Button type="submit" variant="contained" color="primary">
                                 Létrehozás

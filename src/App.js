@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import ViewPost from "./pages/ViewPost";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
+import ForgotPassword from "./pages/ForgotPassword";
 import Profile from "./pages/Profile";
 import ProfileEdit from "./pages/ProfileEdit";
 import AdminAllPosts from "./pages/AdminAllPosts";
@@ -108,6 +109,7 @@ export default function App() {
                             <Route path={ROUTES.VIEW_POST} user={user} component={ViewPost} />
                             <Route path={ROUTES.LOGIN} component={Login} />
                             <Route path={ROUTES.SIGN_UP} component={SignUp} />
+                            <Route path={ROUTES.FORGOT_PASSWORD} component={ForgotPassword} />
                             <ProtectedRouteUser user={user} path={ROUTES.PROFILE} exact>
                                 <Profile />
                             </ProtectedRouteUser>

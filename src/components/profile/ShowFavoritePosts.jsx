@@ -13,17 +13,19 @@ export default function ShowFavoritePosts({ user }) {
             justifyContent="center"
             alignItems="center">
             <h5>{user?.favoritePosts?.length === 0 ? "Jelenleg nincsenek kedvenc bejegyzései!" : "Kedvenc bejegyzések"}</h5>
-            {user?.favoritePosts?.map((postTitle) => (
-                <Button data-testid="user-favoritePost-button" variant="text" color="primary" onClick={() => {
-                    history.push(`/posts/${slugify(postTitle)}`)
-                }}>
-                    <p>{postTitle}</p>
-                </Button>
+            {user?.favoritePosts?.map((postTitle, i) => (
+                <div key={i}>
+                    <Button data-testid="user-favoritePost-button" variant="text" color="primary" onClick={() => {
+                        history.push(`/posts/${slugify(postTitle)}`)
+                    }}>
+                        <p>{postTitle}</p>
+                    </Button>
+                </div>
             ))}
         </Grid>
     )
 }
 
 ShowFavoritePosts.propTypes = {
-    user: PropTypes.object.isRequired
+    user: PropTypes.object
 };

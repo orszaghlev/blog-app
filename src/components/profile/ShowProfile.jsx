@@ -31,5 +31,5 @@ export default function ShowProfile({ user }) {
 }
 
 ShowProfile.propTypes = {
-    user: PropTypes.object.isRequired
+    user: PropTypes.object
 };

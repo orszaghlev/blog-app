@@ -94,7 +94,7 @@ export default function ShowSignUp() {
                     <TextField
                         required
                         inputProps={{ "data-testid": "input-username" }}
-                        id="filled-required"
+                        id="username-filled-required"
                         label="Felhasználónév"
                         variant="filled"
                         onChange={({ target }) => setUsername(target.value)}
@@ -103,7 +103,7 @@ export default function ShowSignUp() {
                     <TextField
                         required
                         inputProps={{ "data-testid": "input-fullname" }}
-                        id="filled-required"
+                        id="fullname-filled-required"
                         label="Teljes név"
                         variant="filled"
                         onChange={({ target }) => setFullName(target.value)}
@@ -112,7 +112,7 @@ export default function ShowSignUp() {
                     <TextField
                         required
                         inputProps={{ "data-testid": "input-email" }}
-                        id="filled-required"
+                        id="email-filled-required"
                         label="E-mail cím"
                         variant="filled"
                         onChange={({ target }) => setEmailAddress(target.value)}
@@ -121,7 +121,7 @@ export default function ShowSignUp() {
                     <TextField
                         required
                         inputProps={{ "data-testid": "input-password" }}
-                        id="filled-password-input"
+                        id="password-filled-required"
                         label="Jelszó"
                         variant="filled"
                         type="password"

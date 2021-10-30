@@ -70,8 +70,8 @@ export default function ShowHome({ activePosts }) {
                         li.description.toLowerCase().includes(search.toLowerCase()) ||
                         li.content.toLowerCase().includes(search.toLowerCase())))
                     .sort((a, b) => b.date.localeCompare(a.date))
-                    .map((post) => (
-                        <div className="card col-sm-3 d-inline-block m-1 p-2 h-100" style={{ border: "none" }}>
+                    .map((post, i) => (
+                        <div key={i} className="card col-sm-3 d-inline-block m-1 p-2 h-100" style={{ border: "none" }}>
                             <Grid container
                                 direction="row"
                                 justifyContent="space-evenly"

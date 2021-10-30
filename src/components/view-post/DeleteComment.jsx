@@ -29,11 +29,11 @@ export default function DeleteComment({ docId, title, displayName, comment, comm
     };
 
     return (
-        <button data-testid="delete-comment" className="btn btn-danger m-1" style={{ width: "40px", height: "40px" }} onClick={() => {
-            handleDeleteComment();
-        }}>
-            <FontAwesomeIcon icon={faTrash} />
-        </button>
+        <>
+            <FontAwesomeIcon data-testid="delete-comment" className="btn btn-danger m-1"
+                style={{ width: "40px", height: "40px" }} onClick={() => handleDeleteComment()} icon={faTrash}
+            />
+        </>
     )
 }
 

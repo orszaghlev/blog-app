@@ -56,7 +56,7 @@ export default function ShowLogin() {
                     <TextField
                         required
                         inputProps={{ "data-testid": "input-email" }}
-                        id="filled-required"
+                        id="email-filled-required"
                         label="E-mail cím"
                         variant="filled"
                         onChange={({ target }) => setEmailAddress(target.value)}
@@ -65,12 +65,13 @@ export default function ShowLogin() {
                     <TextField
                         required
                         inputProps={{ "data-testid": "input-password" }}
-                        id="filled-password-input"
+                        id="password-filled-required"
                         label="Jelszó"
                         variant="filled"
                         type="password"
                         onChange={({ target }) => setPassword(target.value)}
                         value={password}
+                        autoComplete="off"
                     />
                 </Grid>
                 <Grid container

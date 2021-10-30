@@ -58,11 +58,9 @@ export default function EditComment({ docId, title, language, displayName, comme
 
     return (
         <>
-            <button data-testid="show-edit-form" className="btn btn-warning m-1" style={{ width: "40px", height: "40px" }} onClick={() => {
-                setShowForm(!showForm);
-            }}>
-                <FontAwesomeIcon icon={faPencilAlt} />
-            </button>
+            <FontAwesomeIcon data-testid="show-edit-form" className="btn btn-warning m-1"
+                style={{ width: "40px", height: "40px" }} onClick={() => setShowForm(!showForm)} icon={faPencilAlt}
+            />
             <Grid container
                 direction="column"
                 justifyContent="center"

@@ -49,12 +49,10 @@ export default function App() {
     return (
         <div className="App">
             <Helmet>
-                <title>Blogmotor</title>
+                <title>{process.env.REACT_APP_FIREBASE_APP_NAME}</title>
                 <meta
                     name="description"
-                    content="Egy React blogmotor, amely lehetővé teszi bejegyzések megtekintését az olvasók számára, 
-                a bejegyzések elmentését és a hozzászólást a felhasználók számára, 
-                illetve műveletek végrehajtását bejegyzéseken és hozzászólásokon az adminisztrátorok számára."
+                    content={process.env.REACT_APP_FIREBASE_APP_DESCRIPTION}
                 />
             </Helmet>
             <UserContext.Provider value={{ user }}>
@@ -66,7 +64,7 @@ export default function App() {
                                 </IconButton>
                                 <Typography variant="h6" className={classes.title} align="left">
                                     <NavLink to={ROUTES.HOME}>
-                                        <span className="nav-link" style={{ color: 'white' }}>Blogmotor</span>
+                                        <span className="nav-link" style={{ color: 'white' }}>{process.env.REACT_APP_FIREBASE_APP_NAME}</span>
                                     </NavLink>
                                 </Typography>
                                 {!user && <>

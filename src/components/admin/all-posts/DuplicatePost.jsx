@@ -24,6 +24,7 @@ export default function DuplicatePost({ post }) {
                 saves: []
             };
             await firebase.firestore().collection('posts').doc(data.id).set(data);
+            window.location.reload();
         }}>
             <FontAwesomeIcon icon={faCopy} />
         </button>

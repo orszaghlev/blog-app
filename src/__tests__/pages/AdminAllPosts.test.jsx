@@ -112,6 +112,9 @@ describe('<AdminAllPosts />', () => {
     });
 
     it('Megjelenik a bejegyzéseket tartalmazó admin felület, az adminisztrátor a bejegyzés törlésére kattint', async () => {
+        delete window.location;
+        window.location = { reload: jest.fn() };
+
         await act(async () => {
             useAllPosts.mockImplementation(() => ({ posts: allPostsFixture }));
 
@@ -144,6 +147,9 @@ describe('<AdminAllPosts />', () => {
     });
 
     it('Megjelenik a bejegyzéseket tartalmazó admin felület, az adminisztrátor a bejegyzés duplikálására kattint', async () => {
+        delete window.location;
+        window.location = { reload: jest.fn() };
+
         await act(async () => {
             useAllPosts.mockImplementation(() => ({ posts: allPostsFixture }));
 
@@ -636,8 +642,10 @@ describe('<AdminAllPosts />', () => {
     });
 
     it('Megjelenik a bejegyzéseket tartalmazó admin felület, az adminisztrátor a bejegyzést szerkeszti', async () => {
-        window.scrollTo = jest.fn()
-        
+        window.scrollTo = jest.fn();
+        delete window.location;
+        window.location = { reload: jest.fn() };
+
         await act(async () => {
             useAllPosts.mockImplementation(() => ({ posts: allPostsFixture }));
 
@@ -686,7 +694,6 @@ describe('<AdminAllPosts />', () => {
             fireEvent.change(await findByTestId('input-edit-isActive'), {
                 target: { value: 'false' }
             })
-            fireEvent.click(await findByTestId('successful-submit-button'));
             fireEvent.submit(await findByTestId('edit-post-form'));
 
             await waitFor(() => {
@@ -700,7 +707,6 @@ describe('<AdminAllPosts />', () => {
                 expect(getByTestId('input-edit-tag').value).toBe('react, javascript, library');
                 expect(getByTestId('input-edit-language').value).toBe('English');
                 expect(getByTestId('input-edit-isActive').value).toBe('false');
-                expect(getByText("Sikeres szerkesztés!")).toBeTruthy();
             });
         });
     });

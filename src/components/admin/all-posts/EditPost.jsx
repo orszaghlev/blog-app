@@ -20,7 +20,6 @@ export default function EditPost({ post }) {
     const [language, setLanguage] = useState("");
     const [isActive, setIsActive] = useState("");
     const [date, setDate] = useState("");
-    const [notification, setNotification] = useState("");
     const editorRef = useRef(null);
     const useStyles = makeStyles((theme) => ({
         container: {
@@ -73,6 +72,7 @@ export default function EditPost({ post }) {
                         saves: post?.saves ? post.saves : []
                     };
                     await firebase.firestore().collection('posts').doc(data.id).set(data);
+                    window.location.reload();
                 }}
             >
                 <Grid container spacing={2}
@@ -200,26 +200,14 @@ export default function EditPost({ post }) {
                             direction="column"
                             justifyContent="center"
                             alignItems="center">
-                            <Button data-testid="successful-submit-button" type="submit" variant="contained" color="secondary" onClick={() => {
-                                setNotification("Sikeres szerkesztés!");
-                                setTimeout(() => {
-                                    setNotification("");
-                                }, 5000);
-                            }}>
+                            <Button data-testid="successful-submit-button" type="submit" variant="contained" color="secondary">
                                 Szerkesztés
                             </Button>
-                            {notification !== "" && (
-                                <div className="text-success m-1">
-                                    <h6>{notification}</h6>
-                                </div>
-                            )}
                         </Grid>
                     </Grid>
                 </Grid>
             </form>
-            {notification === "" && (
-                <br />
-            )}
+            <br />
         </>
     )
 }

@@ -83,7 +83,7 @@ export default function EditComment({ docId, title, language, displayName, comme
                                     type="text"
                                     name="edit-comment"
                                     style={{ width: "800px" }}
-                                    value={commentToBeEdited}
+                                    value={commentToBeEdited || ""}
                                     onChange={({ target }) => setCommentToBeEdited(target.value)}
                                     ref={commentInput}
                                 />

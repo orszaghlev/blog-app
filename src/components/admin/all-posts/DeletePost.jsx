@@ -10,6 +10,7 @@ export default function DeletePost({ post }) {
     return (
         <button data-testid="delete-post-button" className="btn btn-danger m-1" style={{ width: "50px", height: "50px" }} onClick={async () => {
             await firebase.firestore().collection('posts').doc(post?.id).delete();
+            window.location.reload();
         }}>
             <FontAwesomeIcon icon={faTrash} />
         </button>

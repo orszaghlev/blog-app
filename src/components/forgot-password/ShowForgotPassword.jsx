@@ -18,7 +18,7 @@ export default function ShowForgotPassword() {
         e.preventDefault();
         try {
             await firebase.auth().sendPasswordResetEmail(emailAddress);
-            setNotification("A megadott e-mail címre kiküldtünk egy jelszó visszaállítást segítő e-mailt!");
+            setNotification("A megadott e-mail címre kiküldtünk egy jelszó visszaállítást segítő mailt!");
         } catch (error) {
             setEmailAddress('');
             setError("A megadott e-mail címmel még nem regisztrált felhasználó!");

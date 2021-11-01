@@ -1,5 +1,8 @@
 import { useState, useEffect, useContext, useRef } from "react";
 import PropTypes from 'prop-types';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Modal from '@mui/material/Modal';
 import { Button } from "@material-ui/core";
 import { TextField } from "@material-ui/core";
 import { Grid } from "@material-ui/core";
@@ -34,6 +37,40 @@ export default function EditPost({ post }) {
     }));
     const classes = useStyles();
     const { firebase } = useContext(FirebaseContext);
+    const [open, setOpen] = useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+    const style = {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: 400,
+        bgcolor: 'background.paper',
+        border: '2px solid #000',
+        boxShadow: 24,
+        p: 4,
+    };
+    const handleEditPost = async (e) => {
+        e.preventDefault();
+        const data = {
+            id: id,
+            title: title,
+            slug: slug,
+            description: description,
+            content: content,
+            imgURL: imgURL,
+            tag: tag,
+            language: language,
+            isActive: isActive,
+            date: date ? date :
+                new Date().toLocaleTimeString([], { year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' }),
+            comments: post?.comments ? post.comments : [],
+            saves: post?.saves ? post.saves : []
+        };
+        await firebase.firestore().collection('posts').doc(data.id).set(data);
+        window.location.reload();
+    };
 
     useEffect(() => {
         setId(post?.id);
@@ -53,27 +90,7 @@ export default function EditPost({ post }) {
             <br />
             <h5>Bejegyzés szerkesztése</h5>
             <form data-testid="edit-post-form" className={classes.container} noValidate
-                onSubmit={async (e) => {
-                    e.preventDefault();
-                    const data = {
-                        id: e.target.elements.id.value,
-                        title: e.target.elements.title.value,
-                        slug: e.target.elements.slug.value,
-                        description: e.target.elements.description.value,
-                        content: content,
-                        imgURL: e.target.elements.imgURL.value,
-                        tag: e.target.elements.tag.value,
-                        language: e.target.elements.language.value,
-                        isActive: e.target.elements.isActive.value,
-                        date: e.target.elements.date.value ?
-                            e.target.elements.date.value.toString().replace("T", ". ").replaceAll("-", ". ") :
-                            new Date().toLocaleTimeString([], { year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' }),
-                        comments: post?.comments ? post.comments : [],
-                        saves: post?.saves ? post.saves : []
-                    };
-                    await firebase.firestore().collection('posts').doc(data.id).set(data);
-                    window.location.reload();
-                }}
+                onSubmit={handleEditPost}
             >
                 <Grid container spacing={2}
                     direction="column"
@@ -200,9 +217,31 @@ export default function EditPost({ post }) {
                             direction="column"
                             justifyContent="center"
                             alignItems="center">
-                            <Button data-testid="successful-submit-button" type="submit" variant="contained" color="secondary">
+                            <Button data-testid="successful-submit-button" variant="contained" color="primary" onClick={handleOpen}>
                                 Szerkesztés
                             </Button>
+                            <Modal
+                                open={open}
+                                onClose={handleClose}
+                                aria-labelledby="edit-post-modal"
+                                aria-describedby="edit-post-modal-description"
+                            >
+                                <Box sx={style}>
+                                    <Typography id="edit-post-modal" variant="h6" component="h2">
+                                        Biztos benne, hogy szerkeszti a(z) {post?.title} bejegyzést?
+                                    </Typography>
+                                    <Typography id="edit-post-modal-description" sx={{ mt: 2 }}>
+                                        <Button variant="contained" color="secondary" style={{ marginRight: "10px" }} type="submit" onClick={handleEditPost}>
+                                            Szerkesztés
+                                        </Button>
+                                        <Button variant="contained" color="primary" onClick={() => {
+                                            handleClose();
+                                        }}>
+                                            Vissza
+                                        </Button>
+                                    </Typography>
+                                </Box>
+                            </Modal>
                         </Grid>
                     </Grid>
                 </Grid>

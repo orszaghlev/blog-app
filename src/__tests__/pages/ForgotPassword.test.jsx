@@ -23,7 +23,7 @@ describe('<ForgotPassword />', () => {
     it('Megjelenik az elfelejtett jelszó aloldal, sikeresen visszaállítja a jelszavát a felhasználó', async () => {
         const firebase = {
             auth: jest.fn(() => ({
-                sendPasswordResetEmail: jest.fn(() => Promise.resolve('A megadott e-mail címre kiküldtünk egy jelszó visszaállítást segítő e-mailt!'))
+                sendPasswordResetEmail: jest.fn(() => Promise.resolve('A megadott e-mail címre kiküldtünk egy jelszó visszaállítást segítő mailt!'))
             }))
         };
         const { getByText, getByTestId, queryByTestId } = render(
@@ -46,7 +46,7 @@ describe('<ForgotPassword />', () => {
                 expect(mockHistoryPush).not.toHaveBeenCalledWith(ROUTES.LOGIN);
                 expect(getByTestId('input-email').value).toBe('orszaghlev@gmail.com');
                 expect(queryByTestId('error')).toBeFalsy();
-                expect(getByText('A megadott e-mail címre kiküldtünk egy jelszó visszaállítást segítő e-mailt!')).toBeTruthy();
+                expect(getByText('A megadott e-mail címre kiküldtünk egy jelszó visszaállítást segítő mailt!')).toBeTruthy();
             });
         });
     });

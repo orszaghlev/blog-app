@@ -14,6 +14,7 @@ export default function ShowProfileEdit({ user }) {
     const [username, setUsername] = useState("");
     const [fullName, setFullName] = useState("");
     const [error, setError] = useState("");
+    const [notification, setNotification] = useState("");
     const useStyles = makeStyles((theme) => ({
         container: {
             display: 'flex',
@@ -26,6 +27,13 @@ export default function ShowProfileEdit({ user }) {
         },
     }));
     const classes = useStyles();
+    const handlePasswordChange = async () => {
+        await firebase.auth().sendPasswordResetEmail(user?.emailAddress);
+        setNotification("Küldtünk az Ön e-mail címére egy jelszóváltoztatást segítő mailt!");
+        setTimeout(() => {
+            setNotification("");
+        }, 5000);
+    };
 
     useEffect(() => {
         setUsername(user?.username);
@@ -79,6 +87,13 @@ export default function ShowProfileEdit({ user }) {
                             required style={{ width: 800 }} />
                     </Grid>
                     <Grid item xs>
+                        <Button data-testid="change-password" color="secondary" onClick={() => {
+                            handlePasswordChange();
+                        }}>
+                            Jelszóváltoztatás
+                        </Button>
+                    </Grid>
+                    <Grid item xs>
                         <Grid container spacing={2}
                             direction="row"
                             justifyContent="space-evenly"
@@ -98,6 +113,11 @@ export default function ShowProfileEdit({ user }) {
                             {error}
                         </div>
                     )}
+                    {notification &&
+                        <div data-testid="notification" className="text-success m-2">
+                            {notification}
+                        </div>
+                    }
                 </Grid>
             </form>
         </>

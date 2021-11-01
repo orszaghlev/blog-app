@@ -163,4 +163,48 @@ describe('<ProfileEdit />', () => {
             });
         });
     });
+
+    it('Megjelenik a profilszerkesztő oldal, de a felhasználó a jelszóváltoztató gombra kattint', async () => {
+        const firebase = {
+            auth: jest.fn(() => ({
+                sendPasswordResetEmail: jest.fn(() => Promise.resolve('Küldtünk az Ön e-mail címére egy jelszóváltoztatást segítő mailt!'))
+            })),
+            firestore: jest.fn(() => ({
+            }))
+        };
+
+        await act(async () => {
+            getUserByUserId.mockImplementation(() => [userFixture]);
+            useUser.mockImplementation(() => ({ user: userFixture }));
+
+            const { getByText, getByTestId, queryByTestId } = render(
+                <Router>
+                    <FirebaseContext.Provider
+                        value={firebase}
+                    >
+                        <UserContext.Provider
+                            value={{
+                                user: {
+                                    uid: process.env.REACT_APP_FIREBASE_ADMIN_UID,
+                                    displayName: 'admin'
+                                }
+                            }}
+                        >
+                            <ProfileEdit />
+                        </UserContext.Provider>
+                    </FirebaseContext.Provider>
+                </Router>
+            );
+
+            fireEvent.click(getByTestId('change-password'));
+
+            expect(document.title).toEqual('Felhasználói adatok szerkesztése');
+
+            await waitFor(() => {
+                expect(mockHistoryPush).not.toHaveBeenCalledWith(ROUTES.PROFILE);
+                expect(getByText('Küldtünk az Ön e-mail címére egy jelszóváltoztatást segítő mailt!')).toBeTruthy();
+                expect(queryByTestId('error')).toBeFalsy();
+            });
+        });
+    });
 });

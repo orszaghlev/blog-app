@@ -45,10 +45,10 @@ export default function DeletePost({ post }) {
                         Biztos benne, hogy törli a(z) {post?.title} bejegyzést?
                     </Typography>
                     <Typography id="delete-post-modal-description" sx={{ mt: 2 }}>
-                        <Button variant="contained" color="secondary" style={{ marginRight: "10px" }} onClick={handleDeletePost}>
+                        <Button data-testid="delete-post-delete" variant="contained" color="secondary" style={{ marginRight: "10px" }} onClick={handleDeletePost}>
                             Törlés
                         </Button>
-                        <Button variant="contained" color="primary" onClick={() => {
+                        <Button data-testid="delete-post-return" variant="contained" color="primary" onClick={() => {
                             handleClose();
                         }}>
                             Vissza

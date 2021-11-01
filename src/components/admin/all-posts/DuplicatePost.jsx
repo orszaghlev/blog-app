@@ -59,10 +59,10 @@ export default function DuplicatePost({ post }) {
                         Biztos benne, hogy duplikálja a(z) {post?.title} bejegyzést?
                     </Typography>
                     <Typography id="duplicate-post-modal-description" sx={{ mt: 2 }}>
-                        <Button variant="contained" color="secondary" style={{ marginRight: "10px" }} onClick={handleDuplicatePost}>
+                        <Button data-testid="duplicate-post-duplicate" variant="contained" color="secondary" style={{ marginRight: "10px" }} onClick={handleDuplicatePost}>
                             Duplikálás
                         </Button>
-                        <Button variant="contained" color="primary" onClick={() => {
+                        <Button data-testid="duplicate-post-return" variant="contained" color="primary" onClick={() => {
                             handleClose();
                         }}>
                             Vissza

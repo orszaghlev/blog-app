@@ -118,7 +118,7 @@ describe('<AdminAllPosts />', () => {
         await act(async () => {
             useAllPosts.mockImplementation(() => ({ posts: allPostsFixture }));
 
-            const { getByTestId } = render(
+            const { findByTestId, getByTestId } = render(
                 <Router>
                     <FirebaseContext.Provider
                         value={{
@@ -139,6 +139,33 @@ describe('<AdminAllPosts />', () => {
             );
 
             fireEvent.click(getByTestId('delete-post-button'));
+            fireEvent.click(await findByTestId('delete-post-delete'));
+
+            await waitFor(() => {
+                expect(document.title).toEqual('Összes bejegyzés');
+            });
+        });
+    });
+
+    it('Megjelenik a bejegyzéseket tartalmazó admin felület, az adminisztrátor a bejegyzés törlésére kattint, de végül nem töröl', async () => {
+        await act(async () => {
+            useAllPosts.mockImplementation(() => ({ posts: allPostsFixture }));
+
+            const { findByTestId, getByTestId } = render(
+                <Router>
+                    <FirebaseContext.Provider
+                        value={{
+                            firebase: {
+                            }
+                        }}
+                    >
+                        <AdminAllPosts />
+                    </FirebaseContext.Provider>
+                </Router >
+            );
+
+            fireEvent.click(getByTestId('delete-post-button'));
+            fireEvent.click(await findByTestId('delete-post-return'));
 
             await waitFor(() => {
                 expect(document.title).toEqual('Összes bejegyzés');
@@ -153,7 +180,7 @@ describe('<AdminAllPosts />', () => {
         await act(async () => {
             useAllPosts.mockImplementation(() => ({ posts: allPostsFixture }));
 
-            const { getByTestId } = render(
+            const { findByTestId, getByTestId } = render(
                 <Router>
                     <FirebaseContext.Provider
                         value={{
@@ -174,6 +201,33 @@ describe('<AdminAllPosts />', () => {
             );
 
             fireEvent.click(getByTestId('duplicate-post-button'));
+            fireEvent.click(await findByTestId('duplicate-post-duplicate'));
+
+            await waitFor(() => {
+                expect(document.title).toEqual('Összes bejegyzés');
+            });
+        });
+    });
+
+    it('Megjelenik a bejegyzéseket tartalmazó admin felület, az adminisztrátor a bejegyzés duplikálására kattint, de végül nem duplikál', async () => {
+        await act(async () => {
+            useAllPosts.mockImplementation(() => ({ posts: allPostsFixture }));
+
+            const { findByTestId, getByTestId } = render(
+                <Router>
+                    <FirebaseContext.Provider
+                        value={{
+                            firebase: {
+                            }
+                        }}
+                    >
+                        <AdminAllPosts />
+                    </FirebaseContext.Provider>
+                </Router >
+            );
+
+            fireEvent.click(getByTestId('duplicate-post-button'));
+            fireEvent.click(await findByTestId('duplicate-post-return'));
 
             await waitFor(() => {
                 expect(document.title).toEqual('Összes bejegyzés');
@@ -641,7 +695,7 @@ describe('<AdminAllPosts />', () => {
         });
     });
 
-    it('Megjelenik a bejegyzéseket tartalmazó admin felület, az adminisztrátor a bejegyzést szerkeszti', async () => {
+    it('Megjelenik a bejegyzéseket tartalmazó admin felület, az adminisztrátor a bejegyzés szerkesztése gombra kattint', async () => {
         window.scrollTo = jest.fn();
         delete window.location;
         window.location = { reload: jest.fn() };
@@ -670,6 +724,7 @@ describe('<AdminAllPosts />', () => {
             );
 
             fireEvent.click(getByTestId('scroll-to-edit-post-button'));
+            fireEvent.click(await findByTestId('edit-post-button'));
             fireEvent.change(await findByTestId('input-edit-id'), {
                 target: { value: 'react' }
             });
@@ -707,6 +762,35 @@ describe('<AdminAllPosts />', () => {
                 expect(getByTestId('input-edit-tag').value).toBe('react, javascript, library');
                 expect(getByTestId('input-edit-language').value).toBe('English');
                 expect(getByTestId('input-edit-isActive').value).toBe('false');
+            });
+        });
+    });
+
+    it('Megjelenik a bejegyzéseket tartalmazó admin felület, az adminisztrátor a bejegyzést szerkesztése gombra kattint, de végül nem szerkeszt', async () => {
+        window.scrollTo = jest.fn();
+
+        await act(async () => {
+            useAllPosts.mockImplementation(() => ({ posts: allPostsFixture }));
+
+            const { findByTestId, getByTestId } = render(
+                <Router>
+                    <FirebaseContext.Provider
+                        value={{
+                            firebase: {
+                            }
+                        }}
+                    >
+                        <AdminAllPosts />
+                    </FirebaseContext.Provider>
+                </Router >
+            );
+
+            fireEvent.click(getByTestId('scroll-to-edit-post-button'));
+            fireEvent.click(await findByTestId('edit-post-button'));
+            fireEvent.click(await findByTestId('edit-post-return'));
+
+            await waitFor(() => {
+                expect(document.title).toEqual('Összes bejegyzés');
             });
         });
     });

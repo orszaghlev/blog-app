@@ -217,7 +217,7 @@ export default function EditPost({ post }) {
                             direction="column"
                             justifyContent="center"
                             alignItems="center">
-                            <Button data-testid="successful-submit-button" variant="contained" color="primary" onClick={handleOpen}>
+                            <Button data-testid="edit-post-button" variant="contained" color="primary" onClick={handleOpen}>
                                 Szerkesztés
                             </Button>
                             <Modal
@@ -231,10 +231,10 @@ export default function EditPost({ post }) {
                                         Biztos benne, hogy szerkeszti a(z) {post?.title} bejegyzést?
                                     </Typography>
                                     <Typography id="edit-post-modal-description" sx={{ mt: 2 }}>
-                                        <Button variant="contained" color="secondary" style={{ marginRight: "10px" }} type="submit" onClick={handleEditPost}>
+                                        <Button data-testid="edit-post-edit" variant="contained" color="secondary" style={{ marginRight: "10px" }} type="submit" onClick={handleEditPost}>
                                             Szerkesztés
                                         </Button>
-                                        <Button variant="contained" color="primary" onClick={() => {
+                                        <Button data-testid="edit-post-return" variant="contained" color="primary" onClick={() => {
                                             handleClose();
                                         }}>
                                             Vissza

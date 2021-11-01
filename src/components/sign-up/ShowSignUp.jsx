@@ -92,6 +92,7 @@ export default function ShowSignUp() {
                         </div>
                     )}
                     <TextField
+                        className="TextField"
                         required
                         inputProps={{ "data-testid": "input-username" }}
                         id="username-filled-required"
@@ -101,6 +102,7 @@ export default function ShowSignUp() {
                         value={username}
                     />
                     <TextField
+                        className="TextField"
                         required
                         inputProps={{ "data-testid": "input-fullname" }}
                         id="fullname-filled-required"
@@ -110,6 +112,7 @@ export default function ShowSignUp() {
                         value={fullName}
                     />
                     <TextField
+                        className="TextField"
                         required
                         inputProps={{ "data-testid": "input-email" }}
                         id="email-filled-required"
@@ -119,6 +122,7 @@ export default function ShowSignUp() {
                         value={emailAddress}
                     />
                     <TextField
+                        className="TextField"
                         required
                         inputProps={{ "data-testid": "input-password" }}
                         id="password-filled-required"

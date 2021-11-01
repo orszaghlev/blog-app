@@ -9,10 +9,12 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import FirebaseContext from "../../contexts/Firebase";
 import * as ROUTES from '../../constants/Routes';
+import { FacebookShareButton, FacebookIcon, TwitterShareButton, TwitterIcon } from "react-share";
 
 export default function ShowPost({ post, user }) {
     const [toggleSaved, setToggleSaved] = useState(user?.favoritePosts?.includes(post?.title));
@@ -104,6 +106,26 @@ export default function ShowPost({ post, user }) {
                         {post?.language === "Hungarian" ? "Vissza" : "Return"}
                     </Button>
                 </CardActions>
+                <Grid container
+                    direction="row"
+                    justifyContent="center"
+                    alignItems="center">
+                    <FacebookShareButton
+                        url={process.env.REACT_APP_FIREBASE_AUTH_DOMAIN + `/posts/${post?.slug}`}
+                        quote={post?.title}
+                        hashtag={"#" + post?.title.toLowerCase().replace(' ', '_')}
+                        description={post?.description}
+                        className="facebook-share-button">
+                        <FacebookIcon size={32} round />
+                    </FacebookShareButton>
+                    <TwitterShareButton
+                        title={post?.title}
+                        url={process.env.REACT_APP_FIREBASE_AUTH_DOMAIN + `/posts/${post?.slug}`}
+                        hashtags={[post?.title.toLowerCase().replace(' ', '_')]}>
+                        <TwitterIcon size={32} round />
+                    </TwitterShareButton>
+                </Grid>
+                <br />
                 {notification && (
                     <div className="text-success">
                         {notification}

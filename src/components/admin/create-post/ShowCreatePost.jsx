@@ -59,16 +59,16 @@ export default function ShowCreatePost() {
                     justifyContent="space-around"
                     alignItems="stretch">
                     <Grid item xs>
-                        <TextField inputProps={{ "data-testid": "input-id" }} name="id" label="ID" variant="filled" type="text" required style={{ width: 800 }} />
+                        <TextField className="TextField" inputProps={{ "data-testid": "input-id" }} name="id" label="ID" variant="filled" type="text" required style={{ width: 800 }} />
                     </Grid>
                     <Grid item xs>
-                        <TextField inputProps={{ "data-testid": "input-title" }} name="title" label="Cím" variant="filled" type="text" required style={{ width: 800 }}
+                        <TextField className="TextField" inputProps={{ "data-testid": "input-title" }} name="title" label="Cím" variant="filled" type="text" required style={{ width: 800 }}
                             onChange={(e) => {
                                 setSlug(slugify(e.target.value));
                             }} />
                     </Grid>
                     <Grid item xs>
-                        <TextField inputProps={{ "data-testid": "input-slug" }} value={slug} name="slug" label="Slug" variant="filled" type="text" required style={{ width: 800 }} />
+                        <TextField className="TextField" inputProps={{ "data-testid": "input-slug" }} value={slug} name="slug" label="Slug" variant="filled" type="text" required style={{ width: 800 }} />
                     </Grid>
                     <Grid item xs>
                         <Grid
@@ -92,6 +92,7 @@ export default function ShowCreatePost() {
                                 onInit={(editor) => editorRef.current = editor}
                                 initialValue="Tartalom"
                                 init={{
+                                    content_css: 'dark',
                                     language: 'hu_HU',
                                     width: 800,
                                     menubar: false,
@@ -113,13 +114,13 @@ export default function ShowCreatePost() {
                         </Grid>
                     </Grid>
                     <Grid item xs>
-                        <TextField inputProps={{ "data-testid": "input-imgURL" }} name="imgURL" label="Kép URL" variant="filled" type="text" required style={{ width: 800 }} />
+                        <TextField className="TextField" inputProps={{ "data-testid": "input-imgURL" }} name="imgURL" label="Kép URL" variant="filled" type="text" required style={{ width: 800 }} />
                     </Grid>
                     <Grid item xs>
-                        <TextField inputProps={{ "data-testid": "input-tag" }} name="tag" label="Címkék" variant="filled" type="text" required style={{ width: 800 }} />
+                        <TextField className="TextField" inputProps={{ "data-testid": "input-tag" }} name="tag" label="Címkék" variant="filled" type="text" required style={{ width: 800 }} />
                     </Grid>
                     <Grid item xs>
-                        <TextField inputProps={{ "data-testid": "input-language" }} name="language" label="Nyelv" variant="filled" type="text" required
+                        <TextField className="TextField" inputProps={{ "data-testid": "input-language" }} name="language" label="Nyelv" variant="filled" type="text" required
                             style={{ width: 800, textAlign: "left" }} defaultValue="" select>
                             <MenuItem value="Hungarian">Magyar</MenuItem>
                             <MenuItem value="English">Angol</MenuItem>
@@ -127,19 +128,19 @@ export default function ShowCreatePost() {
                     </Grid>
                     <Grid item xs>
                         <TextField
-                            style={{ width: "800px" }}
+                            style={{ width: "800px", marginLeft: "2px", marginRight: "2px" }}
                             id="datetime-local"
                             name="date"
                             label="Dátum"
                             type="datetime-local"
-                            className={classes.textField}
+                            className="TextField"
                             InputLabelProps={{
                                 shrink: true,
                             }}
                         />
                     </Grid>
                     <Grid item xs>
-                        <TextField inputProps={{ "data-testid": "input-isActive" }} name="isActive" label="Állapot" variant="filled" type="text" required
+                        <TextField className="TextField" inputProps={{ "data-testid": "input-isActive" }} name="isActive" label="Állapot" variant="filled" type="text" required
                             style={{ width: 800, textAlign: "left" }} defaultValue="" select>
                             <MenuItem value="true">Aktív</MenuItem>
                             <MenuItem value="false">Inaktív</MenuItem>

@@ -20,7 +20,7 @@ export default function ShowProfile({ user }) {
             <p>E-mail cím: {user?.emailAddress}</p>
             <p>Regisztráció dátuma: {date?.toLocaleDateString() + " " + date?.toLocaleTimeString()}</p>
             <Grid>
-                <Button data-testid="profile-edit" variant="contained" onClick={() => {
+                <Button data-testid="profile-edit" color="secondary" onClick={() => {
                     history.push(ROUTES.PROFILE_EDIT);
                 }}>
                     Adatok szerkesztése

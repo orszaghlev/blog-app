@@ -22,6 +22,8 @@ import ProtectedRouteUser from './helpers/ProtectedRouteUser';
 import ProtectedRouteAdmin from './helpers/ProtectedRouteAdmin';
 import UserContext from './contexts/User';
 import useAuthListener from './hooks/UseAuthListener';
+import DarkModeToggle from './darkModeToggle';
+import './styles.scss';
 
 export default function App() {
     const { user } = useAuthListener();
@@ -102,6 +104,9 @@ export default function App() {
                                         </NavLink>
                                     </Button>
                                 </>}
+                                <Typography>
+                                    <DarkModeToggle />
+                                </Typography>
                             </Toolbar>
                         </AppBar>
                         <Switch>

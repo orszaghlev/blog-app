@@ -97,14 +97,14 @@ export default function EditPost({ post }) {
                     justifyContent="space-around"
                     alignItems="stretch">
                     <Grid item xs>
-                        <TextField inputProps={{ "data-testid": "input-edit-id" }} value={id} name="id" type="text" label="ID" variant="filled"
+                        <TextField className="TextField" inputProps={{ "data-testid": "input-edit-id" }} value={id} name="id" type="text" label="ID" variant="filled"
                             onChange={(e) => {
                                 setId(e.target.value);
                             }}
                             required style={{ width: 800 }} />
                     </Grid>
                     <Grid item xs>
-                        <TextField inputProps={{ "data-testid": "input-edit-title" }} value={title} name="title" type="text" label="Cím" variant="filled"
+                        <TextField className="TextField" inputProps={{ "data-testid": "input-edit-title" }} value={title} name="title" type="text" label="Cím" variant="filled"
                             onChange={(e) => {
                                 setTitle(e.target.value);
                                 setSlug(slugify(e.target.value));
@@ -112,7 +112,7 @@ export default function EditPost({ post }) {
                             required style={{ width: 800 }} />
                     </Grid>
                     <Grid item xs>
-                        <TextField inputProps={{ "data-testid": "input-edit-slug" }} value={slug} name="slug" type="text" label="Slug" variant="filled"
+                        <TextField className="TextField" inputProps={{ "data-testid": "input-edit-slug" }} value={slug} name="slug" type="text" label="Slug" variant="filled"
                             required style={{ width: 800 }} />
                     </Grid>
                     <Grid item xs>
@@ -140,6 +140,7 @@ export default function EditPost({ post }) {
                                 onInit={(editor) => editorRef.current = editor}
                                 value={content}
                                 init={{
+                                    content_css: 'dark',
                                     language: 'hu_HU',
                                     width: 800,
                                     menubar: false,
@@ -161,21 +162,21 @@ export default function EditPost({ post }) {
                         </Grid>
                     </Grid>
                     <Grid item xs>
-                        <TextField inputProps={{ "data-testid": "input-edit-imgURL" }} value={imgURL} name="imgURL" label="Kép URL" variant="filled"
+                        <TextField className="TextField" inputProps={{ "data-testid": "input-edit-imgURL" }} value={imgURL} name="imgURL" label="Kép URL" variant="filled"
                             onChange={(e) => {
                                 setImgURL(e.target.value);
                             }}
                             type="text" required style={{ width: 800 }} />
                     </Grid>
                     <Grid item xs>
-                        <TextField inputProps={{ "data-testid": "input-edit-tag" }} value={tag} name="tag" type="text" label="Címkék" variant="filled"
+                        <TextField className="TextField" inputProps={{ "data-testid": "input-edit-tag" }} value={tag} name="tag" type="text" label="Címkék" variant="filled"
                             onChange={(e) => {
                                 setTag(e.target.value);
                             }}
                             required style={{ width: 800 }} />
                     </Grid>
                     <Grid item xs>
-                        <TextField inputProps={{ "data-testid": "input-edit-language" }} value={language} name="language" label="Nyelv" variant="filled" type="text" select
+                        <TextField className="TextField" inputProps={{ "data-testid": "input-edit-language" }} value={language} name="language" label="Nyelv" variant="filled" type="text" select
                             onChange={(e) => {
                                 setLanguage(e.target.value)
                             }}
@@ -193,7 +194,7 @@ export default function EditPost({ post }) {
                             label="Dátum"
                             type="datetime-local"
                             value={date.toString().replaceAll(". ", "-").split("").reverse().join("").replace("-", "T").split("").reverse().join("")}
-                            className={classes.textField}
+                            className="TextField"
                             InputLabelProps={{
                                 shrink: true,
                             }}
@@ -203,7 +204,7 @@ export default function EditPost({ post }) {
                         />
                     </Grid>
                     <Grid item xs>
-                        <TextField inputProps={{ "data-testid": "input-edit-isActive" }} value={isActive} name="isActive" label="Állapot" variant="filled" type="text" select
+                        <TextField className="TextField" inputProps={{ "data-testid": "input-edit-isActive" }} value={isActive} name="isActive" label="Állapot" variant="filled" type="text" select
                             onChange={(e) => {
                                 setIsActive(e.target.value)
                             }}

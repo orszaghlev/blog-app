@@ -54,6 +54,7 @@ export default function ShowLogin() {
                         </div>
                     )}
                     <TextField
+                        className="TextField"
                         required
                         inputProps={{ "data-testid": "input-email" }}
                         id="email-filled-required"
@@ -63,6 +64,7 @@ export default function ShowLogin() {
                         value={emailAddress}
                     />
                     <TextField
+                        className="TextField"
                         required
                         inputProps={{ "data-testid": "input-password" }}
                         id="password-filled-required"

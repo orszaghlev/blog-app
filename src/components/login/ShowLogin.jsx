@@ -43,42 +43,49 @@ export default function ShowLogin() {
             <div>
                 <h2>Bejelentkezés</h2>
             </div>
-            <form className={classes.root} noValidate autoComplete="off" onSubmit={handleLogin} method="POST">
+            <form data-testid="login" className={classes.root} noValidate autoComplete="off" onSubmit={handleLogin} method="POST">
                 <Grid container
                     direction="column"
-                    justify="center"
+                    justifyContent="center"
                     alignItems="center">
                     {error && (
-                        <div className="text-danger">
+                        <div data-testid="error" className="text-danger">
                             {error}
                         </div>
                     )}
                     <TextField
+                        style={{ border: "1px solid white" }}
+                        className="TextField"
                         required
-                        id="filled-required"
+                        inputProps={{ "data-testid": "input-email" }}
+                        id="email-filled-required"
                         label="E-mail cím"
                         variant="filled"
                         onChange={({ target }) => setEmailAddress(target.value)}
                         value={emailAddress}
                     />
                     <TextField
+                        style={{ border: "1px solid white" }}
+                        className="TextField"
                         required
-                        id="filled-password-input"
+                        inputProps={{ "data-testid": "input-password" }}
+                        id="password-filled-required"
                         label="Jelszó"
                         variant="filled"
                         type="password"
                         onChange={({ target }) => setPassword(target.value)}
                         value={password}
+                        autoComplete="off"
                     />
                 </Grid>
                 <Grid container
                     direction="row"
-                    justify="center"
+                    justifyContent="center"
                     alignItems="center">
                     <Button type="submit" variant="contained" color="primary" disabled={isInvalid} style={{ marginRight: "10px" }}>
                         Bejelentkezés
                     </Button>
-                    <Button variant="contained" color="secondary" onClick={() => {
+                    <Button data-testid="return" variant="contained" color="secondary" onClick={() => {
                         history.push(ROUTES.HOME);
                     }}>
                         Vissza
@@ -88,8 +95,13 @@ export default function ShowLogin() {
             <div className="m-2">
                 <p>
                     Nincsen fiókja?{` `}
-                    <Link to={ROUTES.SIGN_UP}>
+                    <Link to={ROUTES.SIGN_UP} data-testid="sign-up">
                         Regisztráljon!
+                    </Link>
+                </p>
+                <p>
+                    <Link to={ROUTES.FORGOT_PASSWORD} data-testid="forgot-password">
+                        Elfelejtette a jelszavát?
                     </Link>
                 </p>
             </div>

@@ -1,13 +1,14 @@
 import { useState, Suspense, useEffect } from "react";
 import { BrowserRouter, NavLink, Route, Redirect, Switch } from "react-router-dom";
-import { Home } from "./pages/Home";
-import { ViewPost } from "./pages/ViewPost";
-import { Login } from "./pages/Login";
-import { SignUp } from "./pages/SignUp";
-import { Profile } from "./pages/Profile";
-import { ProfileEdit } from "./pages/ProfileEdit";
-import { AdminAllPosts } from "./pages/AdminAllPosts";
-import { AdminCreatePost } from "./pages/AdminCreatePost";
+import Home from "./pages/Home";
+import ViewPost from "./pages/ViewPost";
+import Login from "./pages/Login";
+import SignUp from "./pages/SignUp";
+import ForgotPassword from "./pages/ForgotPassword";
+import Profile from "./pages/Profile";
+import ProfileEdit from "./pages/ProfileEdit";
+import AdminAllPosts from "./pages/AdminAllPosts";
+import AdminCreatePost from "./pages/AdminCreatePost";
 import { Helmet } from "react-helmet-async";
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -21,6 +22,8 @@ import ProtectedRouteUser from './helpers/ProtectedRouteUser';
 import ProtectedRouteAdmin from './helpers/ProtectedRouteAdmin';
 import UserContext from './contexts/User';
 import useAuthListener from './hooks/UseAuthListener';
+import DarkModeToggle from './darkModeToggle';
+import './styles.scss';
 
 export default function App() {
     const { user } = useAuthListener();
@@ -49,12 +52,10 @@ export default function App() {
     return (
         <div className="App">
             <Helmet>
-                <title>Blogmotor</title>
+                <title>{process.env.REACT_APP_FIREBASE_APP_NAME}</title>
                 <meta
                     name="description"
-                    content="Egy React blogmotor, amely lehetővé teszi bejegyzések megtekintését az olvasók számára, 
-                a bejegyzések elmentését és a hozzászólást a felhasználók számára, 
-                illetve műveletek végrehajtását bejegyzéseken és hozzászólásokon az adminisztrátorok számára."
+                    content={process.env.REACT_APP_FIREBASE_APP_DESCRIPTION}
                 />
             </Helmet>
             <UserContext.Provider value={{ user }}>
@@ -66,7 +67,7 @@ export default function App() {
                                 </IconButton>
                                 <Typography variant="h6" className={classes.title} align="left">
                                     <NavLink to={ROUTES.HOME}>
-                                        <span className="nav-link" style={{ color: 'white' }}>Blogmotor</span>
+                                        <span className="nav-link" style={{ color: 'white' }}>{process.env.REACT_APP_FIREBASE_APP_NAME}</span>
                                     </NavLink>
                                 </Typography>
                                 {!user && <>
@@ -103,6 +104,9 @@ export default function App() {
                                         </NavLink>
                                     </Button>
                                 </>}
+                                <Typography>
+                                    <DarkModeToggle />
+                                </Typography>
                             </Toolbar>
                         </AppBar>
                         <Switch>
@@ -110,6 +114,7 @@ export default function App() {
                             <Route path={ROUTES.VIEW_POST} user={user} component={ViewPost} />
                             <Route path={ROUTES.LOGIN} component={Login} />
                             <Route path={ROUTES.SIGN_UP} component={SignUp} />
+                            <Route path={ROUTES.FORGOT_PASSWORD} component={ForgotPassword} />
                             <ProtectedRouteUser user={user} path={ROUTES.PROFILE} exact>
                                 <Profile />
                             </ProtectedRouteUser>

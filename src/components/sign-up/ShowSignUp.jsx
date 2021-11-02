@@ -81,43 +81,55 @@ export default function ShowSignUp() {
             <div>
                 <h2>Regisztráció</h2>
             </div>
-            <form className={classes.root} noValidate autoComplete="off" onSubmit={handleSignUp} method="POST">
+            <form data-testid="sign-up" className={classes.root} noValidate autoComplete="off" onSubmit={handleSignUp} method="POST">
                 <Grid container
                     direction="column"
-                    justify="center"
+                    justifyContent="center"
                     alignItems="center">
                     {error && (
-                        <div className="text-danger">
+                        <div data-testid="error" className="text-danger">
                             {error}
                         </div>
                     )}
                     <TextField
+                        style={{ border: "1px solid white" }}
+                        className="TextField"
                         required
-                        id="filled-required"
+                        inputProps={{ "data-testid": "input-username" }}
+                        id="username-filled-required"
                         label="Felhasználónév"
                         variant="filled"
                         onChange={({ target }) => setUsername(target.value)}
                         value={username}
                     />
                     <TextField
+                        style={{ border: "1px solid white" }}
+                        className="TextField"
                         required
-                        id="filled-required"
+                        inputProps={{ "data-testid": "input-fullname" }}
+                        id="fullname-filled-required"
                         label="Teljes név"
                         variant="filled"
                         onChange={({ target }) => setFullName(target.value)}
                         value={fullName}
                     />
                     <TextField
+                        style={{ border: "1px solid white" }}
+                        className="TextField"
                         required
-                        id="filled-required"
+                        inputProps={{ "data-testid": "input-email" }}
+                        id="email-filled-required"
                         label="E-mail cím"
                         variant="filled"
                         onChange={({ target }) => setEmailAddress(target.value)}
                         value={emailAddress}
                     />
                     <TextField
+                        style={{ border: "1px solid white" }}
+                        className="TextField"
                         required
-                        id="filled-password-input"
+                        inputProps={{ "data-testid": "input-password" }}
+                        id="password-filled-required"
                         label="Jelszó"
                         variant="filled"
                         type="password"
@@ -127,12 +139,12 @@ export default function ShowSignUp() {
                 </Grid>
                 <Grid container
                     direction="row"
-                    justify="center"
+                    justifyContent="center"
                     alignItems="center">
                     <Button type="submit" variant="contained" color="primary" disabled={isInvalid} style={{ marginRight: "10px" }}>
                         Regisztráció
                     </Button>
-                    <Button variant="contained" color="secondary" onClick={() => {
+                    <Button data-testid="return" variant="contained" color="secondary" onClick={() => {
                         history.push(ROUTES.HOME);
                     }}>
                         Vissza
@@ -142,7 +154,7 @@ export default function ShowSignUp() {
             <div className="m-2">
                 <p>
                     Van fiókja?{` `}
-                    <Link to={ROUTES.LOGIN}>
+                    <Link to={ROUTES.LOGIN} data-testid="login">
                         Jelentkezzen be!
                     </Link>
                 </p>

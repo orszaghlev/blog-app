@@ -1,5 +1,8 @@
 import { useState, useEffect, useContext, useRef } from "react";
 import PropTypes from 'prop-types';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Modal from '@mui/material/Modal';
 import { Button } from "@material-ui/core";
 import { TextField } from "@material-ui/core";
 import { Grid } from "@material-ui/core";
@@ -9,7 +12,7 @@ import { Editor } from '@tinymce/tinymce-react';
 import slugify from 'react-slugify';
 import FirebaseContext from '../../../contexts/Firebase';
 
-export default function EditPost({ allPosts, setAllPosts, post }) {
+export default function EditPost({ post }) {
     const [id, setId] = useState("");
     const [title, setTitle] = useState("");
     const [slug, setSlug] = useState("");
@@ -20,7 +23,6 @@ export default function EditPost({ allPosts, setAllPosts, post }) {
     const [language, setLanguage] = useState("");
     const [isActive, setIsActive] = useState("");
     const [date, setDate] = useState("");
-    const [notification, setNotification] = useState("");
     const editorRef = useRef(null);
     const useStyles = makeStyles((theme) => ({
         container: {
@@ -35,7 +37,41 @@ export default function EditPost({ allPosts, setAllPosts, post }) {
     }));
     const classes = useStyles();
     const { firebase } = useContext(FirebaseContext);
-    const [postToBeEdited, setPostToBeEdited] = useState(post);
+    const [open, setOpen] = useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+    const style = {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: 400,
+        bgcolor: '#1b2938',
+        color: '#dfdfdf',
+        border: '2px solid #000',
+        boxShadow: 24,
+        p: 4,
+    };
+    const handleEditPost = async (e) => {
+        e.preventDefault();
+        const data = {
+            id: id,
+            title: title,
+            slug: slug,
+            description: description,
+            content: content,
+            imgURL: imgURL,
+            tag: tag,
+            language: language,
+            isActive: isActive,
+            date: date ? date :
+                new Date().toLocaleTimeString([], { year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' }),
+            comments: post?.comments ? post.comments : [],
+            saves: post?.saves ? post.saves : []
+        };
+        await firebase.firestore().collection('posts').doc(data.id).set(data);
+        window.location.reload();
+    };
 
     useEffect(() => {
         setId(post?.id);
@@ -53,62 +89,41 @@ export default function EditPost({ allPosts, setAllPosts, post }) {
     return (
         <>
             <br />
-            <h5>Bejegyzés szerkesztése</h5>
-            <form className={classes.container} noValidate
-                onSubmit={async (e) => {
-                    e.preventDefault();
-                    const data = {
-                        id: e.target.elements.id.value,
-                        title: e.target.elements.title.value,
-                        slug: e.target.elements.slug.value,
-                        description: e.target.elements.description.value,
-                        content: content,
-                        imgURL: e.target.elements.imgURL.value,
-                        tag: e.target.elements.tag.value,
-                        language: e.target.elements.language.value,
-                        isActive: e.target.elements.isActive.value,
-                        date: e.target.elements.date.value ?
-                            e.target.elements.date.value.toString().replace("T", ". ").replaceAll("-", ". ") :
-                            new Date().toLocaleTimeString([], { year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' }),
-                        comments: post?.comments ? post.comments : [],
-                        saves: post?.saves ? post.saves : []
-                    };
-                    setAllPosts([data, ...allPosts].filter((item => item !== postToBeEdited)));
-                    firebase.firestore().collection('posts').doc(data.id).set(data);
-                    setPostToBeEdited();
-                }}
+            <form data-testid="edit-post-form" className={classes.container} noValidate
+                onSubmit={handleEditPost}
             >
                 <Grid container spacing={2}
                     direction="column"
-                    justify="space-around"
+                    justifyContent="space-around"
                     alignItems="stretch">
+                    <h4>Bejegyzés szerkesztése</h4>
                     <Grid item xs>
-                        <TextField value={id} name="id" type="text" label="ID" variant="filled"
+                        <TextField className="TextField" inputProps={{ "data-testid": "input-edit-id" }} value={id} name="id" type="text" label="ID" variant="filled"
                             onChange={(e) => {
                                 setId(e.target.value);
                             }}
-                            required style={{ width: 800 }} />
+                            required style={{ width: 800, border: "1px solid white" }} />
                     </Grid>
                     <Grid item xs>
-                        <TextField value={title} name="title" type="text" label="Cím" variant="filled"
+                        <TextField className="TextField" inputProps={{ "data-testid": "input-edit-title" }} value={title} name="title" type="text" label="Cím" variant="filled"
                             onChange={(e) => {
                                 setTitle(e.target.value);
                                 setSlug(slugify(e.target.value));
                             }}
-                            required style={{ width: 800 }} />
+                            required style={{ width: 800, border: "1px solid white" }} />
                     </Grid>
                     <Grid item xs>
-                        <TextField value={slug} name="slug" type="text" label="Slug" variant="filled"
-                            required style={{ width: 800 }} />
+                        <TextField className="TextField" inputProps={{ "data-testid": "input-edit-slug" }} value={slug} name="slug" type="text" label="Slug" variant="filled"
+                            required style={{ width: 800, border: "1px solid white" }} />
                     </Grid>
                     <Grid item xs>
                         <Grid
                             container
                             alignItems="center"
-                            justify="center"
+                            justifyContent="center"
                         >
-                            <div class="form-group" style={{ width: "800px" }}>
-                                <textarea value={description} name="description" label="Leírás" class="form-control" rows="3" required
+                            <div className="form-group" style={{ width: "800px" }}>
+                                <textarea data-testid="input-edit-description" value={description} name="description" label="Leírás" className="form-control" rows="3" required
                                     onChange={(e) => {
                                         setDescription(e.target.value);
                                     }}>{description}</textarea>
@@ -119,20 +134,21 @@ export default function EditPost({ allPosts, setAllPosts, post }) {
                         <Grid
                             container
                             alignItems="center"
-                            justify="center"
+                            justifyContent="center"
                         >
                             <Editor
                                 apiKey={process.env.REACT_APP_TINY_API_KEY}
                                 onInit={(editor) => editorRef.current = editor}
                                 value={content}
                                 init={{
+                                    content_css: 'dark',
                                     language: 'hu_HU',
                                     width: 800,
                                     menubar: false,
                                     plugins: [
                                         'advlist autolink lists link image charmap print preview anchor',
                                         'searchreplace visualblocks code fullscreen',
-                                        'insertdatetime media table paste code help wordcount'
+                                        'insertdatetime media table paste code help'
                                     ],
                                     toolbar: 'undo redo | formatselect | ' +
                                         'bold italic backcolor | alignleft aligncenter ' +
@@ -147,38 +163,39 @@ export default function EditPost({ allPosts, setAllPosts, post }) {
                         </Grid>
                     </Grid>
                     <Grid item xs>
-                        <TextField value={imgURL} name="imgURL" label="Kép URL" variant="filled"
+                        <TextField className="TextField" inputProps={{ "data-testid": "input-edit-imgURL" }} value={imgURL} name="imgURL" label="Kép URL" variant="filled"
                             onChange={(e) => {
                                 setImgURL(e.target.value);
                             }}
-                            type="text" required style={{ width: 800 }} />
+                            type="text" required style={{ width: 800, border: "1px solid white" }} />
                     </Grid>
                     <Grid item xs>
-                        <TextField value={tag} name="tag" type="text" label="Címkék" variant="filled"
+                        <TextField className="TextField" inputProps={{ "data-testid": "input-edit-tag" }} value={tag} name="tag" type="text" label="Címkék" variant="filled"
                             onChange={(e) => {
                                 setTag(e.target.value);
                             }}
-                            required style={{ width: 800 }} />
+                            required style={{ width: 800, border: "1px solid white" }} />
                     </Grid>
                     <Grid item xs>
-                        <TextField value={language} name="language" label="Nyelv" variant="filled" type="text" select
+                        <TextField className="TextField" inputProps={{ "data-testid": "input-edit-language" }} value={language} name="language" label="Nyelv" variant="filled" type="text" select
                             onChange={(e) => {
                                 setLanguage(e.target.value)
                             }}
-                            required style={{ width: 800, textAlign: "left" }} >
+                            required style={{ width: 800, textAlign: "left", border: "1px solid white" }} >
                             <MenuItem value="Hungarian">Magyar</MenuItem>
                             <MenuItem value="English">Angol</MenuItem>
                         </TextField>
                     </Grid>
                     <Grid item xs>
                         <TextField
-                            style={{ width: "800px" }}
+                            inputProps={{ "data-testid": "input-edit-date" }}
+                            style={{ width: "800px", border: "1px solid white" }}
                             id="datetime-local"
                             name="date"
                             label="Dátum"
                             type="datetime-local"
                             value={date.toString().replaceAll(". ", "-").split("").reverse().join("").replace("-", "T").split("").reverse().join("")}
-                            className={classes.textField}
+                            className="TextField"
                             InputLabelProps={{
                                 shrink: true,
                             }}
@@ -188,11 +205,11 @@ export default function EditPost({ allPosts, setAllPosts, post }) {
                         />
                     </Grid>
                     <Grid item xs>
-                        <TextField value={isActive} name="isActive" label="Állapot" variant="filled" type="text" select
+                        <TextField className="TextField" inputProps={{ "data-testid": "input-edit-isActive" }} value={isActive} name="isActive" label="Állapot" variant="filled" type="text" select
                             onChange={(e) => {
                                 setIsActive(e.target.value)
                             }}
-                            required style={{ width: 800, textAlign: "left" }} >
+                            required style={{ width: 800, textAlign: "left", border: "1px solid white" }} >
                             <MenuItem value="true">Aktív</MenuItem>
                             <MenuItem value="false">Inaktív</MenuItem>
                         </TextField>
@@ -200,34 +217,42 @@ export default function EditPost({ allPosts, setAllPosts, post }) {
                     <Grid item xs>
                         <Grid container spacing={2}
                             direction="column"
-                            justify="center"
+                            justifyContent="center"
                             alignItems="center">
-                            <Button type="submit" variant="contained" color="secondary" onClick={() => {
-                                setNotification("Sikeres szerkesztés!");
-                                setTimeout(() => {
-                                    setNotification("");
-                                }, 5000);
-                            }}>
+                            <Button data-testid="edit-post-button" variant="contained" color="primary" onClick={handleOpen}>
                                 Szerkesztés
                             </Button>
-                            {notification !== "" && (
-                                <div className="text-success m-1">
-                                    <h6>{notification}</h6>
-                                </div>
-                            )}
+                            <Modal
+                                open={open}
+                                onClose={handleClose}
+                                aria-labelledby="edit-post-modal"
+                                aria-describedby="edit-post-modal-description"
+                            >
+                                <Box sx={style}>
+                                    <Typography id="edit-post-modal" variant="h6" component="h2">
+                                        Biztos benne, hogy szerkeszti a(z) {post?.title} bejegyzést?
+                                    </Typography>
+                                    <Typography id="edit-post-modal-description" sx={{ mt: 2 }}>
+                                        <Button data-testid="edit-post-edit" variant="contained" color="secondary" style={{ marginRight: "10px" }} type="submit" onClick={handleEditPost}>
+                                            Szerkesztés
+                                        </Button>
+                                        <Button data-testid="edit-post-return" variant="contained" color="primary" onClick={() => {
+                                            handleClose();
+                                        }}>
+                                            Vissza
+                                        </Button>
+                                    </Typography>
+                                </Box>
+                            </Modal>
                         </Grid>
                     </Grid>
                 </Grid>
             </form>
-            {notification === "" && (
-                <br />
-            )}
+            <br />
         </>
     )
 }
 
 EditPost.propTypes = {
-    allPosts: PropTypes.object.isRequired,
-    setAllPosts: PropTypes.func.isRequired,
     post: PropTypes.object.isRequired
 };

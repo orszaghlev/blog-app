@@ -1,19 +1,21 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import PropTypes from 'prop-types';
 import { Button } from "@material-ui/core";
 import { TextField } from "@material-ui/core";
 import { Grid } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
-import { firebase } from "../../../lib/Firebase";
+import FirebaseContext from '../../../contexts/Firebase';
 import * as ROUTES from '../../../constants/Routes';
 import { doesUsernameExist } from "../../../services/Firebase";
 
 export default function ShowProfileEdit({ user }) {
     const history = useHistory();
+    const { firebase } = useContext(FirebaseContext);
     const [username, setUsername] = useState("");
     const [fullName, setFullName] = useState("");
     const [error, setError] = useState("");
+    const [notification, setNotification] = useState("");
     const useStyles = makeStyles((theme) => ({
         container: {
             display: 'flex',
@@ -26,6 +28,13 @@ export default function ShowProfileEdit({ user }) {
         },
     }));
     const classes = useStyles();
+    const handlePasswordChange = async () => {
+        await firebase.auth().sendPasswordResetEmail(user?.emailAddress);
+        setNotification("Küldtünk az Ön e-mail címére egy jelszóváltoztatást segítő mailt!");
+        setTimeout(() => {
+            setNotification("");
+        }, 5000);
+    };
 
     useEffect(() => {
         setUsername(user?.username);
@@ -34,8 +43,7 @@ export default function ShowProfileEdit({ user }) {
 
     return (
         <>
-            <h2>Felhasználói adatok szerkesztése</h2>
-            <form className={classes.container} noValidate
+            <form data-testid="edit-user-data" className={classes.container} noValidate
                 onSubmit={async (e) => {
                     e.preventDefault();
                     const usernameExists = await doesUsernameExist(username);
@@ -55,41 +63,46 @@ export default function ShowProfileEdit({ user }) {
                             setError("");
                         }, 5000);
                     } else {
-                        await firebase.auth().currentUser.updateProfile({
-                            displayName: data.username
-                        });
-                        firebase.firestore().collection('users').doc(data.userId).set(data);
+                        await firebase.firestore().collection('users').doc(data.userId).set(data);
                         history.push(ROUTES.PROFILE);
                     }
                 }}
             >
                 <Grid container spacing={2}
                     direction="column"
-                    justify="space-around"
+                    justifyContent="space-around"
                     alignItems="stretch">
+                    <h2>Felhasználói adatok szerkesztése</h2>
                     <Grid item xs>
-                        <TextField value={username} name="username" type="text" label="Felhasználónév" variant="filled"
+                        <TextField className="TextField" inputProps={{ "data-testid": "input-username" }} value={username || ""} name="username" type="text" label="Felhasználónév" variant="filled"
                             onChange={(e) => {
                                 setUsername(e.target.value);
                             }}
-                            required style={{ width: 800 }} />
+                            required style={{ width: 800, border: "1px solid white" }} />
                     </Grid>
                     <Grid item xs>
-                        <TextField value={fullName} name="fullName" type="text" label="Teljes név" variant="filled"
+                        <TextField className="TextField" inputProps={{ "data-testid": "input-fullname" }} value={fullName || ""} name="fullName" type="text" label="Teljes név" variant="filled"
                             onChange={(e) => {
                                 setFullName(e.target.value);
                             }}
-                            required style={{ width: 800 }} />
+                            required style={{ width: 800, border: "1px solid white" }} />
+                    </Grid>
+                    <Grid item xs>
+                        <Button data-testid="change-password" color="secondary" onClick={() => {
+                            handlePasswordChange();
+                        }}>
+                            Jelszóváltoztatás
+                        </Button>
                     </Grid>
                     <Grid item xs>
                         <Grid container spacing={2}
                             direction="row"
-                            justify="space-evenly"
+                            justifyContent="space-evenly"
                             alignItems="stretch">
                             <Button type="submit" variant="contained" color="primary">
                                 Szerkesztés
                             </Button>
-                            <Button variant="contained" color="secondary" onClick={() => {
+                            <Button data-testid="return" variant="contained" color="secondary" onClick={() => {
                                 history.push(ROUTES.PROFILE)
                             }}>
                                 Vissza
@@ -97,10 +110,15 @@ export default function ShowProfileEdit({ user }) {
                         </Grid>
                     </Grid>
                     {error && (
-                        <div className="text-danger">
+                        <div data-testid="error" className="text-danger">
                             {error}
                         </div>
                     )}
+                    {notification &&
+                        <div data-testid="notification" className="text-success m-2">
+                            {notification}
+                        </div>
+                    }
                 </Grid>
             </form>
         </>
@@ -108,5 +126,5 @@ export default function ShowProfileEdit({ user }) {
 }
 
 ShowProfileEdit.propTypes = {
-    user: PropTypes.object.isRequired
+    user: PropTypes.object
 };

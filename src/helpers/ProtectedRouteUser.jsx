@@ -29,6 +29,6 @@ export default function ProtectedRouteUser({ user, children, ...rest }) {
 }
 
 ProtectedRouteUser.propTypes = {
-    user: PropTypes.object.isRequired,
+    user: PropTypes.object,
     children: PropTypes.object.isRequired
 };

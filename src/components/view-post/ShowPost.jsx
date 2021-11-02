@@ -9,10 +9,12 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import FirebaseContext from "../../contexts/Firebase";
 import * as ROUTES from '../../constants/Routes';
+import { FacebookShareButton, FacebookIcon, TwitterShareButton, TwitterIcon } from "react-share";
 
 export default function ShowPost({ post, user }) {
     const [toggleSaved, setToggleSaved] = useState(user?.favoritePosts?.includes(post?.title));
@@ -22,6 +24,7 @@ export default function ShowPost({ post, user }) {
     const useStyles = makeStyles({
         root: {
             maxWidth: 1000,
+            border: "1px solid white"
         },
         media: {
             height: 200,
@@ -88,22 +91,42 @@ export default function ShowPost({ post, user }) {
                 />
                 <CardActions style={{ justifyContent: "center" }}>
                     {user &&
-                        <Button size="small" color="primary" align="center" onClick={() => {
+                        <Button data-testid="add-to-favorites" size="small" color="primary" align="center" onClick={() => {
                             handleToggleSaved();
                             setNotification(post?.language === "Hungarian" ? (!toggleSaved ? "Sikeres hozzáadás!" : "Sikeres eltávolítás!") : (!toggleSaved ? "Post successfully added!" : "Post successfully removed!"));
                             setTimeout(() => {
                                 setNotification("");
                             }, 5000);
                         }}>
-                            {post?.language === "Hungarian" ? (!toggleSaved ? "Hozzáadás a kedvencekhez" : "Eltávolitás a kedvencek közül") : (!toggleSaved ? "Add to favorites" : "Remove from favorites")}
+                            {post?.language === "Hungarian" ? (!toggleSaved ? "Hozzáadás a kedvencekhez" : "Eltávolítás a kedvencek közül") : (!toggleSaved ? "Add to favorites" : "Remove from favorites")}
                         </Button>
                     }
-                    <Button size="small" color="secondary" align="center" onClick={() => {
+                    <Button data-testid="show-post-return" size="small" color="secondary" align="center" onClick={() => {
                         history.push(ROUTES.HOME)
                     }}>
                         {post?.language === "Hungarian" ? "Vissza" : "Return"}
                     </Button>
                 </CardActions>
+                <Grid container
+                    direction="row"
+                    justifyContent="center"
+                    alignItems="center">
+                    <FacebookShareButton
+                        url={process.env.REACT_APP_FIREBASE_AUTH_DOMAIN + `/posts/${post?.slug}`}
+                        quote={post?.title}
+                        hashtag={"#" + post?.title.toLowerCase().replace(' ', '_')}
+                        description={post?.description}
+                        className="facebook-share-button">
+                        <FacebookIcon size={32} round />
+                    </FacebookShareButton>
+                    <TwitterShareButton
+                        title={post?.title}
+                        url={process.env.REACT_APP_FIREBASE_AUTH_DOMAIN + `/posts/${post?.slug}`}
+                        hashtags={[post?.title.toLowerCase().replace(' ', '_')]}>
+                        <TwitterIcon size={32} round />
+                    </TwitterShareButton>
+                </Grid>
+                <br />
                 {notification && (
                     <div className="text-success">
                         {notification}

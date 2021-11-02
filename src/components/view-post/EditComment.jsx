@@ -58,33 +58,32 @@ export default function EditComment({ docId, title, language, displayName, comme
 
     return (
         <>
-            <button className="btn btn-warning m-1" style={{ width: "40px", height: "40px" }} onClick={() => {
-                setShowForm(!showForm);
-            }}>
-                <FontAwesomeIcon icon={faPencilAlt} />
-            </button>
+            <FontAwesomeIcon data-testid="show-edit-form" className="btn btn-warning m-1"
+                style={{ width: "40px", height: "40px" }} onClick={() => setShowForm(!showForm)} icon={faPencilAlt}
+            />
             <Grid container
                 direction="column"
-                justify="center"
+                justifyContent="center"
                 alignItems="center">
                 {
                     showForm && (
-                        <form className={classes.root} noValidate autoComplete="off" method="POST"
+                        <form data-testid="edit-comment-submit" className={classes.root} noValidate autoComplete="off" method="POST"
                             onSubmit={(e) =>
                                 comment.length >= 1 ? handleEditComment(e) : e.preventDefault()
                             }
                         >
                             <Grid container
                                 direction="column"
-                                justify="center"
+                                justifyContent="center"
                                 alignItems="center">
                                 <TextField
+                                    inputProps={{ "data-testid": "input-edit-comment" }}
                                     aria-label={language === "Hungarian" ? "Hozzászólás szerkesztése" : "Edit comment"}
                                     autoComplete="off"
                                     type="text"
                                     name="edit-comment"
                                     style={{ width: "800px" }}
-                                    value={commentToBeEdited}
+                                    value={commentToBeEdited || ""}
                                     onChange={({ target }) => setCommentToBeEdited(target.value)}
                                     ref={commentInput}
                                 />
@@ -92,7 +91,7 @@ export default function EditComment({ docId, title, language, displayName, comme
                                 </div>
                                 <Grid container spacing={2}
                                     direction="row"
-                                    justify="space-evenly"
+                                    justifyContent="space-evenly"
                                     alignItems="stretch">
                                     <Button
                                         variant="contained"
@@ -104,9 +103,9 @@ export default function EditComment({ docId, title, language, displayName, comme
                                             setShowForm(!showForm);
                                         }}
                                     >
-                                        Szerkesztés
+                                        {language === "Hungarian" ? "Szerkesztés" : "Edit"}
                                     </Button>
-                                    <Button variant="contained" color="secondary" onClick={() => {
+                                    <Button data-testid="edit-comment-return" variant="contained" color="secondary" onClick={() => {
                                         setShowForm(!showForm);
                                     }}>
                                         {language === "Hungarian" ? "Vissza" : "Return"}
@@ -122,7 +121,7 @@ export default function EditComment({ docId, title, language, displayName, comme
 }
 
 EditComment.propTypes = {
-    docId: PropTypes.string.isRequired,
+    docId: PropTypes.string,
     title: PropTypes.string.isRequired,
     language: PropTypes.string.isRequired,
     displayName: PropTypes.string.isRequired,

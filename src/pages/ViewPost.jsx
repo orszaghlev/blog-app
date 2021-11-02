@@ -1,28 +1,32 @@
-import { useContext, useRef } from 'react';
-import PropTypes from 'prop-types';
+import { useEffect, useContext, useRef } from 'react';
+import { useParams } from 'react-router-dom';
 import { motion } from "framer-motion";
-import { Helmet } from "react-helmet-async";
-import PostInactive from "../components/view-post/PostInactive";
 import usePost from "../hooks/UsePost";
 import useUser from "../hooks/UseUser";
 import UserContext from '../contexts/User';
 import LoggedInUserContext from "../contexts/LoggedInUser";
 import PostNotAvailable from "../components/view-post/PostNotAvailable";
+import PostInactive from "../components/view-post/PostInactive";
 import ShowPost from "../components/view-post/ShowPost";
 import ShowComments from "../components/view-post/ShowComments";
 
-export function ViewPost(props) {
+export default function ViewPost() {
+    const { slug } = useParams();
     const { user: loggedInUser } = useContext(UserContext);
     const { user } = useUser(loggedInUser?.uid);
-    const { post } = usePost(props.match.params.slug);
+    const { post } = usePost(slug);
     const commentInput = useRef(null);
+
+    useEffect(() => {
+        if (post && post?.isActive === "true" && (new Date(post?.date).getTime() <= new Date().getTime())) {
+            document.title = post?.title;
+        } else {
+            document.title = "Bejegyzés";
+        }
+    }, [post]);
 
     return (
         <div className="m-auto text-center" style={{ width: "1000px" }}>
-            <Helmet>
-                <title>{(post && post?.isActive === "true" && (new Date(post?.date).getTime() <= new Date().getTime())) ? post?.title : "Bejegyzés"}</title>
-                <meta name="description" content={(post && post?.isActive === "true" && (new Date(post?.date).getTime() <= new Date().getTime())) ? post?.description : "Bejegyzés"} />
-            </Helmet>
             <motion.div initial="hidden" animate="visible" variants={{
                 hidden: {
                     scale: .8,
@@ -57,7 +61,3 @@ export function ViewPost(props) {
         </div>
     )
 }
-
-ViewPost.propTypes = {
-    props: PropTypes.object.isRequired
-};

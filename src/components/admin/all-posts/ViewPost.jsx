@@ -17,7 +17,7 @@ export default function ViewPost({ post }) {
     return (
         <>
             {isActive &&
-                <button className="btn btn-success m-1" style={{ width: "50px", height: "50px" }}
+                <button data-testid="isactive-button" className="btn btn-success m-1" style={{ width: "50px", height: "50px" }}
                     onClick={() => {
                         history.push(`/posts/${post?.slug}`)
                     }}>

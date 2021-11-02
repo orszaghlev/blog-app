@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
@@ -12,15 +12,15 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 
-export default function ShowHome({ allPosts, isLoading, isEmpty, fetchMoreData }) {
+export default function ShowHome({ activePosts }) {
     const [search, setSearch] = useState("");
-    const [notification, setNotification] = useState("");
     const [hunSearch, setHunSearch] = useState(false);
     const [hunCount, setHunCount] = useState(1);
     const history = useHistory();
     const useStyles = makeStyles((theme) => ({
         root: {
             width: 350,
+            border: "1px solid white"
         },
         media: {
             height: 140,
@@ -34,27 +34,18 @@ export default function ShowHome({ allPosts, isLoading, isEmpty, fetchMoreData }
     }));
     const classes = useStyles();
 
-    useEffect(() => {
-        if (isEmpty) {
-            setNotification("Minden bejegyzés betöltve!");
-            setTimeout(() => {
-                setNotification("");
-            }, 5000);
-        }
-    }, [isEmpty]);
-
     return (
         <>
             <h2>Bejegyzések</h2>
             <Grid container
                 direction="row"
-                justify="space-evenly"
+                justifyContent="space-evenly"
                 alignItems="center">
-                <form className={classes.search} noValidate autoComplete="off"
+                <form data-testid="search" className={classes.search} noValidate autoComplete="off"
                     onChange={e => setSearch(e.target.value)}>
-                    <TextField id="search" label="Keresés..." variant="filled" />
+                    <TextField style={{ border: "1px solid white" }} className="TextField" inputProps={{ "data-testid": "input-search" }} id="search" label="Keresés..." variant="filled" />
                 </form>
-                <Button variant="contained" style={{
+                <Button data-testid="hungarian-posts-only" variant="contained" style={{
                     backgroundColor: hunSearch ? 'green' : '#dc3545',
                     color: 'white'
                 }}
@@ -69,7 +60,7 @@ export default function ShowHome({ allPosts, isLoading, isEmpty, fetchMoreData }
                 </Button>
             </Grid>
             {
-                allPosts?.filter(li =>
+                activePosts?.filter(li =>
                     (new Date(li.date).getTime() < new Date().getTime())
                     && (hunSearch ? li.language.toLowerCase().includes("hungarian") : li.language.toLowerCase().includes(""))
                     && (li.tag.toLowerCase().includes(search.toLowerCase()) ||
@@ -80,13 +71,11 @@ export default function ShowHome({ allPosts, isLoading, isEmpty, fetchMoreData }
                         li.description.toLowerCase().includes(search.toLowerCase()) ||
                         li.content.toLowerCase().includes(search.toLowerCase())))
                     .sort((a, b) => b.date.localeCompare(a.date))
-                    .map((post) => (
-                        <div className="card col-sm-3 d-inline-block m-1 p-2 h-100" style={{ border: "none" }} onClick={() => {
-                            history.push(`/posts/${post?.slug}`)
-                        }}>
+                    .map((post, i) => (
+                        <div key={i} className="card col-sm-3 d-inline-block m-1 p-2 h-100" style={{ border: "none" }}>
                             <Grid container
                                 direction="row"
-                                justify="space-evenly"
+                                justifyContent="space-evenly"
                                 alignItems="center">
                                 <Card className={classes.root}>
                                     <CardActionArea>
@@ -104,8 +93,10 @@ export default function ShowHome({ allPosts, isLoading, isEmpty, fetchMoreData }
                                             </Typography>
                                         </CardContent>
                                     </CardActionArea>
-                                    <CardActions style={{ justifyContent: "center" }}>
-                                        <Button size="small" color="primary" align="center">
+                                    <CardActions style={{ justifyContent: "center", border: "1px solid white" }}>
+                                        <Button data-testid="view-post" size="small" color="primary" align="center" onClick={() => {
+                                            history.push(`posts/${post?.slug}`)
+                                        }}>
                                             Tovább
                                         </Button>
                                     </CardActions>
@@ -114,32 +105,10 @@ export default function ShowHome({ allPosts, isLoading, isEmpty, fetchMoreData }
                         </div>
                     ))
             }
-            {isLoading && (
-                <div className="text-danger">
-                    <h6>Betöltés...</h6>
-                </div>
-            )}
-            {!isLoading && !isEmpty && (
-                <Grid>
-                    <Button variant="contained" onClick={() => {
-                        fetchMoreData();
-                    }}>
-                        Korábbi bejegyzések
-                    </Button>
-                </Grid>
-            )}
-            {isEmpty && (
-                <div className="text-danger">
-                    <h6>{notification}</h6>
-                </div>
-            )}
         </>
     )
 }
 
 ShowHome.propTypes = {
-    allPosts: PropTypes.object.isRequired,
-    isLoading: PropTypes.bool.isRequired,
-    isEmpty: PropTypes.bool.isRequired,
-    fetchMoreData: PropTypes.func.isRequired
+    allPosts: PropTypes.object
 };

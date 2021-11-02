@@ -10,12 +10,12 @@ export default function ShowOwnComments({ user }) {
     return (
         <Grid container
             direction="column"
-            justify="center"
+            justifyContent="center"
             alignItems="center">
             <h5>{user?.ownComments.length === 0 ? "Jelenleg nincsenek saját hozzászólásai!" : "Saját hozzászólások"}</h5>
-            {user?.ownComments?.map((comment) => (
-                <div>
-                    <Button variant="text" color="primary" onClick={() => {
+            {user?.ownComments?.map((comment, i) => (
+                <div key={i}>
+                    <Button data-testid="user-comment-button" variant="text" color="primary" onClick={() => {
                         history.push(`/posts/${slugify(comment?.title)}`)
                     }}>
                         <h6>{comment?.title}</h6>
@@ -29,5 +29,5 @@ export default function ShowOwnComments({ user }) {
 }
 
 ShowOwnComments.propTypes = {
-    user: PropTypes.object.isRequired
+    user: PropTypes.object
 };

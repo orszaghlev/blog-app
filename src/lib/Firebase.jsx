@@ -11,7 +11,7 @@ const config = {
     appId: process.env.REACT_APP_FIREBASE_APP_ID,
 };
 
-const firebase = !Firebase.apps.length ? Firebase.initializeApp(config) : Firebase.app();
+const firebase = Firebase.initializeApp(config);
 const { FieldValue } = Firebase.firestore;
 
 export { firebase, FieldValue };

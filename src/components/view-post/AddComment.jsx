@@ -45,16 +45,17 @@ export default function AddComment({ docId, title, language, comments, setCommen
     const classes = useStyles();
 
     return (
-        <form className={classes.root} noValidate autoComplete="off" method="POST"
+        <form data-testid="add-comment-submit" className={classes.root} noValidate autoComplete="off" method="POST"
             onSubmit={(e) =>
                 comment.length >= 1 ? handleSubmitComment(e) : e.preventDefault()
             }
         >
             <Grid container
                 direction="column"
-                justify="center"
+                justifyContent="center"
                 alignItems="center">
                 <TextField
+                    inputProps={{ "data-testid": "input-add-comment" }}
                     aria-label={language === "Hungarian" ? "Új hozzászólás" : "New comment"}
                     autoComplete="off"
                     type="text"
@@ -80,7 +81,7 @@ export default function AddComment({ docId, title, language, comments, setCommen
 }
 
 AddComment.propTypes = {
-    docId: PropTypes.string.isRequired,
+    docId: PropTypes.string,
     title: PropTypes.string.isRequired,
     language: PropTypes.string.isRequired,
     comments: PropTypes.array.isRequired,

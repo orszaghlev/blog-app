@@ -12,9 +12,9 @@ export default function PostInactive({ post }) {
             <h3>{post?.language === "Hungarian" ? "A kért bejegyzés inaktív!" : "The requested post is inactive!"}</h3>
             <Grid container
                 direction="row"
-                justify="center"
+                justifyContent="center"
                 alignItems="center">
-                <Button m="2rem" variant="contained" color="secondary" onClick={() => {
+                <Button data-testid="post-inactive-return" m="2rem" variant="contained" color="secondary" onClick={() => {
                     history.push(ROUTES.HOME)
                 }}>
                     {post?.language === "Hungarian" ? "Vissza" : "Return"}

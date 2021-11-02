@@ -14,6 +14,7 @@ export default function ShowComments({ docId, title, language, comments: allComm
     const useStyles = makeStyles({
         root: {
             maxWidth: 1000,
+            border: "1px solid white",
         },
         media: {
             height: 200,
@@ -27,44 +28,46 @@ export default function ShowComments({ docId, title, language, comments: allComm
                 <div>
                     <h4>{language === "Hungarian" ? (comments?.length === 0 ? "Jelenleg nincsenek hozzászólások!" : "Hozzászólások") : (comments?.length === 0 ? "There are no comments yet!" : "Comments")}</h4>
                 </div>
-                {comments?.map((comment) => (
-                    <CardActionArea>
-                        <CardContent>
-                            <>
-                                <p className="mb-1">
-                                    <span className="mr-1 font-bold">{comment?.displayName}</span>
-                                </p>
-                                <p className="mb-1">
-                                    <h5>{comment?.comment}</h5>
-                                </p>
-                                {user?.userId === process.env.REACT_APP_FIREBASE_ADMIN_UID &&
-                                    <Grid container
-                                        direction="row"
-                                        justify="center"
-                                        alignItems="center">
-                                        <DeleteComment
-                                            docId={docId}
-                                            title={title}
-                                            displayName={comment?.displayName}
-                                            comment={comment?.comment}
-                                            comments={comments}
-                                            setComments={setComments}
-                                        />
-                                        <EditComment
-                                            docId={docId}
-                                            title={title}
-                                            language={language}
-                                            displayName={comment?.displayName}
-                                            comment={comment?.comment}
-                                            comments={comments}
-                                            setComments={setComments}
-                                            commentInput={commentInput}
-                                        />
-                                    </Grid>
-                                }
-                            </>
-                        </CardContent>
-                    </CardActionArea>
+                {comments?.map((comment, i) => (
+                    <div key={i}>
+                        <CardActionArea>
+                            <CardContent>
+                                <>
+                                    <p className="mb-1">
+                                        <span className="mr-1 font-bold">{comment?.displayName}</span>
+                                    </p>
+                                    <h5 className="mb-1">
+                                        <p>{comment?.comment}</p>
+                                    </h5>
+                                    {user?.userId === process.env.REACT_APP_FIREBASE_ADMIN_UID &&
+                                        <Grid container
+                                            direction="row"
+                                            justifyContent="center"
+                                            alignItems="center">
+                                            <DeleteComment
+                                                docId={docId}
+                                                title={title}
+                                                displayName={comment?.displayName}
+                                                comment={comment?.comment}
+                                                comments={comments}
+                                                setComments={setComments}
+                                            />
+                                            <EditComment
+                                                docId={docId}
+                                                title={title}
+                                                language={language}
+                                                displayName={comment?.displayName}
+                                                comment={comment?.comment}
+                                                comments={comments}
+                                                setComments={setComments}
+                                                commentInput={commentInput}
+                                            />
+                                        </Grid>
+                                    }
+                                </>
+                            </CardContent>
+                        </CardActionArea>
+                    </div>
                 ))}
                 {user &&
                     <AddComment
@@ -82,11 +85,10 @@ export default function ShowComments({ docId, title, language, comments: allComm
 }
 
 ShowComments.propTypes = {
-    docId: PropTypes.string.isRequired,
+    docId: PropTypes.string,
     title: PropTypes.string.isRequired,
     language: PropTypes.string.isRequired,
     comments: PropTypes.array.isRequired,
-    posted: PropTypes.number.isRequired,
     commentInput: PropTypes.object.isRequired,
     user: PropTypes.object
 };

@@ -29,16 +29,16 @@ export default function DeleteComment({ docId, title, displayName, comment, comm
     };
 
     return (
-        <button className="btn btn-danger m-1" style={{ width: "40px", height: "40px" }} onClick={() => {
-            handleDeleteComment();
-        }}>
-            <FontAwesomeIcon icon={faTrash} />
-        </button>
+        <>
+            <FontAwesomeIcon data-testid="delete-comment" className="btn btn-danger m-1"
+                style={{ width: "40px", height: "40px" }} onClick={() => handleDeleteComment()} icon={faTrash}
+            />
+        </>
     )
 }
 
 DeleteComment.propTypes = {
-    docId: PropTypes.string.isRequired,
+    docId: PropTypes.string,
     title: PropTypes.string.isRequired,
     displayName: PropTypes.string.isRequired,
     comment: PropTypes.string.isRequired,

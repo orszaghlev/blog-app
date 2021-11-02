@@ -1,59 +1,18 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { motion } from "framer-motion";
-import { Helmet } from "react-helmet-async";
-import { firebase } from '../lib/Firebase';
 import Spinner from '../components/Spinner';
 import ShowHome from "../components/home/ShowHome";
+import useActivePosts from "../hooks/UseActivePosts";
 
-export function Home() {
-    const [allPosts, setAllPosts] = useState([]);
-    const [lastPost, setLastPost] = useState();
-    const [isLoading, setIsLoading] = useState(false);
-    const [isEmpty, setIsEmpty] = useState(false);
-    const postsRef = firebase
-        .firestore()
-        .collection('posts')
-        .orderBy('isActive', 'asc');
-    const updateState = (collections) => {
-        const isCollectionEmpty = collections.size === 0;
-        if (!isCollectionEmpty) {
-            const posts = collections.docs.map((post) => post.data());
-            const lastPost = collections.docs[collections.docs.length - 1];
-            setAllPosts(allPosts => [...allPosts, ...posts]);
-            setLastPost(lastPost);
-        } else {
-            setIsEmpty(true);
-        }
-        setIsLoading(false);
-    };
-    const fetchMoreData = () => {
-        setIsLoading(true);
-        postsRef
-            .startAfter(lastPost)
-            .limit(6)
-            .get()
-            .then((collections) => {
-                updateState(collections);
-            });
-    };
+export default function Home() {
+    const { posts } = useActivePosts();
 
     useEffect(() => {
-        postsRef
-            .startAt('true')
-            .limit(6)
-            .get()
-            .then((collections) => {
-                updateState(collections);
-            });
-        // eslint-disable-next-line
+        document.title = 'Bejegyzések';
     }, []);
 
     return (
         <div className="p-1 m-auto text-center content bg-ivory">
-            <Helmet>
-                <title>Bejegyzések</title>
-                <meta name="description" content="Bejegyzések" />
-            </Helmet>
             <motion.div initial="hidden" animate="visible" variants={{
                 hidden: {
                     scale: .8,
@@ -67,7 +26,7 @@ export function Home() {
                     }
                 },
             }}>
-                {allPosts.length === 0 ? <Spinner /> : <ShowHome allPosts={allPosts} isLoading={isLoading} isEmpty={isEmpty} fetchMoreData={fetchMoreData} />}
+                {(!posts || posts.length === 0) ? <Spinner /> : <ShowHome activePosts={posts} />}
             </motion.div>
         </div>
     )

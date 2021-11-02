@@ -46,7 +46,8 @@ export default function EditPost({ post }) {
         left: '50%',
         transform: 'translate(-50%, -50%)',
         width: 400,
-        bgcolor: 'background.paper',
+        bgcolor: '#1b2938',
+        color: '#dfdfdf',
         border: '2px solid #000',
         boxShadow: 24,
         p: 4,
@@ -88,7 +89,6 @@ export default function EditPost({ post }) {
     return (
         <>
             <br />
-            <h5>Bejegyzés szerkesztése</h5>
             <form data-testid="edit-post-form" className={classes.container} noValidate
                 onSubmit={handleEditPost}
             >
@@ -96,12 +96,13 @@ export default function EditPost({ post }) {
                     direction="column"
                     justifyContent="space-around"
                     alignItems="stretch">
+                    <h4>Bejegyzés szerkesztése</h4>
                     <Grid item xs>
                         <TextField className="TextField" inputProps={{ "data-testid": "input-edit-id" }} value={id} name="id" type="text" label="ID" variant="filled"
                             onChange={(e) => {
                                 setId(e.target.value);
                             }}
-                            required style={{ width: 800 }} />
+                            required style={{ width: 800, border: "1px solid white" }} />
                     </Grid>
                     <Grid item xs>
                         <TextField className="TextField" inputProps={{ "data-testid": "input-edit-title" }} value={title} name="title" type="text" label="Cím" variant="filled"
@@ -109,11 +110,11 @@ export default function EditPost({ post }) {
                                 setTitle(e.target.value);
                                 setSlug(slugify(e.target.value));
                             }}
-                            required style={{ width: 800 }} />
+                            required style={{ width: 800, border: "1px solid white" }} />
                     </Grid>
                     <Grid item xs>
                         <TextField className="TextField" inputProps={{ "data-testid": "input-edit-slug" }} value={slug} name="slug" type="text" label="Slug" variant="filled"
-                            required style={{ width: 800 }} />
+                            required style={{ width: 800, border: "1px solid white" }} />
                     </Grid>
                     <Grid item xs>
                         <Grid
@@ -147,7 +148,7 @@ export default function EditPost({ post }) {
                                     plugins: [
                                         'advlist autolink lists link image charmap print preview anchor',
                                         'searchreplace visualblocks code fullscreen',
-                                        'insertdatetime media table paste code help wordcount'
+                                        'insertdatetime media table paste code help'
                                     ],
                                     toolbar: 'undo redo | formatselect | ' +
                                         'bold italic backcolor | alignleft aligncenter ' +
@@ -166,21 +167,21 @@ export default function EditPost({ post }) {
                             onChange={(e) => {
                                 setImgURL(e.target.value);
                             }}
-                            type="text" required style={{ width: 800 }} />
+                            type="text" required style={{ width: 800, border: "1px solid white" }} />
                     </Grid>
                     <Grid item xs>
                         <TextField className="TextField" inputProps={{ "data-testid": "input-edit-tag" }} value={tag} name="tag" type="text" label="Címkék" variant="filled"
                             onChange={(e) => {
                                 setTag(e.target.value);
                             }}
-                            required style={{ width: 800 }} />
+                            required style={{ width: 800, border: "1px solid white" }} />
                     </Grid>
                     <Grid item xs>
                         <TextField className="TextField" inputProps={{ "data-testid": "input-edit-language" }} value={language} name="language" label="Nyelv" variant="filled" type="text" select
                             onChange={(e) => {
                                 setLanguage(e.target.value)
                             }}
-                            required style={{ width: 800, textAlign: "left" }} >
+                            required style={{ width: 800, textAlign: "left", border: "1px solid white" }} >
                             <MenuItem value="Hungarian">Magyar</MenuItem>
                             <MenuItem value="English">Angol</MenuItem>
                         </TextField>
@@ -188,7 +189,7 @@ export default function EditPost({ post }) {
                     <Grid item xs>
                         <TextField
                             inputProps={{ "data-testid": "input-edit-date" }}
-                            style={{ width: "800px" }}
+                            style={{ width: "800px", border: "1px solid white" }}
                             id="datetime-local"
                             name="date"
                             label="Dátum"
@@ -208,7 +209,7 @@ export default function EditPost({ post }) {
                             onChange={(e) => {
                                 setIsActive(e.target.value)
                             }}
-                            required style={{ width: 800, textAlign: "left" }} >
+                            required style={{ width: 800, textAlign: "left", border: "1px solid white" }} >
                             <MenuItem value="true">Aktív</MenuItem>
                             <MenuItem value="false">Inaktív</MenuItem>
                         </TextField>

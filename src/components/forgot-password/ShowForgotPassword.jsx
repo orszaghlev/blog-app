@@ -53,6 +53,7 @@ export default function ShowForgotPassword() {
                         </div>
                     )}
                     <TextField
+                        style={{ border: "1px solid white" }}
                         className="TextField"
                         required
                         inputProps={{ "data-testid": "input-email" }}

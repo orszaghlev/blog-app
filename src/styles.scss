@@ -11,7 +11,7 @@ body.light-mode {
 }
 
 body.dark-mode {
-  background-color: #10171d;
+  background-color: #1b2938;
   color: #dfdfdf;
 
   .navbar {
@@ -43,6 +43,11 @@ body.dark-mode .content a {
   color: #dfdfdf;
 }
 
+body.dark-mode .content div {
+  background-color: #1b2938;
+  color: #dfdfdf;
+}
+
 body.dark-mode .content textarea {
     background-color: #1b2938;
     color: #dfdfdf;
@@ -54,6 +59,62 @@ body.dark-mode .content .TextField {
 
 body.dark-mode .content .MuiFormLabel-root {
     color: #dfdfdf;
+}
+
+body.dark-mode .content .MuiCard-root {
+  background-color: #1b2938;
+  color: #dfdfdf;
+}
+
+body.dark-mode .content .MuiTable-root {
+  background-color: #1b2938;
+  color: #dfdfdf;
+}
+
+body.dark-mode .content .MuiCardActionArea-root {
+  background-color: #1b2938;
+  color: #dfdfdf;
+}
+
+body.dark-mode .content .MuiTypography-body2 {
+  color: #dfdfdf;
+}
+
+body.dark-mode .content .MuiTableCell-root {
+  background-color: #1b2938;
+  color: #dfdfdf;
+}
+
+body.dark-mode .content .ck .ck-editor__main > .ck-editor__editable.ck-read-only {
+  background: #1b2938;
+}
+
+//innentol
+
+body.dark-mode .MuiCardContent-root {
+  background-color: #1b2938;
+  color: #dfdfdf;
+}
+
+body.dark-mode .MuiCard-root {
+  background-color: #1b2938;
+  color: #dfdfdf;
+}
+
+body.dark-mode .MuiTypography-body2 {
+  color: #dfdfdf;
+}
+
+body.dark-mode .MuiTypography-h6 {
+  color: #dfdfdf;
+}
+
+body.dark-mode .ck .ck-editor__main > .ck-editor__editable.ck-read-only {
+  background: #1b2938;
+}
+
+body.dark-mode div {
+  color: #dfdfdf;
 }
 
 .dark-mode-toggle {

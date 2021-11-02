@@ -20,6 +20,7 @@ export default function ShowHome({ activePosts }) {
     const useStyles = makeStyles((theme) => ({
         root: {
             width: 350,
+            border: "1px solid white"
         },
         media: {
             height: 140,
@@ -42,7 +43,7 @@ export default function ShowHome({ activePosts }) {
                 alignItems="center">
                 <form data-testid="search" className={classes.search} noValidate autoComplete="off"
                     onChange={e => setSearch(e.target.value)}>
-                    <TextField className="TextField" inputProps={{ "data-testid": "input-search" }} id="search" label="Keresés..." variant="filled" />
+                    <TextField style={{ border: "1px solid white" }} className="TextField" inputProps={{ "data-testid": "input-search" }} id="search" label="Keresés..." variant="filled" />
                 </form>
                 <Button data-testid="hungarian-posts-only" variant="contained" style={{
                     backgroundColor: hunSearch ? 'green' : '#dc3545',
@@ -92,7 +93,7 @@ export default function ShowHome({ activePosts }) {
                                             </Typography>
                                         </CardContent>
                                     </CardActionArea>
-                                    <CardActions style={{ justifyContent: "center" }}>
+                                    <CardActions style={{ justifyContent: "center", border: "1px solid white" }}>
                                         <Button data-testid="view-post" size="small" color="primary" align="center" onClick={() => {
                                             history.push(`posts/${post?.slug}`)
                                         }}>

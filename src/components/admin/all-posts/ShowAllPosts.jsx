@@ -1,8 +1,5 @@
 import { useState, useRef, useMemo } from "react";
-import { useHistory } from "react-router-dom";
 import PropTypes from 'prop-types';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
 import { Button } from '@material-ui/core';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -21,7 +18,6 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import ModalImage from "react-modal-image";
 import latinize from 'latinize';
-import * as ROUTES from '../../../constants/Routes';
 import DuplicatePost from './DuplicatePost';
 import DeletePost from './DeletePost';
 import EditPost from "./EditPost";
@@ -36,7 +32,6 @@ export default function ShowAllPosts({ allPosts }) {
     const [activeCount, setActiveCount] = useState(1);
     const [inactiveCount, setInactiveCount] = useState(1);
     const [postToBeEdited, setPostToBeEdited] = useState();
-    const history = useHistory();
     const useStyles = makeStyles({
         table: {
             minWidth: 650,
@@ -102,17 +97,8 @@ export default function ShowAllPosts({ allPosts }) {
                 alignItems="center">
                 <form className={classes.search} noValidate autoComplete="off"
                     onChange={e => setSearch(e.target.value)}>
-                    <TextField inputProps={{ "data-testid": "input-search" }} id="search" label="Keresés..." variant="filled" />
+                    <TextField inputProps={{ "data-testid": "input-search" }} id="search" label="Keresés..." variant="filled" style={{ border: "1px solid white" }} />
                 </form>
-                <Card className={classes.root}>
-                    <CardActions style={{ justifyContent: "center" }}>
-                        <Button data-testid="create-post-button" color="primary" align="center" onClick={() => {
-                            history.push(ROUTES.ADMIN_CREATE_POST)
-                        }}>
-                            Új bejegyzés
-                        </Button>
-                    </CardActions>
-                </Card>
             </Grid>
             <br />
             <Grid container

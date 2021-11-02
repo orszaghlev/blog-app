@@ -235,34 +235,6 @@ describe('<AdminAllPosts />', () => {
         });
     });
 
-    it('Megjelenik a bejegyzéseket tartalmazó admin felület, a felhasználó továbblép az egyik bejegyzéshez tartozó aloldalra', async () => {
-        const firebase = {
-            firestore: jest.fn(() => ({
-            }))
-        };
-
-        await act(async () => {
-            useAllPosts.mockImplementation(() => ({ posts: allPostsFixture }));
-
-            const { getByTestId } = render(
-                <Router>
-                    <FirebaseContext.Provider
-                        value={firebase}
-                    >
-                        <AdminAllPosts />
-                    </FirebaseContext.Provider>
-                </Router >
-            );
-
-            fireEvent.click(getByTestId('create-post-button'));
-
-            await waitFor(() => {
-                expect(document.title).toEqual('Összes bejegyzés');
-                expect(mockHistoryPush).toHaveBeenCalledWith(ROUTES.ADMIN_CREATE_POST);
-            });
-        });
-    });
-
     it('Megjelenik a bejegyzéseket tartalmazó admin felület, az adminisztrátor rákattint a magyar bejegyzéseket szűrő gombra', async () => {
         const firebase = {
             firestore: jest.fn(() => ({

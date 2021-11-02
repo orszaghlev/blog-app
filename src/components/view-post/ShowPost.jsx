@@ -24,6 +24,7 @@ export default function ShowPost({ post, user }) {
     const useStyles = makeStyles({
         root: {
             maxWidth: 1000,
+            border: "1px solid white"
         },
         media: {
             height: 200,

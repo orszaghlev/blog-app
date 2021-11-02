@@ -67,17 +67,6 @@ describe('<ProfileEdit />', () => {
     });
 
     it('Megjelenik a profilszerkesztő oldal, a felhasználó saját adataival, a felhasználó sikeresen szerkesztette azokat', async () => {
-        const firebase = {
-            auth: jest.fn(() => ({
-            })),
-            firestore: jest.fn(() => ({
-                collection: jest.fn(() => ({
-                    doc: jest.fn().mockReturnThis(),
-                    set: jest.fn(() => Promise.resolve('Felhasználó szerkesztve'))
-                }))
-            }))
-        };
-
         await act(async () => {
             getUserByUserId.mockImplementation(() => [userFixture]);
             useUser.mockImplementation(() => ({ user: userFixture }));
@@ -86,7 +75,18 @@ describe('<ProfileEdit />', () => {
             const { getByTestId, queryByTestId } = render(
                 <Router>
                     <FirebaseContext.Provider
-                        value={firebase}
+                        value={{
+                            firebase: {
+                                auth: jest.fn(() => ({
+                                })),
+                                firestore: jest.fn(() => ({
+                                    collection: jest.fn(() => ({
+                                        doc: jest.fn().mockReturnThis(),
+                                        set: jest.fn(() => Promise.resolve('Felhasználó szerkesztve'))
+                                    }))
+                                }))
+                            }
+                        }}
                     >
                         <UserContext.Provider
                             value={{
@@ -165,14 +165,6 @@ describe('<ProfileEdit />', () => {
     });
 
     it('Megjelenik a profilszerkesztő oldal, de a felhasználó a jelszóváltoztató gombra kattint', async () => {
-        const firebase = {
-            auth: jest.fn(() => ({
-                sendPasswordResetEmail: jest.fn(() => Promise.resolve('Küldtünk az Ön e-mail címére egy jelszóváltoztatást segítő mailt!'))
-            })),
-            firestore: jest.fn(() => ({
-            }))
-        };
-
         await act(async () => {
             getUserByUserId.mockImplementation(() => [userFixture]);
             useUser.mockImplementation(() => ({ user: userFixture }));
@@ -180,7 +172,15 @@ describe('<ProfileEdit />', () => {
             const { getByText, getByTestId, queryByTestId } = render(
                 <Router>
                     <FirebaseContext.Provider
-                        value={firebase}
+                        value={{
+                            firebase: {
+                                auth: jest.fn(() => ({
+                                    sendPasswordResetEmail: jest.fn(() => Promise.resolve('Küldtünk az Ön e-mail címére egy jelszóváltoztatást segítő mailt!'))
+                                })),
+                                firestore: jest.fn(() => ({
+                                }))
+                            }
+                        }}
                     >
                         <UserContext.Provider
                             value={{

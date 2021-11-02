@@ -1,16 +1,17 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import PropTypes from 'prop-types';
 import { Button } from "@material-ui/core";
 import { TextField } from "@material-ui/core";
 import { Grid } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
-import { firebase } from "../../../lib/Firebase";
+import FirebaseContext from '../../../contexts/Firebase';
 import * as ROUTES from '../../../constants/Routes';
 import { doesUsernameExist } from "../../../services/Firebase";
 
 export default function ShowProfileEdit({ user }) {
     const history = useHistory();
+    const { firebase } = useContext(FirebaseContext);
     const [username, setUsername] = useState("");
     const [fullName, setFullName] = useState("");
     const [error, setError] = useState("");
@@ -42,7 +43,6 @@ export default function ShowProfileEdit({ user }) {
 
     return (
         <>
-            <h2>Felhasználói adatok szerkesztése</h2>
             <form data-testid="edit-user-data" className={classes.container} noValidate
                 onSubmit={async (e) => {
                     e.preventDefault();
@@ -63,7 +63,7 @@ export default function ShowProfileEdit({ user }) {
                             setError("");
                         }, 5000);
                     } else {
-                        firebase.firestore().collection('users').doc(data.userId).set(data);
+                        await firebase.firestore().collection('users').doc(data.userId).set(data);
                         history.push(ROUTES.PROFILE);
                     }
                 }}
@@ -72,19 +72,20 @@ export default function ShowProfileEdit({ user }) {
                     direction="column"
                     justifyContent="space-around"
                     alignItems="stretch">
+                    <h2>Felhasználói adatok szerkesztése</h2>
                     <Grid item xs>
                         <TextField className="TextField" inputProps={{ "data-testid": "input-username" }} value={username || ""} name="username" type="text" label="Felhasználónév" variant="filled"
                             onChange={(e) => {
                                 setUsername(e.target.value);
                             }}
-                            required style={{ width: 800 }} />
+                            required style={{ width: 800, border: "1px solid white" }} />
                     </Grid>
                     <Grid item xs>
                         <TextField className="TextField" inputProps={{ "data-testid": "input-fullname" }} value={fullName || ""} name="fullName" type="text" label="Teljes név" variant="filled"
                             onChange={(e) => {
                                 setFullName(e.target.value);
                             }}
-                            required style={{ width: 800 }} />
+                            required style={{ width: 800, border: "1px solid white" }} />
                     </Grid>
                     <Grid item xs>
                         <Button data-testid="change-password" color="secondary" onClick={() => {

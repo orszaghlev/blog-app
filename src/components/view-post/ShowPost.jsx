@@ -78,6 +78,7 @@ export default function ShowPost({ post, user }) {
                 <CKEditor
                     editor={ClassicEditor}
                     data={post?.content}
+                    disabled={true}
                     config={{
                         alignment: {
                             options: ['justify']
@@ -86,7 +87,6 @@ export default function ShowPost({ post, user }) {
                     }}
                     onReady={editor => {
                         editorRef.current = editor;
-                        editor.isReadOnly = true;
                     }}
                 />
                 <CardActions style={{ justifyContent: "center" }}>

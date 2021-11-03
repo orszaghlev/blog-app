@@ -249,6 +249,7 @@ export default function ShowAllPosts({ allPosts }) {
                                             <CKEditor
                                                 editor={ClassicEditor}
                                                 data={post?.content}
+                                                disabled={true}
                                                 config={{
                                                     alignment: {
                                                         options: ['justify']
@@ -257,10 +258,6 @@ export default function ShowAllPosts({ allPosts }) {
                                                 }}
                                                 onReady={editor => {
                                                     editorRef.current = editor;
-                                                    editor.editing.view.change(writer => {
-                                                        writer.setStyle('height', '150px', editor.editing.view.document.getRoot());
-                                                    });
-                                                    editor.isReadOnly = true;
                                                 }}
                                             />
                                         </TableCell>

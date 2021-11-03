@@ -26,15 +26,6 @@ body.dark-mode {
   }
 }
 
-.navbar {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  display: flex;
-  background-color: #95d3ff;
-  padding: 20px;
-}
-
 body.dark-mode .content code {
   background-color: #1b2938;
 }
@@ -115,33 +106,6 @@ body.dark-mode div {
   color: #dfdfdf;
 }
 
-.dark-mode-toggle {
-  display: flex;
-  margin: 0 auto;
-  & > button {
-    font-size: 1.2em;
-    background: none;
-    border: none;
-    color: #ffe600;
-    cursor: pointer;
-    transition: color 0.3s ease;
-    &:last-child {
-      color: #666;
-    }
-
-    &:focus {
-      outline: none;
-    }
-  }
-}
-
-.toggle-control {
-  position: relative;
-  padding: 0 4px;
-  display: flex;
-  align-items: center;
-}
-
 input[type='checkbox'].dmcheck {
   width: 40px;
   height: 10px;
@@ -176,4 +140,44 @@ input[type='checkbox'].dmcheck {
     opacity: 0.9;
     background-color: #f6f6f6;
   }
+}
+
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  display: flex;
+  background-color: #95d3ff;
+  padding: 20px;
+}
+
+.dark-mode-toggle {
+  display: flex;
+  margin: 0 auto;
+  & > button {
+    font-size: 1.2em;
+    background: none;
+    border: none;
+    color: #ffe600;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    &:last-child {
+      color: #666;
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+}
+
+.toggle-control {
+  position: relative;
+  padding: 0 4px;
+  display: flex;
+  align-items: center;
+}
+
+.ck-editor__editable {
+  height: 200px;
 }

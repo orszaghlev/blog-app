@@ -671,7 +671,7 @@ describe('<AdminAllPosts />', () => {
         window.scrollTo = jest.fn();
         delete window.location;
         window.location = { reload: jest.fn() };
-
+        
         await act(async () => {
             useAllPosts.mockImplementation(() => ({ posts: allPostsFixture }));
 
@@ -697,43 +697,43 @@ describe('<AdminAllPosts />', () => {
 
             fireEvent.click(getByTestId('scroll-to-edit-post-button'));
             fireEvent.click(await findByTestId('edit-post-button'));
-            fireEvent.change(await findByTestId('input-edit-id'), {
-                target: { value: 'react' }
+            await fireEvent.change(await findByTestId('input-edit-id'), {
+                target: { value: 'react-edit' }
             });
-            fireEvent.change(await findByTestId('input-edit-title'), {
-                target: { value: 'React (JavaScript library)' }
+            await fireEvent.change(await findByTestId('input-edit-title'), {
+                target: { value: 'React (JavaScript library)-edit' }
             });
-            fireEvent.change(await findByTestId('input-edit-slug'), {
-                target: { value: 'react-javascript-library-' }
+            await fireEvent.change(await findByTestId('input-edit-slug'), {
+                target: { value: 'react-javascript-library--edit' }
             });
-            fireEvent.change(await findByTestId('input-edit-description'), {
-                target: { value: 'React (also known as React.js or ReactJS) is a free and open-source front-end JavaScript library for building user interfaces or UI components.' }
+            await fireEvent.change(await findByTestId('input-edit-description'), {
+                target: { value: 'React (also known as React.js or ReactJS) is a free and open-source front-end JavaScript library for building user interfaces or UI components. Edit.' }
             });
-            fireEvent.change(await findByTestId('input-edit-imgURL'), {
-                target: { value: 'https://www.mobinius.com/wp-content/uploads/2019/03/React_Native_Logo.png' }
+            await fireEvent.change(await findByTestId('input-edit-imgURL'), {
+                target: { value: 'https://www.mobinius.com/wp-content/uploads/2019/03/React_Native_Logo.png-edit' }
             })
-            fireEvent.change(await findByTestId('input-edit-tag'), {
-                target: { value: 'react, javascript, library' }
+            await fireEvent.change(await findByTestId('input-edit-tag'), {
+                target: { value: 'react, javascript, library-edit' }
             })
-            fireEvent.change(await findByTestId('input-edit-language'), {
-                target: { value: 'English' }
+            await fireEvent.change(await findByTestId('input-edit-language'), {
+                target: { value: 'Hungarian' }
             })
-            fireEvent.change(await findByTestId('input-edit-isActive'), {
-                target: { value: 'false' }
+            await fireEvent.change(await findByTestId('input-edit-isActive'), {
+                target: { value: 'true' }
             })
             fireEvent.submit(await findByTestId('edit-post-form'));
 
             await waitFor(() => {
                 expect(document.title).toEqual('Összes bejegyzés');
                 expect(getByText('Bejegyzés szerkesztése')).toBeTruthy();
-                expect(getByTestId('input-edit-id').value).toBe('react');
-                expect(getByTestId('input-edit-title').value).toBe('React (JavaScript library)');
-                expect(getByTestId('input-edit-slug').value).toBe('react-javascript-library-');
-                expect(getByTestId('input-edit-description').value).toBe('React (also known as React.js or ReactJS) is a free and open-source front-end JavaScript library for building user interfaces or UI components.');
-                expect(getByTestId('input-edit-imgURL').value).toBe('https://www.mobinius.com/wp-content/uploads/2019/03/React_Native_Logo.png');
-                expect(getByTestId('input-edit-tag').value).toBe('react, javascript, library');
-                expect(getByTestId('input-edit-language').value).toBe('English');
-                expect(getByTestId('input-edit-isActive').value).toBe('false');
+                expect(getByTestId('input-edit-id').value).toBe('react-edit');
+                expect(getByTestId('input-edit-title').value).toBe('React (JavaScript library)-edit');
+                expect(getByTestId('input-edit-slug').value).toBe('react-javascript-library--edit');
+                expect(getByTestId('input-edit-description').value).toBe('React (also known as React.js or ReactJS) is a free and open-source front-end JavaScript library for building user interfaces or UI components. Edit.');
+                expect(getByTestId('input-edit-imgURL').value).toBe('https://www.mobinius.com/wp-content/uploads/2019/03/React_Native_Logo.png-edit');
+                expect(getByTestId('input-edit-tag').value).toBe('react, javascript, library-edit');
+                expect(getByTestId('input-edit-language').value).toBe('Hungarian');
+                expect(getByTestId('input-edit-isActive').value).toBe('true');
             });
         });
     });

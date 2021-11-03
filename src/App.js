@@ -104,7 +104,7 @@ export default function App() {
                                         </NavLink>
                                     </Button>
                                 </>}
-                                <Typography>
+                                <Typography component={'div'}>
                                     <DarkModeToggle />
                                 </Typography>
                             </Toolbar>

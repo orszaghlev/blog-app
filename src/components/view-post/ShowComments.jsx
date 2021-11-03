@@ -2,8 +2,6 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardContent from '@material-ui/core/CardContent';
 import Grid from '@material-ui/core/Grid';
 import AddComment from './AddComment';
 import EditComment from './EditComment';
@@ -30,43 +28,39 @@ export default function ShowComments({ docId, title, language, comments: allComm
                 </div>
                 {comments?.map((comment, i) => (
                     <div key={i}>
-                        <CardActionArea>
-                            <CardContent>
-                                <>
-                                    <p className="mb-1">
-                                        <span className="mr-1 font-bold">{comment?.displayName}</span>
-                                    </p>
-                                    <h5 className="mb-1">
-                                        <p>{comment?.comment}</p>
-                                    </h5>
-                                    {user?.userId === process.env.REACT_APP_FIREBASE_ADMIN_UID &&
-                                        <Grid container
-                                            direction="row"
-                                            justifyContent="center"
-                                            alignItems="center">
-                                            <DeleteComment
-                                                docId={docId}
-                                                title={title}
-                                                displayName={comment?.displayName}
-                                                comment={comment?.comment}
-                                                comments={comments}
-                                                setComments={setComments}
-                                            />
-                                            <EditComment
-                                                docId={docId}
-                                                title={title}
-                                                language={language}
-                                                displayName={comment?.displayName}
-                                                comment={comment?.comment}
-                                                comments={comments}
-                                                setComments={setComments}
-                                                commentInput={commentInput}
-                                            />
-                                        </Grid>
-                                    }
-                                </>
-                            </CardContent>
-                        </CardActionArea>
+                        <>
+                            <p className="mb-1">
+                                <span className="mr-1 font-bold">{comment?.displayName}</span>
+                            </p>
+                            <h5 className="mb-1">
+                                <p>{comment?.comment}</p>
+                            </h5>
+                            {user?.userId === process.env.REACT_APP_FIREBASE_ADMIN_UID &&
+                                <Grid container
+                                    direction="row"
+                                    justifyContent="center"
+                                    alignItems="center">
+                                    <DeleteComment
+                                        docId={docId}
+                                        title={title}
+                                        displayName={comment?.displayName}
+                                        comment={comment?.comment}
+                                        comments={comments}
+                                        setComments={setComments}
+                                    />
+                                    <EditComment
+                                        docId={docId}
+                                        title={title}
+                                        language={language}
+                                        displayName={comment?.displayName}
+                                        comment={comment?.comment}
+                                        comments={comments}
+                                        setComments={setComments}
+                                        commentInput={commentInput}
+                                    />
+                                </Grid>
+                            }
+                        </>
                     </div>
                 ))}
                 {user &&

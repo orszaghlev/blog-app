@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useContext, useRef } from "react";
 import { useHistory } from "react-router-dom";
 import { Button } from "@material-ui/core";
 import { TextField } from "@material-ui/core";
@@ -7,11 +7,12 @@ import MenuItem from '@material-ui/core/MenuItem';
 import { makeStyles } from '@material-ui/core/styles';
 import { Editor } from '@tinymce/tinymce-react';
 import slugify from 'react-slugify';
-import { firebase } from "../../../lib/Firebase";
+import FirebaseContext from '../../../contexts/Firebase';
 import * as ROUTES from '../../../constants/Routes';
 
 export default function ShowCreatePost() {
     const history = useHistory();
+    const { firebase } = useContext(FirebaseContext);
     const [content, setContent] = useState("");
     const [slug, setSlug] = useState("");
     const editorRef = useRef(null);
@@ -49,7 +50,7 @@ export default function ShowCreatePost() {
                         comments: [],
                         saves: []
                     };
-                    firebase.firestore().collection('posts').doc(data.id).set(data);
+                    await firebase.firestore().collection('posts').doc(data.id).set(data);
                     history.push(ROUTES.ADMIN_ALL_POSTS);
                 }}
             >

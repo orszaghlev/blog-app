@@ -5,6 +5,7 @@ import { act } from 'react-dom/test-utils';
 import slugify from 'react-slugify';
 import Profile from '../../pages/Profile';
 import UserContext from '../../contexts/User';
+import LoggedInUserContext from '../../contexts/LoggedInUser';
 import FirebaseContext from '../../contexts/Firebase';
 import * as ROUTES from '../../constants/Routes';
 import { getUserByUserId } from '../../services/Firebase';
@@ -51,7 +52,14 @@ describe('<Profile />', () => {
                                 }
                             }}
                         >
-                            <Profile />
+                            <LoggedInUserContext.Provider value={{ user: userFixture }}>
+                                <Profile
+                                    user={{
+                                        uid: process.env.REACT_APP_FIREBASE_ADMIN_UID,
+                                        displayName: 'admin'
+                                    }}
+                                />
+                            </LoggedInUserContext.Provider>
                         </UserContext.Provider>
                     </FirebaseContext.Provider>
                 </Router>
@@ -97,7 +105,14 @@ describe('<Profile />', () => {
                                 }
                             }}
                         >
-                            <Profile />
+                            <LoggedInUserContext.Provider value={{ user: userFixture }}>
+                                <Profile
+                                    user={{
+                                        uid: process.env.REACT_APP_FIREBASE_ADMIN_UID,
+                                        displayName: 'admin'
+                                    }}
+                                />
+                            </LoggedInUserContext.Provider>
                         </UserContext.Provider>
                     </FirebaseContext.Provider>
                 </Router>
@@ -142,7 +157,14 @@ describe('<Profile />', () => {
                                 }
                             }}
                         >
-                            <Profile />
+                            <LoggedInUserContext.Provider value={{ user: userFixture }}>
+                                <Profile
+                                    user={{
+                                        uid: process.env.REACT_APP_FIREBASE_ADMIN_UID,
+                                        displayName: 'admin'
+                                    }}
+                                />
+                            </LoggedInUserContext.Provider>
                         </UserContext.Provider>
                     </FirebaseContext.Provider>
                 </Router>
@@ -181,7 +203,14 @@ describe('<Profile />', () => {
                                 }
                             }}
                         >
-                            <Profile />
+                            <LoggedInUserContext.Provider value={{ user: userFixture }}>
+                                <Profile
+                                    user={{
+                                        uid: process.env.REACT_APP_FIREBASE_ADMIN_UID,
+                                        displayName: 'admin'
+                                    }}
+                                />
+                            </LoggedInUserContext.Provider>
                         </UserContext.Provider>
                     </FirebaseContext.Provider>
                 </Router>
@@ -220,7 +249,14 @@ describe('<Profile />', () => {
                                 }
                             }}
                         >
-                            <Profile />
+                            <LoggedInUserContext.Provider value={{ user: userFixture }}>
+                                <Profile
+                                    user={{
+                                        uid: process.env.REACT_APP_FIREBASE_ADMIN_UID,
+                                        displayName: 'admin'
+                                    }}
+                                />
+                            </LoggedInUserContext.Provider>
                         </UserContext.Provider>
                     </FirebaseContext.Provider>
                 </Router>

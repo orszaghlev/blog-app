@@ -4,6 +4,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { act } from 'react-dom/test-utils';
 import ProfileEdit from '../../pages/ProfileEdit';
 import UserContext from '../../contexts/User';
+import LoggedInUserContext from '../../contexts/LoggedInUser';
 import FirebaseContext from '../../contexts/Firebase';
 import * as ROUTES from '../../constants/Routes';
 import { doesUsernameExist, getUserByUserId } from '../../services/Firebase';
@@ -51,7 +52,14 @@ describe('<ProfileEdit />', () => {
                                 }
                             }}
                         >
-                            <ProfileEdit />
+                            <LoggedInUserContext.Provider value={{ user: userFixture }}>
+                                <ProfileEdit
+                                    user={{
+                                        uid: process.env.REACT_APP_FIREBASE_ADMIN_UID,
+                                        displayName: 'admin'
+                                    }}
+                                />
+                            </LoggedInUserContext.Provider>
                         </UserContext.Provider>
                     </FirebaseContext.Provider>
                 </Router>
@@ -96,7 +104,14 @@ describe('<ProfileEdit />', () => {
                                 }
                             }}
                         >
-                            <ProfileEdit />
+                            <LoggedInUserContext.Provider value={{ user: userFixture }}>
+                                <ProfileEdit
+                                    user={{
+                                        uid: process.env.REACT_APP_FIREBASE_ADMIN_UID,
+                                        displayName: 'admin'
+                                    }}
+                                />
+                            </LoggedInUserContext.Provider>
                         </UserContext.Provider>
                     </FirebaseContext.Provider>
                 </Router >
@@ -148,7 +163,14 @@ describe('<ProfileEdit />', () => {
                                 }
                             }}
                         >
-                            <ProfileEdit />
+                            <LoggedInUserContext.Provider value={{ user: userFixture }}>
+                                <ProfileEdit
+                                    user={{
+                                        uid: process.env.REACT_APP_FIREBASE_ADMIN_UID,
+                                        displayName: 'admin'
+                                    }}
+                                />
+                            </LoggedInUserContext.Provider>
                         </UserContext.Provider>
                     </FirebaseContext.Provider>
                 </Router>
@@ -190,7 +212,14 @@ describe('<ProfileEdit />', () => {
                                 }
                             }}
                         >
-                            <ProfileEdit />
+                            <LoggedInUserContext.Provider value={{ user: userFixture }}>
+                                <ProfileEdit
+                                    user={{
+                                        uid: process.env.REACT_APP_FIREBASE_ADMIN_UID,
+                                        displayName: 'admin'
+                                    }}
+                                />
+                            </LoggedInUserContext.Provider>
                         </UserContext.Provider>
                     </FirebaseContext.Provider>
                 </Router>

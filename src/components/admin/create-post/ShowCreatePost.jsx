@@ -129,7 +129,7 @@ export default function ShowCreatePost() {
                     </Grid>
                     <Grid item xs>
                         <TextField
-                            style={{ width: "800px", marginLeft: "2px", marginRight: "2px", border: "1px solid white" }}
+                            style={{ width: "800px", border: "1px solid white" }}
                             id="datetime-local"
                             name="date"
                             label="Dátum"

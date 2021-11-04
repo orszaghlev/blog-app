@@ -35,21 +35,20 @@ body.dark-mode .content a {
 }
 
 body.dark-mode .content div {
-  background-color: #1b2938;
   color: #dfdfdf;
 }
 
 body.dark-mode .content textarea {
-    background-color: #1b2938;
-    color: #dfdfdf;
+  background-color: #1b2938;
+  color: #dfdfdf;
 }
 
 body.dark-mode .content .TextField {
-    background-color: #1b2938;
+  background-color: #1b2938;
 }
 
 body.dark-mode .content .MuiFormLabel-root {
-    color: #dfdfdf;
+  color: #dfdfdf;
 }
 
 body.dark-mode .content .MuiCard-root {
@@ -78,6 +77,7 @@ body.dark-mode .content .MuiTableCell-root {
 
 body.dark-mode .content .ck .ck-editor__main > .ck-editor__editable.ck-read-only {
   background: #1b2938;
+  height: 200px;
 }
 
 body.dark-mode .MuiCardContent-root {
@@ -176,8 +176,4 @@ input[type='checkbox'].dmcheck {
   padding: 0 4px;
   display: flex;
   align-items: center;
-}
-
-.ck-editor__editable {
-  height: 200px;
 }

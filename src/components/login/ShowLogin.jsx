@@ -54,7 +54,6 @@ export default function ShowLogin() {
                         </div>
                     )}
                     <TextField
-                        style={{ border: "1px solid white" }}
                         className="TextField"
                         required
                         inputProps={{ "data-testid": "input-email" }}
@@ -65,7 +64,6 @@ export default function ShowLogin() {
                         value={emailAddress}
                     />
                     <TextField
-                        style={{ border: "1px solid white" }}
                         className="TextField"
                         required
                         inputProps={{ "data-testid": "input-password" }}

@@ -10,6 +10,19 @@ body.light-mode {
   transition: background-color 0.3s ease;
 }
 
+body.light-mode .MuiCard-root {
+  border: 1px solid white;
+}
+
+body.light-mode .content .ck .ck-editor__main > .ck-editor__editable.ck-read-only {
+  height: 200px;
+  border: none;
+}
+
+body.light-mode .ck .ck-editor__main > .ck-editor__editable.ck-read-only {
+  border: none;
+}
+
 body.dark-mode {
   background-color: #1b2938;
   color: #dfdfdf;
@@ -41,6 +54,11 @@ body.dark-mode .content div {
 body.dark-mode .content textarea {
   background-color: #1b2938;
   color: #dfdfdf;
+  border: 1px solid black;
+}
+
+body.dark-mode .content textarea::placeholder {
+  color: #dfdfdf;  
 }
 
 body.dark-mode .content .TextField {
@@ -59,6 +77,7 @@ body.dark-mode .content .MuiCard-root {
 body.dark-mode .content .MuiTable-root {
   background-color: #1b2938;
   color: #dfdfdf;
+  border: 1px solid black;
 }
 
 body.dark-mode .content .MuiCardActionArea-root {
@@ -73,6 +92,11 @@ body.dark-mode .content .MuiTypography-body2 {
 body.dark-mode .content .MuiTableCell-root {
   background-color: #1b2938;
   color: #dfdfdf;
+  border: none;
+}
+
+body.dark-mode .content .MuiTableRow-root {
+  border: 1px solid black;
 }
 
 body.dark-mode .content .ck .ck-editor__main > .ck-editor__editable.ck-read-only {
@@ -88,6 +112,7 @@ body.dark-mode .MuiCardContent-root {
 body.dark-mode .MuiCard-root {
   background-color: #1b2938;
   color: #dfdfdf;
+  border: 1px solid black;
 }
 
 body.dark-mode .MuiTypography-body2 {
@@ -98,8 +123,18 @@ body.dark-mode .MuiTypography-h6 {
   color: #dfdfdf;
 }
 
+body.dark-mode .MuiMenuItem-root {
+  background-color: #1b2938;
+  color: #dfdfdf;
+}
+
+body.dark-mode .MuiSvgIcon-root {
+  color: #dfdfdf;
+}
+
 body.dark-mode .ck .ck-editor__main > .ck-editor__editable.ck-read-only {
   background: #1b2938;
+  border: none;
 }
 
 body.dark-mode div {

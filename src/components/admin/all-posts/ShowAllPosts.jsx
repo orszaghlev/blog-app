@@ -39,8 +39,7 @@ export default function ShowAllPosts({ allPosts }) {
     });
     const StyledTableCell = withStyles((theme) => ({
         head: {
-            backgroundColor: theme.palette.success.light,
-            color: theme.palette.common.white,
+            backgroundColor: theme.palette.primary.light,
         },
         body: {
             fontSize: 14,
@@ -97,7 +96,7 @@ export default function ShowAllPosts({ allPosts }) {
                 alignItems="center">
                 <form className={classes.search} noValidate autoComplete="off"
                     onChange={e => setSearch(e.target.value)}>
-                    <TextField inputProps={{ "data-testid": "input-search" }} id="search" label="Keresés..." variant="filled" style={{ border: "1px solid white" }} />
+                    <TextField inputProps={{ "data-testid": "input-search" }} id="search" label="Keresés..." variant="filled" />
                 </form>
             </Grid>
             <br />

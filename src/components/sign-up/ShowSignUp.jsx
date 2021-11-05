@@ -92,7 +92,6 @@ export default function ShowSignUp() {
                         </div>
                     )}
                     <TextField
-                        style={{ border: "1px solid white" }}
                         className="TextField"
                         required
                         inputProps={{ "data-testid": "input-username" }}
@@ -103,7 +102,6 @@ export default function ShowSignUp() {
                         value={username}
                     />
                     <TextField
-                        style={{ border: "1px solid white" }}
                         className="TextField"
                         required
                         inputProps={{ "data-testid": "input-fullname" }}
@@ -114,7 +112,6 @@ export default function ShowSignUp() {
                         value={fullName}
                     />
                     <TextField
-                        style={{ border: "1px solid white" }}
                         className="TextField"
                         required
                         inputProps={{ "data-testid": "input-email" }}
@@ -125,7 +122,6 @@ export default function ShowSignUp() {
                         value={emailAddress}
                     />
                     <TextField
-                        style={{ border: "1px solid white" }}
                         className="TextField"
                         required
                         inputProps={{ "data-testid": "input-password" }}

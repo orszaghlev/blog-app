@@ -102,7 +102,7 @@ export default function EditPost({ post }) {
                             onChange={(e) => {
                                 setId(e.target.value);
                             }}
-                            required style={{ width: 800, border: "1px solid white" }} />
+                            required style={{ width: 800 }} />
                     </Grid>
                     <Grid item xs>
                         <TextField className="TextField" inputProps={{ "data-testid": "input-edit-title" }} value={title} name="title" type="text" label="Cím" variant="filled"
@@ -110,11 +110,11 @@ export default function EditPost({ post }) {
                                 setTitle(e.target.value);
                                 setSlug(slugify(e.target.value));
                             }}
-                            required style={{ width: 800, border: "1px solid white" }} />
+                            required style={{ width: 800 }} />
                     </Grid>
                     <Grid item xs>
                         <TextField className="TextField" inputProps={{ "data-testid": "input-edit-slug" }} value={slug} name="slug" type="text" label="Slug" variant="filled"
-                            required style={{ width: 800, border: "1px solid white" }} />
+                            required style={{ width: 800 }} />
                     </Grid>
                     <Grid item xs>
                         <Grid
@@ -167,21 +167,21 @@ export default function EditPost({ post }) {
                             onChange={(e) => {
                                 setImgURL(e.target.value);
                             }}
-                            type="text" required style={{ width: 800, border: "1px solid white" }} />
+                            type="text" required style={{ width: 800 }} />
                     </Grid>
                     <Grid item xs>
                         <TextField className="TextField" inputProps={{ "data-testid": "input-edit-tag" }} value={tag} name="tag" type="text" label="Címkék" variant="filled"
                             onChange={(e) => {
                                 setTag(e.target.value);
                             }}
-                            required style={{ width: 800, border: "1px solid white" }} />
+                            required style={{ width: 800 }} />
                     </Grid>
                     <Grid item xs>
                         <TextField className="TextField" inputProps={{ "data-testid": "input-edit-language" }} value={language} name="language" label="Nyelv" variant="filled" type="text" select
                             onChange={(e) => {
                                 setLanguage(e.target.value)
                             }}
-                            required style={{ width: 800, textAlign: "left", border: "1px solid white" }} >
+                            required style={{ width: 800, textAlign: "left" }} >
                             <MenuItem value="Hungarian">Magyar</MenuItem>
                             <MenuItem value="English">Angol</MenuItem>
                         </TextField>
@@ -189,7 +189,7 @@ export default function EditPost({ post }) {
                     <Grid item xs>
                         <TextField
                             inputProps={{ "data-testid": "input-edit-date" }}
-                            style={{ width: "800px", border: "1px solid white" }}
+                            style={{ width: "800px" }}
                             id="datetime-local"
                             name="date"
                             label="Dátum"
@@ -209,7 +209,7 @@ export default function EditPost({ post }) {
                             onChange={(e) => {
                                 setIsActive(e.target.value)
                             }}
-                            required style={{ width: 800, textAlign: "left", border: "1px solid white" }} >
+                            required style={{ width: 800, textAlign: "left" }} >
                             <MenuItem value="true">Aktív</MenuItem>
                             <MenuItem value="false">Inaktív</MenuItem>
                         </TextField>

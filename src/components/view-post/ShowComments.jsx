@@ -12,7 +12,6 @@ export default function ShowComments({ docId, title, language, comments: allComm
     const useStyles = makeStyles({
         root: {
             maxWidth: 1000,
-            border: "1px solid white",
         },
         media: {
             height: 200,

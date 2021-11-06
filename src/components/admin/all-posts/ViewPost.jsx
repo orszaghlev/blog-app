@@ -21,7 +21,7 @@ export default function ViewPost({ post }) {
                     onClick={() => {
                         history.push(`/posts/${post?.slug}`)
                     }}>
-                    <FontAwesomeIcon icon={faEye} />
+                    <FontAwesomeIcon icon={faEye} title="Megtekintés" />
                 </button>
             }
             {!isActive &&

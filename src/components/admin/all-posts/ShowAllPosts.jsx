@@ -143,7 +143,7 @@ export default function ShowAllPosts({ allPosts }) {
                         }
                     }}>Csak inaktív bejegyzések</Button>
             </Grid>
-            <div className="card">
+            <div>
                 <TableContainer component={Paper}>
                     <Table className={classes.table} aria-label="simple table">
                         <TableHead>
@@ -302,7 +302,7 @@ export default function ShowAllPosts({ allPosts }) {
                                                         setPostToBeEdited(post);
                                                         window.scrollTo(0, 70);
                                                     }}>
-                                                    <FontAwesomeIcon icon={faPencilAlt} />
+                                                    <FontAwesomeIcon icon={faPencilAlt} title="Szerkesztés" />
                                                 </button>
                                                 <DuplicatePost post={post} />
                                                 <ViewPost post={post} />

@@ -93,6 +93,7 @@ export default function ShowCreatePost() {
                                 onInit={(editor) => editorRef.current = editor}
                                 initialValue="Tartalom"
                                 init={{
+                                    skin: 'oxide-dark',
                                     content_css: 'dark',
                                     language: 'hu_HU',
                                     width: 800,
@@ -100,12 +101,12 @@ export default function ShowCreatePost() {
                                     plugins: [
                                         'advlist autolink lists link image charmap print preview anchor',
                                         'searchreplace visualblocks code fullscreen',
-                                        'insertdatetime media table paste code help wordcount'
+                                        'insertdatetime media table paste code wordcount'
                                     ],
                                     toolbar: 'undo redo | formatselect | ' +
                                         'bold italic backcolor | alignleft aligncenter ' +
                                         'alignright alignjustify | bullist numlist outdent indent | ' +
-                                        'removeformat | help',
+                                        'removeformat',
                                     content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
                                 }}
                                 onChange={(e) => {

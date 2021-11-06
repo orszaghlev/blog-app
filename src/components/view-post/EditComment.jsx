@@ -58,7 +58,7 @@ export default function EditComment({ docId, title, language, displayName, comme
 
     return (
         <>
-            <FontAwesomeIcon data-testid="show-edit-form" className="btn btn-warning m-1"
+            <FontAwesomeIcon title="Szerkesztés" data-testid="show-edit-form" className="btn btn-warning m-1"
                 style={{ width: "40px", height: "40px" }} onClick={() => setShowForm(!showForm)} icon={faPencilAlt}
             />
             <Grid container

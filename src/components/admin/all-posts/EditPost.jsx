@@ -46,9 +46,6 @@ export default function EditPost({ post }) {
         left: '50%',
         transform: 'translate(-50%, -50%)',
         width: 400,
-        bgcolor: '#1b2938',
-        color: '#dfdfdf',
-        border: '2px solid #000',
         boxShadow: 24,
         p: 4,
     };
@@ -141,6 +138,7 @@ export default function EditPost({ post }) {
                                 onInit={(editor) => editorRef.current = editor}
                                 value={content}
                                 init={{
+                                    skin: 'oxide-dark',
                                     content_css: 'dark',
                                     language: 'hu_HU',
                                     width: 800,
@@ -148,12 +146,12 @@ export default function EditPost({ post }) {
                                     plugins: [
                                         'advlist autolink lists link image charmap print preview anchor',
                                         'searchreplace visualblocks code fullscreen',
-                                        'insertdatetime media table paste code help'
+                                        'insertdatetime media table paste code wordcount'
                                     ],
                                     toolbar: 'undo redo | formatselect | ' +
                                         'bold italic backcolor | alignleft aligncenter ' +
                                         'alignright alignjustify | bullist numlist outdent indent | ' +
-                                        'removeformat | help',
+                                        'removeformat',
                                     content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
                                 }}
                                 onEditorChange={(content) => {

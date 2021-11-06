@@ -10,13 +10,23 @@ body.light-mode {
   transition: background-color 0.3s ease;
 }
 
-body.light-mode .MuiCard-root {
+body.light-mode .content .MuiTable-root {
   border: 1px solid white;
 }
 
 body.light-mode .content .ck .ck-editor__main > .ck-editor__editable.ck-read-only {
   height: 200px;
   border: none;
+}
+
+body.light-mode .MuiCard-root {
+  border: 1px solid white;
+}
+
+body.light-mode .MuiBox-root {
+  background-color: #fff;
+  color: #333;
+  border: 2px solid white;
 }
 
 body.light-mode .ck .ck-editor__main > .ck-editor__editable.ck-read-only {
@@ -132,6 +142,12 @@ body.dark-mode .MuiSvgIcon-root {
   color: #dfdfdf;
 }
 
+body.dark-mode .MuiBox-root {
+  background-color: #1b2938;
+  color: #dfdfdf;
+  border: 2px solid black;
+}
+
 body.dark-mode .ck .ck-editor__main > .ck-editor__editable.ck-read-only {
   background: #1b2938;
   border: none;
@@ -139,6 +155,10 @@ body.dark-mode .ck .ck-editor__main > .ck-editor__editable.ck-read-only {
 
 body.dark-mode div {
   color: #dfdfdf;
+}
+
+body.dark-mode input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
 }
 
 input[type='checkbox'].dmcheck {

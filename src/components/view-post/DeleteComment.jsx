@@ -30,7 +30,7 @@ export default function DeleteComment({ docId, title, displayName, comment, comm
 
     return (
         <>
-            <FontAwesomeIcon data-testid="delete-comment" className="btn btn-danger m-1"
+            <FontAwesomeIcon title="Törlés" data-testid="delete-comment" className="btn btn-danger m-1"
                 style={{ width: "40px", height: "40px" }} onClick={() => handleDeleteComment()} icon={faTrash}
             />
         </>

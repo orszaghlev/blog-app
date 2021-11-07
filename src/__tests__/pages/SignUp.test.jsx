@@ -58,7 +58,7 @@ describe('<SignUp />', () => {
             await fireEvent.change(getByTestId('input-password'), { target: { value: 'test1234' } });
             fireEvent.submit(getByTestId('sign-up'));
 
-            expect(document.title).toEqual('Regisztráció');
+            expect(document.title).toEqual(`Regisztráció | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
             await expect(doesUsernameExist).toHaveBeenCalled();
             await expect(doesUsernameExist).toHaveBeenCalledWith('admin');
             await expect(doesEmailAddressExist).toHaveBeenCalled();
@@ -106,7 +106,7 @@ describe('<SignUp />', () => {
             await fireEvent.change(getByTestId('input-password'), { target: { value: 'test1234' } });
             fireEvent.submit(getByTestId('sign-up'));
 
-            expect(document.title).toEqual('Regisztráció');
+            expect(document.title).toEqual(`Regisztráció | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
             await expect(doesUsernameExist).toHaveBeenCalled();
             await expect(doesUsernameExist).toHaveBeenCalledWith('admin');
 
@@ -153,7 +153,7 @@ describe('<SignUp />', () => {
             await fireEvent.change(getByTestId('input-password'), { target: { value: 'test1234' } });
             fireEvent.submit(getByTestId('sign-up'));
 
-            expect(document.title).toEqual('Regisztráció');
+            expect(document.title).toEqual(`Regisztráció | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
             await expect(doesUsernameExist).toHaveBeenCalled();
             await expect(doesUsernameExist).toHaveBeenCalledWith('admin');
             await expect(doesEmailAddressExist).toHaveBeenCalled();
@@ -186,7 +186,7 @@ describe('<SignUp />', () => {
         await act(async () => {
             fireEvent.click(getByTestId('return'));
 
-            expect(document.title).toEqual('Regisztráció');
+            expect(document.title).toEqual(`Regisztráció | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
 
             await waitFor(() => {
                 expect(mockHistoryPush).toHaveBeenCalledWith(ROUTES.HOME);

@@ -125,7 +125,7 @@ describe('<ProfileEdit />', () => {
             });
             fireEvent.submit(getByTestId('edit-user-data'));
 
-            expect(document.title).toEqual('Felhasználói adatok szerkesztése');
+            expect(document.title).toEqual(`Profil szerkesztése | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
             await expect(doesUsernameExist).toHaveBeenCalled();
             await expect(doesUsernameExist).toHaveBeenCalledWith('admin');
 
@@ -178,7 +178,7 @@ describe('<ProfileEdit />', () => {
 
             fireEvent.click(getByTestId('return'));
 
-            expect(document.title).toEqual('Felhasználói adatok szerkesztése');
+            expect(document.title).toEqual(`Profil szerkesztése | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
 
             await waitFor(() => {
                 expect(mockHistoryPush).toHaveBeenCalledWith(ROUTES.PROFILE);
@@ -227,7 +227,7 @@ describe('<ProfileEdit />', () => {
 
             fireEvent.click(getByTestId('change-password'));
 
-            expect(document.title).toEqual('Felhasználói adatok szerkesztése');
+            expect(document.title).toEqual(`Profil szerkesztése | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
 
             await waitFor(() => {
                 expect(mockHistoryPush).not.toHaveBeenCalledWith(ROUTES.PROFILE);

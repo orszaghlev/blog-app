@@ -118,7 +118,7 @@ describe('<Profile />', () => {
                 </Router>
             );
 
-            expect(document.title).toEqual('Profil');
+            expect(document.title).toEqual(`Profil | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
 
             await waitFor(() => {
                 expect(mockHistoryPush).not.toHaveBeenCalledWith(ROUTES.HOME);
@@ -172,7 +172,7 @@ describe('<Profile />', () => {
 
             fireEvent.click(getByTestId('profile-edit'));
 
-            expect(document.title).toEqual('Profil');
+            expect(document.title).toEqual(`Profil | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
 
             await waitFor(() => {
                 expect(mockHistoryPush).toHaveBeenCalledWith(ROUTES.PROFILE_EDIT);
@@ -218,7 +218,7 @@ describe('<Profile />', () => {
 
             fireEvent.click(getByTestId('user-favoritePost-button'));
 
-            expect(document.title).toEqual('Profil');
+            expect(document.title).toEqual(`Profil | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
 
             await waitFor(() => {
                 expect(mockHistoryPush).toHaveBeenCalledWith(`/posts/${slugify("JSX (JavaScript)")}`);
@@ -264,7 +264,7 @@ describe('<Profile />', () => {
 
             fireEvent.click(getByTestId('user-comment-button'));
 
-            expect(document.title).toEqual('Profil');
+            expect(document.title).toEqual(`Profil | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
 
             await waitFor(() => {
                 expect(mockHistoryPush).toHaveBeenCalledWith(`/posts/${slugify("Facebook")}`);

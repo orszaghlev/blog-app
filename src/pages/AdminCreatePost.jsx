@@ -4,7 +4,7 @@ import ShowCreatePost from "../components/admin/create-post/ShowCreatePost";
 
 export default function AdminCreatePost() {
     useEffect(() => {
-        document.title = "Új bejegyzés";
+        document.title = `Új bejegyzés | ${process.env.REACT_APP_FIREBASE_APP_NAME}`;
     }, []);
 
     return (

@@ -40,7 +40,7 @@ describe('<ForgotPassword />', () => {
             });
             fireEvent.submit(getByTestId('forgot-password'));
 
-            expect(document.title).toEqual('Elfelejtett jelszó');
+            expect(document.title).toEqual(`Elfelejtett jelszó | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
 
             await waitFor(() => {
                 expect(mockHistoryPush).not.toHaveBeenCalledWith(ROUTES.LOGIN);
@@ -71,7 +71,7 @@ describe('<ForgotPassword />', () => {
             });
             fireEvent.submit(getByTestId('forgot-password'));
 
-            expect(document.title).toEqual('Elfelejtett jelszó');
+            expect(document.title).toEqual(`Elfelejtett jelszó | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
 
             await waitFor(() => {
                 expect(mockHistoryPush).not.toHaveBeenCalledWith(ROUTES.HOME);
@@ -97,7 +97,7 @@ describe('<ForgotPassword />', () => {
         await act(async () => {
             fireEvent.click(getByTestId('return'));
 
-            expect(document.title).toEqual('Elfelejtett jelszó');
+            expect(document.title).toEqual(`Elfelejtett jelszó | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
 
             await waitFor(() => {
                 expect(mockHistoryPush).toHaveBeenCalledWith(ROUTES.LOGIN);

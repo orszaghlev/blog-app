@@ -19,9 +19,9 @@ export default function ViewPost() {
 
     useEffect(() => {
         if (post && post?.isActive === "true" && (new Date(post?.date).getTime() <= new Date().getTime())) {
-            document.title = post?.title;
+            document.title = `${post?.title} | ${process.env.REACT_APP_FIREBASE_APP_NAME}`;
         } else {
-            document.title = "Bejegyzés";
+            document.title = `Bejegyzés | ${process.env.REACT_APP_FIREBASE_APP_NAME}`;
         }
     }, [post]);
 

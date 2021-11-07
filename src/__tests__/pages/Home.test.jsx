@@ -45,7 +45,7 @@ describe('<Home />', () => {
             );
 
             await waitFor(() => {
-                expect(document.title).toEqual('Bejegyzések');
+                expect(document.title).toEqual(`Bejegyzések | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
                 expect(queryByText('Bejegyzések')).not.toBeInTheDocument();
             });
         });
@@ -71,7 +71,7 @@ describe('<Home />', () => {
             );
 
             await waitFor(() => {
-                expect(document.title).toEqual('Bejegyzések');
+                expect(document.title).toEqual(`Bejegyzések | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
                 expect(queryByText('Bejegyzések')).toBeInTheDocument();
             });
         });
@@ -99,7 +99,7 @@ describe('<Home />', () => {
             fireEvent.click(getByTestId('view-post'));
 
             await waitFor(() => {
-                expect(document.title).toEqual('Bejegyzések');
+                expect(document.title).toEqual(`Bejegyzések | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
                 expect(mockHistoryPush).toHaveBeenCalledWith(`posts/${slugify("React (JavaScript library)")}`);
             });
         });
@@ -129,7 +129,7 @@ describe('<Home />', () => {
             expect(queryByText('HTML5')).toBeInTheDocument();
 
             await waitFor(() => {
-                expect(document.title).toEqual('Bejegyzések');
+                expect(document.title).toEqual(`Bejegyzések | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
                 expect(getByText('HTML5')).toBeTruthy();
             });
         });
@@ -161,7 +161,7 @@ describe('<Home />', () => {
             expect(queryByText('HTML5')).toBeInTheDocument();
 
             await waitFor(() => {
-                expect(document.title).toEqual('Bejegyzések');
+                expect(document.title).toEqual(`Bejegyzések | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
                 expect(getByTestId('input-search').value).toBe('H');
                 expect(getByText('HTML5')).toBeTruthy();
             });
@@ -194,7 +194,7 @@ describe('<Home />', () => {
             expect(queryByText('HTML5')).toBeInTheDocument();
 
             await waitFor(() => {
-                expect(document.title).toEqual('Bejegyzések');
+                expect(document.title).toEqual(`Bejegyzések | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
                 expect(getByTestId('input-search').value).toBe('2');
                 expect(getByText('HTML5')).toBeTruthy();
             });
@@ -227,7 +227,7 @@ describe('<Home />', () => {
             expect(queryByText('HTML5')).toBeInTheDocument();
 
             await waitFor(() => {
-                expect(document.title).toEqual('Bejegyzések');
+                expect(document.title).toEqual(`Bejegyzések | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
                 expect(getByTestId('input-search').value).toBe('HTML5');
                 expect(getByText('HTML5')).toBeTruthy();
             });

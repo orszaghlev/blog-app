@@ -4,7 +4,7 @@ import ShowLogin from "../components/login/ShowLogin";
 
 export default function Login() {
     useEffect(() => {
-        document.title = 'Bejelentkezés';
+        document.title = `Bejelentkezés | ${process.env.REACT_APP_FIREBASE_APP_NAME}`;
     }, []);
 
     return (

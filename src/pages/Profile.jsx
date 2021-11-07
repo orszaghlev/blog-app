@@ -12,7 +12,7 @@ export default function Profile() {
     const { user } = useUser(loggedInUser?.uid);
 
     useEffect(() => {
-        document.title = "Profil";
+        document.title = `Profil | ${process.env.REACT_APP_FIREBASE_APP_NAME}`;
     }, []);
 
     return (

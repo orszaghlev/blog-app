@@ -10,7 +10,7 @@ export default function ProfileEdit() {
     const { user } = useUser(loggedInUser?.uid);
 
     useEffect(() => {
-        document.title = "Felhasználói adatok szerkesztése";
+        document.title = `Profil szerkesztése | ${process.env.REACT_APP_FIREBASE_APP_NAME}`;
     }, []);
 
     return (

@@ -12,7 +12,6 @@ import inactivePostsFixture from '../../fixtures/CreatedInactivePosts';
 import sortingPostsFixture from '../../fixtures/CreatedPostsForSorting';
 import inverseSortingPostsFixture from '../../fixtures/CreatedPostsForSortingInverse';
 import useAllPosts from '../../hooks/UseAllPosts';
-import * as ROUTES from '../../constants/Routes';
 
 const mockHistoryPush = jest.fn();
 
@@ -49,7 +48,7 @@ describe('<AdminAllPosts />', () => {
             );
 
             await waitFor(() => {
-                expect(document.title).toEqual('Összes bejegyzés');
+                expect(document.title).toEqual(`Összes bejegyzés | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
                 expect(queryByText('Összes bejegyzés')).not.toBeInTheDocument();
             });
         });
@@ -77,7 +76,7 @@ describe('<AdminAllPosts />', () => {
             expect(queryByText('Bejegyzés')).not.toBeInTheDocument();
 
             await waitFor(() => {
-                expect(document.title).toEqual('Összes bejegyzés');
+                expect(document.title).toEqual(`Összes bejegyzés | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
                 expect(queryByText('Összes bejegyzés')).toBeInTheDocument();
             });
         });
@@ -105,7 +104,7 @@ describe('<AdminAllPosts />', () => {
             fireEvent.click(getByTestId('isactive-button'));
 
             await waitFor(() => {
-                expect(document.title).toEqual('Összes bejegyzés');
+                expect(document.title).toEqual(`Összes bejegyzés | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
                 expect(mockHistoryPush).toHaveBeenCalledWith(`/posts/${slugify("React (JavaScript library)")}`);
             });
         });
@@ -142,7 +141,7 @@ describe('<AdminAllPosts />', () => {
             fireEvent.click(await findByTestId('delete-post-delete'));
 
             await waitFor(() => {
-                expect(document.title).toEqual('Összes bejegyzés');
+                expect(document.title).toEqual(`Összes bejegyzés | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
             });
         });
     });
@@ -168,7 +167,7 @@ describe('<AdminAllPosts />', () => {
             fireEvent.click(await findByTestId('delete-post-return'));
 
             await waitFor(() => {
-                expect(document.title).toEqual('Összes bejegyzés');
+                expect(document.title).toEqual(`Összes bejegyzés | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
             });
         });
     });
@@ -204,7 +203,7 @@ describe('<AdminAllPosts />', () => {
             fireEvent.click(await findByTestId('duplicate-post-duplicate'));
 
             await waitFor(() => {
-                expect(document.title).toEqual('Összes bejegyzés');
+                expect(document.title).toEqual(`Összes bejegyzés | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
             });
         });
     });
@@ -230,7 +229,7 @@ describe('<AdminAllPosts />', () => {
             fireEvent.click(await findByTestId('duplicate-post-return'));
 
             await waitFor(() => {
-                expect(document.title).toEqual('Összes bejegyzés');
+                expect(document.title).toEqual(`Összes bejegyzés | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
             });
         });
     });
@@ -259,7 +258,7 @@ describe('<AdminAllPosts />', () => {
             expect(queryByText('HTML5')).toBeInTheDocument();
 
             await waitFor(() => {
-                expect(document.title).toEqual('Összes bejegyzés');
+                expect(document.title).toEqual(`Összes bejegyzés | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
                 expect(getByText('HTML5')).toBeTruthy();
             });
         });
@@ -289,7 +288,7 @@ describe('<AdminAllPosts />', () => {
             expect(queryByText('React (JavaScript library)')).toBeInTheDocument();
 
             await waitFor(() => {
-                expect(document.title).toEqual('Összes bejegyzés');
+                expect(document.title).toEqual(`Összes bejegyzés | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
                 expect(getByText('React (JavaScript library)')).toBeTruthy();
             });
         });
@@ -319,7 +318,7 @@ describe('<AdminAllPosts />', () => {
             expect(queryByText('React (JavaScript library)')).toBeInTheDocument();
 
             await waitFor(() => {
-                expect(document.title).toEqual('Összes bejegyzés');
+                expect(document.title).toEqual(`Összes bejegyzés | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
                 expect(getByText('React (JavaScript library)')).toBeTruthy();
             });
         });
@@ -351,7 +350,7 @@ describe('<AdminAllPosts />', () => {
             expect(queryByText('HTML5')).toBeInTheDocument();
 
             await waitFor(() => {
-                expect(document.title).toEqual('Összes bejegyzés');
+                expect(document.title).toEqual(`Összes bejegyzés | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
                 expect(getByTestId('input-search').value).toBe('H');
                 expect(getByText('HTML5')).toBeTruthy();
             });
@@ -384,7 +383,7 @@ describe('<AdminAllPosts />', () => {
             expect(queryByText('HTML5')).toBeInTheDocument();
 
             await waitFor(() => {
-                expect(document.title).toEqual('Összes bejegyzés');
+                expect(document.title).toEqual(`Összes bejegyzés | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
                 expect(getByTestId('input-search').value).toBe('2');
                 expect(getByText('HTML5')).toBeTruthy();
             });
@@ -417,7 +416,7 @@ describe('<AdminAllPosts />', () => {
             expect(queryByText('HTML5')).toBeInTheDocument();
 
             await waitFor(() => {
-                expect(document.title).toEqual('Összes bejegyzés');
+                expect(document.title).toEqual(`Összes bejegyzés | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
                 expect(getByTestId('input-search').value).toBe('HTML');
                 expect(getByText('HTML5')).toBeTruthy();
             });
@@ -446,7 +445,7 @@ describe('<AdminAllPosts />', () => {
             fireEvent.click(getByTestId('sort-by-id-button'));
 
             await waitFor(() => {
-                expect(document.title).toEqual('Összes bejegyzés');
+                expect(document.title).toEqual(`Összes bejegyzés | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
             });
         });
     });
@@ -473,7 +472,7 @@ describe('<AdminAllPosts />', () => {
             fireEvent.click(getByTestId('sort-by-title-button'));
 
             await waitFor(() => {
-                expect(document.title).toEqual('Összes bejegyzés');
+                expect(document.title).toEqual(`Összes bejegyzés | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
             });
         });
     });
@@ -500,7 +499,7 @@ describe('<AdminAllPosts />', () => {
             fireEvent.click(getByTestId('sort-by-slug-button'));
 
             await waitFor(() => {
-                expect(document.title).toEqual('Összes bejegyzés');
+                expect(document.title).toEqual(`Összes bejegyzés | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
             });
         });
     });
@@ -527,7 +526,7 @@ describe('<AdminAllPosts />', () => {
             fireEvent.click(getByTestId('sort-by-description-button'));
 
             await waitFor(() => {
-                expect(document.title).toEqual('Összes bejegyzés');
+                expect(document.title).toEqual(`Összes bejegyzés | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
             });
         });
     });
@@ -554,7 +553,7 @@ describe('<AdminAllPosts />', () => {
             fireEvent.click(getByTestId('sort-by-content-button'));
 
             await waitFor(() => {
-                expect(document.title).toEqual('Összes bejegyzés');
+                expect(document.title).toEqual(`Összes bejegyzés | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
             });
         });
     });
@@ -581,7 +580,7 @@ describe('<AdminAllPosts />', () => {
             fireEvent.click(getByTestId('sort-by-tag-button'));
 
             await waitFor(() => {
-                expect(document.title).toEqual('Összes bejegyzés');
+                expect(document.title).toEqual(`Összes bejegyzés | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
             });
         });
     });
@@ -608,7 +607,7 @@ describe('<AdminAllPosts />', () => {
             fireEvent.click(getByTestId('sort-by-language-button'));
 
             await waitFor(() => {
-                expect(document.title).toEqual('Összes bejegyzés');
+                expect(document.title).toEqual(`Összes bejegyzés | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
             });
         });
     });
@@ -635,7 +634,7 @@ describe('<AdminAllPosts />', () => {
             fireEvent.click(getByTestId('sort-by-date-button'));
 
             await waitFor(() => {
-                expect(document.title).toEqual('Összes bejegyzés');
+                expect(document.title).toEqual(`Összes bejegyzés | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
             });
         });
     });
@@ -662,7 +661,7 @@ describe('<AdminAllPosts />', () => {
             fireEvent.click(getByTestId('sort-by-isActive-button'));
 
             await waitFor(() => {
-                expect(document.title).toEqual('Összes bejegyzés');
+                expect(document.title).toEqual(`Összes bejegyzés | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
             });
         });
     });
@@ -724,7 +723,7 @@ describe('<AdminAllPosts />', () => {
             fireEvent.submit(await findByTestId('edit-post-form'));
 
             await waitFor(() => {
-                expect(document.title).toEqual('Összes bejegyzés');
+                expect(document.title).toEqual(`Összes bejegyzés | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
                 expect(getByText('Bejegyzés szerkesztése')).toBeTruthy();
                 expect(getByTestId('input-edit-id').value).toBe('react-edit');
                 expect(getByTestId('input-edit-title').value).toBe('React (JavaScript library)-edit');
@@ -762,7 +761,7 @@ describe('<AdminAllPosts />', () => {
             fireEvent.click(await findByTestId('edit-post-return'));
 
             await waitFor(() => {
-                expect(document.title).toEqual('Összes bejegyzés');
+                expect(document.title).toEqual(`Összes bejegyzés | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
             });
         });
     });

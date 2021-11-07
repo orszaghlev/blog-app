@@ -4,7 +4,7 @@ import ShowSignUp from "../components/sign-up/ShowSignUp"
 
 export default function SignUp() {
     useEffect(() => {
-        document.title = 'Regisztráció';
+        document.title = `Regisztráció | ${process.env.REACT_APP_FIREBASE_APP_NAME}`;
     }, []);
 
     return (

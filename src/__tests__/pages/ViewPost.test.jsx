@@ -73,7 +73,7 @@ describe('<ViewPost />', () => {
             );
 
             await waitFor(() => {
-                expect(document.title).toEqual('React (JavaScript library)');
+                expect(document.title).toEqual(`React (JavaScript library) | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
                 expect(mockHistoryPush).not.toHaveBeenCalledWith(ROUTES.HOME);
                 expect(getByText('2021. 10. 07. 13:00')).toBeTruthy();
                 expect(getByText('React (JavaScript library)')).toBeTruthy();
@@ -128,7 +128,7 @@ describe('<ViewPost />', () => {
             );
 
             await waitFor(() => {
-                expect(document.title).toEqual('HTML5');
+                expect(document.title).toEqual(`HTML5 | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
                 expect(mockHistoryPush).not.toHaveBeenCalledWith(ROUTES.HOME);
                 expect(getByText('2021. 10. 07. 14:00')).toBeTruthy();
                 expect(getByText('HTML5')).toBeTruthy();
@@ -185,7 +185,7 @@ describe('<ViewPost />', () => {
             );
 
             await waitFor(() => {
-                expect(document.title).toEqual('React (JavaScript library)');
+                expect(document.title).toEqual(`React (JavaScript library) | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
                 expect(mockHistoryPush).not.toHaveBeenCalledWith(ROUTES.HOME);
                 expect(getByText('2021. 10. 07. 13:00')).toBeTruthy();
                 expect(getByText('React (JavaScript library)')).toBeTruthy();
@@ -243,7 +243,7 @@ describe('<ViewPost />', () => {
             );
 
             await waitFor(() => {
-                expect(document.title).toEqual('HTML5');
+                expect(document.title).toEqual(`HTML5 | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
                 expect(mockHistoryPush).not.toHaveBeenCalledWith(ROUTES.HOME);
                 expect(getByText('2021. 10. 07. 14:00')).toBeTruthy();
                 expect(getByText('HTML5')).toBeTruthy();
@@ -303,7 +303,7 @@ describe('<ViewPost />', () => {
             fireEvent.click(getByTestId('post-not-available-return'));
 
             await waitFor(() => {
-                expect(document.title).toEqual('Bejegyzés');
+                expect(document.title).toEqual(`Bejegyzés | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
             });
         });
     });
@@ -352,7 +352,7 @@ describe('<ViewPost />', () => {
             fireEvent.click(getByTestId('post-inactive-return'));
 
             await waitFor(() => {
-                expect(document.title).toEqual('Bejegyzés');
+                expect(document.title).toEqual(`Bejegyzés | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
             });
         });
     });
@@ -401,7 +401,7 @@ describe('<ViewPost />', () => {
             fireEvent.click(getByTestId('post-inactive-return'));
 
             await waitFor(() => {
-                expect(document.title).toEqual('Bejegyzés');
+                expect(document.title).toEqual(`Bejegyzés | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
             });
         });
     });
@@ -459,7 +459,7 @@ describe('<ViewPost />', () => {
             fireEvent.click(getByTestId('add-to-favorites'));
 
             await waitFor(() => {
-                expect(document.title).toEqual('React (JavaScript library)');
+                expect(document.title).toEqual(`React (JavaScript library) | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
                 expect(mockHistoryPush).not.toHaveBeenCalledWith(ROUTES.HOME);
                 expect(getByText('Remove from favorites')).toBeTruthy();
                 expect(getByText('Post successfully added!')).toBeTruthy();
@@ -520,7 +520,7 @@ describe('<ViewPost />', () => {
             fireEvent.click(getByTestId('add-to-favorites'));
 
             await waitFor(() => {
-                expect(document.title).toEqual('HTML5');
+                expect(document.title).toEqual(`HTML5 | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
                 expect(mockHistoryPush).not.toHaveBeenCalledWith(ROUTES.HOME);
                 expect(getByText('Eltávolítás a kedvencek közül')).toBeTruthy();
                 expect(getByText('Sikeres hozzáadás!')).toBeTruthy();
@@ -572,7 +572,7 @@ describe('<ViewPost />', () => {
             fireEvent.click(getByTestId('show-post-return'));
 
             await waitFor(() => {
-                expect(document.title).toEqual('React (JavaScript library)');
+                expect(document.title).toEqual(`React (JavaScript library) | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
                 expect(getByText('Return')).toBeTruthy();
             });
         });
@@ -622,7 +622,7 @@ describe('<ViewPost />', () => {
             fireEvent.click(getByTestId('show-post-return'));
 
             await waitFor(() => {
-                expect(document.title).toEqual('HTML5');
+                expect(document.title).toEqual(`HTML5 | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
                 expect(getByText('Vissza')).toBeTruthy();
             });
         });
@@ -684,7 +684,7 @@ describe('<ViewPost />', () => {
             fireEvent.submit(getByTestId('add-comment-submit'));
 
             await waitFor(() => {
-                expect(document.title).toEqual('React (JavaScript library)');
+                expect(document.title).toEqual(`React (JavaScript library) | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
                 expect(getByText('Comments')).toBeTruthy();
                 expect(getByText('(Y)')).toBeTruthy();
                 expect(getByText('admin')).toBeTruthy();
@@ -747,7 +747,7 @@ describe('<ViewPost />', () => {
             fireEvent.submit(getByTestId('add-comment-submit'));
 
             await waitFor(() => {
-                expect(document.title).toEqual('React (JavaScript library)');
+                expect(document.title).toEqual(`React (JavaScript library) | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
                 expect(getByTestId('input-add-comment').value).toBe('');
             });
         });
@@ -806,7 +806,7 @@ describe('<ViewPost />', () => {
             fireEvent.click(getByTestId('delete-comment'));
 
             await waitFor(() => {
-                expect(document.title).toEqual('React (JavaScript library)');
+                expect(document.title).toEqual(`React (JavaScript library) | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
                 expect(getByText('There are no comments yet!')).toBeTruthy();
             });
         });
@@ -871,7 +871,7 @@ describe('<ViewPost />', () => {
             fireEvent.submit(await findByTestId('edit-comment-submit'));
 
             await waitFor(() => {
-                expect(document.title).toEqual('React (JavaScript library)');
+                expect(document.title).toEqual(`React (JavaScript library) | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
                 expect(getByTestId('input-edit-comment').value).toBe('Like');
                 expect(getByText('Like')).toBeTruthy();
                 expect(getByText('admin')).toBeTruthy();
@@ -992,7 +992,7 @@ describe('<ViewPost />', () => {
             fireEvent.click(await findByTestId('edit-comment-return'));
 
             await waitFor(() => {
-                expect(document.title).toEqual('React (JavaScript library)');
+                expect(document.title).toEqual(`React (JavaScript library) | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
             });
         });
     });
@@ -1044,7 +1044,7 @@ describe('<ViewPost />', () => {
             fireEvent.click(await findByTestId('edit-comment-return'));
 
             await waitFor(() => {
-                expect(document.title).toEqual('HTML5');
+                expect(document.title).toEqual(`HTML5 | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
             });
         });
     });

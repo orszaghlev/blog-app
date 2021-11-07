@@ -66,7 +66,7 @@ describe('<AdminCreatePost />', () => {
             })
             fireEvent.submit(getByTestId('create-post'));
 
-            expect(document.title).toEqual('Új bejegyzés');
+            expect(document.title).toEqual(`Új bejegyzés | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
 
             await waitFor(() => {
                 expect(mockHistoryPush).toHaveBeenCalledWith(ROUTES.ADMIN_ALL_POSTS);
@@ -98,7 +98,7 @@ describe('<AdminCreatePost />', () => {
         await act(async () => {
             fireEvent.click(getByTestId('return'));
 
-            expect(document.title).toEqual('Új bejegyzés');
+            expect(document.title).toEqual(`Új bejegyzés | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
 
             await waitFor(() => {
                 expect(mockHistoryPush).toHaveBeenCalledWith(ROUTES.ADMIN_ALL_POSTS);

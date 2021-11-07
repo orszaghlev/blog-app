@@ -72,7 +72,7 @@ export default function ShowProfileEdit({ user }) {
                     direction="column"
                     justifyContent="space-around"
                     alignItems="stretch">
-                    <h2>Felhasználói adatok szerkesztése</h2>
+                    <h2>Profil szerkesztése</h2>
                     <Grid item xs>
                         <TextField className="TextField" inputProps={{ "data-testid": "input-username" }} value={username || ""} name="username" type="text" label="Felhasználónév" variant="filled"
                             onChange={(e) => {

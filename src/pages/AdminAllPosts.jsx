@@ -8,7 +8,7 @@ export default function AdminAllPosts() {
     const { posts } = useAllPosts();
 
     useEffect(() => {
-        document.title = 'Összes bejegyzés';
+        document.title = `Összes bejegyzés | ${process.env.REACT_APP_FIREBASE_APP_NAME}`;
     }, []);
 
     return (

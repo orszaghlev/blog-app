@@ -8,7 +8,7 @@ export default function Home() {
     const { posts } = useActivePosts();
 
     useEffect(() => {
-        document.title = 'Bejegyzések';
+        document.title = `Bejegyzések | ${process.env.REACT_APP_FIREBASE_APP_NAME}`;
     }, []);
 
     return (

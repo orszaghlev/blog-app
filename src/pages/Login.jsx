@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { motion } from "framer-motion";
 import ShowLogin from "../components/login/ShowLogin";
+import MetaTags from 'react-meta-tags';
 
 export default function Login() {
     useEffect(() => {
@@ -9,6 +10,16 @@ export default function Login() {
 
     return (
         <div className="p-3 content text-center m-auto" style={{ width: "1000px" }}>
+            <MetaTags>
+                <meta name="description" content="Bejelentkezési felület. E-mail és jelszó megadásával tud a felhasználó bejelentkezni az oldalra." />
+                <meta name="robots" content="noindex" />
+                <meta property="og:url" content="%REACT_APP_FIREBASE_AUTH_DOMAIN%/login" />
+                <meta property="og:title" content="Bejelentkezés" />
+                <meta property="og:description" content="Bejelentkezési felület. E-mail és jelszó megadásával tud a felhasználó bejelentkezni az oldalra." />
+                <meta property="og:type" content="website" />
+                <meta property="og:site_name" content="%REACT_APP_FIREBASE_APP_NAME%" />
+                <meta property="og:locale" content="hu_HU" />
+            </MetaTags>
             <motion.div initial="hidden" animate="visible" variants={{
                 hidden: {
                     scale: .8,

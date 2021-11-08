@@ -3,7 +3,7 @@ import { render, waitFor, fireEvent } from '@testing-library/react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { act } from 'react-dom/test-utils';
 import slugify from 'react-slugify';
-import AdminAllPosts from '../../pages/AdminAllPosts';
+import AdminDashboard from '../../pages/AdminDashboard';
 import FirebaseContext from '../../contexts/Firebase';
 import allPostsFixture from '../../fixtures/CreatedAllPosts';
 import allPostsFixtureHun from '../../fixtures/CreatedAllPostsHun';
@@ -23,7 +23,7 @@ jest.mock('react-router-dom', () => ({
 }));
 jest.mock('../../hooks/UseAllPosts');
 
-describe('<AdminAllPosts />', () => {
+describe('<AdminDashboard />', () => {
     beforeEach(() => {
         jest.clearAllMocks();
     });
@@ -42,14 +42,14 @@ describe('<AdminAllPosts />', () => {
                     <FirebaseContext.Provider
                         value={firebase}
                     >
-                        <AdminAllPosts />
+                        <AdminDashboard />
                     </FirebaseContext.Provider>
                 </Router>
             );
 
             await waitFor(() => {
-                expect(document.title).toEqual(`Összes bejegyzés | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
-                expect(queryByText('Összes bejegyzés')).not.toBeInTheDocument();
+                expect(document.title).toEqual(`Admin felület | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
+                expect(queryByText('Admin felület')).not.toBeInTheDocument();
             });
         });
     });
@@ -68,7 +68,7 @@ describe('<AdminAllPosts />', () => {
                     <FirebaseContext.Provider
                         value={firebase}
                     >
-                        <AdminAllPosts />
+                        <AdminDashboard />
                     </FirebaseContext.Provider>
                 </Router>
             );
@@ -76,8 +76,8 @@ describe('<AdminAllPosts />', () => {
             expect(queryByText('Bejegyzés')).not.toBeInTheDocument();
 
             await waitFor(() => {
-                expect(document.title).toEqual(`Összes bejegyzés | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
-                expect(queryByText('Összes bejegyzés')).toBeInTheDocument();
+                expect(document.title).toEqual(`Admin felület | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
+                expect(queryByText('Admin felület')).toBeInTheDocument();
             });
         });
     });
@@ -96,7 +96,7 @@ describe('<AdminAllPosts />', () => {
                     <FirebaseContext.Provider
                         value={firebase}
                     >
-                        <AdminAllPosts />
+                        <AdminDashboard />
                     </FirebaseContext.Provider>
                 </Router>
             );
@@ -104,7 +104,7 @@ describe('<AdminAllPosts />', () => {
             fireEvent.click(getByTestId('isactive-button'));
 
             await waitFor(() => {
-                expect(document.title).toEqual(`Összes bejegyzés | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
+                expect(document.title).toEqual(`Admin felület | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
                 expect(mockHistoryPush).toHaveBeenCalledWith(`/posts/${slugify("React (JavaScript library)")}`);
             });
         });
@@ -132,7 +132,7 @@ describe('<AdminAllPosts />', () => {
                             }
                         }}
                     >
-                        <AdminAllPosts />
+                        <AdminDashboard />
                     </FirebaseContext.Provider>
                 </Router >
             );
@@ -141,7 +141,7 @@ describe('<AdminAllPosts />', () => {
             fireEvent.click(await findByTestId('delete-post-delete'));
 
             await waitFor(() => {
-                expect(document.title).toEqual(`Összes bejegyzés | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
+                expect(document.title).toEqual(`Admin felület | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
             });
         });
     });
@@ -158,7 +158,7 @@ describe('<AdminAllPosts />', () => {
                             }
                         }}
                     >
-                        <AdminAllPosts />
+                        <AdminDashboard />
                     </FirebaseContext.Provider>
                 </Router >
             );
@@ -167,7 +167,7 @@ describe('<AdminAllPosts />', () => {
             fireEvent.click(await findByTestId('delete-post-return'));
 
             await waitFor(() => {
-                expect(document.title).toEqual(`Összes bejegyzés | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
+                expect(document.title).toEqual(`Admin felület | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
             });
         });
     });
@@ -194,7 +194,7 @@ describe('<AdminAllPosts />', () => {
                             }
                         }}
                     >
-                        <AdminAllPosts />
+                        <AdminDashboard />
                     </FirebaseContext.Provider>
                 </Router >
             );
@@ -203,7 +203,7 @@ describe('<AdminAllPosts />', () => {
             fireEvent.click(await findByTestId('duplicate-post-duplicate'));
 
             await waitFor(() => {
-                expect(document.title).toEqual(`Összes bejegyzés | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
+                expect(document.title).toEqual(`Admin felület | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
             });
         });
     });
@@ -220,7 +220,7 @@ describe('<AdminAllPosts />', () => {
                             }
                         }}
                     >
-                        <AdminAllPosts />
+                        <AdminDashboard />
                     </FirebaseContext.Provider>
                 </Router >
             );
@@ -229,7 +229,7 @@ describe('<AdminAllPosts />', () => {
             fireEvent.click(await findByTestId('duplicate-post-return'));
 
             await waitFor(() => {
-                expect(document.title).toEqual(`Összes bejegyzés | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
+                expect(document.title).toEqual(`Admin felület | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
             });
         });
     });
@@ -248,7 +248,7 @@ describe('<AdminAllPosts />', () => {
                     <FirebaseContext.Provider
                         value={firebase}
                     >
-                        <AdminAllPosts />
+                        <AdminDashboard />
                     </FirebaseContext.Provider>
                 </Router >
             );
@@ -258,7 +258,7 @@ describe('<AdminAllPosts />', () => {
             expect(queryByText('HTML5')).toBeInTheDocument();
 
             await waitFor(() => {
-                expect(document.title).toEqual(`Összes bejegyzés | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
+                expect(document.title).toEqual(`Admin felület | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
                 expect(getByText('HTML5')).toBeTruthy();
             });
         });
@@ -278,7 +278,7 @@ describe('<AdminAllPosts />', () => {
                     <FirebaseContext.Provider
                         value={firebase}
                     >
-                        <AdminAllPosts />
+                        <AdminDashboard />
                     </FirebaseContext.Provider>
                 </Router >
             );
@@ -288,7 +288,7 @@ describe('<AdminAllPosts />', () => {
             expect(queryByText('React (JavaScript library)')).toBeInTheDocument();
 
             await waitFor(() => {
-                expect(document.title).toEqual(`Összes bejegyzés | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
+                expect(document.title).toEqual(`Admin felület | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
                 expect(getByText('React (JavaScript library)')).toBeTruthy();
             });
         });
@@ -308,7 +308,7 @@ describe('<AdminAllPosts />', () => {
                     <FirebaseContext.Provider
                         value={firebase}
                     >
-                        <AdminAllPosts />
+                        <AdminDashboard />
                     </FirebaseContext.Provider>
                 </Router >
             );
@@ -318,7 +318,7 @@ describe('<AdminAllPosts />', () => {
             expect(queryByText('React (JavaScript library)')).toBeInTheDocument();
 
             await waitFor(() => {
-                expect(document.title).toEqual(`Összes bejegyzés | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
+                expect(document.title).toEqual(`Admin felület | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
                 expect(getByText('React (JavaScript library)')).toBeTruthy();
             });
         });
@@ -338,7 +338,7 @@ describe('<AdminAllPosts />', () => {
                     <FirebaseContext.Provider
                         value={firebase}
                     >
-                        <AdminAllPosts />
+                        <AdminDashboard />
                     </FirebaseContext.Provider>
                 </Router >
             );
@@ -350,7 +350,7 @@ describe('<AdminAllPosts />', () => {
             expect(queryByText('HTML5')).toBeInTheDocument();
 
             await waitFor(() => {
-                expect(document.title).toEqual(`Összes bejegyzés | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
+                expect(document.title).toEqual(`Admin felület | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
                 expect(getByTestId('input-search').value).toBe('H');
                 expect(getByText('HTML5')).toBeTruthy();
             });
@@ -371,7 +371,7 @@ describe('<AdminAllPosts />', () => {
                     <FirebaseContext.Provider
                         value={firebase}
                     >
-                        <AdminAllPosts />
+                        <AdminDashboard />
                     </FirebaseContext.Provider>
                 </Router >
             );
@@ -383,7 +383,7 @@ describe('<AdminAllPosts />', () => {
             expect(queryByText('HTML5')).toBeInTheDocument();
 
             await waitFor(() => {
-                expect(document.title).toEqual(`Összes bejegyzés | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
+                expect(document.title).toEqual(`Admin felület | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
                 expect(getByTestId('input-search').value).toBe('2');
                 expect(getByText('HTML5')).toBeTruthy();
             });
@@ -404,7 +404,7 @@ describe('<AdminAllPosts />', () => {
                     <FirebaseContext.Provider
                         value={firebase}
                     >
-                        <AdminAllPosts />
+                        <AdminDashboard />
                     </FirebaseContext.Provider>
                 </Router >
             );
@@ -416,7 +416,7 @@ describe('<AdminAllPosts />', () => {
             expect(queryByText('HTML5')).toBeInTheDocument();
 
             await waitFor(() => {
-                expect(document.title).toEqual(`Összes bejegyzés | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
+                expect(document.title).toEqual(`Admin felület | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
                 expect(getByTestId('input-search').value).toBe('HTML');
                 expect(getByText('HTML5')).toBeTruthy();
             });
@@ -437,7 +437,7 @@ describe('<AdminAllPosts />', () => {
                     <FirebaseContext.Provider
                         value={firebase}
                     >
-                        <AdminAllPosts />
+                        <AdminDashboard />
                     </FirebaseContext.Provider>
                 </Router >
             );
@@ -445,7 +445,7 @@ describe('<AdminAllPosts />', () => {
             fireEvent.click(getByTestId('sort-by-id-button'));
 
             await waitFor(() => {
-                expect(document.title).toEqual(`Összes bejegyzés | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
+                expect(document.title).toEqual(`Admin felület | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
             });
         });
     });
@@ -464,7 +464,7 @@ describe('<AdminAllPosts />', () => {
                     <FirebaseContext.Provider
                         value={firebase}
                     >
-                        <AdminAllPosts />
+                        <AdminDashboard />
                     </FirebaseContext.Provider>
                 </Router >
             );
@@ -472,7 +472,7 @@ describe('<AdminAllPosts />', () => {
             fireEvent.click(getByTestId('sort-by-title-button'));
 
             await waitFor(() => {
-                expect(document.title).toEqual(`Összes bejegyzés | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
+                expect(document.title).toEqual(`Admin felület | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
             });
         });
     });
@@ -491,7 +491,7 @@ describe('<AdminAllPosts />', () => {
                     <FirebaseContext.Provider
                         value={firebase}
                     >
-                        <AdminAllPosts />
+                        <AdminDashboard />
                     </FirebaseContext.Provider>
                 </Router >
             );
@@ -499,7 +499,7 @@ describe('<AdminAllPosts />', () => {
             fireEvent.click(getByTestId('sort-by-slug-button'));
 
             await waitFor(() => {
-                expect(document.title).toEqual(`Összes bejegyzés | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
+                expect(document.title).toEqual(`Admin felület | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
             });
         });
     });
@@ -518,7 +518,7 @@ describe('<AdminAllPosts />', () => {
                     <FirebaseContext.Provider
                         value={firebase}
                     >
-                        <AdminAllPosts />
+                        <AdminDashboard />
                     </FirebaseContext.Provider>
                 </Router >
             );
@@ -526,7 +526,7 @@ describe('<AdminAllPosts />', () => {
             fireEvent.click(getByTestId('sort-by-description-button'));
 
             await waitFor(() => {
-                expect(document.title).toEqual(`Összes bejegyzés | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
+                expect(document.title).toEqual(`Admin felület | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
             });
         });
     });
@@ -545,7 +545,7 @@ describe('<AdminAllPosts />', () => {
                     <FirebaseContext.Provider
                         value={firebase}
                     >
-                        <AdminAllPosts />
+                        <AdminDashboard />
                     </FirebaseContext.Provider>
                 </Router >
             );
@@ -553,7 +553,7 @@ describe('<AdminAllPosts />', () => {
             fireEvent.click(getByTestId('sort-by-content-button'));
 
             await waitFor(() => {
-                expect(document.title).toEqual(`Összes bejegyzés | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
+                expect(document.title).toEqual(`Admin felület | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
             });
         });
     });
@@ -572,7 +572,7 @@ describe('<AdminAllPosts />', () => {
                     <FirebaseContext.Provider
                         value={firebase}
                     >
-                        <AdminAllPosts />
+                        <AdminDashboard />
                     </FirebaseContext.Provider>
                 </Router >
             );
@@ -580,7 +580,7 @@ describe('<AdminAllPosts />', () => {
             fireEvent.click(getByTestId('sort-by-tag-button'));
 
             await waitFor(() => {
-                expect(document.title).toEqual(`Összes bejegyzés | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
+                expect(document.title).toEqual(`Admin felület | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
             });
         });
     });
@@ -599,7 +599,7 @@ describe('<AdminAllPosts />', () => {
                     <FirebaseContext.Provider
                         value={firebase}
                     >
-                        <AdminAllPosts />
+                        <AdminDashboard />
                     </FirebaseContext.Provider>
                 </Router >
             );
@@ -607,7 +607,7 @@ describe('<AdminAllPosts />', () => {
             fireEvent.click(getByTestId('sort-by-language-button'));
 
             await waitFor(() => {
-                expect(document.title).toEqual(`Összes bejegyzés | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
+                expect(document.title).toEqual(`Admin felület | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
             });
         });
     });
@@ -626,7 +626,7 @@ describe('<AdminAllPosts />', () => {
                     <FirebaseContext.Provider
                         value={firebase}
                     >
-                        <AdminAllPosts />
+                        <AdminDashboard />
                     </FirebaseContext.Provider>
                 </Router >
             );
@@ -634,7 +634,7 @@ describe('<AdminAllPosts />', () => {
             fireEvent.click(getByTestId('sort-by-date-button'));
 
             await waitFor(() => {
-                expect(document.title).toEqual(`Összes bejegyzés | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
+                expect(document.title).toEqual(`Admin felület | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
             });
         });
     });
@@ -653,7 +653,7 @@ describe('<AdminAllPosts />', () => {
                     <FirebaseContext.Provider
                         value={firebase}
                     >
-                        <AdminAllPosts />
+                        <AdminDashboard />
                     </FirebaseContext.Provider>
                 </Router >
             );
@@ -661,7 +661,7 @@ describe('<AdminAllPosts />', () => {
             fireEvent.click(getByTestId('sort-by-isActive-button'));
 
             await waitFor(() => {
-                expect(document.title).toEqual(`Összes bejegyzés | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
+                expect(document.title).toEqual(`Admin felület | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
             });
         });
     });
@@ -670,7 +670,7 @@ describe('<AdminAllPosts />', () => {
         window.scrollTo = jest.fn();
         delete window.location;
         window.location = { reload: jest.fn() };
-        
+
         await act(async () => {
             useAllPosts.mockImplementation(() => ({ posts: allPostsFixture }));
 
@@ -689,7 +689,7 @@ describe('<AdminAllPosts />', () => {
                             }
                         }}
                     >
-                        <AdminAllPosts />
+                        <AdminDashboard />
                     </FirebaseContext.Provider>
                 </Router >
             );
@@ -723,7 +723,7 @@ describe('<AdminAllPosts />', () => {
             fireEvent.submit(await findByTestId('edit-post-form'));
 
             await waitFor(() => {
-                expect(document.title).toEqual(`Összes bejegyzés | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
+                expect(document.title).toEqual(`Admin felület | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
                 expect(getByText('Bejegyzés szerkesztése')).toBeTruthy();
                 expect(getByTestId('input-edit-id').value).toBe('react-edit');
                 expect(getByTestId('input-edit-title').value).toBe('React (JavaScript library)-edit');
@@ -751,7 +751,7 @@ describe('<AdminAllPosts />', () => {
                             }
                         }}
                     >
-                        <AdminAllPosts />
+                        <AdminDashboard />
                     </FirebaseContext.Provider>
                 </Router >
             );
@@ -761,7 +761,7 @@ describe('<AdminAllPosts />', () => {
             fireEvent.click(await findByTestId('edit-post-return'));
 
             await waitFor(() => {
-                expect(document.title).toEqual(`Összes bejegyzés | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
+                expect(document.title).toEqual(`Admin felület | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
             });
         });
     });

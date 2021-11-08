@@ -7,9 +7,8 @@ import SignUp from "./pages/SignUp";
 import ForgotPassword from "./pages/ForgotPassword";
 import Profile from "./pages/Profile";
 import ProfileEdit from "./pages/ProfileEdit";
-import AdminAllPosts from "./pages/AdminAllPosts";
+import AdminDashboard from "./pages/AdminDashboard";
 import AdminCreatePost from "./pages/AdminCreatePost";
-import { Helmet } from "react-helmet-async";
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -23,6 +22,7 @@ import ProtectedRouteAdmin from './helpers/ProtectedRouteAdmin';
 import UserContext from './contexts/User';
 import useAuthListener from './hooks/UseAuthListener';
 import DarkModeToggle from './darkModeToggle';
+import MetaTags from 'react-meta-tags';
 import './styles.scss';
 
 export default function App() {
@@ -42,6 +42,7 @@ export default function App() {
     const classes = useStyles();
 
     useEffect(() => {
+        document.title = `${process.env.REACT_APP_FIREBASE_APP_NAME}`;
         if (user?.uid === process.env.REACT_APP_FIREBASE_ADMIN_UID) {
             setAdmin(user);
         } else {
@@ -51,13 +52,16 @@ export default function App() {
 
     return (
         <div className="App">
-            <Helmet>
-                <title>{process.env.REACT_APP_FIREBASE_APP_NAME}</title>
-                <meta
-                    name="description"
-                    content={process.env.REACT_APP_FIREBASE_APP_DESCRIPTION}
-                />
-            </Helmet>
+            <MetaTags>
+                <meta name="description" content="%REACT_APP_FIREBASE_APP_DESCRIPTION" />
+                <meta property="og:url" content="%REACT_APP_FIREBASE_AUTH_DOMAIN%" />
+                <meta property="og:title" content="%REACT_APP_FIREBASE_APP_NAME%" />
+                <meta property="og:description" content="%REACT_APP_FIREBASE_APP_DESCRIPTION" />
+                <meta property="og:type" content="website" />
+                <meta property="og:site_name" content="%REACT_APP_FIREBASE_APP_NAME%" />
+                <meta property="og:locale" content="hu_HU" />
+                <meta property="og:locale:alternate" content="en_US" />
+            </MetaTags>
             <UserContext.Provider value={{ user }}>
                 <BrowserRouter>
                     <Suspense fallback={<p>Betöltés...</p>}>
@@ -85,8 +89,8 @@ export default function App() {
                                     </Button>
                                     <Typography>|</Typography>
                                     <Button color="inherit">
-                                        <NavLink to={ROUTES.ADMIN_ALL_POSTS}>
-                                            <span className="nav-link" style={{ color: 'white' }}>Összes bejegyzés</span>
+                                        <NavLink to={ROUTES.ADMIN_DASHBOARD}>
+                                            <span className="nav-link" style={{ color: 'white' }}>Admin felület</span>
                                         </NavLink>
                                     </Button>
                                     <Typography>|</Typography>
@@ -121,8 +125,8 @@ export default function App() {
                             <ProtectedRouteUser user={user} path={ROUTES.PROFILE_EDIT} exact>
                                 <ProfileEdit />
                             </ProtectedRouteUser>
-                            <ProtectedRouteAdmin admin={admin} user={user} path={ROUTES.ADMIN_ALL_POSTS} exact>
-                                <AdminAllPosts />
+                            <ProtectedRouteAdmin admin={admin} user={user} path={ROUTES.ADMIN_DASHBOARD} exact>
+                                <AdminDashboard />
                             </ProtectedRouteAdmin>
                             <ProtectedRouteAdmin admin={admin} user={user} path={ROUTES.ADMIN_CREATE_POST} exact>
                                 <AdminCreatePost />

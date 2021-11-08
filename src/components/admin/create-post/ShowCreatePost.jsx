@@ -51,7 +51,7 @@ export default function ShowCreatePost() {
                         saves: []
                     };
                     await firebase.firestore().collection('posts').doc(data.id).set(data);
-                    history.push(ROUTES.ADMIN_ALL_POSTS);
+                    history.push(ROUTES.ADMIN_DASHBOARD);
                 }}
             >
                 <Grid container spacing={2}
@@ -157,7 +157,7 @@ export default function ShowCreatePost() {
                                 Létrehozás
                             </Button>
                             <Button data-testid="return" variant="contained" color="secondary" onClick={() => {
-                                history.push(ROUTES.ADMIN_ALL_POSTS)
+                                history.push(ROUTES.ADMIN_DASHBOARD)
                             }}>
                                 Vissza
                             </Button>

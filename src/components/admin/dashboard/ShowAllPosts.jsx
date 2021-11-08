@@ -89,7 +89,7 @@ export default function ShowAllPosts({ allPosts }) {
                     <hr />
                 </>
             }
-            <h2>Összes bejegyzés</h2>
+            <h2>Admin felület</h2>
             <Grid container
                 direction="row"
                 justifyContent="space-around"

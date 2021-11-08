@@ -69,7 +69,7 @@ describe('<AdminCreatePost />', () => {
             expect(document.title).toEqual(`Új bejegyzés | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
 
             await waitFor(() => {
-                expect(mockHistoryPush).toHaveBeenCalledWith(ROUTES.ADMIN_ALL_POSTS);
+                expect(mockHistoryPush).toHaveBeenCalledWith(ROUTES.ADMIN_DASHBOARD);
                 expect(getByTestId('input-id').value).toBe('react');
                 expect(getByTestId('input-title').value).toBe('React (JavaScript library)');
                 expect(getByTestId('input-slug').value).toBe('react-javascript-library-');
@@ -101,7 +101,7 @@ describe('<AdminCreatePost />', () => {
             expect(document.title).toEqual(`Új bejegyzés | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
 
             await waitFor(() => {
-                expect(mockHistoryPush).toHaveBeenCalledWith(ROUTES.ADMIN_ALL_POSTS);
+                expect(mockHistoryPush).toHaveBeenCalledWith(ROUTES.ADMIN_DASHBOARD);
             });
         });
     });

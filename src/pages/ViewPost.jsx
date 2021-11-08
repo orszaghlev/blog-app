@@ -9,6 +9,7 @@ import PostNotAvailable from "../components/view-post/PostNotAvailable";
 import PostInactive from "../components/view-post/PostInactive";
 import ShowPost from "../components/view-post/ShowPost";
 import ShowComments from "../components/view-post/ShowComments";
+import MetaTags from 'react-meta-tags';
 
 export default function ViewPost() {
     const { slug } = useParams();
@@ -27,6 +28,15 @@ export default function ViewPost() {
 
     return (
         <div className="m-auto text-center" style={{ width: "1000px" }}>
+            <MetaTags>
+                <meta name="description" content="Ha a vendég egy aktív bejegyzést kért le, akkor ezen az oldalon olvashatja el annak teljes tartalmát." />
+                <meta property="og:title" content="Bejegyzés" />
+                <meta property="og:description" content="Ha a vendég egy aktív bejegyzést kért le, akkor ezen az oldalon olvashatja el annak teljes tartalmát." />
+                <meta property="og:type" content="website" />
+                <meta property="og:site_name" content="%REACT_APP_FIREBASE_APP_NAME%" />
+                <meta property="og:locale" content="hu_HU" />
+                <meta property="og:locale:alternate" content="en_US" />
+            </MetaTags>
             <motion.div initial="hidden" animate="visible" variants={{
                 hidden: {
                     scale: .8,

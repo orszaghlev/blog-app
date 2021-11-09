@@ -5,8 +5,6 @@ import usePost from "../hooks/UsePost";
 import useUser from "../hooks/UseUser";
 import UserContext from '../contexts/User';
 import LoggedInUserContext from "../contexts/LoggedInUser";
-import PostNotAvailable from "../components/view-post/PostNotAvailable";
-import PostInactive from "../components/view-post/PostInactive";
 import ShowPost from "../components/view-post/ShowPost";
 import ShowComments from "../components/view-post/ShowComments";
 import MetaTags from 'react-meta-tags';
@@ -19,7 +17,7 @@ export default function ViewPost() {
     const commentInput = useRef(null);
 
     useEffect(() => {
-        if (post && post?.isActive === "true" && (new Date(post?.date).getTime() <= new Date().getTime())) {
+        if (post?.isActive === "true" && (new Date(post?.date).getTime() <= new Date().getTime())) {
             document.title = `${post?.title} | ${process.env.REACT_APP_FIREBASE_APP_NAME}`;
         } else {
             document.title = `Bejegyzés | ${process.env.REACT_APP_FIREBASE_APP_NAME}`;
@@ -50,8 +48,7 @@ export default function ViewPost() {
                     }
                 },
             }}>
-                {!post?.title ? <PostNotAvailable /> : (post?.isActive !== "true" ||
-                    (new Date(post?.date).getTime() >= new Date().getTime()) ? <PostInactive post={post} /> :
+                {post?.isActive === "true" && (new Date(post?.date).getTime() <= new Date().getTime()) &&
                     <>
                         <LoggedInUserContext.Provider value={{ user }}>
                             <ShowPost post={post} user={user} />
@@ -66,7 +63,8 @@ export default function ViewPost() {
                                 user={user}
                             />
                         </LoggedInUserContext.Provider>
-                    </>)}
+                    </>
+                }
             </motion.div>
         </div>
     )

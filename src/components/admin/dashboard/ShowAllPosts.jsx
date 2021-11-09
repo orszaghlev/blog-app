@@ -1,4 +1,5 @@
 import { useState, useRef, useMemo } from "react";
+import { useHistory } from "react-router-dom";
 import PropTypes from 'prop-types';
 import { Button } from '@material-ui/core';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
@@ -22,8 +23,10 @@ import DuplicatePost from './DuplicatePost';
 import DeletePost from './DeletePost';
 import EditPost from "./EditPost";
 import ViewPost from "./ViewPost";
+import * as ROUTES from '../../../constants/Routes';
 
 export default function ShowAllPosts({ allPosts }) {
+    const history = useHistory();
     const [search, setSearch] = useState("");
     const [hunSearch, setHunSearch] = useState(false);
     const [active, setActive] = useState(false);
@@ -92,12 +95,17 @@ export default function ShowAllPosts({ allPosts }) {
             <h2>Admin felület</h2>
             <Grid container
                 direction="row"
-                justifyContent="space-around"
+                justifyContent="space-evenly"
                 alignItems="center">
                 <form className={classes.search} noValidate autoComplete="off"
                     onChange={e => setSearch(e.target.value)}>
                     <TextField inputProps={{ "data-testid": "input-search" }} id="search" label="Keresés..." variant="filled" />
                 </form>
+                <Button data-testid="create-post" color="primary" variant="contained" onClick={() => {
+                    history.push(ROUTES.ADMIN_CREATE_POST);
+                }}>
+                    Új bejegyzés
+                </Button>
             </Grid>
             <br />
             <Grid container

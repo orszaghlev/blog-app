@@ -1,5 +1,5 @@
 import { useState, Suspense, useEffect } from "react";
-import { BrowserRouter, NavLink, Route, Redirect, Switch } from "react-router-dom";
+import { BrowserRouter, NavLink, Route, Switch } from "react-router-dom";
 import Home from "./pages/Home";
 import ViewPost from "./pages/ViewPost";
 import Login from "./pages/Login";
@@ -9,6 +9,7 @@ import Profile from "./pages/Profile";
 import ProfileEdit from "./pages/ProfileEdit";
 import AdminDashboard from "./pages/AdminDashboard";
 import AdminCreatePost from "./pages/AdminCreatePost";
+import NotFound from "./pages/NotFound";
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -83,12 +84,6 @@ export default function App() {
                                 </>}
                                 {admin !== null && <>
                                     <Button color="inherit">
-                                        <NavLink to={ROUTES.ADMIN_CREATE_POST}>
-                                            <span className="nav-link" style={{ color: 'white' }}>Új bejegyzés</span>
-                                        </NavLink>
-                                    </Button>
-                                    <Typography>|</Typography>
-                                    <Button color="inherit">
                                         <NavLink to={ROUTES.ADMIN_DASHBOARD}>
                                             <span className="nav-link" style={{ color: 'white' }}>Admin felület</span>
                                         </NavLink>
@@ -131,7 +126,7 @@ export default function App() {
                             <ProtectedRouteAdmin admin={admin} user={user} path={ROUTES.ADMIN_CREATE_POST} exact>
                                 <AdminCreatePost />
                             </ProtectedRouteAdmin>
-                            <Redirect to={ROUTES.HOME} />
+                            <Route component={NotFound} />
                         </Switch>
                     </Suspense>
                 </BrowserRouter>

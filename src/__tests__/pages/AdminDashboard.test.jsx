@@ -12,6 +12,7 @@ import inactivePostsFixture from '../../fixtures/CreatedInactivePosts';
 import sortingPostsFixture from '../../fixtures/CreatedPostsForSorting';
 import inverseSortingPostsFixture from '../../fixtures/CreatedPostsForSortingInverse';
 import useAllPosts from '../../hooks/UseAllPosts';
+import * as ROUTES from '../../constants/Routes';
 
 const mockHistoryPush = jest.fn();
 
@@ -662,6 +663,36 @@ describe('<AdminDashboard />', () => {
 
             await waitFor(() => {
                 expect(document.title).toEqual(`Admin felület | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
+            });
+        });
+    });
+
+    it('Megjelenik a bejegyzéseket tartalmazó admin felület, az adminisztrátor az új bejegyzés gombra kattint', async () => {
+
+        await act(async () => {
+            useAllPosts.mockImplementation(() => ({ posts: allPostsFixture }));
+
+            const { getByText, getByTestId } = render(
+                <Router>
+                    <FirebaseContext.Provider
+                        value={{
+                            firebase: {
+                                firestore: jest.fn(() => ({
+                                }))
+                            }
+                        }}
+                    >
+                        <AdminDashboard />
+                    </FirebaseContext.Provider>
+                </Router >
+            );
+
+            fireEvent.click(getByTestId('create-post'));
+
+            await waitFor(() => {
+                expect(document.title).toEqual(`Admin felület | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
+                expect(mockHistoryPush).toHaveBeenCalledWith(ROUTES.ADMIN_CREATE_POST);
+                expect(getByText('Új bejegyzés')).toBeTruthy();
             });
         });
     });

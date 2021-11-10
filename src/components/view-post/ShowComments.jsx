@@ -34,7 +34,7 @@ export default function ShowComments({ docId, title, language, comments: allComm
                             <h5 className="mb-1">
                                 <p>{comment?.comment}</p>
                             </h5>
-                            {user?.userId === process.env.REACT_APP_FIREBASE_ADMIN_UID &&
+                            {((user?.userId === process.env.REACT_APP_FIREBASE_ADMIN_UID) || (user?.username === comment?.displayName)) &&
                                 <Grid container
                                     direction="row"
                                     justifyContent="center"
@@ -72,7 +72,18 @@ export default function ShowComments({ docId, title, language, comments: allComm
                         commentInput={commentInput}
                     />
                 }
+                {!user &&
+                    <>
+                        <div>
+                            {language === "Hungarian" ?
+                                <p><a href="/login">Jelentkezzen be</a> vagy <a href="/sign-up">regisztráljon</a>, hogy hozzá tudjon szólni a bejegyzéshez!</p> :
+                                <p><a href="/login">Log in</a> or <a href="/sign-up">sign up</a> to post comments!</p>
+                            }
+                        </div>
+                    </>
+                }
             </Card>
+            <br/>
         </>
     )
 }

@@ -259,6 +259,104 @@ describe('<ViewPost />', () => {
         });
     });
 
+    it('Nem jelenik meg az angol bejegyzéshez tartozó aloldal, mert inaktív a bejegyzés', async () => {
+        jest.mock('react-router-dom', () => ({
+            ...jest.requireActual('react-router-dom'),
+            useParams: () => ({ slug: 'react-javascript-library-' }),
+            useHistory: () => ({
+                push: mockHistoryPush
+            })
+        }));
+
+        const firebase = {
+            firestore: jest.fn(() => ({
+            }))
+        }
+
+        await act(async () => {
+            getUserByUserId.mockImplementation(() => [userFixture]);
+            useUser.mockImplementation(() => ({ user: userFixture }));
+            getPostByPostSlug.mockImplementation(() => [postFixtureInactive]);
+            usePost.mockImplementation(() => ({ post: postFixtureInactive }));
+
+            const { getByTestId } = render(
+                <Router>
+                    <FirebaseContext.Provider
+                        value={firebase}
+                    >
+                        <UserContext.Provider
+                            value={{
+                                user: {
+                                    uid: process.env.REACT_APP_FIREBASE_ADMIN_UID,
+                                    displayName: 'admin'
+                                }
+                            }}
+                        >
+                            <LoggedInUserContext.Provider value={{ user: userFixture }}>
+                                <ViewPost />
+                            </LoggedInUserContext.Provider>
+                        </UserContext.Provider>
+                    </FirebaseContext.Provider>
+                </Router>
+            );
+
+            fireEvent.click(getByTestId('not-found-return'));
+
+            await waitFor(() => {
+                expect(document.title).toEqual(`${process.env.REACT_APP_FIREBASE_APP_NAME}`);
+            });
+        });
+    });
+
+    it('Nem jelenik meg a magyar bejegyzéshez tartozó aloldal, mert inaktív a bejegyzés', async () => {
+        jest.mock('react-router-dom', () => ({
+            ...jest.requireActual('react-router-dom'),
+            useParams: () => ({ slug: 'react-javascript-library-' }),
+            useHistory: () => ({
+                push: mockHistoryPush
+            })
+        }));
+
+        const firebase = {
+            firestore: jest.fn(() => ({
+            }))
+        }
+
+        await act(async () => {
+            getUserByUserId.mockImplementation(() => [userFixture]);
+            useUser.mockImplementation(() => ({ user: userFixture }));
+            getPostByPostSlug.mockImplementation(() => [postFixtureInactiveHun]);
+            usePost.mockImplementation(() => ({ post: postFixtureInactiveHun }));
+
+            const { getByTestId } = render(
+                <Router>
+                    <FirebaseContext.Provider
+                        value={firebase}
+                    >
+                        <UserContext.Provider
+                            value={{
+                                user: {
+                                    uid: process.env.REACT_APP_FIREBASE_ADMIN_UID,
+                                    displayName: 'admin'
+                                }
+                            }}
+                        >
+                            <LoggedInUserContext.Provider value={{ user: userFixture }}>
+                                <ViewPost />
+                            </LoggedInUserContext.Provider>
+                        </UserContext.Provider>
+                    </FirebaseContext.Provider>
+                </Router>
+            );
+
+            fireEvent.click(getByTestId('not-found-return'));
+
+            await waitFor(() => {
+                expect(document.title).toEqual(`${process.env.REACT_APP_FIREBASE_APP_NAME}`);
+            });
+        });
+    });
+
     it('Megjelenik az angol nyelvű bejegyzéshez tartozó aloldal, a bejegyzéshez tartozó adatokkal, a felhasználó elmenti a kedvencek közé a bejegyzést', async () => {
         jest.mock('react-router-dom', () => ({
             ...jest.requireActual('react-router-dom'),
@@ -898,6 +996,96 @@ describe('<ViewPost />', () => {
 
             await waitFor(() => {
                 expect(document.title).toEqual(`HTML5 | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
+            });
+        });
+    });
+
+    it('Megjelenik az angol nyelvű bejegyzéshez tartozó aloldal, a bejegyzéshez tartozó adatokkal, nincsen bejelentkezett felhasználó', async () => {
+        jest.mock('react-router-dom', () => ({
+            ...jest.requireActual('react-router-dom'),
+            useParams: () => ({ slug: 'react-javascript-library-' }),
+            useHistory: () => ({
+                push: mockHistoryPush
+            })
+        }));
+
+        await act(async () => {
+            getUserByUserId.mockImplementation(() => []);
+            useUser.mockImplementation(() => ({ user: null }));
+            useUserWhoCommented.mockImplementation(() => ({ user: userFixture }));
+            getPostByPostSlug.mockImplementation(() => [postFixtureWithComment]);
+            usePost.mockImplementation(() => ({ post: postFixtureWithComment }));
+
+            render(
+                <Router>
+                    <FirebaseContext.Provider
+                        value={{
+                            firebase: {
+                            },
+                            FieldValue: {
+                            }
+                        }}
+                    >
+                        <UserContext.Provider
+                            value={{
+                                user: null
+                            }}
+                        >
+                            <LoggedInUserContext.Provider value={{ user: null }}>
+                                <ViewPost />
+                            </LoggedInUserContext.Provider>
+                        </UserContext.Provider>
+                    </FirebaseContext.Provider>
+                </Router>
+            );
+
+            await waitFor(() => {
+                expect(document.title).toEqual(`React (JavaScript library) | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
+            });
+        });
+    });
+
+    it('Megjelenik a magyar nyelvű bejegyzéshez tartozó aloldal, a bejegyzéshez tartozó adatokkal, nincsen bejelentkezett felhasználó', async () => {
+        jest.mock('react-router-dom', () => ({
+            ...jest.requireActual('react-router-dom'),
+            useParams: () => ({ slug: 'html5' }),
+            useHistory: () => ({
+                push: mockHistoryPush
+            })
+        }));
+
+        await act(async () => {
+            getUserByUserId.mockImplementation(() => []);
+            useUser.mockImplementation(() => ({ user: null }));
+            useUserWhoCommented.mockImplementation(() => ({ user: userFixture }));
+            getPostByPostSlug.mockImplementation(() => [postFixtureWithCommentHun]);
+            usePost.mockImplementation(() => ({ post: postFixtureWithCommentHun }));
+
+            render(
+                <Router>
+                    <FirebaseContext.Provider
+                        value={{
+                            firebase: {
+                            },
+                            FieldValue: {
+                            }
+                        }}
+                    >
+                        <UserContext.Provider
+                            value={{
+                                user: null
+                            }}
+                        >
+                            <LoggedInUserContext.Provider value={{ user: null }}>
+                                <ViewPost />
+                            </LoggedInUserContext.Provider>
+                        </UserContext.Provider>
+                    </FirebaseContext.Provider>
+                </Router>
+            );
+
+            await waitFor(() => {
+                expect(document.title).toEqual(`HTML5 | ${process.env.REACT_APP_FIREBASE_APP_NAME}`)
             });
         });
     });

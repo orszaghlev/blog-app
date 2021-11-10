@@ -7,6 +7,7 @@ import UserContext from '../contexts/User';
 import LoggedInUserContext from "../contexts/LoggedInUser";
 import ShowPost from "../components/view-post/ShowPost";
 import ShowComments from "../components/view-post/ShowComments";
+import ShowNotFound from '../components/not-found/ShowNotFound';
 import MetaTags from 'react-meta-tags';
 
 export default function ViewPost() {
@@ -20,7 +21,7 @@ export default function ViewPost() {
         if (post?.isActive === "true" && (new Date(post?.date).getTime() <= new Date().getTime())) {
             document.title = `${post?.title} | ${process.env.REACT_APP_FIREBASE_APP_NAME}`;
         } else {
-            document.title = `Bejegyzés | ${process.env.REACT_APP_FIREBASE_APP_NAME}`;
+            document.title = `${process.env.REACT_APP_FIREBASE_APP_NAME}`;
         }
     }, [post]);
 
@@ -48,7 +49,7 @@ export default function ViewPost() {
                     }
                 },
             }}>
-                {post?.isActive === "true" && (new Date(post?.date).getTime() <= new Date().getTime()) &&
+                {(post?.isActive !== "true" || (new Date(post?.date).getTime() >= new Date().getTime()) ? <ShowNotFound /> :
                     <>
                         <LoggedInUserContext.Provider value={{ user }}>
                             <ShowPost post={post} user={user} />
@@ -64,7 +65,7 @@ export default function ViewPost() {
                             />
                         </LoggedInUserContext.Provider>
                     </>
-                }
+                )}
             </motion.div>
         </div>
     )

@@ -18,7 +18,7 @@ export default function Profile() {
 
     return (
         <LoggedInUserContext.Provider value={{ user }}>
-            <div className="p-3 content text-center m-auto" style={{ width: "1000px" }}>
+            <div className="p-3 content text-center m-auto" style={{ width: "500px" }}>
                 <MetaTags>
                     <meta name="description" content="A felhasználó profilja. Tartalmazza a regisztráláskor megadott információkat, illetve a felhasználó kedvenc bejegyzéseit és saját hozzászólásait." />
                     <meta name="robots" content="noindex" />

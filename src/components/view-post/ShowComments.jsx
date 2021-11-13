@@ -6,6 +6,7 @@ import Grid from '@material-ui/core/Grid';
 import AddComment from './AddComment';
 import EditComment from './EditComment';
 import DeleteComment from './DeleteComment';
+import * as ROUTES from '../../constants/Routes';
 
 export default function ShowComments({ docId, title, language, comments: allComments, commentInput, user }) {
     const [comments, setComments] = useState(allComments);
@@ -42,10 +43,10 @@ export default function ShowComments({ docId, title, language, comments: allComm
                                     <DeleteComment
                                         docId={docId}
                                         title={title}
+                                        language={language}
                                         displayName={comment?.displayName}
                                         comment={comment?.comment}
-                                        comments={comments}
-                                        setComments={setComments}
+                                        yourOwnComment={user?.username === comment?.displayName}
                                     />
                                     <EditComment
                                         docId={docId}
@@ -53,9 +54,8 @@ export default function ShowComments({ docId, title, language, comments: allComm
                                         language={language}
                                         displayName={comment?.displayName}
                                         comment={comment?.comment}
-                                        comments={comments}
-                                        setComments={setComments}
                                         commentInput={commentInput}
+                                        yourOwnComment={user?.username === comment?.displayName}
                                     />
                                 </Grid>
                             }
@@ -76,14 +76,14 @@ export default function ShowComments({ docId, title, language, comments: allComm
                     <>
                         <div>
                             {language === "Hungarian" ?
-                                <p><a href="/login">Jelentkezzen be</a> vagy <a href="/sign-up">regisztráljon</a>, hogy hozzá tudjon szólni a bejegyzéshez!</p> :
-                                <p><a href="/login">Log in</a> or <a href="/sign-up">sign up</a> to post comments!</p>
+                                <p><a href={ROUTES.LOGIN}>Jelentkezzen be</a> vagy <a href={ROUTES.SIGN_UP}>regisztráljon</a>, hogy hozzá tudjon szólni a bejegyzéshez!</p> :
+                                <p><a href={ROUTES.LOGIN}>Log in</a> or <a href={ROUTES.SIGN_UP}>sign up</a> to post comments!</p>
                             }
                         </div>
                     </>
                 }
             </Card>
-            <br/>
+            <br />
         </>
     )
 }

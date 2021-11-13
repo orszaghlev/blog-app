@@ -12,10 +12,15 @@ import useUser from '../../hooks/UseUser';
 import useUserWhoCommented from '../../hooks/UseUserWhoCommented';
 import usePost from '../../hooks/UsePost';
 import userFixture from '../../fixtures/LoggedInUser';
+import userNotAdminFixture from '../../fixtures/LoggedInUserWithNoAdminAccess';
+import userNotAdminEndsWithSFixture from '../../fixtures/LoggedInUserWithNoAdminAccessWhoseNameEndsWithS';
 import postFixture from '../../fixtures/CreatedPost';
 import postFixtureHun from '../../fixtures/CreatedPostHun';
 import postFixtureWithComment from '../../fixtures/CreatedPostWithComment';
 import postFixtureWithCommentHun from '../../fixtures/CreatedPostWithCommentHun';
+import postFixtureWithUserComment from '../../fixtures/CreatedPostWithUserComment';
+import postFixtureWithUserCommentHun from '../../fixtures/CreatedPostWithUserCommentHun';
+import postFixtureWithUserCommentEndsWithS from '../../fixtures/CreatedPostWithUserCommentWhoseNameEndsWithS';
 import postFixtureInactive from '../../fixtures/CreatedInactivePost';
 import postFixtureInactiveHun from '../../fixtures/CreatedInactivePostHun';
 
@@ -705,6 +710,9 @@ describe('<ViewPost />', () => {
     });
 
     it('Megjelenik az angol nyelvű bejegyzéshez tartozó aloldal, a bejegyzéshez tartozó adatokkal, az adminisztrátor törli az egyik hozzászólást', async () => {
+        delete window.location;
+        window.location = { reload: jest.fn() };
+
         jest.mock('react-router-dom', () => ({
             ...jest.requireActual('react-router-dom'),
             useParams: () => ({ slug: 'react-javascript-library-' }),
@@ -720,7 +728,7 @@ describe('<ViewPost />', () => {
             getPostByPostSlug.mockImplementation(() => [postFixtureWithComment]);
             usePost.mockImplementation(() => ({ post: postFixtureWithComment }));
 
-            const { getByText, getByTestId } = render(
+            const { findByTestId, getByTestId } = render(
                 <Router>
                     <FirebaseContext.Provider
                         value={{
@@ -755,15 +763,254 @@ describe('<ViewPost />', () => {
             );
 
             fireEvent.click(getByTestId('delete-comment'));
+            fireEvent.click(await findByTestId('delete-comment-delete'));
 
             await waitFor(() => {
                 expect(document.title).toEqual(`React (JavaScript library) | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
-                expect(getByText('There are no comments yet!')).toBeTruthy();
+            });
+        });
+    });
+
+    it('Megjelenik az angol nyelvű bejegyzéshez tartozó aloldal, a bejegyzéshez tartozó adatokkal, az adminisztrátor törölné az egyik hozzászólást, de végül visszalép', async () => {
+        jest.mock('react-router-dom', () => ({
+            ...jest.requireActual('react-router-dom'),
+            useParams: () => ({ slug: 'react-javascript-library-' }),
+            useHistory: () => ({
+                push: mockHistoryPush
+            })
+        }));
+
+        await act(async () => {
+            getUserByUserId.mockImplementation(() => [userFixture]);
+            useUser.mockImplementation(() => ({ user: userFixture }));
+            useUserWhoCommented.mockImplementation(() => ({ user: userFixture }));
+            getPostByPostSlug.mockImplementation(() => [postFixtureWithComment]);
+            usePost.mockImplementation(() => ({ post: postFixtureWithComment }));
+
+            const { findByTestId, getByTestId } = render(
+                <Router>
+                    <FirebaseContext.Provider
+                        value={{
+                            firebase: {
+                                firestore: jest.fn(() => ({
+                                    collection: jest.fn(() => ({
+                                        doc: jest.fn(() => ({
+                                            update: jest.fn(() => Promise.resolve('Deleted comment'))
+                                        }))
+                                    }))
+                                }))
+                            },
+                            FieldValue: {
+                                arrayRemove: jest.fn()
+                            }
+                        }}
+                    >
+                        <UserContext.Provider
+                            value={{
+                                user: {
+                                    uid: process.env.REACT_APP_FIREBASE_ADMIN_UID,
+                                    displayName: 'admin'
+                                }
+                            }}
+                        >
+                            <LoggedInUserContext.Provider value={{ user: userFixture }}>
+                                <ViewPost />
+                            </LoggedInUserContext.Provider>
+                        </UserContext.Provider>
+                    </FirebaseContext.Provider>
+                </Router>
+            );
+
+            fireEvent.click(getByTestId('delete-comment'));
+            fireEvent.click(await findByTestId('delete-comment-return'));
+
+            await waitFor(() => {
+                expect(document.title).toEqual(`React (JavaScript library) | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
+            });
+        });
+    });
+
+    it('Megjelenik az angol nyelvű bejegyzéshez tartozó aloldal, a bejegyzéshez tartozó adatokkal, az adminisztrátor törölné más hozzászólását, de végül visszalép', async () => {
+        jest.mock('react-router-dom', () => ({
+            ...jest.requireActual('react-router-dom'),
+            useParams: () => ({ slug: 'react-javascript-library-' }),
+            useHistory: () => ({
+                push: mockHistoryPush
+            })
+        }));
+
+        await act(async () => {
+            getUserByUserId.mockImplementation(() => [userFixture]);
+            useUser.mockImplementation(() => ({ user: userFixture }));
+            useUserWhoCommented.mockImplementation(() => ({ user: userNotAdminFixture }));
+            getPostByPostSlug.mockImplementation(() => [postFixtureWithUserComment]);
+            usePost.mockImplementation(() => ({ post: postFixtureWithUserComment }));
+
+            const { findByTestId, getByTestId } = render(
+                <Router>
+                    <FirebaseContext.Provider
+                        value={{
+                            firebase: {
+                                firestore: jest.fn(() => ({
+                                    collection: jest.fn(() => ({
+                                        doc: jest.fn(() => ({
+                                            update: jest.fn(() => Promise.resolve('Deleted comment'))
+                                        }))
+                                    }))
+                                }))
+                            },
+                            FieldValue: {
+                                arrayRemove: jest.fn()
+                            }
+                        }}
+                    >
+                        <UserContext.Provider
+                            value={{
+                                user: {
+                                    uid: process.env.REACT_APP_FIREBASE_ADMIN_UID,
+                                    displayName: 'admin'
+                                }
+                            }}
+                        >
+                            <LoggedInUserContext.Provider value={{ user: userFixture }}>
+                                <ViewPost />
+                            </LoggedInUserContext.Provider>
+                        </UserContext.Provider>
+                    </FirebaseContext.Provider>
+                </Router>
+            );
+
+            fireEvent.click(getByTestId('delete-comment'));
+            fireEvent.click(await findByTestId('delete-comment-return'));
+
+            await waitFor(() => {
+                expect(document.title).toEqual(`React (JavaScript library) | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
+            });
+        });
+    });
+
+    it('Megjelenik az angol nyelvű bejegyzéshez tartozó aloldal, a bejegyzéshez tartozó adatokkal, az adminisztrátor törölné más hozzászólását, akinek a neve s-re végződik, de végül visszalép', async () => {
+        jest.mock('react-router-dom', () => ({
+            ...jest.requireActual('react-router-dom'),
+            useParams: () => ({ slug: 'react-javascript-library-' }),
+            useHistory: () => ({
+                push: mockHistoryPush
+            })
+        }));
+
+        await act(async () => {
+            getUserByUserId.mockImplementation(() => [userFixture]);
+            useUser.mockImplementation(() => ({ user: userFixture }));
+            useUserWhoCommented.mockImplementation(() => ({ user: userNotAdminEndsWithSFixture }));
+            getPostByPostSlug.mockImplementation(() => [postFixtureWithUserCommentEndsWithS]);
+            usePost.mockImplementation(() => ({ post: postFixtureWithUserCommentEndsWithS }));
+
+            const { findByTestId, getByTestId } = render(
+                <Router>
+                    <FirebaseContext.Provider
+                        value={{
+                            firebase: {
+                                firestore: jest.fn(() => ({
+                                    collection: jest.fn(() => ({
+                                        doc: jest.fn(() => ({
+                                            update: jest.fn(() => Promise.resolve('Deleted comment'))
+                                        }))
+                                    }))
+                                }))
+                            },
+                            FieldValue: {
+                                arrayRemove: jest.fn()
+                            }
+                        }}
+                    >
+                        <UserContext.Provider
+                            value={{
+                                user: {
+                                    uid: process.env.REACT_APP_FIREBASE_ADMIN_UID,
+                                    displayName: 'admin'
+                                }
+                            }}
+                        >
+                            <LoggedInUserContext.Provider value={{ user: userFixture }}>
+                                <ViewPost />
+                            </LoggedInUserContext.Provider>
+                        </UserContext.Provider>
+                    </FirebaseContext.Provider>
+                </Router>
+            );
+
+            fireEvent.click(getByTestId('delete-comment'));
+            fireEvent.click(await findByTestId('delete-comment-return'));
+
+            await waitFor(() => {
+                expect(document.title).toEqual(`React (JavaScript library) | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
+            });
+        });
+    });
+
+    it('Megjelenik a magyar nyelvű bejegyzéshez tartozó aloldal, a bejegyzéshez tartozó adatokkal, az adminisztrátor törölné más hozzászólását, de végül visszalép', async () => {
+        jest.mock('react-router-dom', () => ({
+            ...jest.requireActual('react-router-dom'),
+            useParams: () => ({ slug: 'react-javascript-library-' }),
+            useHistory: () => ({
+                push: mockHistoryPush
+            })
+        }));
+
+        await act(async () => {
+            getUserByUserId.mockImplementation(() => [userFixture]);
+            useUser.mockImplementation(() => ({ user: userFixture }));
+            useUserWhoCommented.mockImplementation(() => ({ user: userNotAdminEndsWithSFixture }));
+            getPostByPostSlug.mockImplementation(() => [postFixtureWithUserCommentHun]);
+            usePost.mockImplementation(() => ({ post: postFixtureWithUserCommentHun }));
+
+            const { findByTestId, getByTestId } = render(
+                <Router>
+                    <FirebaseContext.Provider
+                        value={{
+                            firebase: {
+                                firestore: jest.fn(() => ({
+                                    collection: jest.fn(() => ({
+                                        doc: jest.fn(() => ({
+                                            update: jest.fn(() => Promise.resolve('Hozzászólás törölve'))
+                                        }))
+                                    }))
+                                }))
+                            },
+                            FieldValue: {
+                                arrayRemove: jest.fn()
+                            }
+                        }}
+                    >
+                        <UserContext.Provider
+                            value={{
+                                user: {
+                                    uid: process.env.REACT_APP_FIREBASE_ADMIN_UID,
+                                    displayName: 'admin'
+                                }
+                            }}
+                        >
+                            <LoggedInUserContext.Provider value={{ user: userFixture }}>
+                                <ViewPost />
+                            </LoggedInUserContext.Provider>
+                        </UserContext.Provider>
+                    </FirebaseContext.Provider>
+                </Router>
+            );
+
+            fireEvent.click(getByTestId('delete-comment'));
+            fireEvent.click(await findByTestId('delete-comment-return'));
+
+            await waitFor(() => {
+                expect(document.title).toEqual(`HTML5 | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
             });
         });
     });
 
     it('Megjelenik az angol nyelvű bejegyzéshez tartozó aloldal, a bejegyzéshez tartozó adatokkal, az adminisztrátor szerkeszti az egyik hozzászólást', async () => {
+        delete window.location;
+        window.location = { reload: jest.fn() };
+
         jest.mock('react-router-dom', () => ({
             ...jest.requireActual('react-router-dom'),
             useParams: () => ({ slug: 'react-javascript-library-' }),
@@ -819,18 +1066,21 @@ describe('<ViewPost />', () => {
             fireEvent.change(await findByTestId('input-edit-comment'), {
                 target: { value: 'Like' }
             });
+            fireEvent.click(await findByTestId('edit-comment-modal-button'));
             fireEvent.submit(await findByTestId('edit-comment-submit'));
 
             await waitFor(() => {
                 expect(document.title).toEqual(`React (JavaScript library) | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
                 expect(getByTestId('input-edit-comment').value).toBe('Like');
-                expect(getByText('Like')).toBeTruthy();
                 expect(getByText('admin')).toBeTruthy();
             });
         });
     });
 
     it('Megjelenik a magyar nyelvű bejegyzéshez tartozó aloldal, a bejegyzéshez tartozó adatokkal, az adminisztrátor szerkeszti az egyik hozzászólást', async () => {
+        delete window.location;
+        window.location = { reload: jest.fn() };
+
         jest.mock('react-router-dom', () => ({
             ...jest.requireActual('react-router-dom'),
             useParams: () => ({ slug: 'html5' }),
@@ -886,11 +1136,11 @@ describe('<ViewPost />', () => {
             fireEvent.change(await findByTestId('input-edit-comment'), {
                 target: { value: 'Like' }
             });
+            fireEvent.click(await findByTestId('edit-comment-modal-button'));
             fireEvent.submit(await findByTestId('edit-comment-submit'));
 
             await waitFor(() => {
                 expect(getByTestId('input-edit-comment').value).toBe('Like');
-                expect(getByText('Like')).toBeTruthy();
                 expect(getByText('admin')).toBeTruthy();
             });
         });

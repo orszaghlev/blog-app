@@ -9,6 +9,7 @@ import { Editor } from '@tinymce/tinymce-react';
 import slugify from 'react-slugify';
 import FirebaseContext from '../../../contexts/Firebase';
 import * as ROUTES from '../../../constants/Routes';
+import { useMediaQuery } from 'react-responsive';
 
 export default function ShowCreatePost() {
     const history = useHistory();
@@ -28,6 +29,7 @@ export default function ShowCreatePost() {
         },
     }));
     const classes = useStyles();
+    const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' });
 
     return (
         <>
@@ -60,16 +62,16 @@ export default function ShowCreatePost() {
                     alignItems="stretch">
                     <h2>Új bejegyzés</h2>
                     <Grid item xs>
-                        <TextField className="TextField" inputProps={{ "data-testid": "input-id" }} name="id" label="ID" variant="filled" type="text" required style={{ width: 800 }} />
+                        <TextField className="TextField" inputProps={{ "data-testid": "input-id" }} name="id" label="ID" variant="filled" type="text" required style={{ width: isTabletOrMobile ? 350 : 700 }} />
                     </Grid>
                     <Grid item xs>
-                        <TextField className="TextField" inputProps={{ "data-testid": "input-title" }} name="title" label="Cím" variant="filled" type="text" required style={{ width: 800 }}
+                        <TextField className="TextField" inputProps={{ "data-testid": "input-title" }} name="title" label="Cím" variant="filled" type="text" required style={{ width: isTabletOrMobile ? 350 : 700 }}
                             onChange={(e) => {
                                 setSlug(slugify(e.target.value));
                             }} />
                     </Grid>
                     <Grid item xs>
-                        <TextField className="TextField" inputProps={{ "data-testid": "input-slug" }} value={slug} name="slug" label="Slug" variant="filled" type="text" required style={{ width: 800 }} />
+                        <TextField className="TextField" inputProps={{ "data-testid": "input-slug" }} value={slug} name="slug" label="Slug" variant="filled" type="text" required style={{ width: isTabletOrMobile ? 350 : 700 }} />
                     </Grid>
                     <Grid item xs>
                         <Grid
@@ -77,8 +79,8 @@ export default function ShowCreatePost() {
                             alignItems="center"
                             justifyContent="center"
                         >
-                            <div className="form-group" style={{ width: "800px" }}>
-                                <textarea data-testid="input-description" name="description" label="Leírás" className="form-control" rows="3" placeholder="Leírás" required />
+                            <div className="form-group" >
+                                <textarea data-testid="input-description" name="description" label="Leírás" className="form-control" rows="3" placeholder="Leírás" required style={{ width: isTabletOrMobile ? 350 : 700 }} />
                             </div>
                         </Grid>
                     </Grid>
@@ -116,21 +118,21 @@ export default function ShowCreatePost() {
                         </Grid>
                     </Grid>
                     <Grid item xs>
-                        <TextField className="TextField" inputProps={{ "data-testid": "input-imgURL" }} name="imgURL" label="Kép URL" variant="filled" type="text" required style={{ width: 800 }} />
+                        <TextField className="TextField" inputProps={{ "data-testid": "input-imgURL" }} name="imgURL" label="Kép URL" variant="filled" type="text" required style={{ width: isTabletOrMobile ? 350 : 700 }} />
                     </Grid>
                     <Grid item xs>
-                        <TextField className="TextField" inputProps={{ "data-testid": "input-tag" }} name="tag" label="Címkék" variant="filled" type="text" required style={{ width: 800 }} />
+                        <TextField className="TextField" inputProps={{ "data-testid": "input-tag" }} name="tag" label="Címkék" variant="filled" type="text" required style={{ width: isTabletOrMobile ? 350 : 700 }} />
                     </Grid>
                     <Grid item xs>
                         <TextField className="TextField" inputProps={{ "data-testid": "input-language" }} name="language" label="Nyelv" variant="filled" type="text" required
-                            style={{ width: 800, textAlign: "left" }} defaultValue="" select>
+                            style={{ width: isTabletOrMobile ? 350 : 700, textAlign: "left" }} defaultValue="" select>
                             <MenuItem value="Hungarian">Magyar</MenuItem>
                             <MenuItem value="English">Angol</MenuItem>
                         </TextField>
                     </Grid>
                     <Grid item xs>
                         <TextField
-                            style={{ width: "800px" }}
+                            style={{ width: isTabletOrMobile ? 350 : 700 }}
                             id="datetime-local"
                             name="date"
                             label="Dátum"
@@ -143,7 +145,7 @@ export default function ShowCreatePost() {
                     </Grid>
                     <Grid item xs>
                         <TextField className="TextField" inputProps={{ "data-testid": "input-isActive" }} name="isActive" label="Állapot" variant="filled" type="text" required
-                            style={{ width: 800, textAlign: "left" }} defaultValue="" select>
+                            style={{ width: isTabletOrMobile ? 350 : 700, textAlign: "left" }} defaultValue="" select>
                             <MenuItem value="true">Aktív</MenuItem>
                             <MenuItem value="false">Inaktív</MenuItem>
                         </TextField>

@@ -8,6 +8,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import FirebaseContext from '../../../contexts/Firebase';
 import * as ROUTES from '../../../constants/Routes';
 import { doesUsernameExist } from "../../../services/Firebase";
+import { useMediaQuery } from 'react-responsive';
 
 export default function ShowProfileEdit({ user }) {
     const history = useHistory();
@@ -28,6 +29,7 @@ export default function ShowProfileEdit({ user }) {
         },
     }));
     const classes = useStyles();
+    const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' });
     const handlePasswordChange = async () => {
         await firebase.auth().sendPasswordResetEmail(user?.emailAddress);
         setNotification("Küldtünk az Ön e-mail címére egy jelszóváltoztatást segítő mailt!");
@@ -78,14 +80,14 @@ export default function ShowProfileEdit({ user }) {
                             onChange={(e) => {
                                 setUsername(e.target.value);
                             }}
-                            required style={{ width: 800 }} />
+                            required style={{ width: isTabletOrMobile ? 350 : 700 }} />
                     </Grid>
                     <Grid item xs>
                         <TextField className="TextField" inputProps={{ "data-testid": "input-fullname" }} value={fullName || ""} name="fullName" type="text" label="Teljes név" variant="filled"
                             onChange={(e) => {
                                 setFullName(e.target.value);
                             }}
-                            required style={{ width: 800 }} />
+                            required style={{ width: isTabletOrMobile ? 350 : 700 }} />
                     </Grid>
                     <Grid item xs>
                         <Button data-testid="change-password" color="secondary" onClick={() => {

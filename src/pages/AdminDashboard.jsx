@@ -13,7 +13,7 @@ export default function AdminDashboard() {
     }, []);
 
     return (
-        <div className="p-1 m-auto text-center content bg-ivory">
+        <div className="p-3 content text-center m-auto" style={{ maxWidth: "1224px" }}>
             <MetaTags>
                 <meta name="description" content="Kezelőfelület adminisztrátorok számára. Bejegyzések megtekintése, duplikálása, törlése és szerkesztése." />
                 <meta name="robots" content="noindex" />

@@ -9,7 +9,7 @@ export default function NotFound() {
     }, []);
 
     return (
-        <div className="p-1 m-auto text-center content bg-ivory">
+        <div className="p-3 content text-center m-auto" style={{ maxWidth: "1224px" }}>
             <MetaTags>
                 <meta name="description" content="A keresett oldal nem található. Ha a vendég olyan aloldalra tévedne, ami számára nem elérhető vagy nem is létezik, akkor ez az üzenet fogadja." />
                 <meta property="og:url" content="%REACT_APP_FIREBASE_AUTH_DOMAIN%/not-found" />

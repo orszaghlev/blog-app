@@ -23,7 +23,6 @@ export default function ShowOwnComments({ user }) {
                     <p>{comment?.comment}</p>
                 </div>
             ))}
-            <hr />
         </Grid>
     )
 }

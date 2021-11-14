@@ -15,7 +15,6 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
 import { firebase } from "./lib/Firebase";
 import * as ROUTES from "./constants/Routes";
 import ProtectedRouteUser from './helpers/ProtectedRouteUser';
@@ -24,6 +23,7 @@ import UserContext from './contexts/User';
 import useAuthListener from './hooks/UseAuthListener';
 import DarkModeToggle from './darkModeToggle';
 import MetaTags from 'react-meta-tags';
+import { useMediaQuery } from 'react-responsive';
 import './styles.scss';
 
 export default function App() {
@@ -41,6 +41,7 @@ export default function App() {
         },
     }));
     const classes = useStyles();
+    const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' });
 
     useEffect(() => {
         document.title = `${process.env.REACT_APP_FIREBASE_APP_NAME}`;
@@ -68,21 +69,19 @@ export default function App() {
                     <Suspense fallback={<p>Betöltés...</p>}>
                         <AppBar position="static">
                             <Toolbar>
-                                <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-                                </IconButton>
                                 <Typography variant="h6" className={classes.title} align="left">
                                     <NavLink to={ROUTES.HOME}>
                                         <span className="nav-link" style={{ color: 'white' }}>{process.env.REACT_APP_FIREBASE_APP_NAME}</span>
                                     </NavLink>
                                 </Typography>
-                                {!user && <>
+                                {!isTabletOrMobile && !user && <>
                                     <Button color="inherit">
                                         <NavLink to={ROUTES.LOGIN}>
                                             <span className="nav-link" style={{ color: 'white' }}>Bejelentkezés</span>
                                         </NavLink>
                                     </Button>
                                 </>}
-                                {admin !== null && <>
+                                {!isTabletOrMobile && admin !== null && <>
                                     <Button color="inherit">
                                         <NavLink to={ROUTES.ADMIN_DASHBOARD}>
                                             <span className="nav-link" style={{ color: 'white' }}>Admin felület</span>
@@ -90,7 +89,7 @@ export default function App() {
                                     </Button>
                                     <Typography>|</Typography>
                                 </>}
-                                {user && <>
+                                {!isTabletOrMobile && user && <>
                                     <Button color="inherit">
                                         <NavLink to={ROUTES.PROFILE}>
                                             <span className="nav-link" style={{ color: 'white' }}>Profil</span>

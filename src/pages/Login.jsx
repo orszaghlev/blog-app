@@ -9,7 +9,7 @@ export default function Login() {
     }, []);
 
     return (
-        <div className="p-3 content text-center m-auto" style={{ width: "1000px" }}>
+        <div className="p-3 content text-center m-auto" style={{ maxWidth: "1224px" }}>
             <MetaTags>
                 <meta name="description" content="Bejelentkezési felület. E-mail és jelszó megadásával tud a felhasználó bejelentkezni az oldalra." />
                 <meta name="robots" content="noindex" />

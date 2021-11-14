@@ -7,10 +7,12 @@ import ShowProfile from "../components/profile/ShowProfile";
 import ShowFavoritePosts from "../components/profile/ShowFavoritePosts";
 import ShowOwnComments from "../components/profile/ShowOwnComments";
 import MetaTags from 'react-meta-tags';
+import { useMediaQuery } from 'react-responsive';
 
 export default function Profile() {
     const { user: loggedInUser } = useContext(UserContext);
     const { user } = useUser(loggedInUser?.uid);
+    const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' });
 
     useEffect(() => {
         document.title = `Profil | ${process.env.REACT_APP_FIREBASE_APP_NAME}`;
@@ -18,7 +20,7 @@ export default function Profile() {
 
     return (
         <LoggedInUserContext.Provider value={{ user }}>
-            <div className="p-3 content text-center m-auto" style={{ width: "500px" }}>
+            <div className="p-3 content text-center m-auto" style={{ maxWidth: "1224px" }}>
                 <MetaTags>
                     <meta name="description" content="A felhasználó profilja. Tartalmazza a regisztráláskor megadott információkat, illetve a felhasználó kedvenc bejegyzéseit és saját hozzászólásait." />
                     <meta name="robots" content="noindex" />
@@ -42,10 +44,10 @@ export default function Profile() {
                         }
                     },
                 }}>
-                    <ShowProfile user={user} />
-                    <hr />
+                    <ShowProfile user={user} isTabletOrMobile={isTabletOrMobile} />
+                    <hr className="mx-auto" style={{ width: isTabletOrMobile ? 350 : 700 }} />
                     <ShowFavoritePosts user={user} />
-                    <hr />
+                    <hr className="mx-auto" style={{ width: isTabletOrMobile ? 350 : 700 }} />
                     <ShowOwnComments user={user} />
                 </motion.div>
             </div>

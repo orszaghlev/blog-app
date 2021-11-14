@@ -9,7 +9,7 @@ export default function SignUp() {
     }, []);
 
     return (
-        <div className="p-3 content text-center m-auto" style={{ width: "1000px" }}>
+        <div className="p-3 content text-center m-auto" style={{ maxWidth: "1224px" }}>
             <MetaTags>
                 <meta name="description" content="Regisztrációs felület. A vendégek az adataik megadásával készíthetnek felhasználói profilt ezen az oldalon." />
                 <meta name="robots" content="noindex" />

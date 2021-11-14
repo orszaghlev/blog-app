@@ -8,11 +8,11 @@ import EditComment from './EditComment';
 import DeleteComment from './DeleteComment';
 import * as ROUTES from '../../constants/Routes';
 
-export default function ShowComments({ docId, title, language, comments: allComments, commentInput, user }) {
+export default function ShowComments({ docId, title, language, comments: allComments, commentInput, user, isTabletOrMobile }) {
     const [comments, setComments] = useState(allComments);
     const useStyles = makeStyles({
         root: {
-            maxWidth: 1000,
+            maxWidth: 1224,
         },
         media: {
             height: 200,
@@ -24,6 +24,7 @@ export default function ShowComments({ docId, title, language, comments: allComm
         <>
             <Card className={classes.root}>
                 <div>
+                    <br />
                     <h4>{language === "Hungarian" ? (comments?.length === 0 ? "Jelenleg nincsenek hozzászólások!" : "Hozzászólások") : (comments?.length === 0 ? "There are no comments yet!" : "Comments")}</h4>
                 </div>
                 {comments?.map((comment, i) => (
@@ -70,6 +71,7 @@ export default function ShowComments({ docId, title, language, comments: allComm
                         comments={comments}
                         setComments={setComments}
                         commentInput={commentInput}
+                        isTabletOrMobile={isTabletOrMobile}
                     />
                 }
                 {!user &&
@@ -94,5 +96,6 @@ ShowComments.propTypes = {
     language: PropTypes.string.isRequired,
     comments: PropTypes.array.isRequired,
     commentInput: PropTypes.object.isRequired,
-    user: PropTypes.object
+    user: PropTypes.object,
+    isTabletOrMobile: PropTypes.bool.isRequired
 };

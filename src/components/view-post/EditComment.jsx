@@ -138,7 +138,7 @@ export default function EditComment({ docId, title, language, displayName, comme
                                                     onClick={handleEditComment}>
                                                     {language === "Hungarian" ? "Szerkesztés" : "Edit"}
                                                 </Button>
-                                                <Button data-testid="edit-comment-return" variant="contained" color="primary" onClick={() => {
+                                                <Button data-testid="edit-comment-return-modal" variant="contained" color="primary" onClick={() => {
                                                     handleClose();
                                                 }}>
                                                     {language === "Hungarian" ? "Vissza" : "Return"}

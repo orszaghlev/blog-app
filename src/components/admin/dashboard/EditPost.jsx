@@ -12,7 +12,7 @@ import { Editor } from '@tinymce/tinymce-react';
 import slugify from 'react-slugify';
 import FirebaseContext from '../../../contexts/Firebase';
 
-export default function EditPost({ post }) {
+export default function EditPost({ post, isTabletOrMobile }) {
     const [id, setId] = useState("");
     const [title, setTitle] = useState("");
     const [slug, setSlug] = useState("");
@@ -45,7 +45,7 @@ export default function EditPost({ post }) {
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        width: 400,
+        width: 300,
         boxShadow: 24,
         p: 4,
     };
@@ -85,7 +85,6 @@ export default function EditPost({ post }) {
 
     return (
         <>
-            <br />
             <form data-testid="edit-post-form" className={classes.container} noValidate
                 onSubmit={handleEditPost}
             >
@@ -99,7 +98,7 @@ export default function EditPost({ post }) {
                             onChange={(e) => {
                                 setId(e.target.value);
                             }}
-                            required style={{ width: 800 }} />
+                            required style={{ width: isTabletOrMobile ? 300 : 700 }} />
                     </Grid>
                     <Grid item xs>
                         <TextField className="TextField" inputProps={{ "data-testid": "input-edit-title" }} value={title} name="title" type="text" label="Cím" variant="filled"
@@ -107,11 +106,11 @@ export default function EditPost({ post }) {
                                 setTitle(e.target.value);
                                 setSlug(slugify(e.target.value));
                             }}
-                            required style={{ width: 800 }} />
+                            required style={{ width: isTabletOrMobile ? 300 : 700 }} />
                     </Grid>
                     <Grid item xs>
                         <TextField className="TextField" inputProps={{ "data-testid": "input-edit-slug" }} value={slug} name="slug" type="text" label="Slug" variant="filled"
-                            required style={{ width: 800 }} />
+                            required style={{ width: isTabletOrMobile ? 300 : 700 }} />
                     </Grid>
                     <Grid item xs>
                         <Grid
@@ -119,7 +118,7 @@ export default function EditPost({ post }) {
                             alignItems="center"
                             justifyContent="center"
                         >
-                            <div className="form-group" style={{ width: "800px" }}>
+                            <div className="form-group" style={{ width: isTabletOrMobile ? 300 : 700 }}>
                                 <textarea data-testid="input-edit-description" value={description} name="description" label="Leírás" className="form-control" rows="3" required
                                     onChange={(e) => {
                                         setDescription(e.target.value);
@@ -138,10 +137,10 @@ export default function EditPost({ post }) {
                                 onInit={(editor) => editorRef.current = editor}
                                 value={content}
                                 init={{
-                                    skin: 'oxide-dark',
-                                    content_css: 'dark',
+                                    skin: (document.body.style.backgroundColor === "#1b2938" ? "oxide-dark" : ""),
+                                    content_css: (document.body.style.backgroundColor === "#1b2938" ? "dark" : ""),
                                     language: 'hu_HU',
-                                    width: 800,
+                                    width: isTabletOrMobile ? 300 : 700,
                                     menubar: false,
                                     plugins: [
                                         'advlist autolink lists link image charmap print preview anchor',
@@ -149,7 +148,7 @@ export default function EditPost({ post }) {
                                         'insertdatetime media table paste code wordcount'
                                     ],
                                     toolbar: 'undo redo | formatselect | ' +
-                                        'bold italic backcolor | alignleft aligncenter ' +
+                                        'bold italic | alignleft aligncenter ' +
                                         'alignright alignjustify | bullist numlist outdent indent | ' +
                                         'removeformat',
                                     content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
@@ -165,21 +164,21 @@ export default function EditPost({ post }) {
                             onChange={(e) => {
                                 setImgURL(e.target.value);
                             }}
-                            type="text" required style={{ width: 800 }} />
+                            type="text" required style={{ width: isTabletOrMobile ? 300 : 700 }} />
                     </Grid>
                     <Grid item xs>
                         <TextField className="TextField" inputProps={{ "data-testid": "input-edit-tag" }} value={tag} name="tag" type="text" label="Címkék" variant="filled"
                             onChange={(e) => {
                                 setTag(e.target.value);
                             }}
-                            required style={{ width: 800 }} />
+                            required style={{ width: isTabletOrMobile ? 300 : 700 }} />
                     </Grid>
                     <Grid item xs>
                         <TextField className="TextField" inputProps={{ "data-testid": "input-edit-language" }} value={language} name="language" label="Nyelv" variant="filled" type="text" select
                             onChange={(e) => {
                                 setLanguage(e.target.value)
                             }}
-                            required style={{ width: 800, textAlign: "left" }} >
+                            required style={{ width: isTabletOrMobile ? 300 : 700, textAlign: "left" }} >
                             <MenuItem value="Hungarian">Magyar</MenuItem>
                             <MenuItem value="English">Angol</MenuItem>
                         </TextField>
@@ -187,7 +186,7 @@ export default function EditPost({ post }) {
                     <Grid item xs>
                         <TextField
                             inputProps={{ "data-testid": "input-edit-date" }}
-                            style={{ width: "800px" }}
+                            style={{ width: isTabletOrMobile ? 300 : 700 }}
                             id="datetime-local"
                             name="date"
                             label="Dátum"
@@ -207,7 +206,7 @@ export default function EditPost({ post }) {
                             onChange={(e) => {
                                 setIsActive(e.target.value)
                             }}
-                            required style={{ width: 800, textAlign: "left" }} >
+                            required style={{ width: isTabletOrMobile ? 300 : 700, textAlign: "left" }} >
                             <MenuItem value="true">Aktív</MenuItem>
                             <MenuItem value="false">Inaktív</MenuItem>
                         </TextField>
@@ -252,5 +251,6 @@ export default function EditPost({ post }) {
 }
 
 EditPost.propTypes = {
-    post: PropTypes.object.isRequired
+    post: PropTypes.object.isRequired,
+    isTabletOrMobile: PropTypes.bool.isRequired
 };

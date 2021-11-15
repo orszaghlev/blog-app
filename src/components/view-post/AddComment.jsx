@@ -59,7 +59,7 @@ export default function AddComment({ docId, title, language, comments, setCommen
                     type="text"
                     name="add-comment"
                     placeholder={language === "Hungarian" ? "Új hozzászólás" : "New comment"}
-                    style={{ width: isTabletOrMobile ? 350 : 700 }}
+                    style={{ width: isTabletOrMobile ? 300 : 700 }}
                     value={comment}
                     onChange={({ target }) => setComment(target.value)}
                     ref={commentInput}

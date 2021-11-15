@@ -15,7 +15,8 @@ body.light-mode .content .MuiTable-root {
 }
 
 body.light-mode .content .ck .ck-editor__main > .ck-editor__editable.ck-read-only {
-  height: 200px;
+  height: 150px;
+  width: 250px;
   border: none;
 }
 
@@ -111,7 +112,8 @@ body.dark-mode .content .MuiTableRow-root {
 
 body.dark-mode .content .ck .ck-editor__main > .ck-editor__editable.ck-read-only {
   background: #1b2938;
-  height: 200px;
+  height: 150px;
+  width: 250px;
 }
 
 body.dark-mode .MuiCardContent-root {

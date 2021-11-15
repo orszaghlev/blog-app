@@ -80,14 +80,14 @@ export default function ShowProfileEdit({ user }) {
                             onChange={(e) => {
                                 setUsername(e.target.value);
                             }}
-                            required style={{ width: isTabletOrMobile ? 350 : 700 }} />
+                            required style={{ width: isTabletOrMobile ? 300 : 700 }} />
                     </Grid>
                     <Grid item xs>
                         <TextField className="TextField" inputProps={{ "data-testid": "input-fullname" }} value={fullName || ""} name="fullName" type="text" label="Teljes név" variant="filled"
                             onChange={(e) => {
                                 setFullName(e.target.value);
                             }}
-                            required style={{ width: isTabletOrMobile ? 350 : 700 }} />
+                            required style={{ width: isTabletOrMobile ? 300 : 700 }} />
                     </Grid>
                     <Grid item xs>
                         <Button data-testid="change-password" color="secondary" onClick={() => {

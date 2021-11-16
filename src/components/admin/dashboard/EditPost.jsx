@@ -137,8 +137,8 @@ export default function EditPost({ post, isTabletOrMobile }) {
                                 onInit={(editor) => editorRef.current = editor}
                                 value={content}
                                 init={{
-                                    skin: (document.body.style.backgroundColor === "#1b2938" ? "oxide-dark" : ""),
-                                    content_css: (document.body.style.backgroundColor === "#1b2938" ? "dark" : ""),
+                                    skin: (document.body.className === "dark-mode" ? "oxide-dark" : ""),
+                                    content_css: (document.body.className === "dark-mode" ? "dark" : ""),
                                     language: 'hu_HU',
                                     width: isTabletOrMobile ? 300 : 700,
                                     menubar: false,

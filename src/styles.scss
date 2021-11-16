@@ -163,6 +163,10 @@ body.dark-mode input[type="datetime-local"]::-webkit-calendar-picker-indicator {
   filter: invert(1);
 }
 
+body.dark-mode span.nav-link {
+  color: #dfdfdf;
+}
+
 input[type='checkbox'].dmcheck {
   width: 40px;
   height: 10px;

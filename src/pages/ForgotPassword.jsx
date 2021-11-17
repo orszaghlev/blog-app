@@ -9,7 +9,7 @@ export default function ForgotPassword() {
     }, []);
 
     return (
-        <div className="p-3 content text-center m-auto" style={{ width: "1000px" }}>
+        <div className="p-3 content text-center m-auto" style={{ maxWidth: "1224px" }}>
             <MetaTags>
                 <meta name="description" content="Elfelejtett jelszó esetén a felhasználó ezen az oldalon kérhet jelszó visszaállítás e-mailt." />
                 <meta name="robots" content="noindex" />

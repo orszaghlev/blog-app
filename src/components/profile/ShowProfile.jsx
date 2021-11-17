@@ -4,7 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import * as ROUTES from '../../constants/Routes';
 
-export default function ShowProfile({ user }) {
+export default function ShowProfile({ user, isTabletOrMobile }) {
     const history = useHistory();
     const date = new Date(parseInt(user?.dateCreated));
 
@@ -13,7 +13,7 @@ export default function ShowProfile({ user }) {
             <div>
                 <h2>Profil</h2>
             </div>
-            <hr />
+            <hr className="mx-auto" style={{ width: isTabletOrMobile ? 300 : 700 }} />
             <h5>Felhasználó adatai</h5>
             <p>Felhasználónév: {user?.username}</p>
             <p>Teljes név: {user?.fullName}</p>
@@ -31,5 +31,6 @@ export default function ShowProfile({ user }) {
 }
 
 ShowProfile.propTypes = {
-    user: PropTypes.object
+    user: PropTypes.object,
+    isTabletOrMobile: PropTypes.bool.isRequired
 };

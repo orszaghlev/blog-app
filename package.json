@@ -35,6 +35,7 @@
         "react-fontawesome": "^1.7.1",
         "react-meta-tags": "^1.0.1",
         "react-modal-image": "^2.5.0",
+        "react-responsive": "^9.0.0-beta.4",
         "react-router-dom": "^5.2.1",
         "react-scripts": "4.0.3",
         "react-share": "^4.4.0",

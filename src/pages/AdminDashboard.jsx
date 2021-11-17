@@ -4,16 +4,18 @@ import Spinner from '../components/Spinner';
 import ShowAllPosts from "../components/admin/dashboard/ShowAllPosts";
 import useAllPosts from "../hooks/UseAllPosts";
 import MetaTags from 'react-meta-tags';
+import { useMediaQuery } from 'react-responsive';
 
 export default function AdminDashboard() {
     const { posts } = useAllPosts();
+    const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' });
 
     useEffect(() => {
         document.title = `Admin felület | ${process.env.REACT_APP_FIREBASE_APP_NAME}`;
     }, []);
 
     return (
-        <div className="p-1 m-auto text-center content bg-ivory">
+        <div className="p-3 content text-center m-auto" style={{ maxWidth: "1224px" }}>
             <MetaTags>
                 <meta name="description" content="Kezelőfelület adminisztrátorok számára. Bejegyzések megtekintése, duplikálása, törlése és szerkesztése." />
                 <meta name="robots" content="noindex" />
@@ -38,7 +40,7 @@ export default function AdminDashboard() {
                     }
                 },
             }}>
-                {(!posts || posts.length === 0) ? <Spinner /> : <ShowAllPosts allPosts={posts} />}
+                {(!posts || posts.length === 0) ? <Spinner /> : <ShowAllPosts allPosts={posts} isTabletOrMobile={isTabletOrMobile} />}
             </motion.div>
         </div>
     )

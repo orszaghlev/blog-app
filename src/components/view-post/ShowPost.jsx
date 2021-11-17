@@ -23,7 +23,7 @@ export default function ShowPost({ post, user }) {
     const history = useHistory();
     const useStyles = makeStyles({
         root: {
-            maxWidth: 1000,
+            maxWidth: 1224,
         },
         media: {
             height: 200,

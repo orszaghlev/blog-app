@@ -13,7 +13,7 @@ export default function Home() {
     }, []);
 
     return (
-        <div className="p-1 m-auto text-center content bg-ivory">
+        <div className="p-3 content text-center m-auto" style={{ maxWidth: "1224px" }}>
             <MetaTags>
                 <meta name="description" content="A blog kezdőlapja. A vendégek innen érhetik el az aktív bejegyzéseket." />
                 <meta property="og:url" content="%REACT_APP_FIREBASE_AUTH_DOMAIN%/home" />

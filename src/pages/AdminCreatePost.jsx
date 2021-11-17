@@ -9,7 +9,7 @@ export default function AdminCreatePost() {
     }, []);
 
     return (
-        <div className="p-3 content text-center m-auto" style={{ width: "1000px" }}>
+        <div className="p-3 content text-center m-auto" style={{ maxWidth: "1224px" }}>
             <MetaTags>
                 <meta name="description" content="Bejegyzés létrehozása. Kizárólag adminisztrátorok számára elérhető." />
                 <meta name="robots" content="noindex" />

@@ -17,7 +17,7 @@ export default function ViewPost({ post }) {
     return (
         <>
             {isActive &&
-                <button data-testid="isactive-button" className="btn btn-success m-1" style={{ width: "50px", height: "50px" }}
+                <button data-testid="isactive-button" className="btn btn-success m-1" style={{ width: "40px", height: "40px" }}
                     onClick={() => {
                         history.push(`/posts/${post?.slug}`)
                     }}>
@@ -25,7 +25,7 @@ export default function ViewPost({ post }) {
                 </button>
             }
             {!isActive &&
-                <button className="btn btn-success m-1 disabled" style={{ width: "50px", height: "50px" }}>
+                <button className="btn btn-success m-1 disabled" style={{ width: "40px", height: "40px" }}>
                     <FontAwesomeIcon icon={faEye} />
                 </button>
             }

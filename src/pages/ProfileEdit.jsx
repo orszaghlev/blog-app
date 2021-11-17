@@ -16,7 +16,7 @@ export default function ProfileEdit() {
 
     return (
         <LoggedInUserContext.Provider value={{ user }}>
-            <div className="p-3 content text-center m-auto" style={{ width: "1000px" }}>
+            <div className="p-3 content text-center m-auto" style={{ maxWidth: "1224px" }}>
                 <MetaTags>
                     <meta name="description" content="A felhasználó ezen az oldalon szerkesztheti profiljának bizonyos adatait." />
                     <meta name="robots" content="noindex" />

@@ -1,4 +1,5 @@
 import { useState, useRef, useMemo } from "react";
+import { useHistory } from "react-router-dom";
 import PropTypes from 'prop-types';
 import { Button } from '@material-ui/core';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
@@ -11,7 +12,6 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
-import MenuItem from '@material-ui/core/MenuItem';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencilAlt, faSortUp, faSortDown } from "@fortawesome/free-solid-svg-icons";
 import { CKEditor } from '@ckeditor/ckeditor5-react';
@@ -22,8 +22,10 @@ import DuplicatePost from './DuplicatePost';
 import DeletePost from './DeletePost';
 import EditPost from "./EditPost";
 import ViewPost from "./ViewPost";
+import * as ROUTES from '../../../constants/Routes';
 
-export default function ShowAllPosts({ allPosts }) {
+export default function ShowAllPosts({ allPosts, isTabletOrMobile }) {
+    const history = useHistory();
     const [search, setSearch] = useState("");
     const [hunSearch, setHunSearch] = useState(false);
     const [active, setActive] = useState(false);
@@ -34,7 +36,7 @@ export default function ShowAllPosts({ allPosts }) {
     const [postToBeEdited, setPostToBeEdited] = useState();
     const useStyles = makeStyles({
         table: {
-            minWidth: 650,
+            maxWidth: 1224,
         },
     });
     const StyledTableCell = withStyles((theme) => ({
@@ -85,19 +87,24 @@ export default function ShowAllPosts({ allPosts }) {
         <>
             {postToBeEdited &&
                 <>
-                    <EditPost post={postToBeEdited} />
+                    <EditPost post={postToBeEdited} isTabletOrMobile={isTabletOrMobile} />
                     <hr />
                 </>
             }
             <h2>Admin felület</h2>
             <Grid container
                 direction="row"
-                justifyContent="space-around"
+                justifyContent="space-evenly"
                 alignItems="center">
                 <form className={classes.search} noValidate autoComplete="off"
                     onChange={e => setSearch(e.target.value)}>
                     <TextField inputProps={{ "data-testid": "input-search" }} id="search" label="Keresés..." variant="filled" />
                 </form>
+                <Button data-testid="create-post" color="primary" variant="contained" style={{ marginTop: isTabletOrMobile ? '10px' : '0px' }} onClick={() => {
+                    history.push(ROUTES.ADMIN_CREATE_POST);
+                }}>
+                    Új bejegyzés
+                </Button>
             </Grid>
             <br />
             <Grid container
@@ -118,7 +125,8 @@ export default function ShowAllPosts({ allPosts }) {
                     }}>Csak magyar bejegyzések</Button>
                 <Button data-testid="active-posts-only" variant="contained" style={{
                     backgroundColor: active ? 'green' : '#dc3545',
-                    color: 'white'
+                    color: 'white',
+                    margin: isTabletOrMobile ? '10px' : '0px'
                 }}
                     onClick={() => {
                         setActiveCount(activeCount + 1);
@@ -143,7 +151,7 @@ export default function ShowAllPosts({ allPosts }) {
                         }
                     }}>Csak inaktív bejegyzések</Button>
             </Grid>
-            <div>
+            <div className="p-3 content text-center m-auto" style={{ maxWidth: "1224px" }}>
                 <TableContainer component={Paper}>
                     <Table className={classes.table} aria-label="simple table">
                         <TableHead>
@@ -160,13 +168,6 @@ export default function ShowAllPosts({ allPosts }) {
                                         CÍM
                                         {getClassNamesFor('title') === "ascending" ? <FontAwesomeIcon icon={faSortUp} /> : ""}
                                         {getClassNamesFor('title') === "descending" ? <FontAwesomeIcon icon={faSortDown} /> : ""}
-                                    </Button>
-                                </StyledTableCell>
-                                <StyledTableCell align="center">
-                                    <Button data-testid="sort-by-slug-button" style={{ color: "white" }} onClick={() => requestSort('slug')} className={getClassNamesFor('slug')}>
-                                        SLUG
-                                        {getClassNamesFor('slug') === "ascending" ? <FontAwesomeIcon icon={faSortUp} /> : ""}
-                                        {getClassNamesFor('slug') === "descending" ? <FontAwesomeIcon icon={faSortDown} /> : ""}
                                     </Button>
                                 </StyledTableCell>
                                 <StyledTableCell align="center">
@@ -196,24 +197,10 @@ export default function ShowAllPosts({ allPosts }) {
                                     </Button>
                                 </StyledTableCell>
                                 <StyledTableCell align="center">
-                                    <Button data-testid="sort-by-language-button" style={{ color: "white" }} onClick={() => requestSort('language')} className={getClassNamesFor('language')}>
-                                        NYELV
-                                        {getClassNamesFor('language') === "ascending" ? <FontAwesomeIcon icon={faSortUp} /> : ""}
-                                        {getClassNamesFor('language') === "descending" ? <FontAwesomeIcon icon={faSortDown} /> : ""}
-                                    </Button>
-                                </StyledTableCell>
-                                <StyledTableCell align="center">
                                     <Button data-testid="sort-by-date-button" style={{ color: "white" }} onClick={() => requestSort('date')} className={getClassNamesFor('date')}>
                                         DÁTUM
                                         {getClassNamesFor('date') === "ascending" ? <FontAwesomeIcon icon={faSortUp} /> : ""}
                                         {getClassNamesFor('date') === "descending" ? <FontAwesomeIcon icon={faSortDown} /> : ""}
-                                    </Button>
-                                </StyledTableCell>
-                                <StyledTableCell align="center">
-                                    <Button data-testid="sort-by-isActive-button" style={{ color: "white" }} onClick={() => requestSort('isActive')} className={getClassNamesFor('isActive')}>
-                                        ÁLLAPOT
-                                        {getClassNamesFor('isActive') === "ascending" ? <FontAwesomeIcon icon={faSortUp} /> : ""}
-                                        {getClassNamesFor('isActive') === "descending" ? <FontAwesomeIcon icon={faSortDown} /> : ""}
                                     </Button>
                                 </StyledTableCell>
                                 <StyledTableCell align="center">
@@ -240,9 +227,8 @@ export default function ShowAllPosts({ allPosts }) {
                                     <TableRow key={post?.id}>
                                         <TableCell align="center">{post?.id}</TableCell>
                                         <TableCell align="center">{post?.title}</TableCell>
-                                        <TableCell align="center">{post?.slug}</TableCell>
-                                        <TableCell align="center" style={{ width: "200px" }}>
-                                            <textarea readOnly value={post?.description} className="form-control" rows="5" />
+                                        <TableCell align="center" >
+                                            <textarea readOnly value={post?.description} className="form-control" rows="5" style={{ height: "150px", width: "150px" }} />
                                         </TableCell>
                                         <TableCell align="center">
                                             <CKEditor
@@ -270,27 +256,7 @@ export default function ShowAllPosts({ allPosts }) {
                                             </div>
                                         </TableCell>
                                         <TableCell align="center">{post?.tag}</TableCell>
-                                        <TableCell align="center">
-                                            <TextField value={post?.language} name="language" label="Nyelv" type="text" select
-                                                style={{ textAlign: "left" }} InputProps={{
-                                                    readOnly: true,
-                                                }}
-                                            >
-                                                <MenuItem value="Hungarian">Magyar</MenuItem>
-                                                <MenuItem value="English">Angol</MenuItem>
-                                            </TextField>
-                                        </TableCell>
                                         <TableCell align="center" style={{ width: "150px" }}>{post?.date}</TableCell>
-                                        <TableCell align="center">
-                                            <TextField value={post?.isActive} name="isActive" label="Állapot" type="text" select
-                                                style={{ textAlign: "left" }} InputProps={{
-                                                    readOnly: true,
-                                                }}
-                                            >
-                                                <MenuItem value="true">Aktív</MenuItem>
-                                                <MenuItem value="false">Inaktív</MenuItem>
-                                            </TextField>
-                                        </TableCell>
                                         <TableCell align="center">
                                             <Grid container
                                                 direction="column"
@@ -298,7 +264,7 @@ export default function ShowAllPosts({ allPosts }) {
                                                 alignItems="center">
                                                 <DeletePost post={post} />
                                                 <button data-testid="scroll-to-edit-post-button" className="btn btn-warning m-1"
-                                                    style={{ width: "50px", height: "50px" }} onClick={() => {
+                                                    style={{ width: "40px", height: "40px" }} onClick={() => {
                                                         setPostToBeEdited(post);
                                                         window.scrollTo(0, 70);
                                                     }}>
@@ -319,5 +285,6 @@ export default function ShowAllPosts({ allPosts }) {
 }
 
 ShowAllPosts.propTypes = {
-    allPosts: PropTypes.array.isRequired
+    allPosts: PropTypes.array.isRequired,
+    isTabletOrMobile: PropTypes.bool.isRequired
 };

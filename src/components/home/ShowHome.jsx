@@ -11,6 +11,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
+import { useMediaQuery } from 'react-responsive';
 
 export default function ShowHome({ activePosts }) {
     const [search, setSearch] = useState("");
@@ -19,7 +20,7 @@ export default function ShowHome({ activePosts }) {
     const history = useHistory();
     const useStyles = makeStyles((theme) => ({
         root: {
-            width: 350,
+            width: 300,
         },
         media: {
             height: 140,
@@ -32,6 +33,7 @@ export default function ShowHome({ activePosts }) {
         },
     }));
     const classes = useStyles();
+    const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' });
 
     return (
         <>
@@ -46,7 +48,8 @@ export default function ShowHome({ activePosts }) {
                 </form>
                 <Button data-testid="hungarian-posts-only" variant="contained" style={{
                     backgroundColor: hunSearch ? 'green' : '#dc3545',
-                    color: 'white'
+                    color: 'white',
+                    marginTop: isTabletOrMobile ? '10px' : '0px'
                 }}
                     onClick={() => {
                         setHunCount(hunCount + 1);

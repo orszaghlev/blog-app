@@ -8,12 +8,10 @@ import FirebaseContext from '../../contexts/Firebase';
 import useUser from '../../hooks/UseUser';
 import UserContext from '../../contexts/User';
 
-export default function AddComment({ docId, title, language, comments, setComments, commentInput }) {
+export default function AddComment({ docId, title, language, comments, setComments, commentInput, isTabletOrMobile }) {
     const [comment, setComment] = useState('');
     const { firebase, FieldValue } = useContext(FirebaseContext);
-    const {
-        user: { uid }
-    } = useContext(UserContext);
+    const { user: { uid } } = useContext(UserContext);
     const { user } = useUser(uid);
     const handleSubmitComment = (e) => {
         e.preventDefault();
@@ -61,7 +59,7 @@ export default function AddComment({ docId, title, language, comments, setCommen
                     type="text"
                     name="add-comment"
                     placeholder={language === "Hungarian" ? "Új hozzászólás" : "New comment"}
-                    style={{ width: "800px" }}
+                    style={{ width: isTabletOrMobile ? 300 : 700 }}
                     value={comment}
                     onChange={({ target }) => setComment(target.value)}
                     ref={commentInput}
@@ -75,6 +73,7 @@ export default function AddComment({ docId, title, language, comments, setCommen
                 >
                     {language === "Hungarian" ? "Közzététel" : "Send"}
                 </Button>
+                <br />
             </Grid>
         </form>
     );
@@ -86,5 +85,6 @@ AddComment.propTypes = {
     language: PropTypes.string.isRequired,
     comments: PropTypes.array.isRequired,
     setComments: PropTypes.func.isRequired,
-    commentInput: PropTypes.object
+    commentInput: PropTypes.object,
+    isTabletOrMobile: PropTypes.bool.isRequired
 };

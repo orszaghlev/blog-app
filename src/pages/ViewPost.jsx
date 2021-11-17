@@ -5,11 +5,11 @@ import usePost from "../hooks/UsePost";
 import useUser from "../hooks/UseUser";
 import UserContext from '../contexts/User';
 import LoggedInUserContext from "../contexts/LoggedInUser";
-import PostNotAvailable from "../components/view-post/PostNotAvailable";
-import PostInactive from "../components/view-post/PostInactive";
 import ShowPost from "../components/view-post/ShowPost";
 import ShowComments from "../components/view-post/ShowComments";
+import ShowNotFound from '../components/not-found/ShowNotFound';
 import MetaTags from 'react-meta-tags';
+import { useMediaQuery } from 'react-responsive';
 
 export default function ViewPost() {
     const { slug } = useParams();
@@ -17,17 +17,18 @@ export default function ViewPost() {
     const { user } = useUser(loggedInUser?.uid);
     const { post } = usePost(slug);
     const commentInput = useRef(null);
+    const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' });
 
     useEffect(() => {
-        if (post && post?.isActive === "true" && (new Date(post?.date).getTime() <= new Date().getTime())) {
+        if (post?.isActive === "true" && (new Date(post?.date).getTime() <= new Date().getTime())) {
             document.title = `${post?.title} | ${process.env.REACT_APP_FIREBASE_APP_NAME}`;
         } else {
-            document.title = `Bejegyzés | ${process.env.REACT_APP_FIREBASE_APP_NAME}`;
+            document.title = `${process.env.REACT_APP_FIREBASE_APP_NAME}`;
         }
     }, [post]);
 
     return (
-        <div className="m-auto text-center" style={{ width: "1000px" }}>
+        <div className="p-3 text-center m-auto" style={{ maxWidth: "1224px" }}>
             <MetaTags>
                 <meta name="description" content="Ha a vendég egy aktív bejegyzést kért le, akkor ezen az oldalon olvashatja el annak teljes tartalmát." />
                 <meta property="og:title" content="Bejegyzés" />
@@ -50,12 +51,11 @@ export default function ViewPost() {
                     }
                 },
             }}>
-                {!post?.title ? <PostNotAvailable /> : (post?.isActive !== "true" ||
-                    (new Date(post?.date).getTime() >= new Date().getTime()) ? <PostInactive post={post} /> :
+                {(post?.isActive !== "true" || (new Date(post?.date).getTime() >= new Date().getTime()) ? <ShowNotFound /> :
                     <>
                         <LoggedInUserContext.Provider value={{ user }}>
                             <ShowPost post={post} user={user} />
-                            <hr />
+                            <br />
                             <ShowComments
                                 docId={post?.docId}
                                 title={post?.title}
@@ -64,9 +64,11 @@ export default function ViewPost() {
                                 posted={post?.date}
                                 commentInput={commentInput}
                                 user={user}
+                                isTabletOrMobile={isTabletOrMobile}
                             />
                         </LoggedInUserContext.Provider>
-                    </>)}
+                    </>
+                )}
             </motion.div>
         </div>
     )

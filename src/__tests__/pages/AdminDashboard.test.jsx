@@ -12,6 +12,7 @@ import inactivePostsFixture from '../../fixtures/CreatedInactivePosts';
 import sortingPostsFixture from '../../fixtures/CreatedPostsForSorting';
 import inverseSortingPostsFixture from '../../fixtures/CreatedPostsForSortingInverse';
 import useAllPosts from '../../hooks/UseAllPosts';
+import * as ROUTES from '../../constants/Routes';
 
 const mockHistoryPush = jest.fn();
 
@@ -477,33 +478,6 @@ describe('<AdminDashboard />', () => {
         });
     });
 
-    it('Megjelenik a bejegyzéseket tartalmazó admin felület, az adminisztrátor slug szerint rendez', async () => {
-        const firebase = {
-            firestore: jest.fn(() => ({
-            }))
-        };
-
-        await act(async () => {
-            useAllPosts.mockImplementation(() => ({ posts: allPostsFixtureHun }));
-
-            const { getByTestId } = render(
-                <Router>
-                    <FirebaseContext.Provider
-                        value={firebase}
-                    >
-                        <AdminDashboard />
-                    </FirebaseContext.Provider>
-                </Router >
-            );
-
-            fireEvent.click(getByTestId('sort-by-slug-button'));
-
-            await waitFor(() => {
-                expect(document.title).toEqual(`Admin felület | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
-            });
-        });
-    });
-
     it('Megjelenik a bejegyzéseket tartalmazó admin felület, az adminisztrátor leírás szerint rendez', async () => {
         const firebase = {
             firestore: jest.fn(() => ({
@@ -585,33 +559,6 @@ describe('<AdminDashboard />', () => {
         });
     });
 
-    it('Megjelenik a bejegyzéseket tartalmazó admin felület, az adminisztrátor nyelv szerint rendez', async () => {
-        const firebase = {
-            firestore: jest.fn(() => ({
-            }))
-        };
-
-        await act(async () => {
-            useAllPosts.mockImplementation(() => ({ posts: allPostsFixtureHun }));
-
-            const { getByTestId } = render(
-                <Router>
-                    <FirebaseContext.Provider
-                        value={firebase}
-                    >
-                        <AdminDashboard />
-                    </FirebaseContext.Provider>
-                </Router >
-            );
-
-            fireEvent.click(getByTestId('sort-by-language-button'));
-
-            await waitFor(() => {
-                expect(document.title).toEqual(`Admin felület | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
-            });
-        });
-    });
-
     it('Megjelenik a bejegyzéseket tartalmazó admin felület, az adminisztrátor dátum szerint rendez', async () => {
         const firebase = {
             firestore: jest.fn(() => ({
@@ -639,29 +586,32 @@ describe('<AdminDashboard />', () => {
         });
     });
 
-    it('Megjelenik a bejegyzéseket tartalmazó admin felület, az adminisztrátor aktivitás szerint rendez', async () => {
-        const firebase = {
-            firestore: jest.fn(() => ({
-            }))
-        };
+    it('Megjelenik a bejegyzéseket tartalmazó admin felület, az adminisztrátor az új bejegyzés gombra kattint', async () => {
 
         await act(async () => {
-            useAllPosts.mockImplementation(() => ({ posts: sortingPostsFixture }));
+            useAllPosts.mockImplementation(() => ({ posts: allPostsFixture }));
 
-            const { getByTestId } = render(
+            const { getByText, getByTestId } = render(
                 <Router>
                     <FirebaseContext.Provider
-                        value={firebase}
+                        value={{
+                            firebase: {
+                                firestore: jest.fn(() => ({
+                                }))
+                            }
+                        }}
                     >
                         <AdminDashboard />
                     </FirebaseContext.Provider>
                 </Router >
             );
 
-            fireEvent.click(getByTestId('sort-by-isActive-button'));
+            fireEvent.click(getByTestId('create-post'));
 
             await waitFor(() => {
                 expect(document.title).toEqual(`Admin felület | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
+                expect(mockHistoryPush).toHaveBeenCalledWith(ROUTES.ADMIN_CREATE_POST);
+                expect(getByText('Új bejegyzés')).toBeTruthy();
             });
         });
     });

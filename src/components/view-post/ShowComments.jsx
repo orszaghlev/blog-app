@@ -6,12 +6,13 @@ import Grid from '@material-ui/core/Grid';
 import AddComment from './AddComment';
 import EditComment from './EditComment';
 import DeleteComment from './DeleteComment';
+import * as ROUTES from '../../constants/Routes';
 
-export default function ShowComments({ docId, title, language, comments: allComments, commentInput, user }) {
+export default function ShowComments({ docId, title, language, comments: allComments, commentInput, user, isTabletOrMobile }) {
     const [comments, setComments] = useState(allComments);
     const useStyles = makeStyles({
         root: {
-            maxWidth: 1000,
+            maxWidth: 1224,
         },
         media: {
             height: 200,
@@ -23,6 +24,7 @@ export default function ShowComments({ docId, title, language, comments: allComm
         <>
             <Card className={classes.root}>
                 <div>
+                    <br />
                     <h4>{language === "Hungarian" ? (comments?.length === 0 ? "Jelenleg nincsenek hozzászólások!" : "Hozzászólások") : (comments?.length === 0 ? "There are no comments yet!" : "Comments")}</h4>
                 </div>
                 {comments?.map((comment, i) => (
@@ -34,7 +36,7 @@ export default function ShowComments({ docId, title, language, comments: allComm
                             <h5 className="mb-1">
                                 <p>{comment?.comment}</p>
                             </h5>
-                            {user?.userId === process.env.REACT_APP_FIREBASE_ADMIN_UID &&
+                            {((user?.userId === process.env.REACT_APP_FIREBASE_ADMIN_UID) || (user?.username === comment?.displayName)) &&
                                 <Grid container
                                     direction="row"
                                     justifyContent="center"
@@ -42,10 +44,10 @@ export default function ShowComments({ docId, title, language, comments: allComm
                                     <DeleteComment
                                         docId={docId}
                                         title={title}
+                                        language={language}
                                         displayName={comment?.displayName}
                                         comment={comment?.comment}
-                                        comments={comments}
-                                        setComments={setComments}
+                                        yourOwnComment={user?.username === comment?.displayName}
                                     />
                                     <EditComment
                                         docId={docId}
@@ -53,9 +55,8 @@ export default function ShowComments({ docId, title, language, comments: allComm
                                         language={language}
                                         displayName={comment?.displayName}
                                         comment={comment?.comment}
-                                        comments={comments}
-                                        setComments={setComments}
                                         commentInput={commentInput}
+                                        yourOwnComment={user?.username === comment?.displayName}
                                     />
                                 </Grid>
                             }
@@ -70,9 +71,21 @@ export default function ShowComments({ docId, title, language, comments: allComm
                         comments={comments}
                         setComments={setComments}
                         commentInput={commentInput}
+                        isTabletOrMobile={isTabletOrMobile}
                     />
                 }
+                {!user &&
+                    <>
+                        <div>
+                            {language === "Hungarian" ?
+                                <p><a href={ROUTES.LOGIN}>Jelentkezzen be</a> vagy <a href={ROUTES.SIGN_UP}>regisztráljon</a>, hogy hozzá tudjon szólni a bejegyzéshez!</p> :
+                                <p><a href={ROUTES.LOGIN}>Log in</a> or <a href={ROUTES.SIGN_UP}>sign up</a> to post comments!</p>
+                            }
+                        </div>
+                    </>
+                }
             </Card>
+            <br />
         </>
     )
 }
@@ -83,5 +96,6 @@ ShowComments.propTypes = {
     language: PropTypes.string.isRequired,
     comments: PropTypes.array.isRequired,
     commentInput: PropTypes.object.isRequired,
-    user: PropTypes.object
+    user: PropTypes.object,
+    isTabletOrMobile: PropTypes.bool.isRequired
 };

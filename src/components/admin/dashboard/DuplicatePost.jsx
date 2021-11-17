@@ -18,7 +18,7 @@ export default function DuplicatePost({ post }) {
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        width: 400,
+        width: 300,
         boxShadow: 24,
         p: 4,
     };
@@ -43,7 +43,7 @@ export default function DuplicatePost({ post }) {
 
     return (
         <>
-            <button data-testid="duplicate-post-button" className="btn btn-primary m-1" style={{ width: "50px", height: "50px" }} onClick={handleOpen}>
+            <button data-testid="duplicate-post-button" className="btn btn-primary m-1" style={{ width: "40px", height: "40px" }} onClick={handleOpen}>
                 <FontAwesomeIcon icon={faCopy} title="Duplikálás" />
             </button>
             <Modal

@@ -18,7 +18,7 @@ import Button from '@material-ui/core/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faSignInAlt } from "@fortawesome/free-solid-svg-icons";
 import { firebase } from "./lib/Firebase";
 import * as ROUTES from "./constants/Routes";
 import ProtectedRouteUser from './helpers/ProtectedRouteUser';
@@ -116,7 +116,14 @@ export default function App() {
                                         </Button>
                                     </>}
                                 </>}
-                                {isTabletOrMobile && <>
+                                {isTabletOrMobile && !user && <>
+                                    <Button color="inherit">
+                                        <NavLink to={ROUTES.LOGIN}>
+                                            <FontAwesomeIcon icon={faSignInAlt} style={{ color: 'white' }} />
+                                        </NavLink>
+                                    </Button>
+                                </>}
+                                {isTabletOrMobile && user && <>
                                     <Button color="inherit"
                                         id="positioned-button"
                                         aria-controls="positioned-menu"
@@ -141,13 +148,6 @@ export default function App() {
                                             horizontal: 'left',
                                         }}
                                     >
-                                        {!user &&
-                                            <MenuItem onClick={handleClose}>
-                                                <NavLink to={ROUTES.LOGIN}>
-                                                    <span className="nav-link">Bejelentkezés</span>
-                                                </NavLink>
-                                            </MenuItem>
-                                        }
                                         {admin !== null &&
                                             <MenuItem onClick={handleClose}>
                                                 <NavLink to={ROUTES.ADMIN_DASHBOARD}>
@@ -155,21 +155,19 @@ export default function App() {
                                                 </NavLink>
                                             </MenuItem>
                                         }
-                                        {user && <>
-                                            <MenuItem onClick={handleClose}>
-                                                <NavLink to={ROUTES.PROFILE}>
-                                                    <span className="nav-link">Profil</span>
-                                                </NavLink>
-                                            </MenuItem>
-                                            <MenuItem onClick={() => {
-                                                handleClose();
-                                                firebase.auth().signOut();
-                                            }}>
-                                                <NavLink to={ROUTES.HOME}>
-                                                    <span className="nav-link">Kijelentkezés</span>
-                                                </NavLink>
-                                            </MenuItem>
-                                        </>}
+                                        <MenuItem onClick={handleClose}>
+                                            <NavLink to={ROUTES.PROFILE}>
+                                                <span className="nav-link">Profil</span>
+                                            </NavLink>
+                                        </MenuItem>
+                                        <MenuItem onClick={() => {
+                                            handleClose();
+                                            firebase.auth().signOut();
+                                        }}>
+                                            <NavLink to={ROUTES.HOME}>
+                                                <span className="nav-link">Kijelentkezés</span>
+                                            </NavLink>
+                                        </MenuItem>
                                     </Menu>
                                 </>}
                                 <Typography component={'div'}>

@@ -7,8 +7,6 @@ import TextField from '@material-ui/core/TextField';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPencilAlt } from "@fortawesome/free-solid-svg-icons";
 import FirebaseContext from '../../contexts/Firebase';
 import useUserWhoCommented from '../../hooks/UseUserWhoCommented';
 
@@ -73,89 +71,80 @@ export default function EditComment({ docId, title, language, displayName, comme
 
     return (
         <>
-            <FontAwesomeIcon title="Szerkesztés" data-testid="show-edit-form" className="btn btn-warning m-1"
-                style={{ width: "40px", height: "40px" }} onClick={() => setShowForm(!showForm)} icon={faPencilAlt}
-            />
             <Grid container
                 direction="column"
                 justifyContent="center"
                 alignItems="center">
-                {
-                    showForm && (
-                        <form data-testid="edit-comment-submit" className={classes.root} noValidate autoComplete="off" method="POST"
-                            onSubmit={handleEditComment}>
-                            <Grid container
-                                direction="column"
-                                justifyContent="center"
-                                alignItems="center">
-                                <hr className="mx-auto" style={{ width: isTabletOrMobile ? 250 : 700 }} />
-                                <h5>{language === "Hungarian" ? "Hozzászólás szerkesztése" : "Edit comment"}</h5>
-                                <TextField
-                                    size={isTabletOrMobile ? "small" : ""}
-                                    inputProps={{ "data-testid": "input-edit-comment" }}
-                                    aria-label={language === "Hungarian" ? "Hozzászólás szerkesztése" : "Edit comment"}
-                                    autoComplete="off"
-                                    type="text"
-                                    name="edit-comment"
-                                    style={{ width: isTabletOrMobile ? 250 : 700 }}
-                                    value={commentToBeEdited || ""}
-                                    onChange={({ target }) => setCommentToBeEdited(target.value)}
-                                    ref={commentInput}
-                                />
-                                <div className="m-2">
-                                </div>
-                                <Grid container spacing={2}
-                                    direction="row"
-                                    justifyContent="space-evenly"
-                                    alignItems="stretch">
-                                    <Button
-                                        size={isTabletOrMobile ? "small" : ""}
-                                        data-testid="edit-comment-modal-button"
-                                        variant="contained"
-                                        color="primary"
-                                        disabled={comment.length < 1}
-                                        onClick={handleOpen}
-                                    >
-                                        {language === "Hungarian" ? "Szerkesztés" : "Edit"}
-                                    </Button>
-                                    <Button size={isTabletOrMobile ? "small" : ""} data-testid="edit-comment-return" variant="contained" color="secondary" onClick={() => {
-                                        setShowForm(!showForm);
-                                    }}>
-                                        {language === "Hungarian" ? "Vissza" : "Return"}
-                                    </Button>
-                                    <Modal
-                                        open={open}
-                                        onClose={handleClose}
-                                        aria-labelledby="edit-comment-modal"
-                                        aria-describedby="edit-comment-modal-description"
-                                    >
-                                        <Box sx={style}>
-                                            <Typography id="edit-comment-modal" variant="h6" component="h2">
-                                                {language === "Hungarian" && !yourOwnComment && <p>Biztos benne, hogy szerkeszti {displayName} hozzászólását?</p>}
-                                                {language === "Hungarian" && yourOwnComment && <p>Biztos benne, hogy szerkeszti a hozzászólását?</p>}
-                                                {language === "English" && !yourOwnComment && displayName.endsWith("s") && <p>Are you sure you would like to edit {displayName}' comment?</p>}
-                                                {language === "English" && !yourOwnComment && !displayName.endsWith("s") && <p>Are you sure you would like to edit {displayName}'s comment?</p>}
-                                                {language === "English" && yourOwnComment && <p>Are you sure you would like to edit your comment?</p>}
-                                            </Typography>
-                                            <Typography id="edit-comment-modal-description" sx={{ mt: 2 }}>
-                                                <Button size={isTabletOrMobile ? "small" : ""} data-testid="edit-comment-edit" variant="contained" color="secondary" style={{ marginRight: "10px" }} type="submit"
-                                                    onClick={handleEditComment}>
-                                                    {language === "Hungarian" ? "Szerkesztés" : "Edit"}
-                                                </Button>
-                                                <Button size={isTabletOrMobile ? "small" : ""} data-testid="edit-comment-return-modal" variant="contained" color="primary" onClick={() => {
-                                                    handleClose();
-                                                }}>
-                                                    {language === "Hungarian" ? "Vissza" : "Return"}
-                                                </Button>
-                                            </Typography>
-                                        </Box>
-                                    </Modal>
-                                </Grid>
-                            </Grid>
-                            <hr className="mx-auto" style={{ width: isTabletOrMobile ? 250 : 700 }} />
-                        </form>
-                    )
-                }
+                <form data-testid="edit-comment-submit" className={classes.root} noValidate autoComplete="off" method="POST"
+                    onSubmit={handleEditComment}>
+                    <Grid container
+                        direction="column"
+                        justifyContent="center"
+                        alignItems="center">
+                        <h5>{language === "Hungarian" ? "Hozzászólás szerkesztése" : "Edit comment"}</h5>
+                        <TextField
+                            size={isTabletOrMobile ? "small" : "medium"}
+                            inputProps={{ "data-testid": "input-edit-comment" }}
+                            aria-label={language === "Hungarian" ? "Hozzászólás szerkesztése" : "Edit comment"}
+                            autoComplete="off"
+                            type="text"
+                            name="edit-comment"
+                            style={{ width: isTabletOrMobile ? 250 : 700 }}
+                            value={commentToBeEdited || ""}
+                            onChange={({ target }) => setCommentToBeEdited(target.value)}
+                            ref={commentInput}
+                        />
+                        <div className="m-2">
+                        </div>
+                        <Grid container spacing={2}
+                            direction="row"
+                            justifyContent="space-evenly"
+                            alignItems="stretch">
+                            <Button
+                                size={isTabletOrMobile ? "small" : "medium"}
+                                data-testid="edit-comment-modal-button"
+                                variant="contained"
+                                color="primary"
+                                disabled={comment.length < 1}
+                                onClick={handleOpen}
+                            >
+                                {language === "Hungarian" ? "Szerkesztés" : "Edit"}
+                            </Button>
+                            <Button size={isTabletOrMobile ? "small" : "medium"} data-testid="edit-comment-return" variant="contained" color="secondary" onClick={() => {
+                                setShowForm(!showForm);
+                            }}>
+                                {language === "Hungarian" ? "Vissza" : "Return"}
+                            </Button>
+                            <Modal
+                                open={open}
+                                onClose={handleClose}
+                                aria-labelledby="edit-comment-modal"
+                                aria-describedby="edit-comment-modal-description"
+                            >
+                                <Box sx={style}>
+                                    <Typography id="edit-comment-modal" variant="h6" component="h2">
+                                        {language === "Hungarian" && !yourOwnComment && <p>Biztos benne, hogy szerkeszti {displayName} hozzászólását?</p>}
+                                        {language === "Hungarian" && yourOwnComment && <p>Biztos benne, hogy szerkeszti a hozzászólását?</p>}
+                                        {language === "English" && !yourOwnComment && displayName.endsWith("s") && <p>Are you sure you would like to edit {displayName}' comment?</p>}
+                                        {language === "English" && !yourOwnComment && !displayName.endsWith("s") && <p>Are you sure you would like to edit {displayName}'s comment?</p>}
+                                        {language === "English" && yourOwnComment && <p>Are you sure you would like to edit your comment?</p>}
+                                    </Typography>
+                                    <Typography id="edit-comment-modal-description" sx={{ mt: 2 }}>
+                                        <Button size={isTabletOrMobile ? "small" : "medium"} data-testid="edit-comment-edit" variant="contained" color="secondary" style={{ marginRight: "10px" }} type="submit"
+                                            onClick={handleEditComment}>
+                                            {language === "Hungarian" ? "Szerkesztés" : "Edit"}
+                                        </Button>
+                                        <Button size={isTabletOrMobile ? "small" : "medium"} data-testid="edit-comment-return-modal" variant="contained" color="primary" onClick={() => {
+                                            handleClose();
+                                        }}>
+                                            {language === "Hungarian" ? "Vissza" : "Return"}
+                                        </Button>
+                                    </Typography>
+                                </Box>
+                            </Modal>
+                        </Grid>
+                    </Grid>
+                </form>
             </Grid>
         </>
     )

@@ -55,7 +55,7 @@ export default function ShowForgotPassword() {
                         </div>
                     )}
                     <TextField
-                        size={isTabletOrMobile ? "small" : ""}
+                        size={isTabletOrMobile ? "small" : "medium"}
                         className="TextField"
                         required
                         inputProps={{ "data-testid": "input-email" }}
@@ -70,10 +70,10 @@ export default function ShowForgotPassword() {
                     direction="row"
                     justifyContent="center"
                     alignItems="center">
-                    <Button size={isTabletOrMobile ? "small" : ""} type="submit" variant="contained" color="primary" disabled={isInvalid} style={{ marginRight: "10px" }}>
+                    <Button size={isTabletOrMobile ? "small" : "medium"} type="submit" variant="contained" color="primary" disabled={isInvalid} style={{ marginRight: "10px" }}>
                         Jelszó visszaállítása
                     </Button>
-                    <Button size={isTabletOrMobile ? "small" : ""} data-testid="return" variant="contained" color="secondary" onClick={() => {
+                    <Button size={isTabletOrMobile ? "small" : "medium"} data-testid="return" variant="contained" color="secondary" onClick={() => {
                         history.push(ROUTES.LOGIN);
                     }}>
                         Vissza

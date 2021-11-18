@@ -100,7 +100,7 @@ export default function ShowAllPosts({ allPosts, isTabletOrMobile }) {
                     onChange={e => setSearch(e.target.value)}>
                     <TextField size="small" inputProps={{ "data-testid": "input-search" }} id="search" label="Keresés..." variant="filled" />
                 </form>
-                <Button size={isTabletOrMobile ? "small" : ""} data-testid="create-post" color="primary" variant="contained" style={{ marginTop: isTabletOrMobile ? '10px' : '0px' }}
+                <Button size={isTabletOrMobile ? "small" : "medium"} data-testid="create-post" color="primary" variant="contained" style={{ marginTop: isTabletOrMobile ? '10px' : '0px' }}
                     onClick={() => {
                         history.push(ROUTES.ADMIN_CREATE_POST);
                     }}>

@@ -94,7 +94,7 @@ export default function ShowSignUp() {
                         </div>
                     )}
                     <TextField
-                        size={isTabletOrMobile ? "small" : ""}
+                        size={isTabletOrMobile ? "small" : "medium"}
                         className="TextField"
                         required
                         inputProps={{ "data-testid": "input-username" }}
@@ -105,7 +105,7 @@ export default function ShowSignUp() {
                         value={username}
                     />
                     <TextField
-                        size={isTabletOrMobile ? "small" : ""}
+                        size={isTabletOrMobile ? "small" : "medium"}
                         className="TextField"
                         required
                         inputProps={{ "data-testid": "input-fullname" }}
@@ -116,7 +116,7 @@ export default function ShowSignUp() {
                         value={fullName}
                     />
                     <TextField
-                        size={isTabletOrMobile ? "small" : ""}
+                        size={isTabletOrMobile ? "small" : "medium"}
                         className="TextField"
                         required
                         inputProps={{ "data-testid": "input-email" }}
@@ -127,7 +127,7 @@ export default function ShowSignUp() {
                         value={emailAddress}
                     />
                     <TextField
-                        size={isTabletOrMobile ? "small" : ""}
+                        size={isTabletOrMobile ? "small" : "medium"}
                         className="TextField"
                         required
                         inputProps={{ "data-testid": "input-password" }}
@@ -143,10 +143,10 @@ export default function ShowSignUp() {
                     direction="row"
                     justifyContent="center"
                     alignItems="center">
-                    <Button size={isTabletOrMobile ? "small" : ""} type="submit" variant="contained" color="primary" disabled={isInvalid} style={{ marginRight: "10px" }}>
+                    <Button size={isTabletOrMobile ? "small" : "medium"} type="submit" variant="contained" color="primary" disabled={isInvalid} style={{ marginRight: "10px" }}>
                         Regisztráció
                     </Button>
-                    <Button size={isTabletOrMobile ? "small" : ""} data-testid="return" variant="contained" color="secondary" onClick={() => {
+                    <Button size={isTabletOrMobile ? "small" : "medium"} data-testid="return" variant="contained" color="secondary" onClick={() => {
                         history.push(ROUTES.HOME);
                     }}>
                         Vissza

@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPencilAlt } from "@fortawesome/free-solid-svg-icons";
 import AddComment from './AddComment';
 import EditComment from './EditComment';
 import DeleteComment from './DeleteComment';
@@ -10,6 +12,7 @@ import * as ROUTES from '../../constants/Routes';
 
 export default function ShowComments({ docId, title, language, comments: allComments, commentInput, user, isTabletOrMobile }) {
     const [comments, setComments] = useState(allComments);
+    const [commentToBeEdited, setCommentToBeEdited] = useState();
     const useStyles = makeStyles({
         root: {
             maxWidth: 1224,
@@ -22,6 +25,21 @@ export default function ShowComments({ docId, title, language, comments: allComm
 
     return (
         <>
+            {commentToBeEdited &&
+                <>
+                    <EditComment
+                        docId={docId}
+                        title={title}
+                        language={language}
+                        displayName={commentToBeEdited?.displayName}
+                        comment={commentToBeEdited?.comment}
+                        commentInput={commentInput}
+                        yourOwnComment={user?.username === commentToBeEdited?.displayName}
+                        isTabletOrMobile={isTabletOrMobile}
+                    />
+                    <hr />
+                </>
+            }
             <Card className={classes.root}>
                 <div>
                     <br />
@@ -50,16 +68,13 @@ export default function ShowComments({ docId, title, language, comments: allComm
                                         yourOwnComment={user?.username === comment?.displayName}
                                         isTabletOrMobile={isTabletOrMobile}
                                     />
-                                    <EditComment
-                                        docId={docId}
-                                        title={title}
-                                        language={language}
-                                        displayName={comment?.displayName}
-                                        comment={comment?.comment}
-                                        commentInput={commentInput}
-                                        yourOwnComment={user?.username === comment?.displayName}
-                                        isTabletOrMobile={isTabletOrMobile}
-                                    />
+                                    <div id="goTo"></div>
+                                    <FontAwesomeIcon title="Szerkesztés" data-testid="show-edit-form" className="btn btn-warning m-1"
+                                        style={{ width: "40px", height: "40px" }} icon={faPencilAlt}
+                                        onClick={() => {
+                                            setCommentToBeEdited(comment);
+                                            //document.getElementById("goTo").scrollIntoView();
+                                        }} />
                                 </Grid>
                             }
                         </>

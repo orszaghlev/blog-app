@@ -94,14 +94,14 @@ export default function EditPost({ post, isTabletOrMobile }) {
                     alignItems="stretch">
                     <h4>Bejegyzés szerkesztése</h4>
                     <Grid item xs>
-                        <TextField size={isTabletOrMobile ? "small" : ""} className="TextField" inputProps={{ "data-testid": "input-edit-id" }} value={id} name="id" type="text" label="ID" variant="filled"
+                        <TextField size={isTabletOrMobile ? "small" : "medium"} className="TextField" inputProps={{ "data-testid": "input-edit-id" }} value={id} name="id" type="text" label="ID" variant="filled"
                             onChange={(e) => {
                                 setId(e.target.value);
                             }}
                             required style={{ width: isTabletOrMobile ? 250 : 700 }} />
                     </Grid>
                     <Grid item xs>
-                        <TextField size={isTabletOrMobile ? "small" : ""} className="TextField" inputProps={{ "data-testid": "input-edit-title" }} value={title} name="title" type="text" label="Cím" variant="filled"
+                        <TextField size={isTabletOrMobile ? "small" : "medium"} className="TextField" inputProps={{ "data-testid": "input-edit-title" }} value={title} name="title" type="text" label="Cím" variant="filled"
                             onChange={(e) => {
                                 setTitle(e.target.value);
                                 setSlug(slugify(e.target.value));
@@ -109,7 +109,7 @@ export default function EditPost({ post, isTabletOrMobile }) {
                             required style={{ width: isTabletOrMobile ? 250 : 700 }} />
                     </Grid>
                     <Grid item xs>
-                        <TextField size={isTabletOrMobile ? "small" : ""} className="TextField" inputProps={{ "data-testid": "input-edit-slug" }} value={slug} name="slug" type="text" label="Slug" variant="filled"
+                        <TextField size={isTabletOrMobile ? "small" : "medium"} className="TextField" inputProps={{ "data-testid": "input-edit-slug" }} value={slug} name="slug" type="text" label="Slug" variant="filled"
                             required style={{ width: isTabletOrMobile ? 250 : 700 }} />
                     </Grid>
                     <Grid item xs>
@@ -160,21 +160,21 @@ export default function EditPost({ post, isTabletOrMobile }) {
                         </Grid>
                     </Grid>
                     <Grid item xs>
-                        <TextField size={isTabletOrMobile ? "small" : ""} className="TextField" inputProps={{ "data-testid": "input-edit-imgURL" }} value={imgURL} name="imgURL" label="Kép URL" variant="filled"
+                        <TextField size={isTabletOrMobile ? "small" : "medium"} className="TextField" inputProps={{ "data-testid": "input-edit-imgURL" }} value={imgURL} name="imgURL" label="Kép URL" variant="filled"
                             onChange={(e) => {
                                 setImgURL(e.target.value);
                             }}
                             type="text" required style={{ width: isTabletOrMobile ? 250 : 700 }} />
                     </Grid>
                     <Grid item xs>
-                        <TextField size={isTabletOrMobile ? "small" : ""} className="TextField" inputProps={{ "data-testid": "input-edit-tag" }} value={tag} name="tag" type="text" label="Címkék" variant="filled"
+                        <TextField size={isTabletOrMobile ? "small" : "medium"} className="TextField" inputProps={{ "data-testid": "input-edit-tag" }} value={tag} name="tag" type="text" label="Címkék" variant="filled"
                             onChange={(e) => {
                                 setTag(e.target.value);
                             }}
                             required style={{ width: isTabletOrMobile ? 250 : 700 }} />
                     </Grid>
                     <Grid item xs>
-                        <TextField size={isTabletOrMobile ? "small" : ""} className="TextField" inputProps={{ "data-testid": "input-edit-language" }} value={language} name="language" label="Nyelv" variant="filled" type="text" select
+                        <TextField size={isTabletOrMobile ? "small" : "medium"} className="TextField" inputProps={{ "data-testid": "input-edit-language" }} value={language} name="language" label="Nyelv" variant="filled" type="text" select
                             onChange={(e) => {
                                 setLanguage(e.target.value)
                             }}
@@ -185,7 +185,7 @@ export default function EditPost({ post, isTabletOrMobile }) {
                     </Grid>
                     <Grid item xs>
                         <TextField
-                            size={isTabletOrMobile ? "small" : ""}
+                            size={isTabletOrMobile ? "small" : "medium"}
                             inputProps={{ "data-testid": "input-edit-date" }}
                             style={{ width: isTabletOrMobile ? 250 : 700 }}
                             id="datetime-local"
@@ -203,7 +203,7 @@ export default function EditPost({ post, isTabletOrMobile }) {
                         />
                     </Grid>
                     <Grid item xs>
-                        <TextField size={isTabletOrMobile ? "small" : ""} className="TextField" inputProps={{ "data-testid": "input-edit-isActive" }} value={isActive} name="isActive" label="Állapot" variant="filled" type="text" select
+                        <TextField size={isTabletOrMobile ? "small" : "medium"} className="TextField" inputProps={{ "data-testid": "input-edit-isActive" }} value={isActive} name="isActive" label="Állapot" variant="filled" type="text" select
                             onChange={(e) => {
                                 setIsActive(e.target.value)
                             }}
@@ -217,7 +217,7 @@ export default function EditPost({ post, isTabletOrMobile }) {
                             direction="column"
                             justifyContent="center"
                             alignItems="center">
-                            <Button size={isTabletOrMobile ? "small" : ""} data-testid="edit-post-button" variant="contained" color="primary" onClick={handleOpen}>
+                            <Button size={isTabletOrMobile ? "small" : "medium"} data-testid="edit-post-button" variant="contained" color="primary" onClick={handleOpen}>
                                 Szerkesztés
                             </Button>
                             <Modal
@@ -231,10 +231,10 @@ export default function EditPost({ post, isTabletOrMobile }) {
                                         Biztos benne, hogy szerkeszti a(z) {post?.title} bejegyzést?
                                     </Typography>
                                     <Typography id="edit-post-modal-description" sx={{ mt: 2 }}>
-                                        <Button size={isTabletOrMobile ? "small" : ""} data-testid="edit-post-edit" variant="contained" color="secondary" style={{ marginRight: "10px" }} type="submit" onClick={handleEditPost}>
+                                        <Button size={isTabletOrMobile ? "small" : "medium"} data-testid="edit-post-edit" variant="contained" color="secondary" style={{ marginRight: "10px" }} type="submit" onClick={handleEditPost}>
                                             Szerkesztés
                                         </Button>
-                                        <Button size={isTabletOrMobile ? "small" : ""} data-testid="edit-post-return" variant="contained" color="primary" onClick={() => {
+                                        <Button size={isTabletOrMobile ? "small" : "medium"} data-testid="edit-post-return" variant="contained" color="primary" onClick={() => {
                                             handleClose();
                                         }}>
                                             Vissza

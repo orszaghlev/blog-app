@@ -53,7 +53,7 @@ export default function AddComment({ docId, title, language, comments, setCommen
                 justifyContent="center"
                 alignItems="center">
                 <TextField
-                    size={isTabletOrMobile ? "small" : ""}
+                    size={isTabletOrMobile ? "small" : "medium"}
                     inputProps={{ "data-testid": "input-add-comment" }}
                     aria-label={language === "Hungarian" ? "Új hozzászólás" : "New comment"}
                     autoComplete="off"
@@ -66,7 +66,7 @@ export default function AddComment({ docId, title, language, comments, setCommen
                     ref={commentInput}
                 />
                 <Button
-                    size={isTabletOrMobile ? "small" : ""}
+                    size={isTabletOrMobile ? "small" : "medium"}
                     variant="contained"
                     color="primary"
                     type="submit"

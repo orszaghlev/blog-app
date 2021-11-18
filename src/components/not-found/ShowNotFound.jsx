@@ -14,7 +14,7 @@ export default function ShowNotFound() {
             justifyContent="center"
             alignItems="center">
             <h2>A keresett oldal nem található!</h2>
-            <Button size={isTabletOrMobile ? "small" : ""} data-testid="not-found-return" m="2rem" variant="contained" color="secondary" onClick={() => {
+            <Button size={isTabletOrMobile ? "small" : "medium"} data-testid="not-found-return" m="2rem" variant="contained" color="secondary" onClick={() => {
                 history.push(ROUTES.HOME)
             }}>
                 Kezdőlap

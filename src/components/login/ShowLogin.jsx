@@ -64,7 +64,7 @@ export default function ShowLogin() {
                         variant="filled"
                         onChange={({ target }) => setEmailAddress(target.value)}
                         value={emailAddress}
-                        size={isTabletOrMobile ? "small" : ""}
+                        size={isTabletOrMobile ? "small" : "medium"}
                     />
                     <TextField
                         className="TextField"
@@ -77,17 +77,17 @@ export default function ShowLogin() {
                         onChange={({ target }) => setPassword(target.value)}
                         value={password}
                         autoComplete="off"
-                        size={isTabletOrMobile ? "small" : ""}
+                        size={isTabletOrMobile ? "small" : "medium"}
                     />
                 </Grid>
                 <Grid container
                     direction="row"
                     justifyContent="center"
                     alignItems="center">
-                    <Button size={isTabletOrMobile ? "small" : ""} type="submit" variant="contained" color="primary" disabled={isInvalid} style={{ marginRight: "10px" }}>
+                    <Button size={isTabletOrMobile ? "small" : "medium"} type="submit" variant="contained" color="primary" disabled={isInvalid} style={{ marginRight: "10px" }}>
                         Bejelentkezés
                     </Button>
-                    <Button size={isTabletOrMobile ? "small" : ""} data-testid="return" variant="contained" color="secondary" onClick={() => {
+                    <Button size={isTabletOrMobile ? "small" : "medium"} data-testid="return" variant="contained" color="secondary" onClick={() => {
                         history.push(ROUTES.HOME);
                     }}>
                         Vissza

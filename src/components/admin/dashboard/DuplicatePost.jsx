@@ -57,10 +57,10 @@ export default function DuplicatePost({ post, isTabletOrMobile }) {
                         Biztos benne, hogy duplikálja a(z) {post?.title} bejegyzést?
                     </Typography>
                     <Typography id="duplicate-post-modal-description" sx={{ mt: 2 }}>
-                        <Button size={isTabletOrMobile ? "small" : ""} data-testid="duplicate-post-duplicate" variant="contained" color="secondary" style={{ marginRight: "10px" }} onClick={handleDuplicatePost}>
+                        <Button size={isTabletOrMobile ? "small" : "medium"} data-testid="duplicate-post-duplicate" variant="contained" color="secondary" style={{ marginRight: "10px" }} onClick={handleDuplicatePost}>
                             Duplikálás
                         </Button>
-                        <Button size={isTabletOrMobile ? "small" : ""} data-testid="duplicate-post-return" variant="contained" color="primary" onClick={() => {
+                        <Button size={isTabletOrMobile ? "small" : "medium"} data-testid="duplicate-post-return" variant="contained" color="primary" onClick={() => {
                             handleClose();
                         }}>
                             Vissza

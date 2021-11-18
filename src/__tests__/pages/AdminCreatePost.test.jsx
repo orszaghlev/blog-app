@@ -83,6 +83,8 @@ describe('<AdminCreatePost />', () => {
     });
 
     it('Megjelenik a bejegyzés létrehozásához szükséges form, de az adminiszrátor visszalép az összes bejegyzést tartalmazó oldalra', async () => {
+        document.body.className = "dark-mode";
+
         const firebase = {
             auth: jest.fn(() => ({
             }))

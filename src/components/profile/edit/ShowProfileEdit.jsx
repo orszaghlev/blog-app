@@ -70,24 +70,24 @@ export default function ShowProfileEdit({ user }) {
                     }
                 }}
             >
-                <Grid container spacing={2}
+                <Grid container spacing={1}
                     direction="column"
                     justifyContent="space-around"
                     alignItems="stretch">
                     <h2>Profil szerkesztése</h2>
                     <Grid item xs>
-                        <TextField className="TextField" inputProps={{ "data-testid": "input-username" }} value={username || ""} name="username" type="text" label="Felhasználónév" variant="filled"
+                        <TextField size={isTabletOrMobile ? "small" : ""} className="TextField" inputProps={{ "data-testid": "input-username" }} value={username || ""} name="username" type="text" label="Felhasználónév" variant="filled"
                             onChange={(e) => {
                                 setUsername(e.target.value);
                             }}
-                            required style={{ width: isTabletOrMobile ? 300 : 700 }} />
+                            required style={{ width: isTabletOrMobile ? 250 : 700 }} />
                     </Grid>
                     <Grid item xs>
-                        <TextField className="TextField" inputProps={{ "data-testid": "input-fullname" }} value={fullName || ""} name="fullName" type="text" label="Teljes név" variant="filled"
+                        <TextField size={isTabletOrMobile ? "small" : ""} className="TextField" inputProps={{ "data-testid": "input-fullname" }} value={fullName || ""} name="fullName" type="text" label="Teljes név" variant="filled"
                             onChange={(e) => {
                                 setFullName(e.target.value);
                             }}
-                            required style={{ width: isTabletOrMobile ? 300 : 700 }} />
+                            required style={{ width: isTabletOrMobile ? 250 : 700 }} />
                     </Grid>
                     <Grid item xs>
                         <Button data-testid="change-password" color="secondary" onClick={() => {
@@ -97,14 +97,14 @@ export default function ShowProfileEdit({ user }) {
                         </Button>
                     </Grid>
                     <Grid item xs>
-                        <Grid container spacing={2}
+                        <Grid container spacing={1}
                             direction="row"
                             justifyContent="space-evenly"
                             alignItems="stretch">
-                            <Button type="submit" variant="contained" color="primary">
+                            <Button size={isTabletOrMobile ? "small" : ""} type="submit" variant="contained" color="primary">
                                 Szerkesztés
                             </Button>
-                            <Button data-testid="return" variant="contained" color="secondary" onClick={() => {
+                            <Button size={isTabletOrMobile ? "small" : ""} data-testid="return" variant="contained" color="secondary" onClick={() => {
                                 history.push(ROUTES.PROFILE)
                             }}>
                                 Vissza

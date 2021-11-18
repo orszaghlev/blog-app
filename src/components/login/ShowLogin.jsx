@@ -6,6 +6,7 @@ import { Button } from "@material-ui/core";
 import { Grid } from "@material-ui/core";
 import FirebaseContext from '../../contexts/Firebase';
 import * as ROUTES from '../../constants/Routes';
+import { useMediaQuery } from 'react-responsive';
 
 export default function ShowLogin() {
     const history = useHistory();
@@ -14,6 +15,7 @@ export default function ShowLogin() {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const isInvalid = password === '' || emailAddress === '';
+    const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' });
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
@@ -62,6 +64,7 @@ export default function ShowLogin() {
                         variant="filled"
                         onChange={({ target }) => setEmailAddress(target.value)}
                         value={emailAddress}
+                        size={isTabletOrMobile ? "small" : ""}
                     />
                     <TextField
                         className="TextField"
@@ -74,16 +77,17 @@ export default function ShowLogin() {
                         onChange={({ target }) => setPassword(target.value)}
                         value={password}
                         autoComplete="off"
+                        size={isTabletOrMobile ? "small" : ""}
                     />
                 </Grid>
                 <Grid container
                     direction="row"
                     justifyContent="center"
                     alignItems="center">
-                    <Button type="submit" variant="contained" color="primary" disabled={isInvalid} style={{ marginRight: "10px" }}>
+                    <Button size={isTabletOrMobile ? "small" : ""} type="submit" variant="contained" color="primary" disabled={isInvalid} style={{ marginRight: "10px" }}>
                         Bejelentkezés
                     </Button>
-                    <Button data-testid="return" variant="contained" color="secondary" onClick={() => {
+                    <Button size={isTabletOrMobile ? "small" : ""} data-testid="return" variant="contained" color="secondary" onClick={() => {
                         history.push(ROUTES.HOME);
                     }}>
                         Vissza

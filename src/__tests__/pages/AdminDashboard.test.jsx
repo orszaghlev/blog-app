@@ -688,6 +688,7 @@ describe('<AdminDashboard />', () => {
     });
 
     it('Megjelenik a bejegyzéseket tartalmazó admin felület, az adminisztrátor a bejegyzést szerkesztése gombra kattint, de végül nem szerkeszt', async () => {
+        document.body.className = "dark-mode";
         window.scrollTo = jest.fn();
 
         await act(async () => {

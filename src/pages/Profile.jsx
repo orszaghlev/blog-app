@@ -45,9 +45,9 @@ export default function Profile() {
                     },
                 }}>
                     <ShowProfile user={user} isTabletOrMobile={isTabletOrMobile} />
-                    <hr className="mx-auto" style={{ width: isTabletOrMobile ? 300 : 700 }} />
+                    <hr className="mx-auto" style={{ width: isTabletOrMobile ? 250 : 700 }} />
                     <ShowFavoritePosts user={user} />
-                    <hr className="mx-auto" style={{ width: isTabletOrMobile ? 300 : 700 }} />
+                    <hr className="mx-auto" style={{ width: isTabletOrMobile ? 250 : 700 }} />
                     <ShowOwnComments user={user} />
                 </motion.div>
             </div>

@@ -88,23 +88,28 @@ export default function ShowPost({ post, user }) {
                         editorRef.current = editor;
                     }}
                 />
-                <CardActions style={{ justifyContent: "center" }}>
-                    {user &&
-                        <Button data-testid="add-to-favorites" size="small" color="primary" align="center" onClick={() => {
-                            handleToggleSaved();
-                            setNotification(post?.language === "Hungarian" ? (!toggleSaved ? "Sikeres hozzáadás!" : "Sikeres eltávolítás!") : (!toggleSaved ? "Post successfully added!" : "Post successfully removed!"));
-                            setTimeout(() => {
-                                setNotification("");
-                            }, 5000);
+                <CardActions>
+                    <Grid container
+                        direction="column"
+                        justifyContent="center"
+                        alignItems="center">
+                        {user &&
+                            <Button data-testid="add-to-favorites" size="small" color="primary" align="center" onClick={() => {
+                                handleToggleSaved();
+                                setNotification(post?.language === "Hungarian" ? (!toggleSaved ? "Sikeres hozzáadás!" : "Sikeres eltávolítás!") : (!toggleSaved ? "Post successfully added!" : "Post successfully removed!"));
+                                setTimeout(() => {
+                                    setNotification("");
+                                }, 5000);
+                            }}>
+                                {post?.language === "Hungarian" ? (!toggleSaved ? "Hozzáadás a kedvencekhez" : "Eltávolítás a kedvencek közül") : (!toggleSaved ? "Add to favorites" : "Remove from favorites")}
+                            </Button>
+                        }
+                        <Button data-testid="show-post-return" size="small" color="secondary" align="center" onClick={() => {
+                            history.push(ROUTES.HOME)
                         }}>
-                            {post?.language === "Hungarian" ? (!toggleSaved ? "Hozzáadás a kedvencekhez" : "Eltávolítás a kedvencek közül") : (!toggleSaved ? "Add to favorites" : "Remove from favorites")}
+                            {post?.language === "Hungarian" ? "Vissza" : "Return"}
                         </Button>
-                    }
-                    <Button data-testid="show-post-return" size="small" color="secondary" align="center" onClick={() => {
-                        history.push(ROUTES.HOME)
-                    }}>
-                        {post?.language === "Hungarian" ? "Vissza" : "Return"}
-                    </Button>
+                    </Grid>
                 </CardActions>
                 <Grid container
                     direction="row"

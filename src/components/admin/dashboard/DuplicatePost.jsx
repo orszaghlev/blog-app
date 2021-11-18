@@ -8,7 +8,7 @@ import FirebaseContext from '../../../contexts/Firebase';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCopy } from "@fortawesome/free-solid-svg-icons";
 
-export default function DuplicatePost({ post }) {
+export default function DuplicatePost({ post, isTabletOrMobile }) {
     const { firebase } = useContext(FirebaseContext);
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
@@ -18,7 +18,7 @@ export default function DuplicatePost({ post }) {
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        width: 300,
+        width: isTabletOrMobile ? 300 : 500,
         boxShadow: 24,
         p: 4,
     };
@@ -57,10 +57,10 @@ export default function DuplicatePost({ post }) {
                         Biztos benne, hogy duplikálja a(z) {post?.title} bejegyzést?
                     </Typography>
                     <Typography id="duplicate-post-modal-description" sx={{ mt: 2 }}>
-                        <Button data-testid="duplicate-post-duplicate" variant="contained" color="secondary" style={{ marginRight: "10px" }} onClick={handleDuplicatePost}>
+                        <Button size={isTabletOrMobile ? "small" : ""} data-testid="duplicate-post-duplicate" variant="contained" color="secondary" style={{ marginRight: "10px" }} onClick={handleDuplicatePost}>
                             Duplikálás
                         </Button>
-                        <Button data-testid="duplicate-post-return" variant="contained" color="primary" onClick={() => {
+                        <Button size={isTabletOrMobile ? "small" : ""} data-testid="duplicate-post-return" variant="contained" color="primary" onClick={() => {
                             handleClose();
                         }}>
                             Vissza
@@ -73,5 +73,6 @@ export default function DuplicatePost({ post }) {
 }
 
 DuplicatePost.propTypes = {
-    post: PropTypes.object.isRequired
+    post: PropTypes.object.isRequired,
+    isTabletOrMobile: PropTypes.bool.isRequired
 };

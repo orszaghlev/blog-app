@@ -8,7 +8,7 @@ import FirebaseContext from '../../../contexts/Firebase';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
-export default function DeletePost({ post }) {
+export default function DeletePost({ post, isTabletOrMobile }) {
     const { firebase } = useContext(FirebaseContext);
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
@@ -18,7 +18,7 @@ export default function DeletePost({ post }) {
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        width: 300,
+        width: isTabletOrMobile ? 300 : 500,
         boxShadow: 24,
         p: 4,
     };
@@ -43,10 +43,10 @@ export default function DeletePost({ post }) {
                         Biztos benne, hogy törli a(z) {post?.title} bejegyzést?
                     </Typography>
                     <Typography id="delete-post-modal-description" sx={{ mt: 2 }}>
-                        <Button data-testid="delete-post-delete" variant="contained" color="secondary" style={{ marginRight: "10px" }} onClick={handleDeletePost}>
+                        <Button size={isTabletOrMobile ? "small" : ""} data-testid="delete-post-delete" variant="contained" color="secondary" style={{ marginRight: "10px" }} onClick={handleDeletePost}>
                             Törlés
                         </Button>
-                        <Button data-testid="delete-post-return" variant="contained" color="primary" onClick={() => {
+                        <Button size={isTabletOrMobile ? "small" : ""} data-testid="delete-post-return" variant="contained" color="primary" onClick={() => {
                             handleClose();
                         }}>
                             Vissza
@@ -59,5 +59,6 @@ export default function DeletePost({ post }) {
 }
 
 DeletePost.propTypes = {
-    post: PropTypes.object.isRequired
+    post: PropTypes.object.isRequired,
+    isTabletOrMobile: PropTypes.bool.isRequired
 };

@@ -6,6 +6,7 @@ import { Button } from "@material-ui/core";
 import { Grid } from "@material-ui/core";
 import FirebaseContext from '../../contexts/Firebase';
 import * as ROUTES from '../../constants/Routes';
+import { useMediaQuery } from 'react-responsive';
 
 export default function ShowForgotPassword() {
     const history = useHistory();
@@ -14,6 +15,7 @@ export default function ShowForgotPassword() {
     const [error, setError] = useState('');
     const [notification, setNotification] = useState('');
     const isInvalid = emailAddress === '';
+    const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' });
     const handlePasswordReset = async (e) => {
         e.preventDefault();
         try {
@@ -53,6 +55,7 @@ export default function ShowForgotPassword() {
                         </div>
                     )}
                     <TextField
+                        size={isTabletOrMobile ? "small" : ""}
                         className="TextField"
                         required
                         inputProps={{ "data-testid": "input-email" }}
@@ -67,10 +70,10 @@ export default function ShowForgotPassword() {
                     direction="row"
                     justifyContent="center"
                     alignItems="center">
-                    <Button type="submit" variant="contained" color="primary" disabled={isInvalid} style={{ marginRight: "10px" }}>
+                    <Button size={isTabletOrMobile ? "small" : ""} type="submit" variant="contained" color="primary" disabled={isInvalid} style={{ marginRight: "10px" }}>
                         Jelszó visszaállítása
                     </Button>
-                    <Button data-testid="return" variant="contained" color="secondary" onClick={() => {
+                    <Button size={isTabletOrMobile ? "small" : ""} data-testid="return" variant="contained" color="secondary" onClick={() => {
                         history.push(ROUTES.LOGIN);
                     }}>
                         Vissza

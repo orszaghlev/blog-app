@@ -9,7 +9,7 @@ import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import FirebaseContext from '../../contexts/Firebase';
 import useUserWhoCommented from '../../hooks/UseUserWhoCommented';
 
-export default function DeleteComment({ docId, title, language, displayName, comment, yourOwnComment }) {
+export default function DeleteComment({ docId, title, language, displayName, comment, yourOwnComment, isTabletOrMobile }) {
     const { firebase, FieldValue } = useContext(FirebaseContext);
     const { user } = useUserWhoCommented(displayName);
     const [open, setOpen] = useState(false);
@@ -20,7 +20,7 @@ export default function DeleteComment({ docId, title, language, displayName, com
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        width: 300,
+        width: isTabletOrMobile ? 300 : 500,
         boxShadow: 24,
         p: 4,
     };
@@ -62,10 +62,10 @@ export default function DeleteComment({ docId, title, language, displayName, com
                         {language === "English" && yourOwnComment && <p>Are you sure you would like to delete your comment?</p>}
                     </Typography>
                     <Typography id="delete-comment-modal-description" sx={{ mt: 2 }}>
-                        <Button data-testid="delete-comment-delete" variant="contained" color="secondary" style={{ marginRight: "10px" }} onClick={handleDeleteComment}>
+                        <Button size={isTabletOrMobile ? "small" : ""} data-testid="delete-comment-delete" variant="contained" color="secondary" style={{ marginRight: "10px" }} onClick={handleDeleteComment}>
                             {language === "Hungarian" ? "Törlés" : "Delete"}
                         </Button>
-                        <Button data-testid="delete-comment-return" variant="contained" color="primary" onClick={() => {
+                        <Button size={isTabletOrMobile ? "small" : ""} data-testid="delete-comment-return" variant="contained" color="primary" onClick={() => {
                             handleClose();
                         }}>
                             {language === "Hungarian" ? "Vissza" : "Return"}
@@ -82,5 +82,6 @@ DeleteComment.propTypes = {
     title: PropTypes.string.isRequired,
     displayName: PropTypes.string.isRequired,
     comment: PropTypes.string.isRequired,
-    yourOwnComment: PropTypes.bool.isRequired
+    yourOwnComment: PropTypes.bool.isRequired,
+    isTabletOrMobile: PropTypes.bool.isRequired
 };

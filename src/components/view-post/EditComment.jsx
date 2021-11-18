@@ -12,7 +12,7 @@ import { faPencilAlt } from "@fortawesome/free-solid-svg-icons";
 import FirebaseContext from '../../contexts/Firebase';
 import useUserWhoCommented from '../../hooks/UseUserWhoCommented';
 
-export default function EditComment({ docId, title, language, displayName, comment, commentInput, yourOwnComment }) {
+export default function EditComment({ docId, title, language, displayName, comment, commentInput, yourOwnComment, isTabletOrMobile }) {
     const { firebase, FieldValue } = useContext(FirebaseContext);
     const [showForm, setShowForm] = useState(false);
     const { user } = useUserWhoCommented(displayName);
@@ -25,7 +25,7 @@ export default function EditComment({ docId, title, language, displayName, comme
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        width: 300,
+        width: isTabletOrMobile ? 300 : 500,
         boxShadow: 24,
         p: 4,
     };
@@ -88,13 +88,16 @@ export default function EditComment({ docId, title, language, displayName, comme
                                 direction="column"
                                 justifyContent="center"
                                 alignItems="center">
+                                <hr className="mx-auto" style={{ width: isTabletOrMobile ? 250 : 700 }} />
+                                <h5>{language === "Hungarian" ? "Hozzászólás szerkesztése" : "Edit comment"}</h5>
                                 <TextField
+                                    size={isTabletOrMobile ? "small" : ""}
                                     inputProps={{ "data-testid": "input-edit-comment" }}
                                     aria-label={language === "Hungarian" ? "Hozzászólás szerkesztése" : "Edit comment"}
                                     autoComplete="off"
                                     type="text"
                                     name="edit-comment"
-                                    style={{ width: "800px" }}
+                                    style={{ width: isTabletOrMobile ? 250 : 700 }}
                                     value={commentToBeEdited || ""}
                                     onChange={({ target }) => setCommentToBeEdited(target.value)}
                                     ref={commentInput}
@@ -106,6 +109,7 @@ export default function EditComment({ docId, title, language, displayName, comme
                                     justifyContent="space-evenly"
                                     alignItems="stretch">
                                     <Button
+                                        size={isTabletOrMobile ? "small" : ""}
                                         data-testid="edit-comment-modal-button"
                                         variant="contained"
                                         color="primary"
@@ -114,7 +118,7 @@ export default function EditComment({ docId, title, language, displayName, comme
                                     >
                                         {language === "Hungarian" ? "Szerkesztés" : "Edit"}
                                     </Button>
-                                    <Button data-testid="edit-comment-return" variant="contained" color="secondary" onClick={() => {
+                                    <Button size={isTabletOrMobile ? "small" : ""} data-testid="edit-comment-return" variant="contained" color="secondary" onClick={() => {
                                         setShowForm(!showForm);
                                     }}>
                                         {language === "Hungarian" ? "Vissza" : "Return"}
@@ -134,11 +138,11 @@ export default function EditComment({ docId, title, language, displayName, comme
                                                 {language === "English" && yourOwnComment && <p>Are you sure you would like to edit your comment?</p>}
                                             </Typography>
                                             <Typography id="edit-comment-modal-description" sx={{ mt: 2 }}>
-                                                <Button data-testid="edit-comment-edit" variant="contained" color="secondary" style={{ marginRight: "10px" }} type="submit"
+                                                <Button size={isTabletOrMobile ? "small" : ""} data-testid="edit-comment-edit" variant="contained" color="secondary" style={{ marginRight: "10px" }} type="submit"
                                                     onClick={handleEditComment}>
                                                     {language === "Hungarian" ? "Szerkesztés" : "Edit"}
                                                 </Button>
-                                                <Button data-testid="edit-comment-return-modal" variant="contained" color="primary" onClick={() => {
+                                                <Button size={isTabletOrMobile ? "small" : ""} data-testid="edit-comment-return-modal" variant="contained" color="primary" onClick={() => {
                                                     handleClose();
                                                 }}>
                                                     {language === "Hungarian" ? "Vissza" : "Return"}
@@ -148,6 +152,7 @@ export default function EditComment({ docId, title, language, displayName, comme
                                     </Modal>
                                 </Grid>
                             </Grid>
+                            <hr className="mx-auto" style={{ width: isTabletOrMobile ? 250 : 700 }} />
                         </form>
                     )
                 }
@@ -163,5 +168,6 @@ EditComment.propTypes = {
     displayName: PropTypes.string.isRequired,
     comment: PropTypes.string.isRequired,
     commentInput: PropTypes.object,
-    yourOwnComment: PropTypes.bool.isRequired
+    yourOwnComment: PropTypes.bool.isRequired,
+    isTabletOrMobile: PropTypes.bool.isRequired
 };

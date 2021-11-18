@@ -18,9 +18,10 @@ export default function ShowHome({ activePosts }) {
     const [hunSearch, setHunSearch] = useState(false);
     const [hunCount, setHunCount] = useState(1);
     const history = useHistory();
+    const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' });
     const useStyles = makeStyles((theme) => ({
         root: {
-            width: 300,
+            width: isTabletOrMobile ? 250 : 700,
         },
         media: {
             height: 140,
@@ -33,7 +34,6 @@ export default function ShowHome({ activePosts }) {
         },
     }));
     const classes = useStyles();
-    const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' });
 
     return (
         <>
@@ -44,9 +44,9 @@ export default function ShowHome({ activePosts }) {
                 alignItems="center">
                 <form data-testid="search" className={classes.search} noValidate autoComplete="off"
                     onChange={e => setSearch(e.target.value)}>
-                    <TextField className="TextField" inputProps={{ "data-testid": "input-search" }} id="search" label="Keresés..." variant="filled" />
+                    <TextField size="small" className="TextField" inputProps={{ "data-testid": "input-search" }} id="search" label="Keresés..." variant="filled" />
                 </form>
-                <Button data-testid="hungarian-posts-only" variant="contained" style={{
+                <Button size="small" data-testid="hungarian-posts-only" variant="contained" style={{
                     backgroundColor: hunSearch ? 'green' : '#dc3545',
                     color: 'white',
                     marginTop: isTabletOrMobile ? '10px' : '0px'

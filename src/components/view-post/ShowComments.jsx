@@ -48,6 +48,7 @@ export default function ShowComments({ docId, title, language, comments: allComm
                                         displayName={comment?.displayName}
                                         comment={comment?.comment}
                                         yourOwnComment={user?.username === comment?.displayName}
+                                        isTabletOrMobile={isTabletOrMobile}
                                     />
                                     <EditComment
                                         docId={docId}
@@ -57,6 +58,7 @@ export default function ShowComments({ docId, title, language, comments: allComm
                                         comment={comment?.comment}
                                         commentInput={commentInput}
                                         yourOwnComment={user?.username === comment?.displayName}
+                                        isTabletOrMobile={isTabletOrMobile}
                                     />
                                 </Grid>
                             }

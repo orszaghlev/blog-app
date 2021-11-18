@@ -13,7 +13,7 @@ export default function ShowProfile({ user, isTabletOrMobile }) {
             <div>
                 <h2>Profil</h2>
             </div>
-            <hr className="mx-auto" style={{ width: isTabletOrMobile ? 300 : 700 }} />
+            <hr className="mx-auto" style={{ width: isTabletOrMobile ? 250 : 700 }} />
             <h5>Felhasználó adatai</h5>
             <p>Felhasználónév: {user?.username}</p>
             <p>Teljes név: {user?.fullName}</p>

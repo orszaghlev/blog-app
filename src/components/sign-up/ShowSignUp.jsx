@@ -7,6 +7,7 @@ import { Grid } from "@material-ui/core";
 import FirebaseContext from '../../contexts/Firebase';
 import * as ROUTES from '../../constants/Routes';
 import { doesEmailAddressExist, doesUsernameExist } from '../../services/Firebase';
+import { useMediaQuery } from 'react-responsive';
 
 export default function ShowSignUp() {
     const history = useHistory();
@@ -17,6 +18,7 @@ export default function ShowSignUp() {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const isInvalid = password === '' || emailAddress === '';
+    const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' });
     const handleSignUp = async (e) => {
         e.preventDefault();
         const usernameExists = await doesUsernameExist(username);
@@ -92,6 +94,7 @@ export default function ShowSignUp() {
                         </div>
                     )}
                     <TextField
+                        size={isTabletOrMobile ? "small" : ""}
                         className="TextField"
                         required
                         inputProps={{ "data-testid": "input-username" }}
@@ -102,6 +105,7 @@ export default function ShowSignUp() {
                         value={username}
                     />
                     <TextField
+                        size={isTabletOrMobile ? "small" : ""}
                         className="TextField"
                         required
                         inputProps={{ "data-testid": "input-fullname" }}
@@ -112,6 +116,7 @@ export default function ShowSignUp() {
                         value={fullName}
                     />
                     <TextField
+                        size={isTabletOrMobile ? "small" : ""}
                         className="TextField"
                         required
                         inputProps={{ "data-testid": "input-email" }}
@@ -122,6 +127,7 @@ export default function ShowSignUp() {
                         value={emailAddress}
                     />
                     <TextField
+                        size={isTabletOrMobile ? "small" : ""}
                         className="TextField"
                         required
                         inputProps={{ "data-testid": "input-password" }}
@@ -137,10 +143,10 @@ export default function ShowSignUp() {
                     direction="row"
                     justifyContent="center"
                     alignItems="center">
-                    <Button type="submit" variant="contained" color="primary" disabled={isInvalid} style={{ marginRight: "10px" }}>
+                    <Button size={isTabletOrMobile ? "small" : ""} type="submit" variant="contained" color="primary" disabled={isInvalid} style={{ marginRight: "10px" }}>
                         Regisztráció
                     </Button>
-                    <Button data-testid="return" variant="contained" color="secondary" onClick={() => {
+                    <Button size={isTabletOrMobile ? "small" : ""} data-testid="return" variant="contained" color="secondary" onClick={() => {
                         history.push(ROUTES.HOME);
                     }}>
                         Vissza

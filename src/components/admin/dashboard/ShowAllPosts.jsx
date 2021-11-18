@@ -98,11 +98,12 @@ export default function ShowAllPosts({ allPosts, isTabletOrMobile }) {
                 alignItems="center">
                 <form className={classes.search} noValidate autoComplete="off"
                     onChange={e => setSearch(e.target.value)}>
-                    <TextField inputProps={{ "data-testid": "input-search" }} id="search" label="Keresés..." variant="filled" />
+                    <TextField size="small" inputProps={{ "data-testid": "input-search" }} id="search" label="Keresés..." variant="filled" />
                 </form>
-                <Button data-testid="create-post" color="primary" variant="contained" style={{ marginTop: isTabletOrMobile ? '10px' : '0px' }} onClick={() => {
-                    history.push(ROUTES.ADMIN_CREATE_POST);
-                }}>
+                <Button size={isTabletOrMobile ? "small" : ""} data-testid="create-post" color="primary" variant="contained" style={{ marginTop: isTabletOrMobile ? '10px' : '0px' }}
+                    onClick={() => {
+                        history.push(ROUTES.ADMIN_CREATE_POST);
+                    }}>
                     Új bejegyzés
                 </Button>
             </Grid>
@@ -111,7 +112,7 @@ export default function ShowAllPosts({ allPosts, isTabletOrMobile }) {
                 direction="row"
                 justifyContent="space-around"
                 alignItems="center">
-                <Button data-testid="hungarian-posts-only" variant="contained" style={{
+                <Button size="small" data-testid="hungarian-posts-only" variant="contained" style={{
                     backgroundColor: hunSearch ? 'green' : '#dc3545',
                     color: 'white'
                 }}
@@ -123,7 +124,7 @@ export default function ShowAllPosts({ allPosts, isTabletOrMobile }) {
                             setHunSearch(false);
                         }
                     }}>Csak magyar bejegyzések</Button>
-                <Button data-testid="active-posts-only" variant="contained" style={{
+                <Button size="small" data-testid="active-posts-only" variant="contained" style={{
                     backgroundColor: active ? 'green' : '#dc3545',
                     color: 'white',
                     margin: isTabletOrMobile ? '10px' : '0px'
@@ -137,7 +138,7 @@ export default function ShowAllPosts({ allPosts, isTabletOrMobile }) {
                             setActive(false);
                         }
                     }}>Csak aktív bejegyzések</Button>
-                <Button data-testid="inactive-posts-only" variant="contained" style={{
+                <Button size="small" data-testid="inactive-posts-only" variant="contained" style={{
                     backgroundColor: inactive ? 'green' : '#dc3545',
                     color: 'white'
                 }}
@@ -262,7 +263,7 @@ export default function ShowAllPosts({ allPosts, isTabletOrMobile }) {
                                                 direction="column"
                                                 justifyContent="center"
                                                 alignItems="center">
-                                                <DeletePost post={post} />
+                                                <DeletePost post={post} isTabletOrMobile={isTabletOrMobile} />
                                                 <button data-testid="scroll-to-edit-post-button" className="btn btn-warning m-1"
                                                     style={{ width: "40px", height: "40px" }} onClick={() => {
                                                         setPostToBeEdited(post);
@@ -270,7 +271,7 @@ export default function ShowAllPosts({ allPosts, isTabletOrMobile }) {
                                                     }}>
                                                     <FontAwesomeIcon icon={faPencilAlt} title="Szerkesztés" />
                                                 </button>
-                                                <DuplicatePost post={post} />
+                                                <DuplicatePost post={post} isTabletOrMobile={isTabletOrMobile} />
                                                 <ViewPost post={post} />
                                             </Grid>
                                         </TableCell>

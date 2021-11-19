@@ -76,6 +76,8 @@ describe('<SignUp />', () => {
     });
 
     it('Megjelenik a regisztrációhoz szükséges form, de regisztráltak már a megadott felhasználónévvel', async () => {
+        jest.useFakeTimers();
+
         const firebase = {
             auth: jest.fn(() => ({
                 createUserWithEmailAndPassword: jest.fn(() => ({
@@ -105,6 +107,7 @@ describe('<SignUp />', () => {
             });
             await fireEvent.change(getByTestId('input-password'), { target: { value: 'test1234' } });
             fireEvent.submit(getByTestId('sign-up'));
+            jest.advanceTimersByTime(5001);
 
             expect(document.title).toEqual(`Regisztráció | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
             await expect(doesUsernameExist).toHaveBeenCalled();
@@ -116,12 +119,14 @@ describe('<SignUp />', () => {
                 expect(getByTestId('input-fullname').value).toBe('');
                 expect(getByTestId('input-email').value).toBe('');
                 expect(getByTestId('input-password').value).toBe('');
-                expect(queryByTestId('error')).toBeTruthy();
+                expect(queryByTestId('error')).toBeFalsy();
             });
         });
     });
 
     it('Megjelenik a regisztrációs form, de hiba következik be', async () => {
+        jest.useFakeTimers();
+
         const firebase = {
             auth: jest.fn(() => ({
                 createUserWithEmailAndPassword: jest.fn(() => ({
@@ -152,6 +157,7 @@ describe('<SignUp />', () => {
             });
             await fireEvent.change(getByTestId('input-password'), { target: { value: 'test1234' } });
             fireEvent.submit(getByTestId('sign-up'));
+            jest.advanceTimersByTime(5001);
 
             expect(document.title).toEqual(`Regisztráció | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
             await expect(doesUsernameExist).toHaveBeenCalled();
@@ -165,7 +171,7 @@ describe('<SignUp />', () => {
                 expect(getByTestId('input-fullname').value).toBe('');
                 expect(getByTestId('input-email').value).toBe('');
                 expect(getByTestId('input-password').value).toBe('');
-                expect(queryByTestId('error')).toBeTruthy();
+                expect(queryByTestId('error')).toBeFalsy();
             });
         });
     });

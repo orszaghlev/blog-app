@@ -57,8 +57,6 @@ export default function ShowComments({ docId, title, language, comments: allComm
                                         style={{ width: "40px", height: "40px" }} icon={faPencilAlt}
                                         onClick={() => {
                                             setCommentArrayToBeEdited(comment);
-                                            console.log(commentArrayToBeEdited?.comment);
-                                            console.log(commentArrayToBeEdited?.displayName);
                                             window.scrollTo(0, document.body.scrollHeight);
                                         }} />
                                 </Grid>

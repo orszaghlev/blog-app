@@ -52,6 +52,8 @@ describe('<ForgotPassword />', () => {
     });
 
     it('Megjelenik az elfelejtett jelszó aloldal, de a jelszó visszaállítása sikertelen', async () => {
+        jest.useFakeTimers();
+
         const firebase = {
             auth: jest.fn(() => ({
                 sendPasswordResetEmail: jest.fn(() => Promise.reject(new Error('A megadott e-mail címmel még nem regisztrált felhasználó!')))
@@ -70,13 +72,14 @@ describe('<ForgotPassword />', () => {
                 target: { value: 'orszaghlev.com' }
             });
             fireEvent.submit(getByTestId('forgot-password'));
+            jest.advanceTimersByTime(5001);
 
             expect(document.title).toEqual(`Elfelejtett jelszó | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
 
             await waitFor(() => {
                 expect(mockHistoryPush).not.toHaveBeenCalledWith(ROUTES.HOME);
                 expect(getByTestId('input-email').value).toBe('');
-                expect(queryByTestId('error')).toBeTruthy();
+                expect(queryByTestId('error')).toBeFalsy();
             });
         });
     });

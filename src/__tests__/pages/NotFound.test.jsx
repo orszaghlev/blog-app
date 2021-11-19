@@ -27,6 +27,8 @@ jest.mock('react-router-dom', () => ({
 
 describe('<NotFound />', () => {
     it('Van bejelentkezett felhasználónk, de nem megfelelő aloldalon jár', async () => {
+        jest.useFakeTimers();
+
         const { getByText } = render(
             <Router>
                 <FirebaseContext.Provider value={{ firebase }}>
@@ -37,12 +39,20 @@ describe('<NotFound />', () => {
             </Router>
         );
 
-        expect(getByText('A keresett oldal nem található!')).toBeTruthy();
-        expect(document.title).toEqual(`404 | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
+        await act(async () => {
+            jest.advanceTimersByTime(5001);
+
+            await waitFor(() => {
+                expect(getByText('A keresett oldal nem található!')).toBeTruthy();
+                expect(document.title).toEqual(`404 | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
+            });
+        });
     });
 
     it('A vendég nincsen bejelentkezve és nem megfelelő aloldalon jár, a kezdőlapra tér vissza', async () => {
-        const { getByTestId, getByText } = render(
+        jest.useFakeTimers();
+        
+        const { findByTestId, getByText } = render(
             <Router>
                 <FirebaseContext.Provider value={{ firebase }}>
                     <UserContext.Provider value={{ user: null }}>
@@ -53,7 +63,8 @@ describe('<NotFound />', () => {
         );
 
         await act(async () => {
-            fireEvent.click(getByTestId('not-found-return'));
+            jest.advanceTimersByTime(5001);
+            fireEvent.click(await findByTestId('not-found-return'));
 
             await waitFor(() => {
                 expect(getByText('A keresett oldal nem található!')).toBeTruthy();

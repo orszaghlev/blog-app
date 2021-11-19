@@ -56,6 +56,8 @@ describe('<Login />', () => {
     });
 
     it('Megjelenik a bejelentkezéshez szükséges form, de a felhasználó bejelentkezése sikertelen', async () => {
+        jest.useFakeTimers();
+
         const failToLogin = jest.fn(() => Promise.reject(new Error('Sikertelen bejelentkezés, nem megfelelő e-mail és/vagy jelszó!')));
         const firebase = {
             auth: jest.fn(() => ({
@@ -76,6 +78,7 @@ describe('<Login />', () => {
             });
             await fireEvent.change(getByTestId('input-password'), { target: { value: 'test1234' } });
             fireEvent.submit(getByTestId('login'));
+            jest.advanceTimersByTime(5001);
 
             expect(document.title).toEqual(`Bejelentkezés | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
             expect(failToLogin).toHaveBeenCalled();
@@ -86,7 +89,7 @@ describe('<Login />', () => {
                 expect(mockHistoryPush).not.toHaveBeenCalledWith(ROUTES.HOME);
                 expect(getByTestId('input-email').value).toBe('');
                 expect(getByTestId('input-password').value).toBe('');
-                expect(queryByTestId('error')).toBeTruthy();
+                expect(queryByTestId('error')).toBeFalsy();
             });
         });
     });

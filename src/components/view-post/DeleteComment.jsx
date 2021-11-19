@@ -62,7 +62,7 @@ export default function DeleteComment({ docId, title, language, displayName, com
                         {language === "English" && yourOwnComment && <p>Are you sure you would like to delete your comment?</p>}
                     </Typography>
                     <Typography id="delete-comment-modal-description" sx={{ mt: 2 }}>
-                        <Button size={isTabletOrMobile ? "small" : "medium"} data-testid="delete-comment-delete" variant="contained" color="secondary" style={{ marginRight: "10px" }} onClick={handleDeleteComment}>
+                        <Button size={isTabletOrMobile ? "small" : "medium"} data-testid="delete-comment-delete" variant="contained" color="secondary" style={{ marginRight: "10px", backgroundColor: "#dc3545" }} onClick={handleDeleteComment}>
                             {language === "Hungarian" ? "Törlés" : "Delete"}
                         </Button>
                         <Button size={isTabletOrMobile ? "small" : "medium"} data-testid="delete-comment-return" variant="contained" color="primary" onClick={() => {

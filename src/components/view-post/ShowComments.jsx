@@ -12,7 +12,7 @@ import * as ROUTES from '../../constants/Routes';
 
 export default function ShowComments({ docId, title, language, comments: allComments, commentInput, user, isTabletOrMobile }) {
     const [comments, setComments] = useState(allComments);
-    const [commentToBeEdited, setCommentToBeEdited] = useState();
+    const [commentArrayToBeEdited, setCommentArrayToBeEdited] = useState();
     const useStyles = makeStyles({
         root: {
             maxWidth: 1224,
@@ -25,21 +25,6 @@ export default function ShowComments({ docId, title, language, comments: allComm
 
     return (
         <>
-            {commentToBeEdited &&
-                <>
-                    <EditComment
-                        docId={docId}
-                        title={title}
-                        language={language}
-                        displayName={commentToBeEdited?.displayName}
-                        comment={commentToBeEdited?.comment}
-                        commentInput={commentInput}
-                        yourOwnComment={user?.username === commentToBeEdited?.displayName}
-                        isTabletOrMobile={isTabletOrMobile}
-                    />
-                    <hr />
-                </>
-            }
             <Card className={classes.root}>
                 <div>
                     <br />
@@ -68,12 +53,13 @@ export default function ShowComments({ docId, title, language, comments: allComm
                                         yourOwnComment={user?.username === comment?.displayName}
                                         isTabletOrMobile={isTabletOrMobile}
                                     />
-                                    <div id="goTo"></div>
                                     <FontAwesomeIcon title="Szerkesztés" data-testid="show-edit-form" className="btn btn-warning m-1"
                                         style={{ width: "40px", height: "40px" }} icon={faPencilAlt}
                                         onClick={() => {
-                                            setCommentToBeEdited(comment);
-                                            //document.getElementById("goTo").scrollIntoView();
+                                            setCommentArrayToBeEdited(comment);
+                                            console.log(commentArrayToBeEdited?.comment);
+                                            console.log(commentArrayToBeEdited?.displayName);
+                                            window.scrollTo(0, document.body.scrollHeight);
                                         }} />
                                 </Grid>
                             }
@@ -81,15 +67,34 @@ export default function ShowComments({ docId, title, language, comments: allComm
                     </div>
                 ))}
                 {user &&
-                    <AddComment
-                        docId={docId}
-                        title={title}
-                        language={language}
-                        comments={comments}
-                        setComments={setComments}
-                        commentInput={commentInput}
-                        isTabletOrMobile={isTabletOrMobile}
-                    />
+                    <>
+                        <br />
+                        <AddComment
+                            docId={docId}
+                            title={title}
+                            language={language}
+                            comments={comments}
+                            setComments={setComments}
+                            commentInput={commentInput}
+                            isTabletOrMobile={isTabletOrMobile}
+                        />
+                        <br />
+                    </>
+                }
+                {user && commentArrayToBeEdited &&
+                    <>
+                        <EditComment
+                            docId={docId}
+                            title={title}
+                            language={language}
+                            displayName={commentArrayToBeEdited?.displayName}
+                            comment={commentArrayToBeEdited?.comment}
+                            commentInput={commentInput}
+                            yourOwnComment={user?.username === commentArrayToBeEdited?.displayName}
+                            isTabletOrMobile={isTabletOrMobile}
+                        />
+                        <br />
+                    </>
                 }
                 {!user &&
                     <>

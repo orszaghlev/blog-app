@@ -52,6 +52,7 @@ export default function AddComment({ docId, title, language, comments, setCommen
                 direction="column"
                 justifyContent="center"
                 alignItems="center">
+                <h5>{language === "Hungarian" ? "Új hozzászólás" : "New comment"}</h5>
                 <TextField
                     size={isTabletOrMobile ? "small" : "medium"}
                     inputProps={{ "data-testid": "input-add-comment" }}
@@ -75,7 +76,6 @@ export default function AddComment({ docId, title, language, comments, setCommen
                 >
                     {language === "Hungarian" ? "Közzététel" : "Send"}
                 </Button>
-                <br />
             </Grid>
         </form>
     );

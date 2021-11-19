@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import { Button } from "@material-ui/core";
@@ -12,9 +12,8 @@ import useUserWhoCommented from '../../hooks/UseUserWhoCommented';
 
 export default function EditComment({ docId, title, language, displayName, comment, commentInput, yourOwnComment, isTabletOrMobile }) {
     const { firebase, FieldValue } = useContext(FirebaseContext);
-    const [showForm, setShowForm] = useState(false);
     const { user } = useUserWhoCommented(displayName);
-    const [commentToBeEdited, setCommentToBeEdited] = useState(comment);
+    const [commentToBeEdited, setCommentToBeEdited] = useState("");
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -69,6 +68,10 @@ export default function EditComment({ docId, title, language, displayName, comme
     }));
     const classes = useStyles();
 
+    useEffect(() => {
+        setCommentToBeEdited(comment);
+    }, [comment]);
+
     return (
         <>
             <Grid container
@@ -105,15 +108,10 @@ export default function EditComment({ docId, title, language, displayName, comme
                                 data-testid="edit-comment-modal-button"
                                 variant="contained"
                                 color="primary"
-                                disabled={comment.length < 1}
+                                disabled={commentToBeEdited.length < 1}
                                 onClick={handleOpen}
                             >
                                 {language === "Hungarian" ? "Szerkesztés" : "Edit"}
-                            </Button>
-                            <Button size={isTabletOrMobile ? "small" : "medium"} data-testid="edit-comment-return" variant="contained" color="secondary" onClick={() => {
-                                setShowForm(!showForm);
-                            }}>
-                                {language === "Hungarian" ? "Vissza" : "Return"}
                             </Button>
                             <Modal
                                 open={open}

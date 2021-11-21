@@ -12,6 +12,7 @@ import { getUserByUserId } from '../../services/Firebase';
 import useUser from '../../hooks/UseUser';
 import userFixture from '../../fixtures/LoggedInUser';
 import userWithNoFavoritesOrCommentsFixture from '../../fixtures/LoggedInUserWithNoFavoritesOrComments';
+import { Context as ResponsiveContext } from 'react-responsive';
 
 const mockHistoryPush = jest.fn();
 
@@ -29,7 +30,7 @@ describe('<Profile />', () => {
         jest.clearAllMocks();
     });
 
-    it('Megjelenik a profiloldal, a felhasználó saját adataival, a felhasználó rendelkezik kedvenc bejegyzéssel és saját kommenttel', async () => {
+    it('Megjelenik a profiloldal mobilon, a felhasználó saját adataival, a felhasználó rendelkezik kedvenc bejegyzéssel és saját kommenttel', async () => {
         const firebase = {
             auth: jest.fn(() => ({
             }))
@@ -41,27 +42,29 @@ describe('<Profile />', () => {
 
             const { getByText } = render(
                 <Router>
-                    <FirebaseContext.Provider
-                        value={firebase}
-                    >
-                        <UserContext.Provider
-                            value={{
-                                user: {
-                                    uid: process.env.REACT_APP_FIREBASE_ADMIN_UID,
-                                    displayName: 'admin'
-                                }
-                            }}
+                    <ResponsiveContext.Provider value={{ width: 300 }}>
+                        <FirebaseContext.Provider
+                            value={firebase}
                         >
-                            <LoggedInUserContext.Provider value={{ user: userFixture }}>
-                                <Profile
-                                    user={{
+                            <UserContext.Provider
+                                value={{
+                                    user: {
                                         uid: process.env.REACT_APP_FIREBASE_ADMIN_UID,
                                         displayName: 'admin'
-                                    }}
-                                />
-                            </LoggedInUserContext.Provider>
-                        </UserContext.Provider>
-                    </FirebaseContext.Provider>
+                                    }
+                                }}
+                            >
+                                <LoggedInUserContext.Provider value={{ user: userFixture }}>
+                                    <Profile
+                                        user={{
+                                            uid: process.env.REACT_APP_FIREBASE_ADMIN_UID,
+                                            displayName: 'admin'
+                                        }}
+                                    />
+                                </LoggedInUserContext.Provider>
+                            </UserContext.Provider>
+                        </FirebaseContext.Provider>
+                    </ResponsiveContext.Provider>
                 </Router>
             );
 

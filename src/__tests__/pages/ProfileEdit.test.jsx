@@ -10,6 +10,7 @@ import * as ROUTES from '../../constants/Routes';
 import { doesUsernameExist, getUserByUserId } from '../../services/Firebase';
 import useUser from '../../hooks/UseUser';
 import userFixture from '../../fixtures/LoggedInUser';
+import { Context as ResponsiveContext } from 'react-responsive';
 
 const mockHistoryPush = jest.fn();
 
@@ -27,7 +28,7 @@ describe('<ProfileEdit />', () => {
         jest.clearAllMocks();
     });
 
-    it('Megjelenik a profilszerkesztő oldal, a felhasználó saját adataival', async () => {
+    it('Megjelenik a profilszerkesztő oldal mobilon, a felhasználó saját adataival', async () => {
         const firebase = {
             auth: jest.fn(() => ({
             })),
@@ -41,27 +42,29 @@ describe('<ProfileEdit />', () => {
 
             const { getByTestId, queryByTestId } = render(
                 <Router>
-                    <FirebaseContext.Provider
-                        value={firebase}
-                    >
-                        <UserContext.Provider
-                            value={{
-                                user: {
-                                    uid: process.env.REACT_APP_FIREBASE_ADMIN_UID,
-                                    displayName: 'admin'
-                                }
-                            }}
+                    <ResponsiveContext.Provider value={{ width: 300 }}>
+                        <FirebaseContext.Provider
+                            value={firebase}
                         >
-                            <LoggedInUserContext.Provider value={{ user: userFixture }}>
-                                <ProfileEdit
-                                    user={{
+                            <UserContext.Provider
+                                value={{
+                                    user: {
                                         uid: process.env.REACT_APP_FIREBASE_ADMIN_UID,
                                         displayName: 'admin'
-                                    }}
-                                />
-                            </LoggedInUserContext.Provider>
-                        </UserContext.Provider>
-                    </FirebaseContext.Provider>
+                                    }
+                                }}
+                            >
+                                <LoggedInUserContext.Provider value={{ user: userFixture }}>
+                                    <ProfileEdit
+                                        user={{
+                                            uid: process.env.REACT_APP_FIREBASE_ADMIN_UID,
+                                            displayName: 'admin'
+                                        }}
+                                    />
+                                </LoggedInUserContext.Provider>
+                            </UserContext.Provider>
+                        </FirebaseContext.Provider>
+                    </ResponsiveContext.Provider>
                 </Router>
             );
 

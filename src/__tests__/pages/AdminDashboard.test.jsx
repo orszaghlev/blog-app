@@ -9,10 +9,10 @@ import allPostsFixture from '../../fixtures/CreatedAllPosts';
 import allPostsFixtureHun from '../../fixtures/CreatedAllPostsHun';
 import activePostsFixture from '../../fixtures/CreatedActivePosts';
 import inactivePostsFixture from '../../fixtures/CreatedInactivePosts';
-import sortingPostsFixture from '../../fixtures/CreatedPostsForSorting';
 import inverseSortingPostsFixture from '../../fixtures/CreatedPostsForSortingInverse';
 import useAllPosts from '../../hooks/UseAllPosts';
 import * as ROUTES from '../../constants/Routes';
+import { Context as ResponsiveContext } from 'react-responsive';
 
 const mockHistoryPush = jest.fn();
 
@@ -687,7 +687,7 @@ describe('<AdminDashboard />', () => {
         });
     });
 
-    it('Megjelenik a bejegyzéseket tartalmazó admin felület, az adminisztrátor a bejegyzést szerkesztése gombra kattint, de végül nem szerkeszt', async () => {
+    it('Megjelenik a bejegyzéseket tartalmazó admin felület mobilon, az adminisztrátor a bejegyzés szerkesztése gombra kattint mobilon, de végül nem szerkeszt', async () => {
         document.body.className = "dark-mode";
         window.scrollTo = jest.fn();
 
@@ -696,14 +696,16 @@ describe('<AdminDashboard />', () => {
 
             const { findByTestId, getByTestId } = render(
                 <Router>
-                    <FirebaseContext.Provider
-                        value={{
-                            firebase: {
-                            }
-                        }}
-                    >
-                        <AdminDashboard />
-                    </FirebaseContext.Provider>
+                    <ResponsiveContext.Provider value={{ width: 300 }}>
+                        <FirebaseContext.Provider
+                            value={{
+                                firebase: {
+                                }
+                            }}
+                        >
+                            <AdminDashboard />
+                        </FirebaseContext.Provider>
+                    </ResponsiveContext.Provider>
                 </Router >
             );
 

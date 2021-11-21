@@ -5,6 +5,7 @@ import { act } from 'react-dom/test-utils';
 import ForgotPassword from '../../pages/ForgotPassword';
 import FirebaseContext from '../../contexts/Firebase';
 import * as ROUTES from '../../constants/Routes';
+import { Context as ResponsiveContext } from 'react-responsive';
 
 const mockHistoryPush = jest.fn();
 
@@ -84,16 +85,18 @@ describe('<ForgotPassword />', () => {
         });
     });
 
-    it('Megjelenik az elfelejtett jelszó aloldal, de a felhasználó visszalép a bejelentkezés aloldalra', async () => {
+    it('Megjelenik az elfelejtett jelszó aloldal mobilon, de a felhasználó visszalép a bejelentkezés aloldalra', async () => {
         const firebase = {
             auth: jest.fn(() => ({
             }))
         };
         const { getByTestId } = render(
             <Router>
-                <FirebaseContext.Provider value={{ firebase }}>
-                    <ForgotPassword />
-                </FirebaseContext.Provider>
+                <ResponsiveContext.Provider value={{ width: 300 }}>
+                    <FirebaseContext.Provider value={{ firebase }}>
+                        <ForgotPassword />
+                    </FirebaseContext.Provider>
+                </ResponsiveContext.Provider>
             </Router>
         );
 

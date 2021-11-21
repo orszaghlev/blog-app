@@ -9,6 +9,7 @@ import activePostsFixture from '../../fixtures/CreatedActivePosts';
 import activePostsFixtureHun from '../../fixtures/CreatedActivePostsHun';
 import useActivePosts from '../../hooks/UseActivePosts';
 import inverseSortingPostsFixture from '../../fixtures/CreatedPostsForSortingInverse';
+import { Context as ResponsiveContext } from 'react-responsive';
 
 const mockHistoryPush = jest.fn();
 
@@ -51,7 +52,7 @@ describe('<Home />', () => {
         });
     });
 
-    it('Megjelenik a bejegyzéseket tartalmazó kezdőlap, a bejegyzések adataival', async () => {
+    it('Megjelenik a bejegyzéseket tartalmazó kezdőlap mobilon, a bejegyzések adataival', async () => {
         const firebase = {
             firestore: jest.fn(() => ({
             }))
@@ -62,13 +63,15 @@ describe('<Home />', () => {
 
             const { queryByText } = render(
                 <Router>
-                    <FirebaseContext.Provider
-                        value={firebase}
-                    >
-                        <Home />
-                    </FirebaseContext.Provider>
+                    <ResponsiveContext.Provider value={{ width: 300 }}>
+                        <FirebaseContext.Provider
+                            value={firebase}
+                        >
+                            <Home />
+                        </FirebaseContext.Provider>
+                    </ResponsiveContext.Provider>
                 </Router>
-            );
+            )
 
             await waitFor(() => {
                 expect(document.title).toEqual(`Bejegyzések | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);

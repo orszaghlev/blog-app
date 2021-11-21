@@ -5,6 +5,7 @@ import { act } from 'react-dom/test-utils';
 import AdminCreatePost from '../../pages/AdminCreatePost';
 import FirebaseContext from '../../contexts/Firebase';
 import * as ROUTES from '../../constants/routes';
+import { Context as ResponsiveContext } from 'react-responsive';
 
 const mockHistoryPush = jest.fn();
 
@@ -82,7 +83,7 @@ describe('<AdminCreatePost />', () => {
         });
     });
 
-    it('Megjelenik a bejegyzés létrehozásához szükséges form, de az adminiszrátor visszalép az összes bejegyzést tartalmazó oldalra', async () => {
+    it('Megjelenik a bejegyzés létrehozásához szükséges form mobilon, de az adminisztrátor visszalép az összes bejegyzést tartalmazó oldalra', async () => {
         document.body.className = "dark-mode";
 
         const firebase = {
@@ -91,9 +92,11 @@ describe('<AdminCreatePost />', () => {
         };
         const { getByTestId } = render(
             <Router>
-                <FirebaseContext.Provider value={{ firebase }}>
-                    <AdminCreatePost />
-                </FirebaseContext.Provider>
+                <ResponsiveContext.Provider value={{ width: 300 }}>
+                    <FirebaseContext.Provider value={{ firebase }}>
+                        <AdminCreatePost />
+                    </FirebaseContext.Provider>
+                </ResponsiveContext.Provider>
             </Router>
         );
 

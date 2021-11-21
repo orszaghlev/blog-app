@@ -5,6 +5,7 @@ import { act } from 'react-dom/test-utils';
 import Login from '../../pages/Login';
 import FirebaseContext from '../../contexts/Firebase';
 import * as ROUTES from '../../constants/Routes';
+import { Context as ResponsiveContext } from 'react-responsive';
 
 const mockHistoryPush = jest.fn();
 
@@ -94,16 +95,18 @@ describe('<Login />', () => {
         });
     });
 
-    it('Megjelenik a bejelentkezéshez szükséges form, de a felhasználó visszalép a kezdőoldalra', async () => {
+    it('Megjelenik a bejelentkezéshez szükséges form mobilon, de a felhasználó visszalép a kezdőoldalra', async () => {
         const firebase = {
             auth: jest.fn(() => ({
             }))
         };
         const { getByTestId } = render(
             <Router>
-                <FirebaseContext.Provider value={{ firebase }}>
-                    <Login />
-                </FirebaseContext.Provider>
+                <ResponsiveContext.Provider value={{ width: 300 }}>
+                    <FirebaseContext.Provider value={{ firebase }}>
+                        <Login />
+                    </FirebaseContext.Provider>
+                </ResponsiveContext.Provider>
             </Router>
         );
 

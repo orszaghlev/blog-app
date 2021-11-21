@@ -23,6 +23,7 @@ import postFixtureWithUserCommentHun from '../../fixtures/CreatedPostWithUserCom
 import postFixtureWithUserCommentEndsWithS from '../../fixtures/CreatedPostWithUserCommentWhoseNameEndsWithS';
 import postFixtureInactive from '../../fixtures/CreatedInactivePost';
 import postFixtureInactiveHun from '../../fixtures/CreatedInactivePostHun';
+import { Context as ResponsiveContext } from 'react-responsive';
 
 const mockHistoryPush = jest.fn();
 
@@ -36,7 +37,7 @@ describe('<ViewPost />', () => {
         jest.clearAllMocks();
     });
 
-    it('Megjelenik az angol nyelvű bejegyzéshez tartozó aloldal, a bejegyzéshez tartozó adatokkal', async () => {
+    it('Megjelenik az angol nyelvű bejegyzéshez tartozó aloldal mobilon, a bejegyzéshez tartozó adatokkal', async () => {
         jest.mock('react-router-dom', () => ({
             ...jest.requireActual('react-router-dom'),
             useParams: () => ({ slug: 'react-javascript-library-' }),
@@ -58,22 +59,24 @@ describe('<ViewPost />', () => {
 
             const { getByText } = render(
                 <Router>
-                    <FirebaseContext.Provider
-                        value={firebase}
-                    >
-                        <UserContext.Provider
-                            value={{
-                                user: {
-                                    uid: process.env.REACT_APP_FIREBASE_ADMIN_UID,
-                                    displayName: 'admin'
-                                }
-                            }}
+                    <ResponsiveContext.Provider value={{ width: 300 }}>
+                        <FirebaseContext.Provider
+                            value={firebase}
                         >
-                            <LoggedInUserContext.Provider value={{ user: userFixture }}>
-                                <ViewPost />
-                            </LoggedInUserContext.Provider>
-                        </UserContext.Provider>
-                    </FirebaseContext.Provider>
+                            <UserContext.Provider
+                                value={{
+                                    user: {
+                                        uid: process.env.REACT_APP_FIREBASE_ADMIN_UID,
+                                        displayName: 'admin'
+                                    }
+                                }}
+                            >
+                                <LoggedInUserContext.Provider value={{ user: userFixture }}>
+                                    <ViewPost />
+                                </LoggedInUserContext.Provider>
+                            </UserContext.Provider>
+                        </FirebaseContext.Provider>
+                    </ResponsiveContext.Provider>
                 </Router>
             );
 
@@ -305,8 +308,6 @@ describe('<ViewPost />', () => {
                 </Router>
             );
 
-            //fireEvent.click(getByTestId('not-found-return'));
-
             await waitFor(() => {
                 expect(document.title).toEqual(`${process.env.REACT_APP_FIREBASE_APP_NAME}`);
             });
@@ -353,8 +354,6 @@ describe('<ViewPost />', () => {
                     </FirebaseContext.Provider>
                 </Router>
             );
-
-            //fireEvent.click(getByTestId('not-found-return'));
 
             await waitFor(() => {
                 expect(document.title).toEqual(`${process.env.REACT_APP_FIREBASE_APP_NAME}`);
@@ -790,35 +789,37 @@ describe('<ViewPost />', () => {
 
             const { findByTestId, getByTestId } = render(
                 <Router>
-                    <FirebaseContext.Provider
-                        value={{
-                            firebase: {
-                                firestore: jest.fn(() => ({
-                                    collection: jest.fn(() => ({
-                                        doc: jest.fn(() => ({
-                                            update: jest.fn(() => Promise.resolve('Deleted comment'))
+                    <ResponsiveContext.Provider value={{ width: 300 }}>
+                        <FirebaseContext.Provider
+                            value={{
+                                firebase: {
+                                    firestore: jest.fn(() => ({
+                                        collection: jest.fn(() => ({
+                                            doc: jest.fn(() => ({
+                                                update: jest.fn(() => Promise.resolve('Deleted comment'))
+                                            }))
                                         }))
                                     }))
-                                }))
-                            },
-                            FieldValue: {
-                                arrayRemove: jest.fn()
-                            }
-                        }}
-                    >
-                        <UserContext.Provider
-                            value={{
-                                user: {
-                                    uid: process.env.REACT_APP_FIREBASE_ADMIN_UID,
-                                    displayName: 'admin'
+                                },
+                                FieldValue: {
+                                    arrayRemove: jest.fn()
                                 }
                             }}
                         >
-                            <LoggedInUserContext.Provider value={{ user: userFixture }}>
-                                <ViewPost />
-                            </LoggedInUserContext.Provider>
-                        </UserContext.Provider>
-                    </FirebaseContext.Provider>
+                            <UserContext.Provider
+                                value={{
+                                    user: {
+                                        uid: process.env.REACT_APP_FIREBASE_ADMIN_UID,
+                                        displayName: 'admin'
+                                    }
+                                }}
+                            >
+                                <LoggedInUserContext.Provider value={{ user: userFixture }}>
+                                    <ViewPost />
+                                </LoggedInUserContext.Provider>
+                            </UserContext.Provider>
+                        </FirebaseContext.Provider>
+                    </ResponsiveContext.Provider>
                 </Router>
             );
 
@@ -1030,36 +1031,38 @@ describe('<ViewPost />', () => {
 
             const { findByTestId, getByText, getByTestId, queryByTestId } = render(
                 <Router>
-                    <FirebaseContext.Provider
-                        value={{
-                            firebase: {
-                                firestore: jest.fn(() => ({
-                                    collection: jest.fn(() => ({
-                                        doc: jest.fn(() => ({
-                                            update: jest.fn(() => Promise.resolve('Edited comment'))
+                    <ResponsiveContext.Provider value={{ width: 300 }}>
+                        <FirebaseContext.Provider
+                            value={{
+                                firebase: {
+                                    firestore: jest.fn(() => ({
+                                        collection: jest.fn(() => ({
+                                            doc: jest.fn(() => ({
+                                                update: jest.fn(() => Promise.resolve('Edited comment'))
+                                            }))
                                         }))
                                     }))
-                                }))
-                            },
-                            FieldValue: {
-                                arrayUnion: jest.fn(),
-                                arrayRemove: jest.fn()
-                            }
-                        }}
-                    >
-                        <UserContext.Provider
-                            value={{
-                                user: {
-                                    uid: process.env.REACT_APP_FIREBASE_ADMIN_UID,
-                                    displayName: 'admin'
+                                },
+                                FieldValue: {
+                                    arrayUnion: jest.fn(),
+                                    arrayRemove: jest.fn()
                                 }
                             }}
                         >
-                            <LoggedInUserContext.Provider value={{ user: userFixture }}>
-                                <ViewPost />
-                            </LoggedInUserContext.Provider>
-                        </UserContext.Provider>
-                    </FirebaseContext.Provider>
+                            <UserContext.Provider
+                                value={{
+                                    user: {
+                                        uid: process.env.REACT_APP_FIREBASE_ADMIN_UID,
+                                        displayName: 'admin'
+                                    }
+                                }}
+                            >
+                                <LoggedInUserContext.Provider value={{ user: userFixture }}>
+                                    <ViewPost />
+                                </LoggedInUserContext.Provider>
+                            </UserContext.Provider>
+                        </FirebaseContext.Provider>
+                    </ResponsiveContext.Provider>
                 </Router>
             );
 

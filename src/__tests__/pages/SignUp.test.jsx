@@ -6,6 +6,7 @@ import SignUp from '../../pages/SignUp';
 import FirebaseContext from '../../contexts/Firebase';
 import { doesUsernameExist, doesEmailAddressExist } from '../../services/Firebase';
 import * as ROUTES from '../../constants/routes';
+import { Context as ResponsiveContext } from 'react-responsive';
 
 const mockHistoryPush = jest.fn();
 
@@ -176,16 +177,18 @@ describe('<SignUp />', () => {
         });
     });
 
-    it('Megjelenik a regisztrációhoz szükséges form, de a felhasználó visszalép a kezdőoldalra', async () => {
+    it('Megjelenik a regisztrációhoz szükséges form mobilon, de a felhasználó visszalép a kezdőoldalra', async () => {
         const firebase = {
             auth: jest.fn(() => ({
             }))
         };
         const { getByTestId } = render(
             <Router>
-                <FirebaseContext.Provider value={{ firebase }}>
-                    <SignUp />
-                </FirebaseContext.Provider>
+                <ResponsiveContext.Provider value={{ width: 300 }}>
+                    <FirebaseContext.Provider value={{ firebase }}>
+                        <SignUp />
+                    </FirebaseContext.Provider>
+                </ResponsiveContext.Provider>
             </Router>
         );
 

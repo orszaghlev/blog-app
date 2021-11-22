@@ -687,7 +687,7 @@ describe('<AdminDashboard />', () => {
         });
     });
 
-    it('Megjelenik a bejegyzéseket tartalmazó admin felület mobilon, az adminisztrátor a bejegyzés szerkesztése gombra kattint mobilon, de végül nem szerkeszt', async () => {
+    it('Megjelenik a bejegyzéseket tartalmazó admin felület mobilon, az adminisztrátor a bejegyzés szerkesztése gombra kattint, de végül nem szerkeszt', async () => {
         document.body.className = "dark-mode";
         window.scrollTo = jest.fn();
 

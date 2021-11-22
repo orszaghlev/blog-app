@@ -12,10 +12,14 @@ export default function ShowNotFound() {
     const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' });
 
     useEffect(() => {
-        setTimeout(() => {
-            setIsUnavailable(true);
-        }, 5000);
-    })
+        let unmounted = false;
+        if (!unmounted) {
+            setTimeout(() => {
+                setIsUnavailable(true);
+            }, 5000);
+        }
+        return () => { unmounted = true };
+    }, []);
 
     return (
         <Grid container

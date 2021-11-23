@@ -267,7 +267,7 @@ export default function ShowAllPosts({ allPosts, isTabletOrMobile }) {
                                                 <button data-testid="scroll-to-edit-post-button" className="btn btn-warning m-1"
                                                     style={{ width: "40px", height: "40px" }} onClick={() => {
                                                         setPostToBeEdited(post);
-                                                        window.scrollTo(0, 70);
+                                                        window.scrollTo(0, 64);
                                                     }}>
                                                     <FontAwesomeIcon icon={faPencilAlt} title="Szerkesztés" />
                                                 </button>

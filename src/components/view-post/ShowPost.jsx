@@ -121,7 +121,7 @@ export default function ShowPost({ post, user }) {
                         hashtag={"#" + post?.title.toLowerCase().replace(' ', '_')}
                         description={post?.description}
                         className="facebook-share-button">
-                        <FacebookIcon size={32} round />
+                        <FacebookIcon size={32} round style={{ marginRight: "10px" }} />
                     </FacebookShareButton>
                     <TwitterShareButton
                         title={post?.title}

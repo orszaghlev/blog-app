@@ -28,7 +28,7 @@ export default function ViewPost() {
     }, [post]);
 
     return (
-        <div className="p-3 text-center m-auto" style={{ maxWidth: "1224px" }}>
+        <div className="text-center m-auto" style={{ maxWidth: "900px" }}>
             <MetaTags>
                 <meta name="description" content="Ha a vendég egy aktív bejegyzést kért le, akkor ezen az oldalon olvashatja el annak teljes tartalmát." />
                 <meta property="og:title" content="Bejegyzés" />

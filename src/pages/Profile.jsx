@@ -7,12 +7,10 @@ import ShowProfile from "../components/profile/ShowProfile";
 import ShowFavoritePosts from "../components/profile/ShowFavoritePosts";
 import ShowOwnComments from "../components/profile/ShowOwnComments";
 import MetaTags from 'react-meta-tags';
-import { useMediaQuery } from 'react-responsive';
 
 export default function Profile() {
     const { user: loggedInUser } = useContext(UserContext);
     const { user } = useUser(loggedInUser?.uid);
-    const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' });
 
     useEffect(() => {
         document.title = `Profil | ${process.env.REACT_APP_FIREBASE_APP_NAME}`;
@@ -44,10 +42,10 @@ export default function Profile() {
                         }
                     },
                 }}>
-                    <ShowProfile user={user} isTabletOrMobile={isTabletOrMobile} />
-                    <hr className="mx-auto" style={{ width: isTabletOrMobile ? 250 : 700 }} />
+                    <ShowProfile user={user} />
+                    <hr className="mx-auto" style={{ maxWidth: 500 }} />
                     <ShowFavoritePosts user={user} />
-                    <hr className="mx-auto" style={{ width: isTabletOrMobile ? 250 : 700 }} />
+                    <hr className="mx-auto" style={{ maxWidth: 500 }} />
                     <ShowOwnComments user={user} />
                 </motion.div>
             </div>

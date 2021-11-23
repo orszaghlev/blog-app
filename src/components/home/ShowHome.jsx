@@ -21,7 +21,7 @@ export default function ShowHome({ activePosts }) {
     const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' });
     const useStyles = makeStyles((theme) => ({
         root: {
-            width: isTabletOrMobile ? 250 : 700,
+            maxWidth: 408,
         },
         media: {
             height: 140,
@@ -74,7 +74,7 @@ export default function ShowHome({ activePosts }) {
                         li.content.toLowerCase().includes(search.toLowerCase())))
                     .sort((a, b) => b.date.localeCompare(a.date))
                     .map((post, i) => (
-                        <div key={i} className="col-sm-3 d-inline-block m-1 p-2 h-100">
+                        <div key={i} className="col-sm-3 d-inline-block m-2 p-2">
                             <Grid container
                                 direction="row"
                                 justifyContent="center"

@@ -56,6 +56,7 @@ export default function ShowForgotPassword() {
                     )}
                     <TextField
                         size={isTabletOrMobile ? "small" : "medium"}
+                        style={{ maxWidth: 300 }}
                         className="TextField"
                         required
                         inputProps={{ "data-testid": "input-email" }}

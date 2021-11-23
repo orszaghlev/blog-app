@@ -95,6 +95,7 @@ export default function ShowSignUp() {
                     )}
                     <TextField
                         size={isTabletOrMobile ? "small" : "medium"}
+                        style={{ maxWidth: 300 }}
                         className="TextField"
                         required
                         inputProps={{ "data-testid": "input-username" }}
@@ -106,6 +107,7 @@ export default function ShowSignUp() {
                     />
                     <TextField
                         size={isTabletOrMobile ? "small" : "medium"}
+                        style={{ maxWidth: 300 }}
                         className="TextField"
                         required
                         inputProps={{ "data-testid": "input-fullname" }}
@@ -117,6 +119,7 @@ export default function ShowSignUp() {
                     />
                     <TextField
                         size={isTabletOrMobile ? "small" : "medium"}
+                        style={{ maxWidth: 300 }}
                         className="TextField"
                         required
                         inputProps={{ "data-testid": "input-email" }}
@@ -128,6 +131,7 @@ export default function ShowSignUp() {
                     />
                     <TextField
                         size={isTabletOrMobile ? "small" : "medium"}
+                        style={{ maxWidth: 300 }}
                         className="TextField"
                         required
                         inputProps={{ "data-testid": "input-password" }}

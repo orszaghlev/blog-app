@@ -78,6 +78,7 @@ export default function ShowLogin() {
                         onChange={({ target }) => setPassword(target.value)}
                         value={password}
                         autoComplete="off"
+                        size={isTabletOrMobile ? "small" : "medium"}
                         style={{ maxWidth: 300 }}
                     />
                 </Grid>

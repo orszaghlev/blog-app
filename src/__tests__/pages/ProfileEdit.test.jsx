@@ -236,6 +236,60 @@ describe('<ProfileEdit />', () => {
                 expect(mockHistoryPush).not.toHaveBeenCalledWith(ROUTES.PROFILE);
                 expect(getByText('Küldtünk az Ön e-mail címére egy jelszóváltoztatást segítő mailt!')).toBeTruthy();
                 expect(queryByTestId('error')).toBeFalsy();
+                expect(queryByTestId('notification')).toBeTruthy();
+            });
+        });
+    });
+
+    it('Megjelenik a profilszerkesztő oldal, de a felhasználó a jelszóváltoztató gombra kattint és eltűnik az értesítés', async () => {
+        jest.useFakeTimers();
+
+        await act(async () => {
+            getUserByUserId.mockImplementation(() => [userFixture]);
+            useUser.mockImplementation(() => ({ user: userFixture }));
+
+            const { getByTestId, queryByTestId } = render(
+                <Router>
+                    <FirebaseContext.Provider
+                        value={{
+                            firebase: {
+                                auth: jest.fn(() => ({
+                                    sendPasswordResetEmail: jest.fn(() => Promise.resolve('Küldtünk az Ön e-mail címére egy jelszóváltoztatást segítő mailt!'))
+                                })),
+                                firestore: jest.fn(() => ({
+                                }))
+                            }
+                        }}
+                    >
+                        <UserContext.Provider
+                            value={{
+                                user: {
+                                    uid: process.env.REACT_APP_FIREBASE_ADMIN_UID,
+                                    displayName: 'admin'
+                                }
+                            }}
+                        >
+                            <LoggedInUserContext.Provider value={{ user: userFixture }}>
+                                <ProfileEdit
+                                    user={{
+                                        uid: process.env.REACT_APP_FIREBASE_ADMIN_UID,
+                                        displayName: 'admin'
+                                    }}
+                                />
+                            </LoggedInUserContext.Provider>
+                        </UserContext.Provider>
+                    </FirebaseContext.Provider>
+                </Router>
+            );
+
+            fireEvent.click(getByTestId('change-password'));
+            jest.advanceTimersByTime(5001);
+
+            expect(document.title).toEqual(`Profil szerkesztése | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
+
+            await waitFor(() => {
+                expect(mockHistoryPush).not.toHaveBeenCalledWith(ROUTES.PROFILE);
+                expect(queryByTestId('error')).toBeFalsy();
             });
         });
     });

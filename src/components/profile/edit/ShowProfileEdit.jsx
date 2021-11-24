@@ -32,10 +32,6 @@ export default function ShowProfileEdit({ user }) {
     const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' });
     const handlePasswordChange = async () => {
         await firebase.auth().sendPasswordResetEmail(user?.emailAddress);
-        setNotification("Küldtünk az Ön e-mail címére egy jelszóváltoztatást segítő mailt!");
-        setTimeout(() => {
-            setNotification("");
-        }, 5000);
     };
 
     useEffect(() => {
@@ -92,6 +88,10 @@ export default function ShowProfileEdit({ user }) {
                     <Grid item xs>
                         <Button data-testid="change-password" color="secondary" onClick={() => {
                             handlePasswordChange();
+                            setNotification("Küldtünk az Ön e-mail címére egy jelszóváltoztatást segítő mailt!");
+                            setTimeout(() => {
+                                setNotification("");
+                            }, 5000);
                         }}>
                             Jelszóváltoztatás
                         </Button>
@@ -111,11 +111,11 @@ export default function ShowProfileEdit({ user }) {
                             </Button>
                         </Grid>
                     </Grid>
-                    {error && (
+                    {error &&
                         <div data-testid="error" className="text-danger">
                             {error}
                         </div>
-                    )}
+                    }
                     {notification &&
                         <div data-testid="notification" className="text-success m-2">
                             {notification}

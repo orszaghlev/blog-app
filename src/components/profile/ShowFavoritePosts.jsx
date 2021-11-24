@@ -15,10 +15,10 @@ export default function ShowFavoritePosts({ user }) {
             <h5>{user?.favoritePosts?.length === 0 ? "Jelenleg nincsenek kedvenc bejegyzései!" : "Kedvenc bejegyzések"}</h5>
             {user?.favoritePosts?.map((postTitle, i) => (
                 <div key={i}>
-                    <Button data-testid="user-favoritePost-button" variant="text" color="primary" onClick={() => {
+                    <Button size="small" data-testid="user-favoritePost-button" variant="text" color="primary" onClick={() => {
                         history.push(`/posts/${slugify(postTitle)}`)
                     }}>
-                        <p>{postTitle}</p>
+                        <h6>{postTitle}</h6>
                     </Button>
                 </div>
             ))}

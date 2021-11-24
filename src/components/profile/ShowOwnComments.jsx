@@ -15,7 +15,7 @@ export default function ShowOwnComments({ user }) {
             <h5>{user?.ownComments.length === 0 ? "Jelenleg nincsenek saját hozzászólásai!" : "Saját hozzászólások"}</h5>
             {user?.ownComments?.map((comment, i) => (
                 <div key={i}>
-                    <Button data-testid="user-comment-button" variant="text" color="primary" onClick={() => {
+                    <Button size="small" data-testid="user-comment-button" variant="text" color="primary" onClick={() => {
                         history.push(`/posts/${slugify(comment?.title)}`)
                     }}>
                         <h6>{comment?.title}</h6>

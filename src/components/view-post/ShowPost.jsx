@@ -132,9 +132,12 @@ export default function ShowPost({ post, user }) {
                 </Grid>
                 <br />
                 {notification && (
-                    <div className="text-success">
-                        {notification}
-                    </div>
+                    <>
+                        <div className="text-success">
+                            {notification}
+                        </div>
+                        <br />
+                    </>
                 )}
             </Card>
         </>

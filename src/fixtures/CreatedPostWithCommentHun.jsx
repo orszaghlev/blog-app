@@ -12,7 +12,8 @@ export default {
     comments: [
         {
             "comment": "(Y)",
-            "displayName": "admin"
+            "displayName": "admin",
+            "isEdited": true
         }
     ],
     saves: []

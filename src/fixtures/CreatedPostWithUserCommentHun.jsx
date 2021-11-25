@@ -12,7 +12,8 @@ export default {
     comments: [
         {
             "comment": "(Y)",
-            "displayName": "peldageza"
+            "displayName": "peldageza",
+            "isEdited": false
         }
     ],
     saves: []

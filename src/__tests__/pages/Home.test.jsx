@@ -138,6 +138,39 @@ describe('<Home />', () => {
         });
     });
 
+    it('Megjelenik a bejegyzéseket tartalmazó kezdőlap, de kereséskor nincs találat', async () => {
+        const firebase = {
+            firestore: jest.fn(() => ({
+            }))
+        };
+
+        await act(async () => {
+            useActivePosts.mockImplementation(() => ({ posts: inverseSortingPostsFixture }));
+            
+            const { getByTestId, getByText, queryByText } = render(
+                <Router>
+                    <FirebaseContext.Provider
+                        value={firebase}
+                    >
+                        <Home />
+                    </FirebaseContext.Provider>
+                </Router>
+            );
+
+            expect(queryByText('HTML5')).toBeInTheDocument();
+            await fireEvent.change(getByTestId('input-search'), {
+                target: { value: 'Nem szerepel a cikkben' }
+            });
+            expect(queryByText('HTML5')).not.toBeInTheDocument();
+
+            await waitFor(() => {
+                expect(document.title).toEqual(`Bejegyzések | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
+                expect(getByTestId('input-search').value).toBe('Nem szerepel a cikkben');
+                expect(getByText('Nincs találat!')).toBeTruthy();
+            });
+        });
+    });
+
     it('Megjelenik a bejegyzéseket tartalmazó kezdőlap, a felhasználó ír egy betűt a keresőbe', async () => {
         const firebase = {
             firestore: jest.fn(() => ({

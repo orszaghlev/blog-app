@@ -107,6 +107,22 @@ export default function ShowHome({ activePosts }) {
                         </div>
                     ))
             }
+            {
+                activePosts?.filter(li =>
+                    (new Date(li.date).getTime() < new Date().getTime())
+                    && (hunSearch ? li.language.toLowerCase().includes("hungarian") : li.language.toLowerCase().includes(""))
+                    && (li.tag.toLowerCase().includes(search.toLowerCase()) ||
+                        li.language.toLowerCase().includes(search.toLowerCase()) ||
+                        li.date.includes(search.toLowerCase()) ||
+                        li.title.toLowerCase().includes(search.toLowerCase()) ||
+                        li.slug.toLowerCase().includes(search.toLowerCase()) ||
+                        li.description.toLowerCase().includes(search.toLowerCase()) ||
+                        li.content.toLowerCase().includes(search.toLowerCase()))).length === 0 ?
+                    <>
+                        <br />
+                        <h5>Nincs találat!</h5>
+                    </> : ""
+            }
         </>
     )
 }

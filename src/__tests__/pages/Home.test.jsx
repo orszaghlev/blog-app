@@ -117,7 +117,7 @@ describe('<Home />', () => {
         await act(async () => {
             useActivePosts.mockImplementation(() => ({ posts: activePostsFixtureHun }));
 
-            const { getByTestId, getByText, queryByText } = render(
+            const { findByText, findByTestId, getByTestId, getByText, queryByText } = render(
                 <Router>
                     <FirebaseContext.Provider
                         value={firebase}
@@ -129,7 +129,8 @@ describe('<Home />', () => {
 
             expect(queryByText('HTML5')).toBeInTheDocument();
             fireEvent.click(getByTestId('hungarian-posts-only'));
-            expect(queryByText('HTML5')).toBeInTheDocument();
+            expect(await findByText('HTML5')).toBeTruthy();
+            fireEvent.click(await findByTestId('hungarian-posts-only'));
 
             await waitFor(() => {
                 expect(document.title).toEqual(`Bejegyzések | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
@@ -146,7 +147,7 @@ describe('<Home />', () => {
 
         await act(async () => {
             useActivePosts.mockImplementation(() => ({ posts: inverseSortingPostsFixture }));
-            
+
             const { getByTestId, getByText, queryByText } = render(
                 <Router>
                     <FirebaseContext.Provider

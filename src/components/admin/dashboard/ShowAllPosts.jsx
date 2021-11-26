@@ -120,7 +120,7 @@ export default function ShowAllPosts({ allPosts, isTabletOrMobile }) {
                         setHunCount(hunCount + 1);
                         if (hunCount % 2 === 1) {
                             setHunSearch(true);
-                        } else if (hunCount % 2 === 0) {
+                        } else {
                             setHunSearch(false);
                         }
                     }}>Csak magyar bejegyzések</Button>
@@ -134,7 +134,7 @@ export default function ShowAllPosts({ allPosts, isTabletOrMobile }) {
                         if (activeCount % 2 === 1) {
                             setActive(true);
                             setInactive(false);
-                        } else if (activeCount % 2 === 0) {
+                        } else {
                             setActive(false);
                         }
                     }}>Csak aktív bejegyzések</Button>
@@ -147,7 +147,7 @@ export default function ShowAllPosts({ allPosts, isTabletOrMobile }) {
                         if (inactiveCount % 2 === 1) {
                             setInactive(true);
                             setActive(false);
-                        } else if (inactiveCount % 2 === 0) {
+                        } else {
                             setInactive(false);
                         }
                     }}>Csak inaktív bejegyzések</Button>

@@ -55,7 +55,7 @@ export default function ShowHome({ activePosts }) {
                         setHunCount(hunCount + 1);
                         if (hunCount % 2 === 1) {
                             setHunSearch(true);
-                        } else if (hunCount % 2 === 0) {
+                        } else {
                             setHunSearch(false);
                         }
                     }}>Csak magyar bejegyzések

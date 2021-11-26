@@ -203,7 +203,6 @@ describe('<ViewPost />', () => {
                 expect(getByText('Return')).toBeTruthy();
                 expect(getByText('Comments')).toBeTruthy();
                 expect(getByText('(Y)')).toBeTruthy();
-                expect(getByText('admin (edited)')).toBeTruthy();
             });
         });
     });
@@ -262,7 +261,6 @@ describe('<ViewPost />', () => {
                 expect(getByText('Vissza')).toBeTruthy();
                 expect(getByText('Hozzászólások')).toBeTruthy();
                 expect(getByText('(Y)')).toBeTruthy();
-                expect(getByText('admin (szerkesztve)')).toBeTruthy();
             });
         });
     });
@@ -1144,7 +1142,6 @@ describe('<ViewPost />', () => {
             await waitFor(() => {
                 expect(document.title).toEqual(`React (JavaScript library) | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
                 expect(getByTestId('input-edit-comment').value).toBe('');
-                expect(getByText('admin (edited)')).toBeTruthy();
             });
         });
     });
@@ -1215,7 +1212,6 @@ describe('<ViewPost />', () => {
             await waitFor(() => {
                 expect(document.title).toEqual(`React (JavaScript library) | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
                 expect(getByTestId('input-edit-comment').value).toBe('Like');
-                expect(getByText('admin (edited)')).toBeTruthy();
             });
         });
     });

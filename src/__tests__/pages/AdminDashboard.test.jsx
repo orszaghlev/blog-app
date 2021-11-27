@@ -8,6 +8,8 @@ import FirebaseContext from '../../contexts/Firebase';
 import allPostsFixture from '../../fixtures/CreatedAllPosts';
 import allPostsNoArrayFixture from '../../fixtures/CreatedAllPostsNoCommentsOrSavesArray';
 import allPostsFixtureHun from '../../fixtures/CreatedAllPostsHun';
+import allPostsFixtureHun2 from '../../fixtures/CreatedAllPostsHun2';
+import allPostsFixtureHun3 from '../../fixtures/CreatedAllPostsHun3';
 import activePostsFixture from '../../fixtures/CreatedActivePosts';
 import inactivePostsFixture from '../../fixtures/CreatedInactivePosts';
 import inverseSortingPostsFixture from '../../fixtures/CreatedPostsForSortingInverse';
@@ -464,9 +466,9 @@ describe('<AdminDashboard />', () => {
         };
 
         await act(async () => {
-            useAllPosts.mockImplementation(() => ({ posts: allPostsFixtureHun }));
+            useAllPosts.mockImplementation(() => ({ posts: allPostsFixtureHun3 }));
 
-            const { findByText, findByTestId, getByTestId } = render(
+            const { findAllByText, findByTestId, getByTestId } = render(
                 <Router>
                     <FirebaseContext.Provider
                         value={firebase}
@@ -477,7 +479,7 @@ describe('<AdminDashboard />', () => {
             );
 
             fireEvent.click(getByTestId('sort-by-title-button'));
-            expect(await findByText('HTML5')).toBeTruthy();
+            expect(await findAllByText('HTML5')).toBeTruthy();
             fireEvent.click(await findByTestId('sort-by-title-button'));
 
             await waitFor(() => {
@@ -551,7 +553,7 @@ describe('<AdminDashboard />', () => {
         };
 
         await act(async () => {
-            useAllPosts.mockImplementation(() => ({ posts: allPostsFixtureHun }));
+            useAllPosts.mockImplementation(() => ({ posts: allPostsFixtureHun2 }));
 
             const { findByText, findByTestId, getByTestId } = render(
                 <Router>

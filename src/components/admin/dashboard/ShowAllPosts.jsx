@@ -120,7 +120,7 @@ export default function ShowAllPosts({ allPosts, isTabletOrMobile }) {
                         setHunCount(hunCount + 1);
                         if (hunCount % 2 === 1) {
                             setHunSearch(true);
-                        } else if (hunCount % 2 === 0) {
+                        } else {
                             setHunSearch(false);
                         }
                     }}>Csak magyar bejegyzések</Button>
@@ -134,7 +134,7 @@ export default function ShowAllPosts({ allPosts, isTabletOrMobile }) {
                         if (activeCount % 2 === 1) {
                             setActive(true);
                             setInactive(false);
-                        } else if (activeCount % 2 === 0) {
+                        } else {
                             setActive(false);
                         }
                     }}>Csak aktív bejegyzések</Button>
@@ -147,139 +147,153 @@ export default function ShowAllPosts({ allPosts, isTabletOrMobile }) {
                         if (inactiveCount % 2 === 1) {
                             setInactive(true);
                             setActive(false);
-                        } else if (inactiveCount % 2 === 0) {
+                        } else {
                             setInactive(false);
                         }
                     }}>Csak inaktív bejegyzések</Button>
             </Grid>
             <div className="p-3 content text-center m-auto" style={{ maxWidth: "1224px" }}>
-                <TableContainer component={Paper}>
-                    <Table className={classes.table} aria-label="simple table">
-                        <TableHead>
-                            <TableRow>
-                                <StyledTableCell align="center">
-                                    <Button data-testid="sort-by-id-button" style={{ color: "white" }} onClick={() => requestSort('id')} className={getClassNamesFor('id')}>
-                                        ID
-                                        {getClassNamesFor('id') === "ascending" ? <FontAwesomeIcon icon={faSortUp} /> : ""}
-                                        {getClassNamesFor('id') === "descending" ? <FontAwesomeIcon icon={faSortDown} /> : ""}
-                                    </Button>
-                                </StyledTableCell>
-                                <StyledTableCell align="center">
-                                    <Button data-testid="sort-by-title-button" style={{ color: "white" }} onClick={() => requestSort('title')} className={getClassNamesFor('title')}>
-                                        CÍM
-                                        {getClassNamesFor('title') === "ascending" ? <FontAwesomeIcon icon={faSortUp} /> : ""}
-                                        {getClassNamesFor('title') === "descending" ? <FontAwesomeIcon icon={faSortDown} /> : ""}
-                                    </Button>
-                                </StyledTableCell>
-                                <StyledTableCell align="center">
-                                    <Button data-testid="sort-by-description-button" style={{ color: "white" }} onClick={() => requestSort('description')} className={getClassNamesFor('description')}>
-                                        LEÍRÁS
-                                        {getClassNamesFor('description') === "ascending" ? <FontAwesomeIcon icon={faSortUp} /> : ""}
-                                        {getClassNamesFor('description') === "descending" ? <FontAwesomeIcon icon={faSortDown} /> : ""}
-                                    </Button>
-                                </StyledTableCell>
-                                <StyledTableCell align="center">
-                                    <Button data-testid="sort-by-content-button" style={{ color: "white" }} onClick={() => requestSort('content')} className={getClassNamesFor('content')}>
-                                        TARTALOM
-                                        {getClassNamesFor('content') === "ascending" ? <FontAwesomeIcon icon={faSortUp} /> : ""}
-                                        {getClassNamesFor('content') === "descending" ? <FontAwesomeIcon icon={faSortDown} /> : ""}
-                                    </Button>
-                                </StyledTableCell>
-                                <StyledTableCell align="center">
-                                    <Button style={{ color: "white" }}>
-                                        KÉP
-                                    </Button>
-                                </StyledTableCell>
-                                <StyledTableCell align="center">
-                                    <Button data-testid="sort-by-tag-button" style={{ color: "white" }} onClick={() => requestSort('tag')} className={getClassNamesFor('tag')}>
-                                        CÍMKÉK
-                                        {getClassNamesFor('tag') === "ascending" ? <FontAwesomeIcon icon={faSortUp} /> : ""}
-                                        {getClassNamesFor('tag') === "descending" ? <FontAwesomeIcon icon={faSortDown} /> : ""}
-                                    </Button>
-                                </StyledTableCell>
-                                <StyledTableCell align="center">
-                                    <Button data-testid="sort-by-date-button" style={{ color: "white" }} onClick={() => requestSort('date')} className={getClassNamesFor('date')}>
-                                        DÁTUM
-                                        {getClassNamesFor('date') === "ascending" ? <FontAwesomeIcon icon={faSortUp} /> : ""}
-                                        {getClassNamesFor('date') === "descending" ? <FontAwesomeIcon icon={faSortDown} /> : ""}
-                                    </Button>
-                                </StyledTableCell>
-                                <StyledTableCell align="center">
-                                    <Button style={{ color: "white" }}>
-                                        MŰVELETEK
-                                    </Button>
-                                </StyledTableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {sortedItems.filter(li =>
-                                (hunSearch ? li.language.toLowerCase().includes("hungarian") : li.language.toLowerCase().includes(""))
-                                && (active ? li.isActive.toLowerCase().includes("true") : li.isActive.toLowerCase().includes(""))
-                                && (inactive ? li.isActive.toLowerCase().includes("false") : li.isActive.toLowerCase().includes(""))
-                                && (li.isActive.toString().toLowerCase().includes(search.toLowerCase()) ||
-                                    li.tag.toLowerCase().includes(search.toLowerCase()) ||
-                                    li.language.toLowerCase().includes(search.toLowerCase()) ||
-                                    li.date.includes(search.toLowerCase()) ||
-                                    li.title.toLowerCase().includes(search.toLowerCase()) ||
-                                    li.slug.toLowerCase().includes(search.toLowerCase()) ||
-                                    li.description.toLowerCase().includes(search.toLowerCase()) ||
-                                    li.content.toLowerCase().includes(search.toLowerCase())))
-                                .map((post) => (
-                                    <TableRow key={post?.id}>
-                                        <TableCell align="center">{post?.id}</TableCell>
-                                        <TableCell align="center">{post?.title}</TableCell>
-                                        <TableCell align="center" >
-                                            <textarea readOnly value={post?.description} className="form-control" rows="5" style={{ height: "150px", width: "150px" }} />
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            <CKEditor
-                                                editor={ClassicEditor}
-                                                data={post?.content}
-                                                disabled={true}
-                                                config={{
-                                                    alignment: {
-                                                        options: ['justify']
-                                                    },
-                                                    toolbar: []
-                                                }}
-                                                onReady={editor => {
-                                                    editorRef.current = editor;
-                                                }}
-                                            />
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            <div style={{ width: "100px", height: "100px" }}>
-                                                <ModalImage
-                                                    alt={post?.title}
-                                                    small={post?.imgURL}
-                                                    large={post?.imgURL}
+                {sortedItems.filter(li =>
+                    (hunSearch ? li.language.toLowerCase().includes("hungarian") : li.language.toLowerCase().includes(""))
+                    && (active ? li.isActive.toLowerCase().includes("true") : li.isActive.toLowerCase().includes(""))
+                    && (inactive ? li.isActive.toLowerCase().includes("false") : li.isActive.toLowerCase().includes(""))
+                    && (li.isActive.toString().toLowerCase().includes(search.toLowerCase()) ||
+                        li.tag.toLowerCase().includes(search.toLowerCase()) ||
+                        li.language.toLowerCase().includes(search.toLowerCase()) ||
+                        li.date.includes(search.toLowerCase()) ||
+                        li.title.toLowerCase().includes(search.toLowerCase()) ||
+                        li.slug.toLowerCase().includes(search.toLowerCase()) ||
+                        li.description.toLowerCase().includes(search.toLowerCase()) ||
+                        li.content.toLowerCase().includes(search.toLowerCase()))).length === 0 ?
+                    <h5>Nincs találat!</h5> :
+                    <TableContainer component={Paper}>
+                        <Table className={classes.table} aria-label="simple table">
+                            <TableHead>
+                                <TableRow>
+                                    <StyledTableCell align="center">
+                                        <Button data-testid="sort-by-id-button" style={{ color: "white" }} onClick={() => requestSort('id')} className={getClassNamesFor('id')}>
+                                            ID
+                                            {getClassNamesFor('id') === "ascending" ? <FontAwesomeIcon icon={faSortUp} /> : ""}
+                                            {getClassNamesFor('id') === "descending" ? <FontAwesomeIcon icon={faSortDown} /> : ""}
+                                        </Button>
+                                    </StyledTableCell>
+                                    <StyledTableCell align="center">
+                                        <Button data-testid="sort-by-title-button" style={{ color: "white" }} onClick={() => requestSort('title')} className={getClassNamesFor('title')}>
+                                            CÍM
+                                            {getClassNamesFor('title') === "ascending" ? <FontAwesomeIcon icon={faSortUp} /> : ""}
+                                            {getClassNamesFor('title') === "descending" ? <FontAwesomeIcon icon={faSortDown} /> : ""}
+                                        </Button>
+                                    </StyledTableCell>
+                                    <StyledTableCell align="center">
+                                        <Button data-testid="sort-by-description-button" style={{ color: "white" }} onClick={() => requestSort('description')} className={getClassNamesFor('description')}>
+                                            LEÍRÁS
+                                            {getClassNamesFor('description') === "ascending" ? <FontAwesomeIcon icon={faSortUp} /> : ""}
+                                            {getClassNamesFor('description') === "descending" ? <FontAwesomeIcon icon={faSortDown} /> : ""}
+                                        </Button>
+                                    </StyledTableCell>
+                                    <StyledTableCell align="center">
+                                        <Button data-testid="sort-by-content-button" style={{ color: "white" }} onClick={() => requestSort('content')} className={getClassNamesFor('content')}>
+                                            TARTALOM
+                                            {getClassNamesFor('content') === "ascending" ? <FontAwesomeIcon icon={faSortUp} /> : ""}
+                                            {getClassNamesFor('content') === "descending" ? <FontAwesomeIcon icon={faSortDown} /> : ""}
+                                        </Button>
+                                    </StyledTableCell>
+                                    <StyledTableCell align="center">
+                                        <Button style={{ color: "white" }}>
+                                            KÉP
+                                        </Button>
+                                    </StyledTableCell>
+                                    <StyledTableCell align="center">
+                                        <Button data-testid="sort-by-tag-button" style={{ color: "white" }} onClick={() => requestSort('tag')} className={getClassNamesFor('tag')}>
+                                            CÍMKÉK
+                                            {getClassNamesFor('tag') === "ascending" ? <FontAwesomeIcon icon={faSortUp} /> : ""}
+                                            {getClassNamesFor('tag') === "descending" ? <FontAwesomeIcon icon={faSortDown} /> : ""}
+                                        </Button>
+                                    </StyledTableCell>
+                                    <StyledTableCell align="center">
+                                        <Button data-testid="sort-by-date-button" style={{ color: "white" }} onClick={() => requestSort('date')} className={getClassNamesFor('date')}>
+                                            DÁTUM
+                                            {getClassNamesFor('date') === "ascending" ? <FontAwesomeIcon icon={faSortUp} /> : ""}
+                                            {getClassNamesFor('date') === "descending" ? <FontAwesomeIcon icon={faSortDown} /> : ""}
+                                        </Button>
+                                    </StyledTableCell>
+                                    <StyledTableCell align="center">
+                                        <Button style={{ color: "white" }}>
+                                            MŰVELETEK
+                                        </Button>
+                                    </StyledTableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {sortedItems.filter(li =>
+                                    (hunSearch ? li.language.toLowerCase().includes("hungarian") : li.language.toLowerCase().includes(""))
+                                    && (active ? li.isActive.toLowerCase().includes("true") : li.isActive.toLowerCase().includes(""))
+                                    && (inactive ? li.isActive.toLowerCase().includes("false") : li.isActive.toLowerCase().includes(""))
+                                    && (li.isActive.toString().toLowerCase().includes(search.toLowerCase()) ||
+                                        li.tag.toLowerCase().includes(search.toLowerCase()) ||
+                                        li.language.toLowerCase().includes(search.toLowerCase()) ||
+                                        li.date.includes(search.toLowerCase()) ||
+                                        li.title.toLowerCase().includes(search.toLowerCase()) ||
+                                        li.slug.toLowerCase().includes(search.toLowerCase()) ||
+                                        li.description.toLowerCase().includes(search.toLowerCase()) ||
+                                        li.content.toLowerCase().includes(search.toLowerCase())))
+                                    .map((post) => (
+                                        <TableRow key={post?.id}>
+                                            <TableCell align="center">{post?.id}</TableCell>
+                                            <TableCell align="center">{post?.title}</TableCell>
+                                            <TableCell align="center" >
+                                                <textarea readOnly value={post?.description} className="form-control" rows="5" style={{ height: "150px", width: "150px" }} />
+                                            </TableCell>
+                                            <TableCell align="center">
+                                                <CKEditor
+                                                    editor={ClassicEditor}
+                                                    data={post?.content}
+                                                    disabled={true}
+                                                    config={{
+                                                        alignment: {
+                                                            options: ['justify']
+                                                        },
+                                                        toolbar: []
+                                                    }}
+                                                    onReady={editor => {
+                                                        editorRef.current = editor;
+                                                    }}
                                                 />
-                                            </div>
-                                        </TableCell>
-                                        <TableCell align="center">{post?.tag}</TableCell>
-                                        <TableCell align="center" style={{ width: "150px" }}>{post?.date}</TableCell>
-                                        <TableCell align="center">
-                                            <Grid container
-                                                direction="column"
-                                                justifyContent="center"
-                                                alignItems="center">
-                                                <DeletePost post={post} isTabletOrMobile={isTabletOrMobile} />
-                                                <button data-testid="scroll-to-edit-post-button" className="btn btn-warning m-1"
-                                                    style={{ width: "40px", height: "40px" }} onClick={() => {
-                                                        setPostToBeEdited(post);
-                                                        window.scrollTo(0, 64);
-                                                    }}>
-                                                    <FontAwesomeIcon icon={faPencilAlt} title="Szerkesztés" />
-                                                </button>
-                                                <DuplicatePost post={post} isTabletOrMobile={isTabletOrMobile} />
-                                                <ViewPost post={post} />
-                                            </Grid>
-                                        </TableCell>
-                                    </TableRow>
-                                ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
+                                            </TableCell>
+                                            <TableCell align="center">
+                                                <div style={{ width: "100px", height: "100px" }}>
+                                                    <ModalImage
+                                                        alt={post?.title}
+                                                        small={post?.imgURL}
+                                                        large={post?.imgURL}
+                                                    />
+                                                </div>
+                                            </TableCell>
+                                            <TableCell align="center">{post?.tag}</TableCell>
+                                            <TableCell align="center" style={{ width: "150px" }}>{post?.date}</TableCell>
+                                            <TableCell align="center">
+                                                <Grid container
+                                                    direction="column"
+                                                    justifyContent="center"
+                                                    alignItems="center">
+                                                    <DeletePost post={post} isTabletOrMobile={isTabletOrMobile} />
+                                                    <button data-testid="scroll-to-edit-post-button" className="btn btn-warning m-1"
+                                                        style={{ width: "40px", height: "40px" }} onClick={() => {
+                                                            setPostToBeEdited(post);
+                                                            window.scrollTo(0, 64);
+                                                        }}>
+                                                        <FontAwesomeIcon icon={faPencilAlt} title="Szerkesztés" />
+                                                    </button>
+                                                    <DuplicatePost post={post} isTabletOrMobile={isTabletOrMobile} />
+                                                    <ViewPost post={post} />
+                                                </Grid>
+                                            </TableCell>
+                                        </TableRow>
+                                    ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                }
             </div>
         </>
     )

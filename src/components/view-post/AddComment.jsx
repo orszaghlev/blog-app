@@ -15,21 +15,21 @@ export default function AddComment({ docId, title, language, comments, setCommen
     const { user } = useUser(uid);
     const handleSubmitComment = (e) => {
         e.preventDefault();
-        setComments([...comments, { displayName: user.username, comment }]);
+        setComments([...comments, { displayName: user.username, comment, isEdited: false }]);
         setComment('');
         firebase
             .firestore()
             .collection('posts')
             .doc(docId)
             .update({
-                comments: FieldValue.arrayUnion({ displayName: user.username, comment })
+                comments: FieldValue.arrayUnion({ displayName: user.username, comment, isEdited: false })
             });
         firebase
             .firestore()
             .collection('users')
             .doc(user?.docId)
             .update({
-                ownComments: FieldValue.arrayUnion({ comment, title })
+                ownComments: FieldValue.arrayUnion({ comment, title, isEdited: false })
             });
     };
     const useStyles = makeStyles((theme) => ({

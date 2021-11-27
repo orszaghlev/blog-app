@@ -140,7 +140,7 @@ describe('<ViewPost />', () => {
                 expect(mockHistoryPush).not.toHaveBeenCalledWith(ROUTES.HOME);
                 expect(getByText('2021. 10. 07. 14:00')).toBeTruthy();
                 expect(getByText('HTML5')).toBeTruthy();
-                expect(getByText('Címke: html5')).toBeTruthy();
+                expect(getByText('Címkék: html5, hypertext, markup, language')).toBeTruthy();
                 expect(getByText('A HTML5 a HTML (Hypertext Markup Language, a web fő jelölőnyelve) korábbi verzióinak az átdolgozott változata.')).toBeTruthy();
                 expect(getByText("A HTML5 a HTML (Hypertext Markup Language, a web fő jelölőnyelve) korábbi verzióinak az átdolgozott változata. A kifejlesztésének egyik fő célja, hogy a webes alkalmazásokhoz ne legyen szükség pluginek (pl. Adobe Flash, Microsoft Silverlight, Oracle JavaFX) telepítésére. A specifikáció a HTML4 és az XHTML1 új verzióját jelenti, a hozzájuk tartozó DOM2 HTML API-val együtt. A HTML5 specifikációban leírt formátumba történő migráció HTML4-ről, vagy XHTML1-ről a legtöbb esetben egyszerű, mivel a visszamenőleges kompatibilitás biztosított. A specifikáció a közeljövőben támogatni fogja a Web Forms 2.0 specifikációt is. A HTML5 bevezet jó néhány új elemet (címkét) és tulajdonságot, amelyek a modern weblapokon jellemzően alkalmazott szerkezetekre kínálnak új megoldást. Néhány változtatás szemantikai jellegű, például az általánosan használt div és a soron belüli részek formázását biztosító span helyett a nav (a weboldal navigációs területe) és a footer (lábléc). Más elemek új funkciók elérését biztosítják szabványosított felületen, mint az audio és a video elemek. Néhány a HTML 4.01-ben már érvénytelenített elem az új szabványba már nem került be. Ilyenek a mai weblapokon még gyakran jelenlévő font és center elemek, amelyek hatását most már végleg CSS kóddal kell megvalósítani. Újra hangsúlyt helyeztek a DOM szkriptek (gyakorlatilag a JavaScript) jelentőségére a weboldalak viselkedésével kapcsolatban. A jelölések hasonlósága ellenére a HTML5 szintaxisa már nem az SGML-en alapul. Ezzel együtt úgy tervezték, hogy visszafelé kompatibilis legyen, így a korábbi HTML szabványokhoz készült elemzők a szokásos elemeket megérthetik. Forrás: Wikipédia [CC-BY-SA-3.0] (https://hu.wikipedia.org/wiki/HTML5)")).toBeTruthy();
                 expect(getByText('Hozzáadás a kedvencekhez')).toBeTruthy();
@@ -203,7 +203,6 @@ describe('<ViewPost />', () => {
                 expect(getByText('Return')).toBeTruthy();
                 expect(getByText('Comments')).toBeTruthy();
                 expect(getByText('(Y)')).toBeTruthy();
-                expect(getByText('admin')).toBeTruthy();
             });
         });
     });
@@ -262,7 +261,6 @@ describe('<ViewPost />', () => {
                 expect(getByText('Vissza')).toBeTruthy();
                 expect(getByText('Hozzászólások')).toBeTruthy();
                 expect(getByText('(Y)')).toBeTruthy();
-                expect(getByText('admin')).toBeTruthy();
             });
         });
     });
@@ -423,7 +421,71 @@ describe('<ViewPost />', () => {
         });
     });
 
-    it('Megjelenik a magyar nyelvű bejegyzéshez tartozó aloldal, a bejegyzéshez tartozó adatokkal, a felhasználó elmenti a kedvencek közé a bejegyzést', async () => {
+    it('Megjelenik az angol nyelvű bejegyzéshez tartozó aloldal, a bejegyzéshez tartozó adatokkal, a felhasználó elmenti a kedvencek közé a bejegyzést, majd eltávolítja azt', async () => {
+        jest.mock('react-router-dom', () => ({
+            ...jest.requireActual('react-router-dom'),
+            useParams: () => ({ slug: 'react-javascript-library-' }),
+            useHistory: () => ({
+                push: mockHistoryPush
+            })
+        }));
+
+        await act(async () => {
+            getUserByUserId.mockImplementation(() => [userFixture]);
+            useUser.mockImplementation(() => ({ user: userFixture }));
+            getPostByPostSlug.mockImplementation(() => [postFixture]);
+            usePost.mockImplementation(() => ({ post: postFixture }));
+
+            const { findByText, findByTestId, getByText, getByTestId } = render(
+                <Router>
+                    <FirebaseContext.Provider
+                        value={{
+                            firebase: {
+                                firestore: jest.fn(() => ({
+                                    collection: jest.fn(() => ({
+                                        doc: jest.fn(() => ({
+                                            update: jest.fn(() => Promise.resolve('Added to favorites'))
+                                        }))
+                                    }))
+                                }))
+                            },
+                            FieldValue: {
+                                arrayUnion: jest.fn(),
+                                arrayRemove: jest.fn()
+                            }
+                        }}
+                    >
+                        <UserContext.Provider
+                            value={{
+                                user: {
+                                    uid: process.env.REACT_APP_FIREBASE_ADMIN_UID,
+                                    displayName: 'admin'
+                                }
+                            }}
+                        >
+                            <LoggedInUserContext.Provider value={{ user: userFixture }}>
+                                <ViewPost />
+                            </LoggedInUserContext.Provider>
+                        </UserContext.Provider>
+                    </FirebaseContext.Provider>
+                </Router>
+            );
+
+            fireEvent.click(getByTestId('add-to-favorites'));
+            expect(await findByText('Remove from favorites')).toBeTruthy();
+            expect(await findByText('Post successfully added!')).toBeTruthy();
+            fireEvent.click(await findByTestId('add-to-favorites'));
+
+            await waitFor(() => {
+                expect(document.title).toEqual(`React (JavaScript library) | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
+                expect(mockHistoryPush).not.toHaveBeenCalledWith(ROUTES.HOME);
+                expect(getByText('Add to favorites')).toBeTruthy();
+                expect(getByText('Post successfully removed!')).toBeTruthy();
+            });
+        });
+    });
+
+    it('Megjelenik a magyar nyelvű bejegyzéshez tartozó aloldal, a bejegyzéshez tartozó adatokkal, a felhasználó elmenti a kedvencek közé a bejegyzést, majd eltávolítja azt', async () => {
         jest.mock('react-router-dom', () => ({
             ...jest.requireActual('react-router-dom'),
             useParams: () => ({ slug: 'html5' }),
@@ -438,7 +500,7 @@ describe('<ViewPost />', () => {
             getPostByPostSlug.mockImplementation(() => [postFixtureHun]);
             usePost.mockImplementation(() => ({ post: postFixtureHun }));
 
-            const { getByText, getByTestId } = render(
+            const { findByText, findByTestId, getByText, getByTestId } = render(
                 <Router>
                     <FirebaseContext.Provider
                         value={{
@@ -474,12 +536,15 @@ describe('<ViewPost />', () => {
             );
 
             fireEvent.click(getByTestId('add-to-favorites'));
+            expect(await findByText('Eltávolítás a kedvencek közül')).toBeTruthy();
+            expect(await findByText('Sikeres hozzáadás!')).toBeTruthy();
+            fireEvent.click(await findByTestId('add-to-favorites'));
 
             await waitFor(() => {
                 expect(document.title).toEqual(`HTML5 | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
                 expect(mockHistoryPush).not.toHaveBeenCalledWith(ROUTES.HOME);
-                expect(getByText('Eltávolítás a kedvencek közül')).toBeTruthy();
-                expect(getByText('Sikeres hozzáadás!')).toBeTruthy();
+                expect(getByText('Hozzáadás a kedvencekhez')).toBeTruthy();
+                expect(getByText('Sikeres eltávolítás!')).toBeTruthy();
             });
         });
     });
@@ -1077,7 +1142,6 @@ describe('<ViewPost />', () => {
             await waitFor(() => {
                 expect(document.title).toEqual(`React (JavaScript library) | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
                 expect(getByTestId('input-edit-comment').value).toBe('');
-                expect(getByText('admin')).toBeTruthy();
             });
         });
     });
@@ -1148,7 +1212,6 @@ describe('<ViewPost />', () => {
             await waitFor(() => {
                 expect(document.title).toEqual(`React (JavaScript library) | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
                 expect(getByTestId('input-edit-comment').value).toBe('Like');
-                expect(getByText('admin')).toBeTruthy();
             });
         });
     });
@@ -1218,7 +1281,6 @@ describe('<ViewPost />', () => {
 
             await waitFor(() => {
                 expect(getByTestId('input-edit-comment').value).toBe('Like');
-                expect(getByText('admin')).toBeTruthy();
             });
         });
     });

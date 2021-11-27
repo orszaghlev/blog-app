@@ -9,7 +9,7 @@ import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import FirebaseContext from '../../contexts/Firebase';
 import useUserWhoCommented from '../../hooks/UseUserWhoCommented';
 
-export default function DeleteComment({ docId, title, language, displayName, comment, yourOwnComment, isTabletOrMobile }) {
+export default function DeleteComment({ docId, title, language, displayName, comment, isEdited, yourOwnComment, isTabletOrMobile }) {
     const { firebase, FieldValue } = useContext(FirebaseContext);
     const { user } = useUserWhoCommented(displayName);
     const [open, setOpen] = useState(false);
@@ -30,14 +30,14 @@ export default function DeleteComment({ docId, title, language, displayName, com
             .collection('posts')
             .doc(docId)
             .update({
-                comments: FieldValue.arrayRemove({ displayName, comment })
+                comments: FieldValue.arrayRemove({ displayName, comment, isEdited })
             });
         await firebase
             .firestore()
             .collection('users')
             .doc(user?.docId)
             .update({
-                ownComments: FieldValue.arrayRemove({ comment, title })
+                ownComments: FieldValue.arrayRemove({ comment, title, isEdited })
             });
         window.location.reload();
     };
@@ -82,6 +82,7 @@ DeleteComment.propTypes = {
     title: PropTypes.string.isRequired,
     displayName: PropTypes.string.isRequired,
     comment: PropTypes.string.isRequired,
+    isEdited: PropTypes.bool.isRequired,
     yourOwnComment: PropTypes.bool.isRequired,
     isTabletOrMobile: PropTypes.bool.isRequired
 };

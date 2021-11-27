@@ -34,7 +34,14 @@ export default function ShowComments({ docId, title, language, comments: allComm
                     <div key={i}>
                         <>
                             <p className="mb-1">
-                                <span className="mr-1 font-bold">{comment?.displayName}</span>
+                                <span className="mr-1 font-bold">
+                                    {comment?.displayName}
+                                    {comment?.isEdited ?
+                                        <FontAwesomeIcon icon={faPencilAlt} style={{ marginLeft: "5px", width: "10px", height: "10px" }}
+                                            title={language === "Hungarian" ? "Szerkesztett hozzászólás" : "Edited comment"}
+                                        /> : ""
+                                    }
+                                </span>
                             </p>
                             <h5 className="mb-1">
                                 <p>{comment?.comment}</p>
@@ -50,6 +57,7 @@ export default function ShowComments({ docId, title, language, comments: allComm
                                         language={language}
                                         displayName={comment?.displayName}
                                         comment={comment?.comment}
+                                        isEdited={comment?.isEdited}
                                         yourOwnComment={user?.username === comment?.displayName}
                                         isTabletOrMobile={isTabletOrMobile}
                                     />
@@ -87,6 +95,7 @@ export default function ShowComments({ docId, title, language, comments: allComm
                             language={language}
                             displayName={commentArrayToBeEdited?.displayName}
                             comment={commentArrayToBeEdited?.comment}
+                            isEdited={commentArrayToBeEdited?.isEdited}
                             commentInput={commentInput}
                             yourOwnComment={user?.username === commentArrayToBeEdited?.displayName}
                             isTabletOrMobile={isTabletOrMobile}

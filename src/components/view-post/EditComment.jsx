@@ -10,7 +10,7 @@ import Modal from '@mui/material/Modal';
 import FirebaseContext from '../../contexts/Firebase';
 import useUserWhoCommented from '../../hooks/UseUserWhoCommented';
 
-export default function EditComment({ docId, title, language, displayName, comment, commentInput, yourOwnComment, isTabletOrMobile }) {
+export default function EditComment({ docId, title, language, displayName, comment, isEdited, commentInput, yourOwnComment, isTabletOrMobile }) {
     const { firebase, FieldValue } = useContext(FirebaseContext);
     const { user } = useUserWhoCommented(displayName);
     const [commentToBeEdited, setCommentToBeEdited] = useState("");
@@ -33,28 +33,28 @@ export default function EditComment({ docId, title, language, displayName, comme
             .collection('posts')
             .doc(docId)
             .update({
-                comments: FieldValue.arrayRemove({ displayName, comment })
+                comments: FieldValue.arrayRemove({ displayName, comment, isEdited })
             });
         await firebase
             .firestore()
             .collection('posts')
             .doc(docId)
             .update({
-                comments: FieldValue.arrayUnion({ displayName: user.username, comment: commentToBeEdited })
+                comments: FieldValue.arrayUnion({ displayName: user.username, comment: commentToBeEdited, isEdited: true })
             });
         await firebase
             .firestore()
             .collection('users')
             .doc(user?.docId)
             .update({
-                ownComments: FieldValue.arrayRemove({ comment, title })
+                ownComments: FieldValue.arrayRemove({ comment, title, isEdited })
             });
         await firebase
             .firestore()
             .collection('users')
             .doc(user?.docId)
             .update({
-                ownComments: FieldValue.arrayUnion({ comment: commentToBeEdited, title })
+                ownComments: FieldValue.arrayUnion({ comment: commentToBeEdited, title, isEdited: true })
             });
         window.location.reload();
     };
@@ -154,6 +154,7 @@ EditComment.propTypes = {
     language: PropTypes.string.isRequired,
     displayName: PropTypes.string.isRequired,
     comment: PropTypes.string.isRequired,
+    isEdited: PropTypes.bool.isRequired,
     commentInput: PropTypes.object,
     yourOwnComment: PropTypes.bool.isRequired,
     isTabletOrMobile: PropTypes.bool.isRequired

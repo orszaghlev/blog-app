@@ -132,6 +132,7 @@ export default function ShowCreatePost() {
                     </Grid>
                     <Grid item xs>
                         <TextField
+                            inputProps={{ "data-testid": "input-date" }}
                             size={isTabletOrMobile ? "small" : "medium"}
                             style={{ width: isTabletOrMobile ? 250 : 700 }}
                             id="datetime-local"

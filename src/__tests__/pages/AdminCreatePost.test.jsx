@@ -149,7 +149,7 @@ describe('<AdminCreatePost />', () => {
         });
     });
 
-    it('Megjelenik a bejegyzés létrehozásához szükséges form mobilon, de az adminisztrátor visszalép az összes bejegyzést tartalmazó oldalra', async () => {
+    it('Megjelenik a bejegyzés létrehozásához szükséges form mobilon, de az adminisztrátor visszalép az admin felületre', async () => {
         document.body.className = "dark-mode";
 
         const firebase = {

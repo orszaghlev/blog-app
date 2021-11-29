@@ -62,16 +62,19 @@ export default function ShowCreatePost() {
                     alignItems="stretch">
                     <h2>Új bejegyzés</h2>
                     <Grid item xs>
-                        <TextField size={isTabletOrMobile ? "small" : "medium"} className="TextField" inputProps={{ "data-testid": "input-id" }} name="id" label="ID" variant="filled" type="text" required style={{ width: isTabletOrMobile ? 250 : 700 }} />
+                        <TextField size={isTabletOrMobile ? "small" : "medium"} className="TextField" inputProps={{ "data-testid": "input-id" }} name="id" label="ID" variant="filled"
+                            type="text" required style={{ width: isTabletOrMobile ? 250 : 700 }} />
                     </Grid>
                     <Grid item xs>
-                        <TextField size={isTabletOrMobile ? "small" : "medium"} className="TextField" inputProps={{ "data-testid": "input-title" }} name="title" label="Cím" variant="filled" type="text" required style={{ width: isTabletOrMobile ? 250 : 700 }}
+                        <TextField size={isTabletOrMobile ? "small" : "medium"} className="TextField" inputProps={{ "data-testid": "input-title" }} name="title" label="Cím" variant="filled"
+                            type="text" required style={{ width: isTabletOrMobile ? 250 : 700 }}
                             onChange={(e) => {
                                 setSlug(slugify(e.target.value));
                             }} />
                     </Grid>
                     <Grid item xs>
-                        <TextField size={isTabletOrMobile ? "small" : "medium"} className="TextField" inputProps={{ "data-testid": "input-slug" }} value={slug} name="slug" label="Slug" variant="filled" type="text" required style={{ width: isTabletOrMobile ? 250 : 700 }} />
+                        <TextField size={isTabletOrMobile ? "small" : "medium"} className="TextField" inputProps={{ "data-testid": "input-slug" }} value={slug} name="slug" label="Slug"
+                            variant="filled" type="text" required style={{ width: isTabletOrMobile ? 250 : 700 }} />
                     </Grid>
                     <Grid item xs>
                         <Grid
@@ -80,7 +83,8 @@ export default function ShowCreatePost() {
                             justifyContent="center"
                         >
                             <div className="form-group" >
-                                <textarea data-testid="input-description" name="description" label="Leírás" className="form-control" rows="3" placeholder="Leírás" required style={{ width: isTabletOrMobile ? 250 : 700 }} />
+                                <textarea data-testid="input-description" name="description" label="Leírás" className="form-control" rows="3" placeholder="Leírás" required
+                                    style={{ width: isTabletOrMobile ? 250 : 700 }} />
                             </div>
                         </Grid>
                     </Grid>
@@ -118,14 +122,16 @@ export default function ShowCreatePost() {
                         </Grid>
                     </Grid>
                     <Grid item xs>
-                        <TextField size={isTabletOrMobile ? "small" : "medium"} className="TextField" inputProps={{ "data-testid": "input-imgURL" }} name="imgURL" label="Kép URL" variant="filled" type="text" required style={{ width: isTabletOrMobile ? 250 : 700 }} />
+                        <TextField size={isTabletOrMobile ? "small" : "medium"} className="TextField" inputProps={{ "data-testid": "input-imgURL" }} name="imgURL" label="Kép URL"
+                            variant="filled" type="text" required style={{ width: isTabletOrMobile ? 250 : 700 }} />
                     </Grid>
                     <Grid item xs>
-                        <TextField size={isTabletOrMobile ? "small" : "medium"} className="TextField" inputProps={{ "data-testid": "input-tag" }} name="tag" label="Címkék" variant="filled" type="text" required style={{ width: isTabletOrMobile ? 250 : 700 }} />
+                        <TextField size={isTabletOrMobile ? "small" : "medium"} className="TextField" inputProps={{ "data-testid": "input-tag" }} name="tag" label="Címkék" variant="filled"
+                            type="text" required style={{ width: isTabletOrMobile ? 250 : 700 }} />
                     </Grid>
                     <Grid item xs>
-                        <TextField size={isTabletOrMobile ? "small" : "medium"} className="TextField" inputProps={{ "data-testid": "input-language" }} name="language" label="Nyelv" variant="filled" type="text" required
-                            style={{ width: isTabletOrMobile ? 250 : 700, textAlign: "left" }} defaultValue="" select>
+                        <TextField size={isTabletOrMobile ? "small" : "medium"} className="TextField" inputProps={{ "data-testid": "input-language" }} name="language" label="Nyelv"
+                            variant="filled" type="text" required style={{ width: isTabletOrMobile ? 250 : 700, textAlign: "left" }} defaultValue="" select>
                             <MenuItem value="Hungarian">Magyar</MenuItem>
                             <MenuItem value="English">Angol</MenuItem>
                         </TextField>
@@ -146,8 +152,8 @@ export default function ShowCreatePost() {
                         />
                     </Grid>
                     <Grid item xs>
-                        <TextField size={isTabletOrMobile ? "small" : "medium"} className="TextField" inputProps={{ "data-testid": "input-isActive" }} name="isActive" label="Állapot" variant="filled" type="text" required
-                            style={{ width: isTabletOrMobile ? 250 : 700, textAlign: "left" }} defaultValue="" select>
+                        <TextField size={isTabletOrMobile ? "small" : "medium"} className="TextField" inputProps={{ "data-testid": "input-isActive" }} name="isActive" label="Állapot"
+                            variant="filled" type="text" required style={{ width: isTabletOrMobile ? 250 : 700, textAlign: "left" }} defaultValue="" select>
                             <MenuItem value="true">Aktív</MenuItem>
                             <MenuItem value="false">Inaktív</MenuItem>
                         </TextField>

@@ -20,11 +20,13 @@ export default function Profile() {
         <LoggedInUserContext.Provider value={{ user }}>
             <div className="p-3 content text-center m-auto" style={{ maxWidth: "1224px" }}>
                 <MetaTags>
-                    <meta name="description" content="A felhasználó profilja. Tartalmazza a regisztráláskor megadott információkat, illetve a felhasználó kedvenc bejegyzéseit és saját hozzászólásait." />
+                    <meta name="description"
+                        content="A felhasználó profilja. Tartalmazza a regisztráláskor megadott információkat, illetve a felhasználó kedvenc bejegyzéseit és saját hozzászólásait." />
                     <meta name="robots" content="noindex" />
                     <meta property="og:url" content="%REACT_APP_FIREBASE_AUTH_DOMAIN%/profile" />
                     <meta property="og:title" content="Profil" />
-                    <meta property="og:description" content="A felhasználó profilja. Tartalmazza a regisztráláskor megadott információkat, illetve a felhasználó kedvenc bejegyzéseit és saját hozzászólásait." />
+                    <meta property="og:description"
+                        content="A felhasználó profilja. Tartalmazza a regisztráláskor megadott információkat, illetve a felhasználó kedvenc bejegyzéseit és saját hozzászólásait." />
                     <meta property="og:type" content="profile" />
                     <meta property="og:site_name" content="%REACT_APP_FIREBASE_APP_NAME%" />
                     <meta property="og:locale" content="hu_HU" />

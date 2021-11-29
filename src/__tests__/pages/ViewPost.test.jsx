@@ -285,7 +285,7 @@ describe('<ViewPost />', () => {
             getPostByPostSlug.mockImplementation(() => [postFixtureInactive]);
             usePost.mockImplementation(() => ({ post: postFixtureInactive }));
 
-            const { getByTestId } = render(
+            render(
                 <Router>
                     <FirebaseContext.Provider
                         value={firebase}
@@ -332,7 +332,7 @@ describe('<ViewPost />', () => {
             getPostByPostSlug.mockImplementation(() => [postFixtureInactiveHun]);
             usePost.mockImplementation(() => ({ post: postFixtureInactiveHun }));
 
-            const { getByTestId } = render(
+            render(
                 <Router>
                     <FirebaseContext.Provider
                         value={firebase}
@@ -421,7 +421,7 @@ describe('<ViewPost />', () => {
         });
     });
 
-    it('Megjelenik az angol nyelvű bejegyzéshez tartozó aloldal, a bejegyzéshez tartozó adatokkal, a felhasználó elmenti a kedvencek közé a bejegyzést, majd eltávolítja azt', async () => {
+    it('Megjelenik az angol nyelvű bejegyzéshez tartozó aloldal, a bejegyzéshez tartozó adatokkal, a felhasználó elmenti a kedvencek közé a bejegyzést, majd eltávolítja onnan', async () => {
         jest.mock('react-router-dom', () => ({
             ...jest.requireActual('react-router-dom'),
             useParams: () => ({ slug: 'react-javascript-library-' }),
@@ -485,7 +485,7 @@ describe('<ViewPost />', () => {
         });
     });
 
-    it('Megjelenik a magyar nyelvű bejegyzéshez tartozó aloldal, a bejegyzéshez tartozó adatokkal, a felhasználó elmenti a kedvencek közé a bejegyzést, majd eltávolítja azt', async () => {
+    it('Megjelenik a magyar nyelvű bejegyzéshez tartozó aloldal, a bejegyzéshez tartozó adatokkal, a felhasználó elmenti a kedvencek közé a bejegyzést, majd eltávolítja onnan', async () => {
         jest.mock('react-router-dom', () => ({
             ...jest.requireActual('react-router-dom'),
             useParams: () => ({ slug: 'html5' }),
@@ -1094,7 +1094,7 @@ describe('<ViewPost />', () => {
             getPostByPostSlug.mockImplementation(() => [postFixtureWithComment]);
             usePost.mockImplementation(() => ({ post: postFixtureWithComment }));
 
-            const { findByTestId, getByText, getByTestId, queryByTestId } = render(
+            const { findByTestId, getByTestId, queryByTestId } = render(
                 <Router>
                     <ResponsiveContext.Provider value={{ width: 300 }}>
                         <FirebaseContext.Provider
@@ -1166,7 +1166,7 @@ describe('<ViewPost />', () => {
             getPostByPostSlug.mockImplementation(() => [postFixtureWithComment]);
             usePost.mockImplementation(() => ({ post: postFixtureWithComment }));
 
-            const { findByTestId, getByText, getByTestId, queryByTestId } = render(
+            const { findByTestId, getByTestId, queryByTestId } = render(
                 <Router>
                     <FirebaseContext.Provider
                         value={{
@@ -1236,7 +1236,7 @@ describe('<ViewPost />', () => {
             getPostByPostSlug.mockImplementation(() => [postFixtureWithComment]);
             usePost.mockImplementation(() => ({ post: postFixtureWithComment }));
 
-            const { findByTestId, getByText, getByTestId, queryByTestId } = render(
+            const { findByTestId, getByTestId, queryByTestId } = render(
                 <Router>
                     <FirebaseContext.Provider
                         value={{
@@ -1391,7 +1391,7 @@ describe('<ViewPost />', () => {
         });
     });
 
-    it('Megjelenik a magyar nyelvű bejegyzéshez tartozó aloldal, a bejegyzéshez tartozó adatokkal, az adminisztrátor szerkesztené az egyik hozzászólást, de végül visszalép a szerkesztés ellenére is', async () => {
+    it('Megjelenik a magyar nyelvű bejegyzéshez tartozó aloldal, a bejegyzéshez tartozó adatokkal, az adminisztrátor szerkeszti az egyik hozzászólást, de végül visszalép', async () => {
         window.scrollTo = jest.fn();
 
         jest.mock('react-router-dom', () => ({
@@ -1446,7 +1446,7 @@ describe('<ViewPost />', () => {
         });
     });
 
-    it('Megjelenik a magyar nyelvű bejegyzéshez tartozó aloldal, a bejegyzéshez tartozó adatokkal, az adminisztrátor szerkesztené más hozzászólását, de végül visszalép a szerkesztés ellenére is', async () => {
+    it('Megjelenik a magyar nyelvű bejegyzéshez tartozó aloldal, a bejegyzéshez tartozó adatokkal, az adminisztrátor szerkeszti más hozzászólását, de végül visszalép', async () => {
         window.scrollTo = jest.fn();
 
         jest.mock('react-router-dom', () => ({
@@ -1590,4 +1590,4 @@ describe('<ViewPost />', () => {
             });
         });
     });
-})
+});

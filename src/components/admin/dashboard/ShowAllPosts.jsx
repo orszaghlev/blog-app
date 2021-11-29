@@ -185,14 +185,16 @@ export default function ShowAllPosts({ allPosts, isTabletOrMobile }) {
                                         </Button>
                                     </StyledTableCell>
                                     <StyledTableCell align="center">
-                                        <Button data-testid="sort-by-description-button" style={{ color: "white" }} onClick={() => requestSort('description')} className={getClassNamesFor('description')}>
+                                        <Button data-testid="sort-by-description-button" style={{ color: "white" }} onClick={() => requestSort('description')}
+                                            className={getClassNamesFor('description')}>
                                             LEÍRÁS
                                             {getClassNamesFor('description') === "ascending" ? <FontAwesomeIcon icon={faSortUp} /> : ""}
                                             {getClassNamesFor('description') === "descending" ? <FontAwesomeIcon icon={faSortDown} /> : ""}
                                         </Button>
                                     </StyledTableCell>
                                     <StyledTableCell align="center">
-                                        <Button data-testid="sort-by-content-button" style={{ color: "white" }} onClick={() => requestSort('content')} className={getClassNamesFor('content')}>
+                                        <Button data-testid="sort-by-content-button" style={{ color: "white" }} onClick={() => requestSort('content')}
+                                            className={getClassNamesFor('content')}>
                                             TARTALOM
                                             {getClassNamesFor('content') === "ascending" ? <FontAwesomeIcon icon={faSortUp} /> : ""}
                                             {getClassNamesFor('content') === "descending" ? <FontAwesomeIcon icon={faSortDown} /> : ""}

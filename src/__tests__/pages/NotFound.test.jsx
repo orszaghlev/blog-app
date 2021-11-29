@@ -27,6 +27,10 @@ jest.mock('react-router-dom', () => ({
 }));
 
 describe('<NotFound />', () => {
+    beforeEach(() => {
+        jest.clearAllMocks();
+    });
+
     it('Van bejelentkezett felhasználónk mobilon, de nem megfelelő aloldalon jár', async () => {
         jest.useFakeTimers();
 

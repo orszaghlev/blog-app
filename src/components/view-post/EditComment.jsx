@@ -128,8 +128,8 @@ export default function EditComment({ docId, title, language, displayName, comme
                                         {language === "English" && yourOwnComment && <p>Are you sure you would like to edit your comment?</p>}
                                     </Typography>
                                     <Typography id="edit-comment-modal-description" sx={{ mt: 2 }}>
-                                        <Button size={isTabletOrMobile ? "small" : "medium"} data-testid="edit-comment-edit" variant="contained" color="secondary" style={{ marginRight: "10px" }} type="submit"
-                                            onClick={handleEditComment}>
+                                        <Button size={isTabletOrMobile ? "small" : "medium"} data-testid="edit-comment-edit" variant="contained" color="secondary"
+                                            style={{ marginRight: "10px" }} type="submit" onClick={handleEditComment}>
                                             {language === "Hungarian" ? "Szerkesztés" : "Edit"}
                                         </Button>
                                         <Button size={isTabletOrMobile ? "small" : "medium"} data-testid="edit-comment-return-modal" variant="contained" color="primary" onClick={() => {

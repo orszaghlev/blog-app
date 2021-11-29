@@ -605,7 +605,6 @@ describe('<AdminDashboard />', () => {
     });
 
     it('Megjelenik a bejegyzéseket tartalmazó admin felület, az adminisztrátor az új bejegyzés gombra kattint', async () => {
-
         await act(async () => {
             useAllPosts.mockImplementation(() => ({ posts: allPostsFixture }));
 
@@ -811,4 +810,4 @@ describe('<AdminDashboard />', () => {
             });
         });
     });
-})
+});

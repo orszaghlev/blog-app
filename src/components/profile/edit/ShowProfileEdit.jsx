@@ -72,14 +72,16 @@ export default function ShowProfileEdit({ user }) {
                     alignItems="stretch">
                     <h2>Profil szerkesztése</h2>
                     <Grid item xs>
-                        <TextField size={isTabletOrMobile ? "small" : "medium"} className="TextField" inputProps={{ "data-testid": "input-username" }} value={username || ""} name="username" type="text" label="Felhasználónév" variant="filled"
+                        <TextField size={isTabletOrMobile ? "small" : "medium"} className="TextField" inputProps={{ "data-testid": "input-username" }} value={username || ""} name="username"
+                            type="text" label="Felhasználónév" variant="filled"
                             onChange={(e) => {
                                 setUsername(e.target.value);
                             }}
                             required style={{ width: isTabletOrMobile ? 250 : 700 }} />
                     </Grid>
                     <Grid item xs>
-                        <TextField size={isTabletOrMobile ? "small" : "medium"} className="TextField" inputProps={{ "data-testid": "input-fullname" }} value={fullName || ""} name="fullName" type="text" label="Teljes név" variant="filled"
+                        <TextField size={isTabletOrMobile ? "small" : "medium"} className="TextField" inputProps={{ "data-testid": "input-fullname" }} value={fullName || ""} name="fullName"
+                            type="text" label="Teljes név" variant="filled"
                             onChange={(e) => {
                                 setFullName(e.target.value);
                             }}

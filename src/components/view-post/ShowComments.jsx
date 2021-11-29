@@ -28,7 +28,8 @@ export default function ShowComments({ docId, title, language, comments: allComm
             <Card className={classes.root}>
                 <div>
                     <br />
-                    <h4>{language === "Hungarian" ? (comments?.length === 0 ? "Jelenleg nincsenek hozzászólások!" : "Hozzászólások") : (comments?.length === 0 ? "There are no comments yet!" : "Comments")}</h4>
+                    <h4>{language === "Hungarian" ? (comments?.length === 0 ? "Jelenleg nincsenek hozzászólások!" : "Hozzászólások") :
+                        (comments?.length === 0 ? "There are no comments yet!" : "Comments")}</h4>
                 </div>
                 {comments?.map((comment, i) => (
                     <div key={i}>

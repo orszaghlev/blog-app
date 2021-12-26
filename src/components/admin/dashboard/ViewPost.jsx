@@ -5,14 +5,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 
 export default function ViewPost({ post }) {
-    const [isActive, setIsActive] = useState(post?.isActive === "true" ? true : false);
+    const [isActive, setIsActive] = useState((post?.isActive !== "true" || (new Date(post?.date).getTime() >= new Date().getTime())) ? false : true);
     const history = useHistory();
 
     useEffect(() => {
-        if (post?.isActive === "false") {
+        if ((post?.isActive !== "true" || (new Date(post?.date).getTime() >= new Date().getTime()))) {
             setIsActive(false);
         }
-    }, [post?.isActive]);
+    }, [post?.isActive, post?.date]);
 
     return (
         <>

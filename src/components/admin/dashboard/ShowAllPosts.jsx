@@ -157,12 +157,10 @@ export default function ShowAllPosts({ allPosts, isTabletOrMobile }) {
                     (hunSearch ? li.language.toLowerCase().includes("hungarian") : li.language.toLowerCase().includes(""))
                     && (active ? li.isActive.toLowerCase().includes("true") : li.isActive.toLowerCase().includes(""))
                     && (inactive ? li.isActive.toLowerCase().includes("false") : li.isActive.toLowerCase().includes(""))
-                    && (li.isActive.toString().toLowerCase().includes(search.toLowerCase()) ||
+                    && (li.id.toLowerCase().includes(search.toLowerCase()) ||
                         li.tag.toLowerCase().includes(search.toLowerCase()) ||
-                        li.language.toLowerCase().includes(search.toLowerCase()) ||
                         li.date.includes(search.toLowerCase()) ||
                         li.title.toLowerCase().includes(search.toLowerCase()) ||
-                        li.slug.toLowerCase().includes(search.toLowerCase()) ||
                         li.description.toLowerCase().includes(search.toLowerCase()) ||
                         li.content.toLowerCase().includes(search.toLowerCase()))).length === 0 ?
                     <h5>Nincs találat!</h5> :
@@ -231,12 +229,10 @@ export default function ShowAllPosts({ allPosts, isTabletOrMobile }) {
                                     (hunSearch ? li.language.toLowerCase().includes("hungarian") : li.language.toLowerCase().includes(""))
                                     && (active ? li.isActive.toLowerCase().includes("true") : li.isActive.toLowerCase().includes(""))
                                     && (inactive ? li.isActive.toLowerCase().includes("false") : li.isActive.toLowerCase().includes(""))
-                                    && (li.isActive.toString().toLowerCase().includes(search.toLowerCase()) ||
+                                    && (li.id.toLowerCase().includes(search.toLowerCase()) ||
                                         li.tag.toLowerCase().includes(search.toLowerCase()) ||
-                                        li.language.toLowerCase().includes(search.toLowerCase()) ||
                                         li.date.includes(search.toLowerCase()) ||
                                         li.title.toLowerCase().includes(search.toLowerCase()) ||
-                                        li.slug.toLowerCase().includes(search.toLowerCase()) ||
                                         li.description.toLowerCase().includes(search.toLowerCase()) ||
                                         li.content.toLowerCase().includes(search.toLowerCase())))
                                     .map((post) => (

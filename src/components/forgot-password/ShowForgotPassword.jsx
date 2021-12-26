@@ -91,9 +91,16 @@ export default function ShowForgotPassword() {
                     </p>
                 }
                 {notification !== "" &&
-                    <div className="text-success">
-                        {notification}
-                    </div>
+                    <>
+                        <div className="text-success">
+                            {notification}
+                            <p>
+                                <Link to={ROUTES.LOGIN} data-testid="login">
+                                    Bejelentkezés
+                                </Link>
+                            </p>
+                        </div>
+                    </>
                 }
             </div>
         </>

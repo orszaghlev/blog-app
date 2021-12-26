@@ -25,10 +25,7 @@ export default function ShowSignUp() {
         const emailAddressExists = await doesEmailAddressExist(emailAddress);
         if (!usernameExists.length && !emailAddressExists.length) {
             try {
-                const createdUserResult = await firebase
-                    .auth()
-                    .createUserWithEmailAndPassword(emailAddress, password);
-
+                const createdUserResult = await firebase.auth().createUserWithEmailAndPassword(emailAddress, password);
                 await createdUserResult.user.updateProfile({
                     displayName: username
                 });
@@ -41,11 +38,7 @@ export default function ShowSignUp() {
                     ownComments: [],
                     dateCreated: Date.now()
                 }
-                await firebase
-                    .firestore()
-                    .collection('users')
-                    .doc(data.userId)
-                    .set(data);
+                await firebase.firestore().collection('users').doc(data.userId).set(data);
                 return history.push(ROUTES.PROFILE);
             } catch (error) {
                 setUsername('');

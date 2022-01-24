@@ -28,55 +28,6 @@ describe('<ProfileEdit />', () => {
         jest.clearAllMocks();
     });
 
-    it('Megjelenik a profilszerkesztő oldal mobilon, a felhasználó saját adataival', async () => {
-        const firebase = {
-            auth: jest.fn(() => ({
-            })),
-            firestore: jest.fn(() => ({
-            }))
-        };
-
-        await act(async () => {
-            getUserByUserId.mockImplementation(() => [userFixture]);
-            useUser.mockImplementation(() => ({ user: userFixture }));
-
-            const { getByTestId, queryByTestId } = render(
-                <Router>
-                    <ResponsiveContext.Provider value={{ width: 300 }}>
-                        <FirebaseContext.Provider
-                            value={firebase}
-                        >
-                            <UserContext.Provider
-                                value={{
-                                    user: {
-                                        uid: process.env.REACT_APP_FIREBASE_ADMIN_UID,
-                                        displayName: 'admin'
-                                    }
-                                }}
-                            >
-                                <LoggedInUserContext.Provider value={{ user: userFixture }}>
-                                    <ProfileEdit
-                                        user={{
-                                            uid: process.env.REACT_APP_FIREBASE_ADMIN_UID,
-                                            displayName: 'admin'
-                                        }}
-                                    />
-                                </LoggedInUserContext.Provider>
-                            </UserContext.Provider>
-                        </FirebaseContext.Provider>
-                    </ResponsiveContext.Provider>
-                </Router>
-            );
-
-            await waitFor(() => {
-                expect(mockHistoryPush).not.toHaveBeenCalledWith(ROUTES.HOME);
-                expect(getByTestId('input-username').value).toBe('admin');
-                expect(getByTestId('input-fullname').value).toBe('Levente Országh');
-                expect(queryByTestId('error')).toBeFalsy();
-            });
-        });
-    });
-
     it('Megjelenik a profilszerkesztő oldal, a felhasználó saját adataival, a felhasználó sikeresen szerkesztette azokat', async () => {
         await act(async () => {
             getUserByUserId.mockImplementation(() => [userFixture]);
@@ -181,8 +132,6 @@ describe('<ProfileEdit />', () => {
 
             fireEvent.click(getByTestId('return'));
 
-            expect(document.title).toEqual(`Profil szerkesztése | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
-
             await waitFor(() => {
                 expect(mockHistoryPush).toHaveBeenCalledWith(ROUTES.PROFILE);
             });
@@ -190,60 +139,6 @@ describe('<ProfileEdit />', () => {
     });
 
     it('Megjelenik a profilszerkesztő oldal, de a felhasználó a jelszóváltoztató gombra kattint', async () => {
-        await act(async () => {
-            getUserByUserId.mockImplementation(() => [userFixture]);
-            useUser.mockImplementation(() => ({ user: userFixture }));
-
-            const { getByText, getByTestId, queryByTestId } = render(
-                <Router>
-                    <FirebaseContext.Provider
-                        value={{
-                            firebase: {
-                                auth: jest.fn(() => ({
-                                    sendPasswordResetEmail: jest.fn(() => Promise.resolve('Küldtünk az Ön e-mail címére egy jelszóváltoztatást segítő mailt!'))
-                                })),
-                                firestore: jest.fn(() => ({
-                                }))
-                            }
-                        }}
-                    >
-                        <UserContext.Provider
-                            value={{
-                                user: {
-                                    uid: process.env.REACT_APP_FIREBASE_ADMIN_UID,
-                                    displayName: 'admin'
-                                }
-                            }}
-                        >
-                            <LoggedInUserContext.Provider value={{ user: userFixture }}>
-                                <ProfileEdit
-                                    user={{
-                                        uid: process.env.REACT_APP_FIREBASE_ADMIN_UID,
-                                        displayName: 'admin'
-                                    }}
-                                />
-                            </LoggedInUserContext.Provider>
-                        </UserContext.Provider>
-                    </FirebaseContext.Provider>
-                </Router>
-            );
-
-            fireEvent.click(getByTestId('change-password'));
-
-            expect(document.title).toEqual(`Profil szerkesztése | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
-
-            await waitFor(() => {
-                expect(mockHistoryPush).not.toHaveBeenCalledWith(ROUTES.PROFILE);
-                expect(getByText('Küldtünk az Ön e-mail címére egy jelszóváltoztatást segítő mailt!')).toBeTruthy();
-                expect(queryByTestId('error')).toBeFalsy();
-                expect(queryByTestId('notification')).toBeTruthy();
-            });
-        });
-    });
-
-    it('Megjelenik a profilszerkesztő oldal, de a felhasználó a jelszóváltoztató gombra kattint és eltűnik az értesítés', async () => {
-        jest.useFakeTimers();
-
         await act(async () => {
             getUserByUserId.mockImplementation(() => [userFixture]);
             useUser.mockImplementation(() => ({ user: userFixture }));
@@ -283,9 +178,60 @@ describe('<ProfileEdit />', () => {
             );
 
             fireEvent.click(getByTestId('change-password'));
-            jest.advanceTimersByTime(5001);
 
-            expect(document.title).toEqual(`Profil szerkesztése | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
+            await waitFor(() => {
+                expect(mockHistoryPush).not.toHaveBeenCalledWith(ROUTES.PROFILE);
+                expect(queryByTestId('error')).toBeFalsy();
+                expect(queryByTestId('notification')).toBeTruthy();
+            });
+        });
+    });
+
+    it('Megjelenik a profilszerkesztő oldal, de a felhasználó a jelszóváltoztató gombra kattint és eltűnik az értesítés', async () => {
+        jest.useFakeTimers();
+
+        await act(async () => {
+            getUserByUserId.mockImplementation(() => [userFixture]);
+            useUser.mockImplementation(() => ({ user: userFixture }));
+
+            const { getByTestId, queryByTestId } = render(
+                <Router>
+                    <ResponsiveContext.Provider value={{ width: 300 }}>
+                        <FirebaseContext.Provider
+                            value={{
+                                firebase: {
+                                    auth: jest.fn(() => ({
+                                        sendPasswordResetEmail: jest.fn(() => Promise.resolve('Küldtünk az Ön e-mail címére egy jelszóváltoztatást segítő mailt!'))
+                                    })),
+                                    firestore: jest.fn(() => ({
+                                    }))
+                                }
+                            }}
+                        >
+                            <UserContext.Provider
+                                value={{
+                                    user: {
+                                        uid: process.env.REACT_APP_FIREBASE_ADMIN_UID,
+                                        displayName: 'admin'
+                                    }
+                                }}
+                            >
+                                <LoggedInUserContext.Provider value={{ user: userFixture }}>
+                                    <ProfileEdit
+                                        user={{
+                                            uid: process.env.REACT_APP_FIREBASE_ADMIN_UID,
+                                            displayName: 'admin'
+                                        }}
+                                    />
+                                </LoggedInUserContext.Provider>
+                            </UserContext.Provider>
+                        </FirebaseContext.Provider>
+                    </ResponsiveContext.Provider>
+                </Router>
+            );
+
+            fireEvent.click(getByTestId('change-password'));
+            jest.advanceTimersByTime(5001);
 
             await waitFor(() => {
                 expect(mockHistoryPush).not.toHaveBeenCalledWith(ROUTES.PROFILE);

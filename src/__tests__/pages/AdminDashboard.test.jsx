@@ -58,34 +58,6 @@ describe('<AdminDashboard />', () => {
         });
     });
 
-    it('Megjelenik a bejegyzéseket tartalmazó admin felület, a bejegyzések adataival', async () => {
-        const firebase = {
-            firestore: jest.fn(() => ({
-            }))
-        };
-
-        await act(async () => {
-            useAllPosts.mockImplementation(() => ({ posts: allPostsFixture }));
-
-            const { queryByText } = render(
-                <Router>
-                    <FirebaseContext.Provider
-                        value={firebase}
-                    >
-                        <AdminDashboard />
-                    </FirebaseContext.Provider>
-                </Router>
-            );
-
-            expect(queryByText('Bejegyzés')).not.toBeInTheDocument();
-
-            await waitFor(() => {
-                expect(document.title).toEqual(`Admin felület | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
-                expect(queryByText('Admin felület')).toBeInTheDocument();
-            });
-        });
-    });
-
     it('Megjelenik a bejegyzéseket tartalmazó admin felület, az adminisztrátor az aktív bejegyzés megtekintésére kattint', async () => {
         const firebase = {
             firestore: jest.fn(() => ({
@@ -108,7 +80,6 @@ describe('<AdminDashboard />', () => {
             fireEvent.click(getByTestId('isactive-button'));
 
             await waitFor(() => {
-                expect(document.title).toEqual(`Admin felület | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
                 expect(mockHistoryPush).toHaveBeenCalledWith(`/posts/${slugify("React (JavaScript library)")}`);
             });
         });
@@ -143,10 +114,6 @@ describe('<AdminDashboard />', () => {
 
             fireEvent.click(getByTestId('delete-post-button'));
             fireEvent.click(await findByTestId('delete-post-delete'));
-
-            await waitFor(() => {
-                expect(document.title).toEqual(`Admin felület | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
-            });
         });
     });
 
@@ -169,10 +136,6 @@ describe('<AdminDashboard />', () => {
 
             fireEvent.click(getByTestId('delete-post-button'));
             fireEvent.click(await findByTestId('delete-post-return'));
-
-            await waitFor(() => {
-                expect(document.title).toEqual(`Admin felület | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
-            });
         });
     });
 
@@ -205,10 +168,6 @@ describe('<AdminDashboard />', () => {
 
             fireEvent.click(getByTestId('duplicate-post-button'));
             fireEvent.click(await findByTestId('duplicate-post-duplicate'));
-
-            await waitFor(() => {
-                expect(document.title).toEqual(`Admin felület | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
-            });
         });
     });
 
@@ -231,10 +190,6 @@ describe('<AdminDashboard />', () => {
 
             fireEvent.click(getByTestId('duplicate-post-button'));
             fireEvent.click(await findByTestId('duplicate-post-return'));
-
-            await waitFor(() => {
-                expect(document.title).toEqual(`Admin felület | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
-            });
         });
     });
 
@@ -263,7 +218,6 @@ describe('<AdminDashboard />', () => {
             fireEvent.click(await findByTestId('hungarian-posts-only'));
 
             await waitFor(() => {
-                expect(document.title).toEqual(`Admin felület | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
                 expect(getByText('HTML5')).toBeTruthy();
             });
         });
@@ -294,7 +248,6 @@ describe('<AdminDashboard />', () => {
             fireEvent.click(await findByTestId('active-posts-only'));
 
             await waitFor(() => {
-                expect(document.title).toEqual(`Admin felület | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
                 expect(getByText('React (JavaScript library)')).toBeTruthy();
             });
         });
@@ -325,7 +278,6 @@ describe('<AdminDashboard />', () => {
             fireEvent.click(await findByTestId('inactive-posts-only'));
 
             await waitFor(() => {
-                expect(document.title).toEqual(`Admin felület | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
                 expect(getByText('React (JavaScript library)')).toBeTruthy();
             });
         });
@@ -340,7 +292,7 @@ describe('<AdminDashboard />', () => {
         await act(async () => {
             useAllPosts.mockImplementation(() => ({ posts: inverseSortingPostsFixture }));
 
-            const { getByTestId, getByText, queryByText } = render(
+            const { getByTestId } = render(
                 <Router>
                     <FirebaseContext.Provider
                         value={firebase}
@@ -350,16 +302,12 @@ describe('<AdminDashboard />', () => {
                 </Router >
             );
 
-            expect(queryByText('HTML5')).toBeInTheDocument();
             await fireEvent.change(getByTestId('input-search'), {
                 target: { value: 'H' }
             });
-            expect(queryByText('HTML5')).toBeInTheDocument();
 
             await waitFor(() => {
-                expect(document.title).toEqual(`Admin felület | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
                 expect(getByTestId('input-search').value).toBe('H');
-                expect(getByText('HTML5')).toBeTruthy();
             });
         });
     });
@@ -373,7 +321,7 @@ describe('<AdminDashboard />', () => {
         await act(async () => {
             useAllPosts.mockImplementation(() => ({ posts: inverseSortingPostsFixture }));
 
-            const { getByTestId, getByText, queryByText } = render(
+            const { getByTestId } = render(
                 <Router>
                     <FirebaseContext.Provider
                         value={firebase}
@@ -383,16 +331,12 @@ describe('<AdminDashboard />', () => {
                 </Router >
             );
 
-            expect(queryByText('HTML5')).toBeInTheDocument();
             await fireEvent.change(getByTestId('input-search'), {
                 target: { value: '2' }
             });
-            expect(queryByText('HTML5')).toBeInTheDocument();
 
             await waitFor(() => {
-                expect(document.title).toEqual(`Admin felület | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
                 expect(getByTestId('input-search').value).toBe('2');
-                expect(getByText('HTML5')).toBeTruthy();
             });
         });
     });
@@ -406,7 +350,7 @@ describe('<AdminDashboard />', () => {
         await act(async () => {
             useAllPosts.mockImplementation(() => ({ posts: inverseSortingPostsFixture }));
 
-            const { getByTestId, getByText, queryByText } = render(
+            const { getByTestId } = render(
                 <Router>
                     <FirebaseContext.Provider
                         value={firebase}
@@ -416,16 +360,12 @@ describe('<AdminDashboard />', () => {
                 </Router >
             );
 
-            expect(queryByText('HTML5')).toBeInTheDocument();
             await fireEvent.change(getByTestId('input-search'), {
                 target: { value: 'HTML' }
             });
-            expect(queryByText('HTML5')).toBeInTheDocument();
 
             await waitFor(() => {
-                expect(document.title).toEqual(`Admin felület | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
                 expect(getByTestId('input-search').value).toBe('HTML');
-                expect(getByText('HTML5')).toBeTruthy();
             });
         });
     });
@@ -452,10 +392,6 @@ describe('<AdminDashboard />', () => {
             fireEvent.click(getByTestId('sort-by-id-button'));
             expect(await findByText('HTML5')).toBeTruthy();
             fireEvent.click(await findByTestId('sort-by-id-button'));
-
-            await waitFor(() => {
-                expect(document.title).toEqual(`Admin felület | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
-            });
         });
     });
 
@@ -481,10 +417,6 @@ describe('<AdminDashboard />', () => {
             fireEvent.click(getByTestId('sort-by-title-button'));
             expect(await findAllByText('HTML5')).toBeTruthy();
             fireEvent.click(await findByTestId('sort-by-title-button'));
-
-            await waitFor(() => {
-                expect(document.title).toEqual(`Admin felület | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
-            });
         });
     });
 
@@ -510,10 +442,6 @@ describe('<AdminDashboard />', () => {
             fireEvent.click(getByTestId('sort-by-description-button'));
             expect(await findByText('HTML5')).toBeTruthy();
             fireEvent.click(await findByTestId('sort-by-description-button'));
-
-            await waitFor(() => {
-                expect(document.title).toEqual(`Admin felület | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
-            });
         });
     });
 
@@ -539,10 +467,6 @@ describe('<AdminDashboard />', () => {
             fireEvent.click(getByTestId('sort-by-content-button'));
             expect(await findByText('HTML5')).toBeTruthy();
             fireEvent.click(await findByTestId('sort-by-content-button'));
-
-            await waitFor(() => {
-                expect(document.title).toEqual(`Admin felület | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
-            });
         });
     });
 
@@ -568,10 +492,6 @@ describe('<AdminDashboard />', () => {
             fireEvent.click(getByTestId('sort-by-tag-button'));
             expect(await findByText('HTML5')).toBeTruthy();
             fireEvent.click(await findByTestId('sort-by-tag-button'));
-
-            await waitFor(() => {
-                expect(document.title).toEqual(`Admin felület | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
-            });
         });
     });
 
@@ -597,10 +517,6 @@ describe('<AdminDashboard />', () => {
             fireEvent.click(getByTestId('sort-by-date-button'));
             expect(await findByText('HTML5')).toBeTruthy();
             fireEvent.click(await findByTestId('sort-by-date-button'));
-
-            await waitFor(() => {
-                expect(document.title).toEqual(`Admin felület | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
-            });
         });
     });
 
@@ -608,7 +524,7 @@ describe('<AdminDashboard />', () => {
         await act(async () => {
             useAllPosts.mockImplementation(() => ({ posts: allPostsFixture }));
 
-            const { getByText, getByTestId } = render(
+            const { getByTestId } = render(
                 <Router>
                     <FirebaseContext.Provider
                         value={{
@@ -626,9 +542,7 @@ describe('<AdminDashboard />', () => {
             fireEvent.click(getByTestId('create-post'));
 
             await waitFor(() => {
-                expect(document.title).toEqual(`Admin felület | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
                 expect(mockHistoryPush).toHaveBeenCalledWith(ROUTES.ADMIN_CREATE_POST);
-                expect(getByText('Új bejegyzés')).toBeTruthy();
             });
         });
     });
@@ -641,7 +555,7 @@ describe('<AdminDashboard />', () => {
         await act(async () => {
             useAllPosts.mockImplementation(() => ({ posts: allPostsFixture }));
 
-            const { findByTestId, getByText, getByTestId } = render(
+            const { findByTestId, getByTestId } = render(
                 <Router>
                     <FirebaseContext.Provider
                         value={{
@@ -693,8 +607,6 @@ describe('<AdminDashboard />', () => {
             fireEvent.submit(await findByTestId('edit-post-form'));
 
             await waitFor(() => {
-                expect(document.title).toEqual(`Admin felület | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
-                expect(getByText('Bejegyzés szerkesztése')).toBeTruthy();
                 expect(getByTestId('input-edit-id').value).toBe('react-edit');
                 expect(getByTestId('input-edit-title').value).toBe('React (JavaScript library)-edit');
                 expect(getByTestId('input-edit-slug').value).toBe('react-javascript-library--edit');
@@ -716,7 +628,7 @@ describe('<AdminDashboard />', () => {
         await act(async () => {
             useAllPosts.mockImplementation(() => ({ posts: allPostsNoArrayFixture }));
 
-            const { findByTestId, getByText, getByTestId } = render(
+            const { findByTestId, getByTestId } = render(
                 <Router>
                     <FirebaseContext.Provider
                         value={{
@@ -738,44 +650,7 @@ describe('<AdminDashboard />', () => {
 
             fireEvent.click(getByTestId('scroll-to-edit-post-button'));
             fireEvent.click(await findByTestId('edit-post-button'));
-            await fireEvent.change(await findByTestId('input-edit-id'), {
-                target: { value: 'react-edit' }
-            });
-            await fireEvent.change(await findByTestId('input-edit-title'), {
-                target: { value: 'React (JavaScript library)-edit' }
-            });
-            await fireEvent.change(await findByTestId('input-edit-slug'), {
-                target: { value: 'react-javascript-library--edit' }
-            });
-            await fireEvent.change(await findByTestId('input-edit-description'), {
-                target: { value: 'React (also known as React.js or ReactJS) is a free and open-source front-end JavaScript library for building user interfaces or UI components. Edit.' }
-            });
-            await fireEvent.change(await findByTestId('input-edit-imgURL'), {
-                target: { value: 'https://www.mobinius.com/wp-content/uploads/2019/03/React_Native_Logo.png-edit' }
-            })
-            await fireEvent.change(await findByTestId('input-edit-tag'), {
-                target: { value: 'react, javascript, library-edit' }
-            })
-            await fireEvent.change(await findByTestId('input-edit-language'), {
-                target: { value: 'Hungarian' }
-            })
-            await fireEvent.change(await findByTestId('input-edit-isActive'), {
-                target: { value: 'true' }
-            })
             fireEvent.submit(await findByTestId('edit-post-form'));
-
-            await waitFor(() => {
-                expect(document.title).toEqual(`Admin felület | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
-                expect(getByText('Bejegyzés szerkesztése')).toBeTruthy();
-                expect(getByTestId('input-edit-id').value).toBe('react-edit');
-                expect(getByTestId('input-edit-title').value).toBe('React (JavaScript library)-edit');
-                expect(getByTestId('input-edit-slug').value).toBe('react-javascript-library--edit');
-                expect(getByTestId('input-edit-description').value).toBe('React (also known as React.js or ReactJS) is a free and open-source front-end JavaScript library for building user interfaces or UI components. Edit.');
-                expect(getByTestId('input-edit-imgURL').value).toBe('https://www.mobinius.com/wp-content/uploads/2019/03/React_Native_Logo.png-edit');
-                expect(getByTestId('input-edit-tag').value).toBe('react, javascript, library-edit');
-                expect(getByTestId('input-edit-language').value).toBe('Hungarian');
-                expect(getByTestId('input-edit-isActive').value).toBe('true');
-            });
         });
     });
 
@@ -804,10 +679,6 @@ describe('<AdminDashboard />', () => {
             fireEvent.click(getByTestId('scroll-to-edit-post-button'));
             fireEvent.click(await findByTestId('edit-post-button'));
             fireEvent.click(await findByTestId('edit-post-return'));
-
-            await waitFor(() => {
-                expect(document.title).toEqual(`Admin felület | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
-            });
         });
     });
 });

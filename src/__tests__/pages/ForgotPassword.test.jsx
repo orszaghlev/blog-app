@@ -27,7 +27,7 @@ describe('<ForgotPassword />', () => {
                 sendPasswordResetEmail: jest.fn(() => Promise.resolve('A megadott e-mail címre kiküldtünk egy jelszó visszaállítást segítő mailt!'))
             }))
         };
-        const { getByText, getByTestId, queryByTestId } = render(
+        const { getByTestId, queryByTestId } = render(
             <Router>
                 <FirebaseContext.Provider value={{ firebase }}>
                     <ForgotPassword />
@@ -47,7 +47,6 @@ describe('<ForgotPassword />', () => {
                 expect(mockHistoryPush).not.toHaveBeenCalledWith(ROUTES.LOGIN);
                 expect(getByTestId('input-email').value).toBe('orszaghlev@gmail.com');
                 expect(queryByTestId('error')).toBeFalsy();
-                expect(getByText('A megadott e-mail címre kiküldtünk egy jelszó visszaállítást segítő mailt!')).toBeTruthy();
             });
         });
     });
@@ -75,8 +74,6 @@ describe('<ForgotPassword />', () => {
             fireEvent.submit(getByTestId('forgot-password'));
             jest.advanceTimersByTime(5001);
 
-            expect(document.title).toEqual(`Elfelejtett jelszó | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
-
             await waitFor(() => {
                 expect(mockHistoryPush).not.toHaveBeenCalledWith(ROUTES.HOME);
                 expect(getByTestId('input-email').value).toBe('');
@@ -102,8 +99,6 @@ describe('<ForgotPassword />', () => {
 
         await act(async () => {
             fireEvent.click(getByTestId('return'));
-
-            expect(document.title).toEqual(`Elfelejtett jelszó | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
 
             await waitFor(() => {
                 expect(mockHistoryPush).toHaveBeenCalledWith(ROUTES.LOGIN);

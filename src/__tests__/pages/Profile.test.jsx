@@ -40,7 +40,7 @@ describe('<Profile />', () => {
             getUserByUserId.mockImplementation(() => [userFixture]);
             useUser.mockImplementation(() => ({ user: userFixture }));
 
-            const { getByText } = render(
+            render(
                 <Router>
                     <ResponsiveContext.Provider value={{ width: 300 }}>
                         <FirebaseContext.Provider
@@ -70,17 +70,6 @@ describe('<Profile />', () => {
 
             await waitFor(() => {
                 expect(mockHistoryPush).not.toHaveBeenCalledWith(ROUTES.HOME);
-                expect(getByText('Profil')).toBeTruthy();
-                expect(getByText('Felhasználó adatai')).toBeTruthy();
-                expect(getByText('Felhasználónév: admin')).toBeTruthy();
-                expect(getByText('Teljes név: Levente Országh')).toBeTruthy();
-                expect(getByText('E-mail cím: orszaghlev@gmail.com')).toBeTruthy();
-                expect(getByText('Regisztráció dátuma: 2021. 09. 16. 13:27:57')).toBeTruthy();
-                expect(getByText('Kedvenc bejegyzések')).toBeTruthy();
-                expect(getByText('JSX (JavaScript)')).toBeTruthy();
-                expect(getByText('Saját hozzászólások')).toBeTruthy();
-                expect(getByText('Facebook')).toBeTruthy();
-                expect(getByText('(Y)')).toBeTruthy();
             });
         });
     });
@@ -95,7 +84,7 @@ describe('<Profile />', () => {
             getUserByUserId.mockImplementation(() => [userWithNoFavoritesOrCommentsFixture]);
             useUser.mockImplementation(() => ({ user: userWithNoFavoritesOrCommentsFixture }));
 
-            const { getByText } = render(
+            render(
                 <Router>
                     <FirebaseContext.Provider
                         value={firebase}
@@ -121,18 +110,8 @@ describe('<Profile />', () => {
                 </Router>
             );
 
-            expect(document.title).toEqual(`Profil | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
-
             await waitFor(() => {
                 expect(mockHistoryPush).not.toHaveBeenCalledWith(ROUTES.HOME);
-                expect(getByText('Profil')).toBeTruthy();
-                expect(getByText('Felhasználó adatai')).toBeTruthy();
-                expect(getByText('Felhasználónév: admin')).toBeTruthy();
-                expect(getByText('Teljes név: Levente Országh')).toBeTruthy();
-                expect(getByText('E-mail cím: orszaghlev@gmail.com')).toBeTruthy();
-                expect(getByText('Regisztráció dátuma: 2021. 09. 16. 13:27:57')).toBeTruthy();
-                expect(getByText('Jelenleg nincsenek kedvenc bejegyzései!')).toBeTruthy();
-                expect(getByText('Jelenleg nincsenek saját hozzászólásai!')).toBeTruthy();
             });
         });
     });
@@ -174,8 +153,6 @@ describe('<Profile />', () => {
             );
 
             fireEvent.click(getByTestId('profile-edit'));
-
-            expect(document.title).toEqual(`Profil | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
 
             await waitFor(() => {
                 expect(mockHistoryPush).toHaveBeenCalledWith(ROUTES.PROFILE_EDIT);
@@ -221,8 +198,6 @@ describe('<Profile />', () => {
 
             fireEvent.click(getByTestId('user-favoritePost-button'));
 
-            expect(document.title).toEqual(`Profil | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
-
             await waitFor(() => {
                 expect(mockHistoryPush).toHaveBeenCalledWith(`/posts/${slugify("JSX (JavaScript)")}`);
             });
@@ -266,8 +241,6 @@ describe('<Profile />', () => {
             );
 
             fireEvent.click(getByTestId('user-comment-button'));
-
-            expect(document.title).toEqual(`Profil | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
 
             await waitFor(() => {
                 expect(mockHistoryPush).toHaveBeenCalledWith(`/posts/${slugify("Facebook")}`);

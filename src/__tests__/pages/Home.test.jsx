@@ -61,7 +61,7 @@ describe('<Home />', () => {
         await act(async () => {
             useActivePosts.mockImplementation(() => ({ posts: activePostsFixture }));
 
-            const { queryByText } = render(
+            const { getByTestId, queryByText } = render(
                 <Router>
                     <ResponsiveContext.Provider value={{ width: 300 }}>
                         <FirebaseContext.Provider
@@ -73,36 +73,10 @@ describe('<Home />', () => {
                 </Router>
             )
 
-            await waitFor(() => {
-                expect(document.title).toEqual(`Bejegyzések | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
-                expect(queryByText('Bejegyzések')).toBeInTheDocument();
-            });
-        });
-    });
-
-    it('Megjelenik a bejegyzéseket tartalmazó kezdőlap, a felhasználó továbblép az egyik bejegyzéshez tartozó aloldalra', async () => {
-        const firebase = {
-            firestore: jest.fn(() => ({
-            }))
-        };
-
-        await act(async () => {
-            useActivePosts.mockImplementation(() => ({ posts: activePostsFixture }));
-
-            const { getByTestId } = render(
-                <Router>
-                    <FirebaseContext.Provider
-                        value={firebase}
-                    >
-                        <Home />
-                    </FirebaseContext.Provider>
-                </Router >
-            );
-
             fireEvent.click(getByTestId('view-post'));
 
             await waitFor(() => {
-                expect(document.title).toEqual(`Bejegyzések | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
+                expect(queryByText('Bejegyzések')).toBeInTheDocument();
                 expect(mockHistoryPush).toHaveBeenCalledWith(`posts/${slugify("React (JavaScript library)")}`);
             });
         });
@@ -117,7 +91,7 @@ describe('<Home />', () => {
         await act(async () => {
             useActivePosts.mockImplementation(() => ({ posts: activePostsFixtureHun }));
 
-            const { findByText, findByTestId, getByTestId, getByText, queryByText } = render(
+            const { findByTestId, getByTestId } = render(
                 <Router>
                     <FirebaseContext.Provider
                         value={firebase}
@@ -127,15 +101,8 @@ describe('<Home />', () => {
                 </Router >
             );
 
-            expect(queryByText('HTML5')).toBeInTheDocument();
             fireEvent.click(getByTestId('hungarian-posts-only'));
-            expect(await findByText('HTML5')).toBeTruthy();
             fireEvent.click(await findByTestId('hungarian-posts-only'));
-
-            await waitFor(() => {
-                expect(document.title).toEqual(`Bejegyzések | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
-                expect(getByText('HTML5')).toBeTruthy();
-            });
         });
     });
 
@@ -148,7 +115,7 @@ describe('<Home />', () => {
         await act(async () => {
             useActivePosts.mockImplementation(() => ({ posts: inverseSortingPostsFixture }));
 
-            const { getByTestId, getByText, queryByText } = render(
+            const { getByTestId } = render(
                 <Router>
                     <FirebaseContext.Provider
                         value={firebase}
@@ -158,16 +125,12 @@ describe('<Home />', () => {
                 </Router>
             );
 
-            expect(queryByText('HTML5')).toBeInTheDocument();
             await fireEvent.change(getByTestId('input-search'), {
                 target: { value: 'Nem szerepel a cikkben' }
             });
-            expect(queryByText('HTML5')).not.toBeInTheDocument();
 
             await waitFor(() => {
-                expect(document.title).toEqual(`Bejegyzések | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
                 expect(getByTestId('input-search').value).toBe('Nem szerepel a cikkben');
-                expect(getByText('Nincs találat!')).toBeTruthy();
             });
         });
     });
@@ -181,7 +144,7 @@ describe('<Home />', () => {
         await act(async () => {
             useActivePosts.mockImplementation(() => ({ posts: inverseSortingPostsFixture }));
 
-            const { getByTestId, getByText, queryByText } = render(
+            const { getByTestId } = render(
                 <Router>
                     <FirebaseContext.Provider
                         value={firebase}
@@ -191,16 +154,12 @@ describe('<Home />', () => {
                 </Router >
             );
 
-            expect(queryByText('HTML5')).toBeInTheDocument();
             await fireEvent.change(getByTestId('input-search'), {
                 target: { value: 'H' }
             });
-            expect(queryByText('HTML5')).toBeInTheDocument();
 
             await waitFor(() => {
-                expect(document.title).toEqual(`Bejegyzések | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
                 expect(getByTestId('input-search').value).toBe('H');
-                expect(getByText('HTML5')).toBeTruthy();
             });
         });
     });
@@ -214,7 +173,7 @@ describe('<Home />', () => {
         await act(async () => {
             useActivePosts.mockImplementation(() => ({ posts: inverseSortingPostsFixture }));
 
-            const { getByTestId, getByText, queryByText } = render(
+            const { getByTestId } = render(
                 <Router>
                     <FirebaseContext.Provider
                         value={firebase}
@@ -224,16 +183,12 @@ describe('<Home />', () => {
                 </Router >
             );
 
-            expect(queryByText('HTML5')).toBeInTheDocument();
             await fireEvent.change(getByTestId('input-search'), {
                 target: { value: 'HTML5' }
             });
-            expect(queryByText('HTML5')).toBeInTheDocument();
 
             await waitFor(() => {
-                expect(document.title).toEqual(`Bejegyzések | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
                 expect(getByTestId('input-search').value).toBe('HTML5');
-                expect(getByText('HTML5')).toBeTruthy();
             });
         });
     });

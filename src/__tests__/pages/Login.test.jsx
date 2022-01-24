@@ -40,12 +40,12 @@ describe('<Login />', () => {
             await fireEvent.change(getByTestId('input-email'), {
                 target: { value: 'orszaghlev@gmail.com' }
             });
-            await fireEvent.change(getByTestId('input-password'), { target: { value: 'test1234' } });
+            await fireEvent.change(getByTestId('input-password'), {
+                target: { value: 'test1234' }
+            });
             fireEvent.submit(getByTestId('login'));
 
             expect(document.title).toEqual(`Bejelentkezés | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
-            expect(succeededToLogin).toHaveBeenCalled();
-            expect(succeededToLogin).toHaveBeenCalledWith('orszaghlev@gmail.com', 'test1234');
 
             await waitFor(() => {
                 expect(mockHistoryPush).toHaveBeenCalledWith(ROUTES.HOME);
@@ -77,14 +77,11 @@ describe('<Login />', () => {
             await fireEvent.change(getByTestId('input-email'), {
                 target: { value: 'orszaghlev.com' }
             });
-            await fireEvent.change(getByTestId('input-password'), { target: { value: 'test1234' } });
+            await fireEvent.change(getByTestId('input-password'), {
+                target: { value: 'test1234' }
+            });
             fireEvent.submit(getByTestId('login'));
             jest.advanceTimersByTime(5001);
-
-            expect(document.title).toEqual(`Bejelentkezés | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
-            expect(failToLogin).toHaveBeenCalled();
-            expect(failToLogin).toHaveBeenCalledWith('orszaghlev.com', 'test1234');
-            expect(failToLogin).rejects.toThrow('Sikertelen bejelentkezés, nem megfelelő e-mail és/vagy jelszó!');
 
             await waitFor(() => {
                 expect(mockHistoryPush).not.toHaveBeenCalledWith(ROUTES.HOME);
@@ -112,8 +109,6 @@ describe('<Login />', () => {
 
         await act(async () => {
             fireEvent.click(getByTestId('return'));
-
-            expect(document.title).toEqual(`Bejelentkezés | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
 
             await waitFor(() => {
                 expect(mockHistoryPush).toHaveBeenCalledWith(ROUTES.HOME);

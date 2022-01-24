@@ -49,14 +49,18 @@ describe('<SignUp />', () => {
             doesUsernameExist.mockImplementation(() => Promise.resolve(true));
             doesEmailAddressExist.mockImplementation(() => Promise.resolve(true));
 
-            await fireEvent.change(getByTestId('input-username'), { target: { value: 'admin' } });
+            await fireEvent.change(getByTestId('input-username'), {
+                target: { value: 'admin' }
+            });
             await fireEvent.change(getByTestId('input-fullname'), {
                 target: { value: 'Levente Országh' }
             });
             await fireEvent.change(getByTestId('input-email'), {
                 target: { value: 'orszaghlev@gmail.com' }
             });
-            await fireEvent.change(getByTestId('input-password'), { target: { value: 'test1234' } });
+            await fireEvent.change(getByTestId('input-password'), {
+                target: { value: 'test1234' }
+            });
             fireEvent.submit(getByTestId('sign-up'));
 
             expect(document.title).toEqual(`Regisztráció | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
@@ -99,18 +103,21 @@ describe('<SignUp />', () => {
         await act(async () => {
             doesUsernameExist.mockImplementation(() => Promise.resolve([false]));
 
-            await fireEvent.change(getByTestId('input-username'), { target: { value: 'admin' } });
+            await fireEvent.change(getByTestId('input-username'), {
+                target: { value: 'admin' }
+            });
             await fireEvent.change(getByTestId('input-fullname'), {
                 target: { value: 'Levente Országh' }
             });
             await fireEvent.change(getByTestId('input-email'), {
                 target: { value: 'orszaghlev@gmail.com' }
             });
-            await fireEvent.change(getByTestId('input-password'), { target: { value: 'test1234' } });
+            await fireEvent.change(getByTestId('input-password'), {
+                target: { value: 'test1234' }
+            });
             fireEvent.submit(getByTestId('sign-up'));
             jest.advanceTimersByTime(5001);
 
-            expect(document.title).toEqual(`Regisztráció | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
             await expect(doesUsernameExist).toHaveBeenCalled();
             await expect(doesUsernameExist).toHaveBeenCalledWith('admin');
 
@@ -125,14 +132,14 @@ describe('<SignUp />', () => {
         });
     });
 
-    it('Megjelenik a regisztrációs form, de hiba következik be', async () => {
+    it('Megjelenik a regisztrációs form, de a regisztráció során hiba következik be', async () => {
         jest.useFakeTimers();
 
         const firebase = {
             auth: jest.fn(() => ({
                 createUserWithEmailAndPassword: jest.fn(() => ({
                     user: {
-                        updateProfile: jest.fn(() => Promise.reject(new Error('Már regisztráltak ezzel a felhasználónévvel és/vagy e-mail címmel!')))
+                        updateProfile: jest.fn(() => Promise.reject(new Error('A regisztráció során hiba történt! Kérjük, próbálja újra!')))
                     }
                 }))
             }))
@@ -149,18 +156,21 @@ describe('<SignUp />', () => {
             doesUsernameExist.mockImplementation(() => Promise.resolve(false));
             doesEmailAddressExist.mockImplementation(() => Promise.resolve(false));
 
-            await fireEvent.change(getByTestId('input-username'), { target: { value: 'admin' } });
+            await fireEvent.change(getByTestId('input-username'), {
+                target: { value: 'admin' }
+            });
             await fireEvent.change(getByTestId('input-fullname'), {
                 target: { value: 'Levente Országh' }
             });
             await fireEvent.change(getByTestId('input-email'), {
                 target: { value: 'orszaghlev@gmail.com' }
             });
-            await fireEvent.change(getByTestId('input-password'), { target: { value: 'test1234' } });
+            await fireEvent.change(getByTestId('input-password'), {
+                target: { value: 'test1234' }
+            });
             fireEvent.submit(getByTestId('sign-up'));
             jest.advanceTimersByTime(5001);
 
-            expect(document.title).toEqual(`Regisztráció | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
             await expect(doesUsernameExist).toHaveBeenCalled();
             await expect(doesUsernameExist).toHaveBeenCalledWith('admin');
             await expect(doesEmailAddressExist).toHaveBeenCalled();
@@ -194,8 +204,6 @@ describe('<SignUp />', () => {
 
         await act(async () => {
             fireEvent.click(getByTestId('return'));
-
-            expect(document.title).toEqual(`Regisztráció | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
 
             await waitFor(() => {
                 expect(mockHistoryPush).toHaveBeenCalledWith(ROUTES.HOME);

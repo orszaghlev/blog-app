@@ -13,7 +13,7 @@ export default function Profile() {
     const { user } = useUser(loggedInUser?.uid);
 
     useEffect(() => {
-        document.title = `Profil | ${process.env.REACT_APP_FIREBASE_APP_NAME}`;
+        document.title = `Profil | ${process.env.REACT_APP_BLOG_NAME}`;
     }, []);
 
     return (
@@ -28,7 +28,7 @@ export default function Profile() {
                     <meta property="og:description"
                         content="A felhasználó profilja. Tartalmazza a regisztráláskor megadott információkat, illetve a felhasználó kedvenc bejegyzéseit és saját hozzászólásait." />
                     <meta property="og:type" content="profile" />
-                    <meta property="og:site_name" content="%REACT_APP_FIREBASE_APP_NAME%" />
+                    <meta property="og:site_name" content="%REACT_APP_BLOG_NAME%" />
                     <meta property="og:locale" content="hu_HU" />
                 </MetaTags>
                 <motion.div initial="hidden" animate="visible" variants={{

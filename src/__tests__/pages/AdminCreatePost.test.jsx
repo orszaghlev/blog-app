@@ -67,7 +67,7 @@ describe('<AdminCreatePost />', () => {
             })
             fireEvent.submit(getByTestId('create-post'));
 
-            expect(document.title).toEqual(`Új bejegyzés | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
+            expect(document.title).toEqual(`Új bejegyzés | ${process.env.REACT_APP_BLOG_NAME}`);
 
             await waitFor(() => {
                 expect(mockHistoryPush).toHaveBeenCalledWith(ROUTES.ADMIN_DASHBOARD);

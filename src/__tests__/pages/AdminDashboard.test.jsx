@@ -52,7 +52,7 @@ describe('<AdminDashboard />', () => {
             );
 
             await waitFor(() => {
-                expect(document.title).toEqual(`Admin felület | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
+                expect(document.title).toEqual(`Admin felület | ${process.env.REACT_APP_BLOG_NAME}`);
                 expect(queryByText('Admin felület')).not.toBeInTheDocument();
             });
         });

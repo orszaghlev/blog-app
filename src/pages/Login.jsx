@@ -5,7 +5,7 @@ import MetaTags from 'react-meta-tags';
 
 export default function Login() {
     useEffect(() => {
-        document.title = `Bejelentkezés | ${process.env.REACT_APP_FIREBASE_APP_NAME}`;
+        document.title = `Bejelentkezés | ${process.env.REACT_APP_BLOG_NAME}`;
     }, []);
 
     return (
@@ -17,7 +17,7 @@ export default function Login() {
                 <meta property="og:title" content="Bejelentkezés" />
                 <meta property="og:description" content="Bejelentkezési felület. E-mail és jelszó megadásával tud a felhasználó bejelentkezni az oldalra." />
                 <meta property="og:type" content="website" />
-                <meta property="og:site_name" content="%REACT_APP_FIREBASE_APP_NAME%" />
+                <meta property="og:site_name" content="%REACT_APP_BLOG_NAME%" />
                 <meta property="og:locale" content="hu_HU" />
             </MetaTags>
             <motion.div initial="hidden" animate="visible" variants={{

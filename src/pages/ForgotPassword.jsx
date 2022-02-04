@@ -5,7 +5,7 @@ import MetaTags from 'react-meta-tags';
 
 export default function ForgotPassword() {
     useEffect(() => {
-        document.title = `Elfelejtett jelszó | ${process.env.REACT_APP_FIREBASE_APP_NAME}`;
+        document.title = `Elfelejtett jelszó | ${process.env.REACT_APP_BLOG_NAME}`;
     }, []);
 
     return (
@@ -17,7 +17,7 @@ export default function ForgotPassword() {
                 <meta property="og:title" content="Elfelejtett jelszó" />
                 <meta property="og:description" content="Elfelejtett jelszó esetén a felhasználó ezen az oldalon kérhet jelszó visszaállítás e-mailt." />
                 <meta property="og:type" content="website" />
-                <meta property="og:site_name" content="%REACT_APP_FIREBASE_APP_NAME%" />
+                <meta property="og:site_name" content="%REACT_APP_BLOG_NAME%" />
                 <meta property="og:locale" content="hu_HU" />
             </MetaTags>
             <motion.div initial="hidden" animate="visible" variants={{

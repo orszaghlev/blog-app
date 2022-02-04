@@ -45,7 +45,7 @@ describe('<Login />', () => {
             });
             fireEvent.submit(getByTestId('login'));
 
-            expect(document.title).toEqual(`Bejelentkezés | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
+            expect(document.title).toEqual(`Bejelentkezés | ${process.env.REACT_APP_BLOG_NAME}`);
 
             await waitFor(() => {
                 expect(mockHistoryPush).toHaveBeenCalledWith(ROUTES.HOME);

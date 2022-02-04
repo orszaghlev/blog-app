@@ -17,8 +17,8 @@ REACT_APP_FIREBASE_STORAGE_BUCKET="your-storage-bucket"
 REACT_APP_FIREBASE_MESSAGING_SENDER_ID="your-messaging-sender-id"
 REACT_APP_FIREBASE_APP_ID="your-app-id"
 REACT_APP_FIREBASE_ADMIN_UID="your-admin-uid"
-REACT_APP_FIREBASE_APP_NAME="your-app-name"
-REACT_APP_FIREBASE_APP_DESCRIPTION="your-app-description"
+REACT_APP_BLOG_NAME="your-blog-name"
+REACT_APP_BLOG_DESCRIPTION="your-blog-description"
 ```
 
 If you have a Tiny API Key, you can include this line as well:

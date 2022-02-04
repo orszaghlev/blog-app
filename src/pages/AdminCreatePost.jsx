@@ -5,7 +5,7 @@ import MetaTags from 'react-meta-tags';
 
 export default function AdminCreatePost() {
     useEffect(() => {
-        document.title = `Új bejegyzés | ${process.env.REACT_APP_FIREBASE_APP_NAME}`;
+        document.title = `Új bejegyzés | ${process.env.REACT_APP_BLOG_NAME}`;
     }, []);
 
     return (
@@ -17,7 +17,7 @@ export default function AdminCreatePost() {
                 <meta property="og:title" content="Új bejegyzés" />
                 <meta property="og:description" content="Bejegyzés létrehozása. Kizárólag adminisztrátorok számára elérhető." />
                 <meta property="og:type" content="website" />
-                <meta property="og:site_name" content="%REACT_APP_FIREBASE_APP_NAME%" />
+                <meta property="og:site_name" content="%REACT_APP_BLOG_NAME%" />
                 <meta property="og:locale" content="hu_HU" />
                 <meta property="og:locale:alternate" content="en_US" />
             </MetaTags>

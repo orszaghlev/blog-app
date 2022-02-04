@@ -46,7 +46,7 @@ describe('<Home />', () => {
             );
 
             await waitFor(() => {
-                expect(document.title).toEqual(`Bejegyzések | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
+                expect(document.title).toEqual(`Bejegyzések | ${process.env.REACT_APP_BLOG_NAME}`);
                 expect(queryByText('Bejegyzések')).not.toBeInTheDocument();
             });
         });

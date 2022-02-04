@@ -21,9 +21,9 @@ export default function ViewPost() {
 
     useEffect(() => {
         if (post?.isActive === "true" && (new Date(post?.date).getTime() <= new Date().getTime())) {
-            document.title = `${post?.title} | ${process.env.REACT_APP_FIREBASE_APP_NAME}`;
+            document.title = `${post?.title} | ${process.env.REACT_APP_BLOG_NAME}`;
         } else {
-            document.title = `${process.env.REACT_APP_FIREBASE_APP_NAME}`;
+            document.title = `${process.env.REACT_APP_BLOG_NAME}`;
         }
     }, [post]);
 
@@ -34,7 +34,7 @@ export default function ViewPost() {
                 <meta property="og:title" content="Bejegyzés" />
                 <meta property="og:description" content="Ha a vendég egy aktív bejegyzést kért le, akkor ezen az oldalon olvashatja el annak teljes tartalmát." />
                 <meta property="og:type" content="website" />
-                <meta property="og:site_name" content="%REACT_APP_FIREBASE_APP_NAME%" />
+                <meta property="og:site_name" content="%REACT_APP_BLOG_NAME%" />
                 <meta property="og:locale" content="hu_HU" />
                 <meta property="og:locale:alternate" content="en_US" />
             </MetaTags>

@@ -36,7 +36,7 @@ describe('<NotFound />', () => {
 
             await waitFor(() => {
                 expect(getByText('A keresett oldal nem található!')).toBeTruthy();
-                expect(document.title).toEqual(`404 | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
+                expect(document.title).toEqual(`404 | ${process.env.REACT_APP_BLOG_NAME}`);
             });
         });
     });

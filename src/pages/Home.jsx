@@ -9,7 +9,7 @@ export default function Home() {
     const { posts } = useActivePosts();
 
     useEffect(() => {
-        document.title = `Bejegyzések | ${process.env.REACT_APP_FIREBASE_APP_NAME}`;
+        document.title = `Bejegyzések | ${process.env.REACT_APP_BLOG_NAME}`;
     }, []);
 
     return (
@@ -20,7 +20,7 @@ export default function Home() {
                 <meta property="og:title" content="Bejegyzések" />
                 <meta property="og:description" content="A blog kezdőlapja. A vendégek innen érhetik el az aktív bejegyzéseket." />
                 <meta property="og:type" content="website" />
-                <meta property="og:site_name" content="%REACT_APP_FIREBASE_APP_NAME%" />
+                <meta property="og:site_name" content="%REACT_APP_BLOG_NAME%" />
                 <meta property="og:locale" content="hu_HU" />
                 <meta property="og:locale:alternate" content="en_US" />
             </MetaTags>

@@ -79,7 +79,7 @@ describe('<ProfileEdit />', () => {
             });
             fireEvent.submit(getByTestId('edit-user-data'));
 
-            expect(document.title).toEqual(`Profil szerkesztése | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
+            expect(document.title).toEqual(`Profil szerkesztése | ${process.env.REACT_APP_BLOG_NAME}`);
             await expect(doesUsernameExist).toHaveBeenCalled();
             await expect(doesUsernameExist).toHaveBeenCalledWith('admin');
 

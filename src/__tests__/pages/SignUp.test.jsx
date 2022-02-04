@@ -63,7 +63,7 @@ describe('<SignUp />', () => {
             });
             fireEvent.submit(getByTestId('sign-up'));
 
-            expect(document.title).toEqual(`Regisztráció | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
+            expect(document.title).toEqual(`Regisztráció | ${process.env.REACT_APP_BLOG_NAME}`);
             await expect(doesUsernameExist).toHaveBeenCalled();
             await expect(doesUsernameExist).toHaveBeenCalledWith('admin');
             await expect(doesEmailAddressExist).toHaveBeenCalled();

@@ -56,7 +56,7 @@ export default function App() {
     };
 
     useEffect(() => {
-        document.title = `${process.env.REACT_APP_FIREBASE_APP_NAME}`;
+        document.title = `${process.env.REACT_APP_BLOG_NAME}`;
         if (user?.uid === process.env.REACT_APP_FIREBASE_ADMIN_UID) {
             setAdmin(user);
         } else {
@@ -67,12 +67,12 @@ export default function App() {
     return (
         <div className="App">
             <MetaTags>
-                <meta name="description" content="%REACT_APP_FIREBASE_APP_DESCRIPTION" />
+                <meta name="description" content="%REACT_APP_BLOG_DESCRIPTION" />
                 <meta property="og:url" content="%REACT_APP_FIREBASE_AUTH_DOMAIN%" />
-                <meta property="og:title" content="%REACT_APP_FIREBASE_APP_NAME%" />
-                <meta property="og:description" content="%REACT_APP_FIREBASE_APP_DESCRIPTION" />
+                <meta property="og:title" content="%REACT_APP_BLOG_NAME%" />
+                <meta property="og:description" content="%REACT_APP_BLOG_DESCRIPTION" />
                 <meta property="og:type" content="website" />
-                <meta property="og:site_name" content="%REACT_APP_FIREBASE_APP_NAME%" />
+                <meta property="og:site_name" content="%REACT_APP_BLOG_NAME%" />
                 <meta property="og:locale" content="hu_HU" />
                 <meta property="og:locale:alternate" content="en_US" />
             </MetaTags>
@@ -83,7 +83,7 @@ export default function App() {
                             <Toolbar>
                                 <Typography variant="h6" className={classes.title} align="left">
                                     <NavLink to={ROUTES.HOME}>
-                                        <span className="nav-link" style={{ color: 'white' }}>{process.env.REACT_APP_FIREBASE_APP_NAME}</span>
+                                        <span className="nav-link" style={{ color: 'white' }}>{process.env.REACT_APP_BLOG_NAME}</span>
                                     </NavLink>
                                 </Typography>
                                 {!isTabletOrMobile && <>

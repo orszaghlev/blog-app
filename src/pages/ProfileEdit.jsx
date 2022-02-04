@@ -11,7 +11,7 @@ export default function ProfileEdit() {
     const { user } = useUser(loggedInUser?.uid);
 
     useEffect(() => {
-        document.title = `Profil szerkesztése | ${process.env.REACT_APP_FIREBASE_APP_NAME}`;
+        document.title = `Profil szerkesztése | ${process.env.REACT_APP_BLOG_NAME}`;
     }, []);
 
     return (
@@ -24,7 +24,7 @@ export default function ProfileEdit() {
                     <meta property="og:title" content="Profil szerkesztése" />
                     <meta property="og:description" content="A felhasználó ezen az oldalon szerkesztheti profiljának bizonyos adatait." />
                     <meta property="og:type" content="profile" />
-                    <meta property="og:site_name" content="%REACT_APP_FIREBASE_APP_NAME%" />
+                    <meta property="og:site_name" content="%REACT_APP_BLOG_NAME%" />
                     <meta property="og:locale" content="hu_HU" />
                 </MetaTags>
                 <motion.div initial="hidden" animate="visible" variants={{

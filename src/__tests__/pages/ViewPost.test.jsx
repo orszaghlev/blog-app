@@ -78,7 +78,7 @@ describe('<ViewPost />', () => {
             );
 
             await waitFor(() => {
-                expect(document.title).toEqual(`${process.env.REACT_APP_FIREBASE_APP_NAME}`);
+                expect(document.title).toEqual(`${process.env.REACT_APP_BLOG_NAME}`);
             });
         });
     });

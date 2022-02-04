@@ -11,7 +11,7 @@ export default function AdminDashboard() {
     const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' });
 
     useEffect(() => {
-        document.title = `Admin felület | ${process.env.REACT_APP_FIREBASE_APP_NAME}`;
+        document.title = `Admin felület | ${process.env.REACT_APP_BLOG_NAME}`;
     }, []);
 
     return (
@@ -23,7 +23,7 @@ export default function AdminDashboard() {
                 <meta property="og:title" content="Admin felület" />
                 <meta property="og:description" content="Kezelőfelület adminisztrátorok számára. Bejegyzések megtekintése, duplikálása, törlése és szerkesztése." />
                 <meta property="og:type" content="website" />
-                <meta property="og:site_name" content="%REACT_APP_FIREBASE_APP_NAME%" />
+                <meta property="og:site_name" content="%REACT_APP_BLOG_NAME%" />
                 <meta property="og:locale" content="hu_HU" />
                 <meta property="og:locale:alternate" content="en_US" />
             </MetaTags>

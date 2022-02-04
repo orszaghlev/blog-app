@@ -5,7 +5,7 @@ import ShowNotFound from "../components/not-found/ShowNotFound";
 
 export default function NotFound() {
     useEffect(() => {
-        document.title = `404 | ${process.env.REACT_APP_FIREBASE_APP_NAME}`;
+        document.title = `404 | ${process.env.REACT_APP_BLOG_NAME}`;
     }, []);
 
     return (
@@ -18,7 +18,7 @@ export default function NotFound() {
                 <meta property="og:description"
                     content="A keresett oldal nem található. Ha a vendég olyan aloldalra tévedne, ami számára nem elérhető vagy nem is létezik, akkor ez az üzenet fogadja." />
                 <meta property="og:type" content="website" />
-                <meta property="og:site_name" content="%REACT_APP_FIREBASE_APP_NAME%" />
+                <meta property="og:site_name" content="%REACT_APP_BLOG_NAME%" />
                 <meta property="og:locale" content="hu_HU" />
             </MetaTags>
             <motion.div initial="hidden" animate="visible" variants={{

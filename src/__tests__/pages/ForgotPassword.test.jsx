@@ -41,7 +41,7 @@ describe('<ForgotPassword />', () => {
             });
             fireEvent.submit(getByTestId('forgot-password'));
 
-            expect(document.title).toEqual(`Elfelejtett jelszó | ${process.env.REACT_APP_FIREBASE_APP_NAME}`);
+            expect(document.title).toEqual(`Elfelejtett jelszó | ${process.env.REACT_APP_BLOG_NAME}`);
 
             await waitFor(() => {
                 expect(mockHistoryPush).not.toHaveBeenCalledWith(ROUTES.LOGIN);

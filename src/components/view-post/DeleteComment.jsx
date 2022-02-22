@@ -44,9 +44,10 @@ export default function DeleteComment({ docId, title, language, displayName, com
 
     return (
         <>
-            <FontAwesomeIcon title="Törlés" data-testid="delete-comment" className="btn btn-danger m-1"
-                style={{ width: "40px", height: "40px" }} onClick={handleOpen} icon={faTrash}
-            />
+            <button data-testid="delete-comment" className="btn btn-danger m-1"
+                style={{ width: "40px", height: "40px" }} onClick={handleOpen}>
+                <FontAwesomeIcon icon={faTrash} title="Törlés" />
+            </button>
             <Modal
                 open={open}
                 onClose={handleClose}

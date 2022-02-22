@@ -62,12 +62,14 @@ export default function ShowComments({ docId, title, language, comments: allComm
                                         yourOwnComment={user?.username === comment?.displayName}
                                         isTabletOrMobile={isTabletOrMobile}
                                     />
-                                    <FontAwesomeIcon title="Szerkesztés" data-testid="show-edit-form" className="btn btn-warning m-1"
-                                        style={{ width: "40px", height: "40px" }} icon={faPencilAlt}
+                                    <button data-testid="show-edit-form" className="btn btn-warning m-1"
+                                        style={{ width: "40px", height: "40px" }}
                                         onClick={() => {
                                             setCommentArrayToBeEdited(comment);
                                             window.scrollTo(0, document.body.scrollHeight);
-                                        }} />
+                                        }}>
+                                        <FontAwesomeIcon icon={faPencilAlt} title="Szerkesztés" />
+                                    </button>
                                 </Grid>
                             }
                         </>

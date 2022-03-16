@@ -30,7 +30,7 @@ REACT_APP_TINY_API_KEY="your-tiny-api-key"
 After you have created the .env file, use the following commands to deploy the application:
 
 ```
-npm install
+npm install --legacy-peer-deps
 npm run build
 firebase deploy
 ```
